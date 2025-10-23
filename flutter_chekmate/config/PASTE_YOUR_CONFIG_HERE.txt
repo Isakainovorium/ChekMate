@@ -1,0 +1,50 @@
+========================================
+PASTE YOUR FIREBASE CONFIG HERE
+========================================
+
+After completing the Firebase Console setup, you'll get a configuration that looks like this:
+
+const firebaseConfig = {
+  apiKey: "AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+  authDomain: "chekmate-xxxxx.firebaseapp.com",
+  projectId: "chekmate-xxxxx",
+  storageBucket: "chekmate-xxxxx.appspot.com",
+  messagingSenderId: "123456789012",
+  appId: "1:123456789012:web:abcdef1234567890",
+  measurementId: "G-XXXXXXXXXX"
+};
+
+========================================
+PASTE YOUR ACTUAL VALUES BELOW:
+========================================
+
+apiKey: 
+
+authDomain: 
+
+projectId: 
+
+storageBucket: 
+
+messagingSenderId: 
+
+appId: 
+
+measurementId: 
+
+
+========================================
+INSTRUCTIONS:
+========================================
+
+1. Open Firebase Console (already opened in your browser)
+2. Follow the steps in FIREBASE_CONSOLE_STEPS.md
+3. When you get to Step 7, copy your Firebase config
+4. Paste the values above
+5. Tell me "I have the config" and paste the values
+6. I'll automatically update your firebase_options.dart file
+7. Press 'r' in the Flutter terminal to hot reload
+8. Firebase will be fully connected! 🎉
+
+========================================
+

@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "screen-share": {
+      "command": "python",
+      "args": [
+        "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\screen_share_server.py",
+        "--port",
+        "8888"
+      ],
+      "env": {},
+      "description": "Screen sharing server that allows AI to see your screen in real-time"
+    },
+    "visual-analyzer": {
+      "command": "python",
+      "args": [
+        "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\visual_analyzer_mcp.py"
+      ],
+      "env": {
+        "ANTHROPIC_API_KEY": "YOUR_API_KEY_HERE"
+      },
+      "description": "AI vision analyzer for screenshots using Anthropic Claude Vision"
+    }
+  }
+}
+

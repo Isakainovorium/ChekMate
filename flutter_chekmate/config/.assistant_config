@@ -1,0 +1,9 @@
+# OpenAI Assistant Configuration
+# ChekMate Quality Assistant
+
+ASSISTANT_ID=asst_WxHgUf76SeqjLjPE0QTKV4gx
+THREAD_ID=thread_UxJMMgIOUAAq0twxEkPia4lh
+VECTOR_STORE_ID=none
+
+# Usage:
+# python use_assistant.py --message "Analyze figma_home.png and fix colors"

@@ -1,0 +1,33 @@
+  void _clearSearch() {
+    setState(() {
+      _currentQuery = '';
+      _searchController.clear();
+      _results = null;
+    });
+  }
+
+  void _removeRecentSearch(String query) {
+    // Implementation for removing recent search
+  }
+
+  void _changeSortOrder(String order) {
+    setState(() {
+      // Update sort logic
+    });
+  }
+
+  void _clearRecentSearches() {
+    // Implementation for clearing recent searches
+  }
+
+  void _viewAllResults(String type) {
+    // Navigate to specific results tab
+    switch (type) {
+      case 'posts':
+        _tabController.animateTo(1);
+        break;
+      case 'users':
+        _tabController.animateTo(2);
+        break;
+    }
+  }
