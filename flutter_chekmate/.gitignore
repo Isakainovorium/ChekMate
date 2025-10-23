@@ -1,0 +1,132 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+/coverage/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# ============================================================================
+# SENSITIVE FILES - NEVER COMMIT THESE
+# ============================================================================
+
+# Firebase Configuration (contains API keys and project IDs)
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+lib/firebase_options.dart
+.firebaserc
+firebase.json
+firestore.rules
+firestore.indexes.json
+storage.rules
+
+# Android Signing Keys (CRITICAL - losing these means you can't update your app!)
+android/app/upload-keystore.jks
+android/app/release-keystore.jks
+android/key.properties
+android/SHA1_FINGERPRINT.txt
+
+# iOS Signing & Provisioning
+ios/Runner/GoogleService-Info.plist
+ios/exportOptions.plist
+*.mobileprovision
+*.p12
+*.cer
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.production
+.env.development
+*.key
+*.pem
+*.crt
+
+# API Keys & Tokens
+**/api_keys.dart
+**/secrets.dart
+**/credentials.json
+
+# Documentation (will be in docs branch)
+docs/
+
+# CircleCI Configuration
+.circleci/
+
+# LangChain MCP Configuration (Added: Oct 16, 2025)
+# Prevents API keys and sensitive configuration from being committed
+.chekmate/
+*.env
+langchain.env
+langchain_cache/
+.langchain/
+
+# Environment files (general)
+.env
+.env.local
+.env.*.local
+.env.development
+.env.staging
+.env.production
+
+# Sensitive configuration files
+config/secrets.yaml
+config/api_keys.yaml
+*.secret
+*.key
+
+# Android signing (Added: Oct 22, 2025)
+android/key.properties
+android/app/keystore/
+*.jks
+*.keystore
+
+# Visual Testing (Added: Oct 17, 2025)
+# Development screenshots (temporary, not tracked)
+test/visual/dev/
+# Test results (temporary, not tracked)
+test/visual/results/
+# Selenium screenshots (temporary, not tracked)
+test_screenshots/
+# Python cache
+__pycache__/
+*.pyc

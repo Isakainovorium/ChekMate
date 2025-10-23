@@ -1,0 +1,52 @@
+# Build Configuration for Code Generation
+#
+# This file configures the build_runner for generating code from annotations.
+# It's used for Riverpod code generation, JSON serialization, and other code generation tasks.
+#
+# Run code generation:
+# flutter pub run build_runner build --delete-conflicting-outputs
+#
+# Watch for changes:
+# flutter pub run build_runner watch --delete-conflicting-outputs
+
+targets:
+  $default:
+    builders:
+      # Riverpod Generator
+      riverpod_generator:riverpod_generator:
+        enabled: true
+        options:
+          # Generate providers with proper naming
+          provider_name_prefix: ""
+          provider_name_suffix: "Provider"
+          
+      # JSON Serializable (if needed in future)
+      json_serializable:
+        enabled: false
+        options:
+          any_map: false
+          checked: false
+          create_factory: true
+          create_to_json: true
+          disallow_unrecognized_keys: false
+          explicit_to_json: false
+          field_rename: none
+          generic_argument_factories: false
+          ignore_unannotated: false
+          include_if_null: true
+
+# Global options
+global_options:
+  # Riverpod Generator Options
+  riverpod_generator:riverpod_generator:
+    options:
+      # Lint rules
+      lint: true
+
+      # Generate documentation
+      generate_docs: true
+
+      # Provider naming
+      provider_name_prefix: ""
+      provider_name_suffix: "Provider"
+
