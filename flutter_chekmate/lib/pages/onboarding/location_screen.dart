@@ -157,7 +157,7 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
       builder: (context) => AlertDialog(
         title: const Text('Skip Location?'),
         content: const Text(
-          'Location helps you discover content near you. '
+          'Location helps you discover local dating stories and experiences near you. '
           'You can enable it later in settings.',
         ),
         actions: [
@@ -235,7 +235,7 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
                   children: [
                     // Heading
                     const Text(
-                      'Enable Location',
+                      'Discover Local Stories',
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -247,7 +247,7 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
 
                     // Subtitle
                     const Text(
-                      'Discover content and people near you',
+                      'Find dating experiences and stories from your area',
                       style: TextStyle(
                         fontSize: 16,
                         color: AppColors.textSecondary,

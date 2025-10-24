@@ -1,0 +1,28 @@
+{
+  "name": "flutter_chekmate",
+  "version": "1.0.0",
+  "description": "A complete Flutter conversion of the ChekMate social media/dating app with Firebase integration.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report test/e2e/reports/html",
+    "test:signup": "playwright test auth-signup",
+    "test:login": "playwright test auth-login",
+    "test:ci": "playwright test --reporter=json --reporter=html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "playwright": "^1.56.1"
+  }
+}

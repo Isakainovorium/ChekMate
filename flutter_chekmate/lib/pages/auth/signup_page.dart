@@ -4,6 +4,9 @@ import 'package:flutter_chekmate/features/auth/presentation/controllers/auth_con
 import 'package:flutter_chekmate/features/onboarding/presentation/providers/onboarding_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_chekmate/core/services/web_image_picker_service.dart';
+import 'package:flutter_chekmate/core/services/web_storage_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 /// Sign Up Page
 class SignUpPage extends ConsumerStatefulWidget {
@@ -19,8 +22,12 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _imagePickerService = WebImagePickerService();
+  final _storageService = WebStorageService();
   bool _isLoading = false;
   bool _obscurePassword = true;
+  PickedMediaFile? _profilePhotoFile;
+  double _uploadProgress = 0.0;
 
   @override
   void dispose() {
@@ -31,6 +38,44 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
     super.dispose();
   }
 
+  /// Pick profile photo using web-compatible image picker
+  Future<void> _pickProfilePhoto() async {
+    final pickedFile = await _imagePickerService.pickImage(context);
+
+    if (pickedFile != null) {
+      setState(() {
+        _profilePhotoFile = pickedFile;
+      });
+    }
+  }
+
+  /// Upload profile photo to Firebase Storage
+  Future<String?> _uploadProfilePhoto(String userId) async {
+    if (_profilePhotoFile == null) return null;
+
+    try {
+      final path = WebStorageService.generateProfilePhotoPath(
+        userId,
+        _profilePhotoFile!.name,
+      );
+
+      final downloadUrl = await _storageService.uploadImage(
+        file: _profilePhotoFile!,
+        path: path,
+        onProgress: (progress) {
+          setState(() {
+            _uploadProgress = progress;
+          });
+        },
+      );
+
+      return downloadUrl;
+    } catch (e) {
+      debugPrint('Error uploading profile photo: $e');
+      return null;
+    }
+  }
+
   Future<void> _handleSignUp() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -38,12 +83,30 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
 
     try {
       final controller = ref.read(authControllerProvider.notifier);
-      await controller.signUp(
+      final user = await controller.signUp(
         email: _emailController.text.trim(),
         password: _passwordController.text,
         username: _emailController.text.trim().split('@')[0],
         displayName: _nameController.text.trim(),
       );
+
+      // Upload profile photo if selected
+      if (_profilePhotoFile != null && mounted) {
+        try {
+          final photoUrl = await _uploadProfilePhoto(user.uid);
+
+          if (photoUrl != null) {
+            // Update user document with profile photo URL
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
+                .update({'avatar': photoUrl});
+          }
+        } catch (e) {
+          debugPrint('Error uploading profile photo: $e');
+          // Continue with signup even if photo upload fails
+        }
+      }
 
       if (mounted) {
         // Check onboarding completion status
@@ -97,11 +160,34 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
 
                   // Create new Account Heading
                   const Text(
-                    'Create new Account',
+                    'Join ChekMate',
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                       color: AppColors.textPrimary,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 8),
+
+                  // Tagline
+                  const Text(
+                    'Dating can be a Game - Don\'t Get Played',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFFF5A623),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 4),
+
+                  // Description
+                  const Text(
+                    'Share your dating experiences with the community',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: AppColors.textSecondary,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -132,6 +218,53 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                     ],
                   ),
                   const SizedBox(height: 32),
+
+                  // Profile Photo Picker (Optional)
+                  Center(
+                    child: GestureDetector(
+                      onTap: _pickProfilePhoto,
+                      child: Container(
+                        width: 120,
+                        height: 120,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: const Color(0xFFE8E8E8),
+                          border: Border.all(
+                            color: const Color(0xFFF5A623),
+                            width: 2,
+                          ),
+                        ),
+                        child: _profilePhotoFile != null
+                            ? ClipOval(
+                                child: _profilePhotoFile!.bytes != null
+                                    ? Image.memory(
+                                        _profilePhotoFile!.bytes!,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : const Icon(
+                                        Icons.person,
+                                        size: 60,
+                                        color: AppColors.textSecondary,
+                                      ),
+                              )
+                            : const Icon(
+                                Icons.add_a_photo,
+                                size: 40,
+                                color: AppColors.textSecondary,
+                              ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Add Profile Photo (Optional)',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppColors.textSecondary,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
 
                   // NAME Label
                   const Text(

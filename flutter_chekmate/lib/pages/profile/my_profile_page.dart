@@ -251,8 +251,9 @@ class _MyProfilePageState extends State<MyProfilePage> {
             ListTile(
               leading: const Icon(Icons.favorite, color: AppColors.primary),
               title: const Text('Manage Interests'),
-              subtitle:
-                  const Text('Update your interests for personalized content'),
+              subtitle: const Text(
+                'Update topics to discover relevant dating stories',
+              ),
               onTap: () {
                 Navigator.pop(context);
                 context.goNamed(RouteNames.interestsManagement);
@@ -263,7 +264,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
             ListTile(
               leading: const Icon(Icons.location_on, color: AppColors.primary),
               title: const Text('Location Settings'),
-              subtitle: const Text('Manage location sharing and search radius'),
+              subtitle:
+                  const Text('Discover local dating stories and experiences'),
               onTap: () {
                 Navigator.pop(context);
                 context.goNamed(RouteNames.locationSettings);

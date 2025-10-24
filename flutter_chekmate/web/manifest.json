@@ -1,11 +1,11 @@
 {
-    "name": "ChekMate - Social Media & Dating",
+    "name": "ChekMate - Dating Experience Platform",
     "short_name": "ChekMate",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#FFFFFF",
     "theme_color": "#F5A623",
-    "description": "ChekMate - Connect, share, and discover meaningful relationships. A modern social media and dating app built with Flutter.",
+    "description": "ChekMate - Share your dating experiences, rate your dates, and discover what others are saying. Dating can be a Game - Don't Get Played. NOT a dating app.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "categories": [

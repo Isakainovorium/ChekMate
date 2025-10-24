@@ -118,7 +118,7 @@ class _CompletionScreenState extends ConsumerState<CompletionScreen>
 
               // Success heading
               const Text(
-                'You\'re All Set!',
+                'Welcome to ChekMate!',
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
@@ -129,9 +129,22 @@ class _CompletionScreenState extends ConsumerState<CompletionScreen>
 
               AppSpacing.gapMD,
 
+              // Tagline
+              const Text(
+                'Dating can be a Game - Don\'t Get Played',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFFF5A623),
+                ),
+                textAlign: TextAlign.center,
+              ),
+
+              AppSpacing.gapSM,
+
               // Subtitle
               const Text(
-                'Your ChekMate profile is ready.\nLet\'s start exploring!',
+                'Your profile is ready!\nStart sharing your dating experiences.',
                 style: TextStyle(
                   fontSize: 16,
                   color: AppColors.textSecondary,

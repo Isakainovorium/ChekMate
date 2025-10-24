@@ -1,8 +1,13 @@
-# ChekMate Web PWA - Client Testing Guide
+# ChekMate - Dating Experience Platform Web Demo
 
-**Date:** October 24, 2025  
-**Version:** 1.0.0-beta (Web Demo)  
-**Purpose:** Guide for client testing of ChekMate Web PWA  
+**Platform Type:** First-in-Class Dating Experience Sharing Platform
+**Tagline:** "Dating can be a Game - Don't Get Played"
+**Date:** October 24, 2025
+**Version:** 1.0.0-beta (Web Demo)
+**Purpose:** Guide for client testing of ChekMate Web PWA
+
+**What is ChekMate?**
+ChekMate is NOT a dating app. We're the first social platform dedicated to sharing and rating dating experiences. Share your date stories, rate experiences with WOW/GTFOH/ChekMate, and discover what others are saying about their dating adventures.
 
 ---
 

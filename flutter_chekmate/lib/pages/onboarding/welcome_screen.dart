@@ -95,7 +95,21 @@ class WelcomeScreen extends ConsumerWidget {
 
               // Tagline
               const Text(
-                'Let\'s personalize your experience.\nTell us what you love and where you are.',
+                'Dating can be a Game - Don\'t Get Played',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFFF5A623),
+                  height: 1.5,
+                ),
+                textAlign: TextAlign.center,
+              ),
+
+              AppSpacing.gapSM,
+
+              // Description
+              const Text(
+                'Share your dating experiences, rate your dates,\nand discover what others are saying.',
                 style: TextStyle(
                   fontSize: 16,
                   color: AppColors.textSecondary,
@@ -108,25 +122,25 @@ class WelcomeScreen extends ConsumerWidget {
 
               // Feature highlights
               _buildFeatureItem(
-                icon: Icons.favorite_rounded,
-                title: 'Discover Your Interests',
-                description: 'Find content that matches what you love',
+                icon: Icons.star_rounded,
+                title: 'Rate Your Dates',
+                description: 'Share experiences with WOW, GTFOH, or ChekMate',
               ),
 
               AppSpacing.gapLG,
 
               _buildFeatureItem(
                 icon: Icons.location_on_rounded,
-                title: 'Connect Locally',
-                description: 'See what\'s happening around you',
+                title: 'Discover Local Stories',
+                description: 'See what\'s happening in your dating scene',
               ),
 
               AppSpacing.gapLG,
 
               _buildFeatureItem(
                 icon: Icons.people_rounded,
-                title: 'Build Your Profile',
-                description: 'Show the world who you are',
+                title: 'Join the Community',
+                description: 'Connect through shared dating experiences',
               ),
 
               const Spacer(flex: 2),

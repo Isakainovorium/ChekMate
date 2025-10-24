@@ -136,6 +136,11 @@ class AppConfig {
 
   // App Information
   static const String appName = 'ChekMate';
+  static const String appTagline = 'Dating can be a Game - Don\'t Get Played';
+  static const String appCategory = 'Dating Experience Platform';
+  static const String appDescription =
+      'The first social platform dedicated to sharing and rating dating experiences. '
+      'We\'re NOT a dating app - we\'re a community for discussing dating.';
   static const String appVersion = '1.0.0';
   static const int appBuildNumber = 1;
 

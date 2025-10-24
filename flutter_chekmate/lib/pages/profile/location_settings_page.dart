@@ -131,7 +131,7 @@ class _LocationSettingsPageState extends ConsumerState<LocationSettingsPage> {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      'Enable to discover nearby posts and people',
+                      'Enable to discover local dating stories and experiences',
                       style: TextStyle(
                         fontSize: 12,
                         color: AppColors.textSecondary,
@@ -337,7 +337,7 @@ class _LocationSettingsPageState extends ConsumerState<LocationSettingsPage> {
           ),
           const SizedBox(height: AppSpacing.md),
           _buildInfoItem(
-            'Your location is used to show you posts from people nearby',
+            'Your location helps you discover dating stories from your area',
           ),
           const SizedBox(height: AppSpacing.sm),
           _buildInfoItem(

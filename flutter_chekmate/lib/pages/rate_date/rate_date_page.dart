@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chekmate/core/constants/app_constants.dart';
 import 'package:flutter_chekmate/core/providers/auth_providers.dart';
 import 'package:flutter_chekmate/features/posts/presentation/providers/posts_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,11 +8,11 @@ import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';
 
 /// Rate Your Date page - Full-screen rating experience
-/// Converted from RateYourDate.tsx
+/// Core feature of ChekMate Dating Experience Platform
 ///
 /// Features:
-/// - Flippable 3D rating cards
-/// - Tea-style ratings (Spill the Tea, Sip the Tea, etc.)
+/// - Share and rate your dating experiences
+/// - WOW, GTFOH, ChekMate rating system
 /// - Full-screen experience (no bottom navigation)
 /// - Custom header
 /// - NavigationWidget for quick navigation
@@ -56,34 +57,28 @@ class _RateDatePageState extends ConsumerState<RateDatePage> {
     },
   ];
 
+  // Use ChekMate's official rating system from app_constants.dart
   final List<Map<String, dynamic>> _ratingOptions = [
     {
-      'id': 'spill',
-      'title': '🍵 Spill the Tea',
-      'subtitle': 'Amazing date!',
+      'id': 'WOW',
+      'title': '⭐ WOW',
+      'subtitle': AppConstants.ratingDescriptions['WOW'],
       'color': Colors.green,
-      'icon': Icons.favorite,
+      'icon': Icons.star_rounded,
     },
     {
-      'id': 'sip',
-      'title': '☕ Sip the Tea',
-      'subtitle': 'Pretty good',
-      'color': Colors.blue,
-      'icon': Icons.thumb_up,
-    },
-    {
-      'id': 'lukewarm',
-      'title': '🫖 Lukewarm Tea',
-      'subtitle': 'It was okay',
-      'color': Colors.orange,
-      'icon': Icons.sentiment_neutral,
-    },
-    {
-      'id': 'cold',
-      'title': '🧊 Cold Tea',
-      'subtitle': 'Not great',
+      'id': 'GTFOH',
+      'title': '🚫 GTFOH',
+      'subtitle': AppConstants.ratingDescriptions['GTFOH'],
       'color': Colors.red,
-      'icon': Icons.thumb_down,
+      'icon': Icons.block_rounded,
+    },
+    {
+      'id': 'ChekMate',
+      'title': '♟️ ChekMate',
+      'subtitle': AppConstants.ratingDescriptions['ChekMate'],
+      'color': const Color(0xFFF5A623),
+      'icon': Icons.emoji_events_rounded,
     },
   ];
 
@@ -129,7 +124,7 @@ class _RateDatePageState extends ConsumerState<RateDatePage> {
           ),
           const SizedBox(width: 8),
           Text(
-            'Rate Your Date',
+            'Share Your Experience',
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -340,11 +335,20 @@ class _RateDatePageState extends ConsumerState<RateDatePage> {
             ),
             const SizedBox(height: 16),
             _buildDetailRow(
-                Icons.calendar_today, 'When', date['dateTime'] as String,),
+              Icons.calendar_today,
+              'When',
+              date['dateTime'] as String,
+            ),
             _buildDetailRow(
-                Icons.location_on, 'Where', date['dateDetails'] as String,),
+              Icons.location_on,
+              'Where',
+              date['dateDetails'] as String,
+            ),
             _buildDetailRow(
-                Icons.person, 'Who', '${date['name']}, ${date['age']}',),
+              Icons.person,
+              'Who',
+              '${date['name']}, ${date['age']}',
+            ),
           ],
         ),
       ),

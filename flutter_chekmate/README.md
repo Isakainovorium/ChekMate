@@ -1,6 +1,10 @@
-# ChekMate Flutter App
+# ChekMate - Dating Experience Platform
 
-A complete Flutter conversion of the ChekMate social media/dating app with Firebase integration.
+**"Dating can be a Game - Don't Get Played"**
+
+ChekMate is the **first-in-class social platform** dedicated to sharing and rating dating experiences. Share your date stories, rate your experiences with WOW/GTFOH/ChekMate, and discover what others are saying about their dating adventures.
+
+**We're NOT a dating app** - we're a community for discussing dating, sharing experiences, and helping each other navigate the dating world. Built with Flutter and Firebase.
 
 ## Prerequisites
 
@@ -60,15 +64,15 @@ flutter_chekmate/
 
 ## Features
 
-### Core Features
-- [x] Social media feed with posts
-- [x] Stories with image/video support
-- [x] Real-time messaging
-- [x] User profiles and authentication
-- [x] Rate Your Date system
-- [x] Live streaming
-- [x] Subscription management
-- [x] Push notifications
+### Core Features - Dating Experience Sharing
+- [x] **Rate Your Date** - Share and rate dating experiences (WOW, GTFOH, ChekMate)
+- [x] **Dating Stories** - Share your dating experiences through posts and stories
+- [x] **Experience Feed** - Discover dating stories and advice from the community
+- [x] **Community Discussions** - Connect with others to discuss dating experiences
+- [x] **User Profiles** - Showcase your dating journey and experiences
+- [x] **Live Discussions** - Real-time conversations about dating topics
+- [x] **Premium Content** - Access exclusive dating advice and experiences
+- [x] **Notifications** - Stay updated on community discussions
 
 ### Technical Features
 - [x] Firebase integration (Auth, Firestore, Storage, FCM)

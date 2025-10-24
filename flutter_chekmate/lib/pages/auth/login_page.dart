@@ -177,11 +177,23 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
                   // Login Heading
                   const Text(
-                    'Login',
+                    'Welcome Back!',
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                       color: AppColors.textPrimary,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 8),
+
+                  // Tagline
+                  const Text(
+                    'Dating can be a Game - Don\'t Get Played',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFFF5A623),
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -192,7 +204,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'Sign in to continue. ',
+                        'Sign in to share your dating experiences. ',
                         style: TextStyle(
                           fontSize: 14,
                           color: AppColors.textSecondary,
@@ -201,7 +213,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       GestureDetector(
                         onTap: () => context.go('/signup'),
                         child: const Text(
-                          'Create new account',
+                          'Create account',
                           style: TextStyle(
                             fontSize: 14,
                             color: AppColors.navyBlue,
