@@ -1,0 +1,22 @@
+{
+  "name": "chekmate-demo-account-scripts",
+  "version": "1.0.0",
+  "description": "Scripts for creating and managing ChekMate demo accounts",
+  "main": "create_demo_account.js",
+  "scripts": {
+    "create-demo": "node create_demo_account.js",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": [
+    "chekmate",
+    "demo",
+    "firebase",
+    "admin"
+  ],
+  "author": "ChekMate Team",
+  "license": "ISC",
+  "dependencies": {
+    "firebase-admin": "^12.0.0"
+  }
+}
+

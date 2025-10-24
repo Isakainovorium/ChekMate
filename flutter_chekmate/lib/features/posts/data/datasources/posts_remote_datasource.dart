@@ -3,9 +3,8 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit.dart';
-import 'package:ffmpeg_kit_flutter_min_gpl/return_code.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:flutter_chekmate/core/utils/geohash_utils.dart';
 import 'package:flutter_chekmate/features/posts/data/models/post_model.dart';
 import 'package:geoflutterfire_plus/geoflutterfire_plus.dart';
@@ -754,31 +753,32 @@ class PostsRemoteDataSource {
       // Get temporary directory
       final tempDir = await getTemporaryDirectory();
       final videoPath = '${tempDir.path}/temp_video_$postId.mp4';
-      final thumbnailPath = '${tempDir.path}/thumbnail_$postId.jpg';
 
-      // Save video to temporary file (required for FFmpeg)
+      // Save video to temporary file
       final videoFile = File(videoPath);
       await videoFile.writeAsBytes(videoData);
 
-      // Generate thumbnail using FFmpeg
-      // Extract frame at 1 second mark
-      final command =
-          '-i "$videoPath" -ss 00:00:01 -vframes 1 -q:v 2 "$thumbnailPath"';
-
+      // Generate thumbnail using video_thumbnail package
       developer.log(
-        'Generating thumbnail with FFmpeg',
+        'Generating thumbnail with video_thumbnail',
         name: 'PostsRemoteDataSource',
       );
 
-      final session = await FFmpegKit.execute(command);
-      final returnCode = await session.getReturnCode();
+      final generatedThumbnailPath = await VideoThumbnail.thumbnailFile(
+        video: videoPath,
+        thumbnailPath: tempDir.path,
+        imageFormat: ImageFormat.JPEG,
+        maxHeight: 720,
+        quality: 75,
+        timeMs: 1000, // Extract frame at 1 second
+      );
 
-      if (!ReturnCode.isSuccess(returnCode)) {
-        throw Exception('FFmpeg failed to generate thumbnail');
+      if (generatedThumbnailPath == null) {
+        throw Exception('Failed to generate thumbnail');
       }
 
       // Read thumbnail file
-      final thumbnailFile = File(thumbnailPath);
+      final thumbnailFile = File(generatedThumbnailPath);
       if (!thumbnailFile.existsSync()) {
         throw Exception('Thumbnail file was not created');
       }

@@ -43,10 +43,10 @@ dependencies:
   video_player: ^2.8.1
   permission_handler: ^11.1.0
   path_provider: ^2.1.1
-  file_picker: ^6.0.0
+  # file_picker: ^5.5.0  # Commented out - v1 embedding incompatibility
   emoji_picker_flutter: ^2.0.0
-  record: ^5.0.0
-  
+  record: 5.1.2  # Pinned to avoid record_linux compatibility issues
+
   # Networking
   dio: ^5.4.0
   connectivity_plus: ^5.0.2
@@ -84,7 +84,8 @@ dependencies:
   # Development Tools
   widgetbook: ^3.7.1
   widgetbook_annotation: ^3.1.0
-  ffmpeg_kit_flutter_min_gpl: ^6.0.3
+  # ffmpeg_kit_flutter_min_gpl: ^6.0.3  # Discontinued - replaced with video_thumbnail
+  video_thumbnail: ^0.5.3  # Alternative to ffmpeg for video thumbnails
   visibility_detector: ^0.4.0+2
 
 dev_dependencies:
@@ -147,3 +148,10 @@ flutter_native_splash:
   android_12:
     image: assets/icons/splash_icon.png
     color: "#FF6B35"
+
+# Dependency overrides to fix compatibility issues
+dependency_overrides:
+  record_linux: 1.2.1  # Fix compatibility with record_platform_interface
+  record_platform_interface: 1.4.0
+  flutter_local_notifications: ^17.0.0  # Fix Android SDK 34 compatibility
+  sign_in_with_apple: ^6.0.0  # Fix v1 embedding compatibility

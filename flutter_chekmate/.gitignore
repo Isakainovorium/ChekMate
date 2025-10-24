@@ -130,3 +130,10 @@ test_screenshots/
 # Python cache
 __pycache__/
 *.pyc
+
+# Firebase Admin SDK Service Account Keys (Added: Oct 23, 2025)
+# CRITICAL: Never commit service account keys - they provide full admin access
+scripts/serviceAccountKey.json
+scripts/*serviceAccount*.json
+scripts/node_modules/
+scripts/package-lock.json
