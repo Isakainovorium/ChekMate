@@ -1,10 +1,11 @@
 /// Platform-specific utilities for handling web vs mobile differences
-/// 
+///
 /// This file provides helper functions to detect the current platform
 /// and handle platform-specific logic throughout the app.
 library;
 
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart'
+    show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
 
 /// Platform detection utilities
@@ -16,17 +17,24 @@ class PlatformUtils {
   static bool get isMobile => !kIsWeb;
 
   /// Check if the app is running on desktop (Windows, macOS, Linux)
-  static bool get isDesktop => !kIsWeb && (
-    defaultTargetPlatform == TargetPlatform.windows ||
-    defaultTargetPlatform == TargetPlatform.macOS ||
-    defaultTargetPlatform == TargetPlatform.linux
-  );
+  static bool get isDesktop {
+    if (kIsWeb) return false;
+    return defaultTargetPlatform == TargetPlatform.windows ||
+        defaultTargetPlatform == TargetPlatform.macOS ||
+        defaultTargetPlatform == TargetPlatform.linux;
+  }
 
   /// Check if the app is running on Android
-  static bool get isAndroid => !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+  static bool get isAndroid {
+    if (kIsWeb) return false;
+    return defaultTargetPlatform == TargetPlatform.android;
+  }
 
   /// Check if the app is running on iOS
-  static bool get isIOS => !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS;
+  static bool get isIOS {
+    if (kIsWeb) return false;
+    return defaultTargetPlatform == TargetPlatform.iOS;
+  }
 
   /// Get a platform-specific message for camera access
   static String get cameraAccessMessage {
@@ -76,11 +84,14 @@ class PlatformUtils {
   /// Get platform name for display
   static String get platformName {
     if (isWeb) return 'Web';
+    if (kIsWeb) return 'Web'; // Extra check for web
     if (isAndroid) return 'Android';
     if (isIOS) return 'iOS';
-    if (defaultTargetPlatform == TargetPlatform.windows) return 'Windows';
-    if (defaultTargetPlatform == TargetPlatform.macOS) return 'macOS';
-    if (defaultTargetPlatform == TargetPlatform.linux) return 'Linux';
+    if (isDesktop) {
+      if (defaultTargetPlatform == TargetPlatform.windows) return 'Windows';
+      if (defaultTargetPlatform == TargetPlatform.macOS) return 'macOS';
+      if (defaultTargetPlatform == TargetPlatform.linux) return 'Linux';
+    }
     return 'Unknown';
   }
 }
@@ -129,7 +140,8 @@ class ResponsiveUtils {
   }
 
   /// Get responsive font size based on screen size
-  static double getResponsiveFontSize(BuildContext context, double baseFontSize) {
+  static double getResponsiveFontSize(
+      BuildContext context, double baseFontSize) {
     if (isDesktop(context)) return baseFontSize * 1.1;
     if (isTablet(context)) return baseFontSize * 1.05;
     return baseFontSize;
@@ -178,8 +190,9 @@ class ResponsiveCenter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveMaxWidth = maxWidth ?? ResponsiveUtils.getMaxContentWidth(context);
-    
+    final effectiveMaxWidth =
+        maxWidth ?? ResponsiveUtils.getMaxContentWidth(context);
+
     return Center(
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: effectiveMaxWidth),
@@ -246,4 +259,3 @@ void showPlatformInfo(
     ),
   );
 }
-

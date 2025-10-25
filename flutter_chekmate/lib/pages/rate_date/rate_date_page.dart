@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/constants/app_constants.dart';
 import 'package:flutter_chekmate/core/providers/auth_providers.dart';
+import 'package:flutter_chekmate/core/utils/platform_utils.dart';
 import 'package:flutter_chekmate/features/posts/presentation/providers/posts_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -143,56 +144,73 @@ class _RateDatePageState extends ConsumerState<RateDatePage> {
 
   Widget _buildRatingCard(ThemeData theme) {
     final date = _mockDates[_currentCardIndex];
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isWeb = PlatformUtils.isWeb;
+
+    // Responsive card width
+    final cardWidth = isWeb
+        ? (screenWidth > 1200
+            ? 400.0
+            : screenWidth > 800
+                ? 350.0
+                : screenWidth * 0.85)
+        : 320.0;
 
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Card
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  _isCardFlipped = !_isCardFlipped;
-                });
-              },
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                transitionBuilder: (child, animation) {
-                  final rotate = Tween(begin: 0.0, end: 1.0).animate(animation);
-                  return AnimatedBuilder(
-                    animation: rotate,
-                    builder: (context, child) {
-                      final angle = rotate.value * 3.14159;
-                      return Transform(
-                        transform: Matrix4.rotationY(angle),
-                        alignment: Alignment.center,
-                        child: child,
-                      );
-                    },
-                    child: child,
-                  );
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(isWeb ? 32 : 24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Card
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _isCardFlipped = !_isCardFlipped;
+                  });
                 },
-                child: _isCardFlipped
-                    ? _buildCardBack(date, theme)
-                    : _buildCardFront(date, theme),
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  transitionBuilder: (child, animation) {
+                    final rotate =
+                        Tween(begin: 0.0, end: 1.0).animate(animation);
+                    return AnimatedBuilder(
+                      animation: rotate,
+                      builder: (context, child) {
+                        final angle = rotate.value * 3.14159;
+                        return Transform(
+                          transform: Matrix4.rotationY(angle),
+                          alignment: Alignment.center,
+                          child: child,
+                        );
+                      },
+                      child: child,
+                    );
+                  },
+                  child: _isCardFlipped
+                      ? _buildCardBack(date, theme, cardWidth)
+                      : _buildCardFront(date, theme, cardWidth),
+                ),
               ),
-            ),
-            const SizedBox(height: 32),
-            // Rating Options
-            if (!_isCardFlipped) _buildRatingOptions(theme),
-          ],
+              const SizedBox(height: 32),
+              // Rating Options
+              if (!_isCardFlipped) _buildRatingOptions(theme, cardWidth),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildCardFront(Map<String, dynamic> date, ThemeData theme) {
+  Widget _buildCardFront(
+      Map<String, dynamic> date, ThemeData theme, double cardWidth) {
+    final cardHeight = cardWidth * 1.25; // Maintain aspect ratio
+
     return Container(
       key: const ValueKey('front'),
-      width: 320,
-      height: 400,
+      width: cardWidth,
+      height: cardHeight,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
@@ -306,11 +324,14 @@ class _RateDatePageState extends ConsumerState<RateDatePage> {
     );
   }
 
-  Widget _buildCardBack(Map<String, dynamic> date, ThemeData theme) {
+  Widget _buildCardBack(
+      Map<String, dynamic> date, ThemeData theme, double cardWidth) {
+    final cardHeight = cardWidth * 1.25; // Maintain aspect ratio
+
     return Container(
       key: const ValueKey('back'),
-      width: 320,
-      height: 400,
+      width: cardWidth,
+      height: cardHeight,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(24),
@@ -388,44 +409,55 @@ class _RateDatePageState extends ConsumerState<RateDatePage> {
     );
   }
 
-  Widget _buildRatingOptions(ThemeData theme) {
+  Widget _buildRatingOptions(ThemeData theme, double cardWidth) {
+    final isWeb = PlatformUtils.isWeb;
+    final buttonWidth = isWeb ? cardWidth : 280.0;
+
     return Column(
       children: _ratingOptions.map((option) {
         return Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: ElevatedButton(
-            onPressed: () => _handleRating(option['id'] as String),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: option['color'] as Color,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              minimumSize: const Size(280, 60),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(option['icon'] as IconData),
-                const SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      option['title'] as String,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      option['subtitle'] as String,
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                  ],
+          child: SizedBox(
+            width: buttonWidth,
+            child: ElevatedButton(
+              onPressed: () => _handleRating(option['id'] as String),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: option['color'] as Color,
+                foregroundColor: Colors.white,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
                 ),
-              ],
+                minimumSize: Size(buttonWidth, 60),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(option['icon'] as IconData, size: isWeb ? 28 : 24),
+                  const SizedBox(width: 12),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          option['title'] as String,
+                          style: TextStyle(
+                            fontSize: isWeb ? 18 : 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          option['subtitle'] as String,
+                          style: TextStyle(fontSize: isWeb ? 13 : 12),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         );
