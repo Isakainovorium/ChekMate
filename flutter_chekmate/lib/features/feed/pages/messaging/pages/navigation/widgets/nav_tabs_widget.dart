@@ -21,6 +21,7 @@ class NavTabsWidget extends StatelessWidget {
     'For you',
     'Following',
     'Explore',
+    'Live',
     'Rate Date',
     'Subscribe',
   ];
