@@ -4,8 +4,9 @@ import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart';
 
-/// Live streaming page - converted from Live.tsx
-/// Shows active live streams and go live functionality
+/// Live streaming page - ChekMate Dating Experience Platform
+/// Share and watch live dating experiences, stories, and community discussions
+/// NOT for live dating - for sharing experiences and learning from others
 class LivePage extends StatefulWidget {
   const LivePage({
     required this.userAvatar,
@@ -70,14 +71,14 @@ class _LivePageState extends State<LivePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Ready to go live?',
+                  'Ready to share your experience?',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 Text(
-                  'Share your dating story with the world',
+                  'Go live and share your dating experiences with the community',
                   style: TextStyle(
                     color: Color(0xFFFECDD3),
                     fontSize: 14,
@@ -106,13 +107,13 @@ class _LivePageState extends State<LivePage> {
   Widget _buildCategoryTabs() {
     final categories = [
       {'id': 'all', 'label': 'All Live', 'icon': Icons.videocam},
-      {'id': 'dating', 'label': 'Dating Q&A', 'icon': Icons.favorite},
+      {'id': 'experiences', 'label': 'Experience Sharing', 'icon': Icons.forum},
       {
         'id': 'advice',
-        'label': 'Relationship Advice',
+        'label': 'Community Q&A',
         'icon': Icons.chat_bubble_outline,
       },
-      {'id': 'dates', 'label': 'Live Dates', 'icon': Icons.people},
+      {'id': 'stories', 'label': 'Live Stories', 'icon': Icons.people},
     ];
 
     return AppCard(
@@ -351,19 +352,19 @@ class _LivePageState extends State<LivePage> {
             const Icon(Icons.videocam_off, size: 64, color: Colors.grey),
             const SizedBox(height: AppSpacing.md),
             const Text(
-              'No Live Streams',
+              'No Live Experiences',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: AppSpacing.xs),
             const Text(
-              'No one is streaming in this category right now.',
+              'No one is sharing experiences live right now.\nBe the first to share your story!',
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.grey),
             ),
             const SizedBox(height: AppSpacing.lg),
             AppButton(
               onPressed: () => setState(() => _showGoLiveModal = true),
-              child: const Text('Be the First to Go Live'),
+              child: const Text('Share Your Experience Live'),
             ),
           ],
         ),
@@ -379,7 +380,7 @@ class _LivePageState extends State<LivePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Trending Live Topics',
+            'Trending Experience Topics',
             style: TextStyle(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: AppSpacing.sm),
@@ -387,11 +388,11 @@ class _LivePageState extends State<LivePage> {
             spacing: AppSpacing.xs,
             runSpacing: AppSpacing.xs,
             children: [
-              '#FirstDateTips',
+              '#DateExperiences',
               '#RedFlags',
-              '#LongDistance',
-              '#OnlineDating',
-              '#RelationshipGoals',
+              '#DateStories',
+              '#DatingLessons',
+              '#ChekMateRatings',
             ]
                 .map(
                   (topic) => Chip(
@@ -433,7 +434,10 @@ class _LivePageState extends State<LivePage> {
                 ],
               ),
               const SizedBox(height: AppSpacing.md),
-              const Text('Go Live feature coming soon!'),
+              const Text(
+                'Share your dating experiences live with the community!\n\nThis feature is coming soon.',
+                textAlign: TextAlign.center,
+              ),
               const SizedBox(height: AppSpacing.md),
               AppButton(
                 onPressed: () => setState(() => _showGoLiveModal = false),
@@ -477,14 +481,14 @@ class MockLiveStreams {
   static final List<LiveStream> streams = [
     LiveStream(
       id: '1',
-      streamer: 'Dating Coach Sarah',
-      username: '@sarahcoach',
+      streamer: 'Sarah - Experience Sharer',
+      username: '@sarahshares',
       avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786',
-      title: 'Red Flags in Modern Dating - Ask Me Anything!',
+      title: 'Red Flags I Spotted - My Dating Experience Story',
       viewers: '2.4K',
       viewerCount: 2400,
       duration: '1h 23m',
-      category: 'Dating Q&A',
+      category: 'Experience Sharing',
       thumbnail: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2',
     ),
   ];
