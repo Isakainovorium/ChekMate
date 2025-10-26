@@ -24,6 +24,67 @@ class _ExplorePageState extends State<ExplorePage> {
   String _searchQuery = '';
   final Set<String> _followedUsers = <String>{};
   bool _isLoadingMore = false;
+  bool _hasMore = true;
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    // Load more when 80% scrolled
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent * 0.8) {
+      if (!_isLoadingMore && _hasMore) {
+        _loadMore();
+      }
+    }
+  }
+
+  Future<void> _loadMore() async {
+    if (_isLoadingMore || !_hasMore) return;
+
+    setState(() => _isLoadingMore = true);
+
+    // Simulate API call
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+
+    if (mounted) {
+      setState(() {
+        _isLoadingMore = false;
+        // In production, check if there are more items from API
+        // For now, keep loading enabled
+      });
+    }
+  }
+
+  Future<void> _handleRefresh() async {
+    await Future<void>.delayed(const Duration(seconds: 1));
+
+    if (mounted) {
+      setState(() {
+        // Reset state
+        _hasMore = true;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Explore refreshed!'),
+          duration: Duration(seconds: 1),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: AppColors.primary,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +94,29 @@ class _ExplorePageState extends State<ExplorePage> {
         _buildCategoryTabs(),
         _buildExploreStats(),
         Expanded(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(AppSpacing.md),
-            child: _buildContent(),
+          child: RefreshIndicator(
+            onRefresh: _handleRefresh,
+            color: AppColors.primary,
+            child: ListView(
+              controller: _scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.all(AppSpacing.md),
+              children: [
+                _buildContent(),
+                if (_isLoadingMore)
+                  const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(AppColors.primary),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
-        _buildLoadMoreButton(),
       ],
     );
   }
@@ -404,21 +482,6 @@ class _ExplorePageState extends State<ExplorePage> {
     );
   }
 
-  Widget _buildLoadMoreButton() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
-      child: Center(
-        child: AppButton(
-          onPressed: _isLoadingMore ? null : () => _handleLoadMore(),
-          size: AppButtonSize.lg,
-          child: _isLoadingMore
-              ? const AppLoadingSpinner()
-              : const Text('Load More Content'),
-        ),
-      ),
-    );
-  }
-
   // Handler methods for various explore actions
   void _handleShare(String postId) {
     if (kDebugMode) {
@@ -566,32 +629,6 @@ class _ExplorePageState extends State<ExplorePage> {
         AppSnackBarNotification.show(
           context,
           message: 'Following $userName',
-          type: AppNotificationBannerType.success,
-        );
-      }
-    });
-  }
-
-  void _handleLoadMore() {
-    if (kDebugMode) {
-      debugPrint('Load more content');
-    }
-
-    if (_isLoadingMore) return;
-
-    setState(() {
-      _isLoadingMore = true;
-    });
-
-    // Simulate loading more content
-    Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) {
-        setState(() {
-          _isLoadingMore = false;
-        });
-        AppSnackBarNotification.show(
-          context,
-          message: 'More content loaded!',
           type: AppNotificationBannerType.success,
         );
       }

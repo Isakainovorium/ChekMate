@@ -51,6 +51,19 @@
   <title>ChekMate - Dating Experience Platform</title>
   <link rel="manifest" href="manifest.json">
 
+  <!-- Performance Optimization: Preload critical resources -->
+  <link rel="preload" as="style" href="flutter.css">
+  <link rel="preload" as="script" href="flutter_bootstrap.js">
+
+  <!-- Preconnect to external domains for faster resource loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://firebasestorage.googleapis.com">
+
+  <!-- DNS prefetch for faster lookups -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://firebasestorage.googleapis.com">
+
   <style>
     /* Loading screen styles */
     body {

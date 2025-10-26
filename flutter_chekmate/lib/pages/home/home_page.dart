@@ -35,13 +35,106 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   final ScrollController _scrollController = ScrollController();
-  final List<Post> _posts = MockPosts.posts;
+  late PageController _pageController;
+  final List<Post> _posts = [];
   final List<StoryUser> _stories = MockStories.stories;
+
+  // Infinite scroll state
+  bool _isLoadingMore = false;
+  bool _hasMore = true;
+  int _currentPage = 1;
+  static const int _postsPerPage = 10;
+
+  // Tab navigation
+  final List<String> _tabs = [
+    'For you',
+    'Following',
+    'Explore',
+    'Live',
+    'Rate Date',
+    'Subscribe',
+  ];
+  int _currentTabIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+    _pageController = PageController(initialPage: 0);
+    _loadInitialPosts();
+  }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _pageController.dispose();
     super.dispose();
+  }
+
+  void _onScroll() {
+    // Load more when 80% scrolled
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent * 0.8) {
+      if (!_isLoadingMore && _hasMore) {
+        _loadMorePosts();
+      }
+    }
+  }
+
+  Future<void> _loadInitialPosts() async {
+    setState(() {
+      _posts.clear();
+      _posts.addAll(MockPosts.posts.take(_postsPerPage).toList());
+      _currentPage = 1;
+      _hasMore = MockPosts.posts.length > _postsPerPage;
+    });
+  }
+
+  Future<void> _loadMorePosts() async {
+    if (_isLoadingMore || !_hasMore) return;
+
+    setState(() => _isLoadingMore = true);
+
+    // Simulate API call delay
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+
+    final startIndex = _currentPage * _postsPerPage;
+    final endIndex = startIndex + _postsPerPage;
+    final newPosts =
+        MockPosts.posts.skip(startIndex).take(_postsPerPage).toList();
+
+    if (mounted) {
+      setState(() {
+        _posts.addAll(newPosts);
+        _currentPage++;
+        _hasMore = endIndex < MockPosts.posts.length;
+        _isLoadingMore = false;
+      });
+    }
+  }
+
+  Future<void> _handleRefresh() async {
+    // Simulate API call
+    await Future<void>.delayed(const Duration(seconds: 1));
+
+    if (mounted) {
+      setState(() {
+        _posts.clear();
+        _posts.addAll(MockPosts.posts.take(_postsPerPage).toList());
+        _currentPage = 1;
+        _hasMore = MockPosts.posts.length > _postsPerPage;
+      });
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Feed refreshed!'),
+          duration: Duration(seconds: 1),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: AppColors.primary,
+        ),
+      );
+    }
   }
 
   void _handleTabChange(String tab) {
@@ -50,7 +143,22 @@ class _HomePageState extends ConsumerState<HomePage> {
       context.go('/rate-date');
       return;
     }
+
+    final index = _tabs.indexOf(tab);
+    if (index != -1) {
+      setState(() => _currentTabIndex = index);
+      _pageController.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
     ref.read(navStateProvider.notifier).setActiveTab(tab);
+  }
+
+  void _handlePageChange(int index) {
+    setState(() => _currentTabIndex = index);
+    ref.read(navStateProvider.notifier).setActiveTab(_tabs[index]);
   }
 
   // Bottom navigation is provided by the MainNavigation shell.
@@ -115,9 +223,21 @@ class _HomePageState extends ConsumerState<HomePage> {
             onTabChanged: _handleTabChange,
           ),
 
-          // Content
+          // Swipeable Content
           Expanded(
-            child: _buildContent(nav.activeTab),
+            child: PageView(
+              controller: _pageController,
+              onPageChanged: _handlePageChange,
+              physics: const BouncingScrollPhysics(), // iOS-style bounce
+              children: [
+                _buildForYouFeed(),
+                _buildFollowingFeed(),
+                _buildExplorePage(),
+                _buildLivePage(),
+                _buildRateDatePage(),
+                _buildSubscribePage(),
+              ],
+            ),
           ),
         ],
       ),
@@ -125,41 +245,17 @@ class _HomePageState extends ConsumerState<HomePage> {
     );
   }
 
-  Widget _buildContent(String activeTab) {
-    // Different content based on active tab
-    switch (activeTab) {
-      case 'For you':
-        return _buildForYouFeed();
-      case 'Following':
-        return _buildFollowingFeed();
-      case 'Explore':
-        return _buildExplorePage();
-      case 'Live':
-        return _buildLivePage();
-      case 'Rate Date':
-        return _buildRateDatePage();
-      case 'Subscribe':
-        return _buildSubscribePage();
-      default:
-        return _buildForYouFeed();
-    }
-  }
-
   Widget _buildForYouFeed() {
     return RefreshIndicator(
-      onRefresh: () async {
-        // Simulate refresh
-        await Future<void>.delayed(const Duration(seconds: 1));
-        if (mounted) {
-          setState(() {
-            // Refresh posts - in production, this would fetch new data
-          });
-        }
-      },
+      onRefresh: _handleRefresh,
       color: AppColors.primary,
       child: ListView.builder(
         controller: _scrollController,
-        itemCount: _posts.length + 1, // +1 for stories
+        physics:
+            const AlwaysScrollableScrollPhysics(), // Required for RefreshIndicator
+        itemCount: _hasMore
+            ? _posts.length + 2
+            : _posts.length + 1, // +1 for stories, +1 for loading
         itemBuilder: (context, index) {
           if (index == 0) {
             // Stories row with slide-in animation
@@ -171,9 +267,15 @@ class _HomePageState extends ConsumerState<HomePage> {
             );
           }
 
+          // Loading indicator at end
+          if (index == _posts.length + 1) {
+            return _buildLoadingIndicator();
+          }
+
           // Posts with staggered fade-in animation
           final post = _posts[index - 1];
           return PostWidget(
+            key: ValueKey(post.id),
             post: post,
             onSharePressed: () {
               _showShareModal(post);
@@ -193,21 +295,25 @@ class _HomePageState extends ConsumerState<HomePage> {
     );
   }
 
+  Widget _buildLoadingIndicator() {
+    return const Padding(
+      padding: EdgeInsets.all(16.0),
+      child: Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+        ),
+      ),
+    );
+  }
+
   Widget _buildFollowingFeed() {
     return RefreshIndicator(
-      onRefresh: () async {
-        // Simulate refresh
-        await Future<void>.delayed(const Duration(seconds: 1));
-        if (mounted) {
-          setState(() {
-            // Refresh posts - in production, this would fetch new data
-          });
-        }
-      },
+      onRefresh: _handleRefresh,
       color: AppColors.primary,
       child: ListView.builder(
         controller: _scrollController,
-        itemCount: _posts.length + 1,
+        physics: const AlwaysScrollableScrollPhysics(),
+        itemCount: _hasMore ? _posts.length + 2 : _posts.length + 1,
         itemBuilder: (context, index) {
           if (index == 0) {
             return StoriesWidget(
@@ -218,8 +324,14 @@ class _HomePageState extends ConsumerState<HomePage> {
             );
           }
 
+          // Loading indicator at end
+          if (index == _posts.length + 1) {
+            return _buildLoadingIndicator();
+          }
+
           final post = _posts[index - 1];
           return PostWidget(
+            key: ValueKey(post.id),
             post: post,
             onSharePressed: () => _showShareModal(post),
             onCommentPressed: () => _showComments(post.id),
