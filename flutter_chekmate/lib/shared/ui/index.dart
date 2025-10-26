@@ -71,3 +71,5 @@ export 'examples/ios_polish_example.dart';
 // Loading
 export 'loading/shimmer_loading.dart';
 export 'loading/shimmer_skeletons.dart';
+// Widgets
+export 'widgets/skeleton_loader.dart';

@@ -14,7 +14,7 @@ import 'package:flutter_chekmate/features/stories/widgets/stories_widget.dart';
 import 'package:flutter_chekmate/pages/explore/explore_page.dart';
 import 'package:flutter_chekmate/pages/live/live_page.dart';
 import 'package:flutter_chekmate/shared/ui/animations/micro_interactions.dart';
-import 'package:flutter_chekmate/shared/ui/animations/tiktok_animations.dart';
+import 'package:flutter_chekmate/shared/ui/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -60,7 +60,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    _pageController = PageController(initialPage: 0);
+    _pageController = PageController();
     _loadInitialPosts();
   }
 
@@ -297,12 +297,8 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   Widget _buildLoadingIndicator() {
     return const Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Center(
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
-        ),
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: PostSkeleton(),
     );
   }
 

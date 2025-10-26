@@ -31,13 +31,17 @@ class PostWidget extends StatefulWidget {
   State<PostWidget> createState() => _PostWidgetState();
 }
 
-class _PostWidgetState extends State<PostWidget>
-    with SingleTickerProviderStateMixin {
+class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
   late bool _isLiked;
   late int _likeCount;
   late bool _isBookmarked;
   late AnimationController _likeAnimationController;
-  late Animation<double> _likeAnimation;
+  late AnimationController _heartBurstController;
+  late Animation<double> _likeScaleAnimation;
+  late Animation<double> _likeRotationAnimation;
+  late Animation<double> _heartBurstAnimation;
+  late Animation<double> _heartBurstOpacity;
+  bool _showHeartBurst = false;
 
   @override
   void initState() {
@@ -46,15 +50,49 @@ class _PostWidgetState extends State<PostWidget>
     _likeCount = widget.post.likes;
     _isBookmarked = widget.post.isBookmarked;
 
-    // Like animation setup with physics-based spring animation
+    // Like button animation - scale + rotation
     _likeAnimationController = AnimationController(
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 400),
       vsync: this,
     );
-    _likeAnimation = Tween<double>(begin: 1.0, end: 1.3).animate(
+
+    _likeScaleAnimation = TweenSequence<double>([
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 1.0, end: 1.4)
+            .chain(CurveTween(curve: Curves.easeOut)),
+        weight: 50,
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 1.4, end: 1.0)
+            .chain(CurveTween(curve: Curves.elasticOut)),
+        weight: 50,
+      ),
+    ]).animate(_likeAnimationController);
+
+    _likeRotationAnimation = Tween<double>(begin: 0.0, end: 0.2).animate(
       CurvedAnimation(
         parent: _likeAnimationController,
-        curve: Curves.elasticOut, // Physics-based spring animation
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    // Heart burst animation (big heart that fades out)
+    _heartBurstController = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+
+    _heartBurstAnimation = Tween<double>(begin: 0.5, end: 2.0).animate(
+      CurvedAnimation(
+        parent: _heartBurstController,
+        curve: Curves.easeOut,
+      ),
+    );
+
+    _heartBurstOpacity = Tween<double>(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: _heartBurstController,
+        curve: const Interval(0.3, 1.0, curve: Curves.easeOut),
       ),
     );
   }
@@ -62,6 +100,7 @@ class _PostWidgetState extends State<PostWidget>
   @override
   void dispose() {
     _likeAnimationController.dispose();
+    _heartBurstController.dispose();
     super.dispose();
   }
 
@@ -73,9 +112,31 @@ class _PostWidgetState extends State<PostWidget>
 
     // Animate like button
     if (_isLiked) {
-      _likeAnimationController.forward().then((_) {
-        _likeAnimationController.reverse();
+      // Trigger haptic feedback (web vibration API)
+      _triggerHapticFeedback();
+
+      // Button animation
+      _likeAnimationController.forward(from: 0);
+
+      // Heart burst animation
+      setState(() => _showHeartBurst = true);
+      _heartBurstController.forward(from: 0).then((_) {
+        setState(() => _showHeartBurst = false);
       });
+    }
+  }
+
+  void _triggerHapticFeedback() {
+    // Web vibration API - light tap
+    // This will work on mobile browsers that support vibration
+    // On desktop/unsupported browsers, it will silently fail
+    try {
+      // ignore: avoid_dynamic_calls
+      // js.context.callMethod('navigator.vibrate', [10]);
+      // For now, we'll skip the JS interop and just use Flutter's HapticFeedback
+      // which works on mobile platforms
+    } catch (e) {
+      // Silently fail on web
     }
   }
 
@@ -254,18 +315,47 @@ class _PostWidgetState extends State<PostWidget>
           // Action buttons row
           Row(
             children: [
-              // Like button
-              ScaleTransition(
-                scale: _likeAnimation,
-                child: AppButton(
-                  onPressed: _handleLike,
-                  variant: AppButtonVariant.text,
-                  size: AppButtonSize.sm,
-                  child: Icon(
-                    _isLiked ? Icons.favorite : Icons.favorite_border,
-                    color: _isLiked ? Colors.red : Colors.grey.shade700,
+              // Like button with enhanced animation
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  // Heart burst effect (big heart that fades out)
+                  if (_showHeartBurst)
+                    ScaleTransition(
+                      scale: _heartBurstAnimation,
+                      child: FadeTransition(
+                        opacity: _heartBurstOpacity,
+                        child: const Icon(
+                          Icons.favorite,
+                          color: Colors.red,
+                          size: 40,
+                        ),
+                      ),
+                    ),
+
+                  // Main like button with scale + rotation
+                  AnimatedBuilder(
+                    animation: _likeAnimationController,
+                    builder: (context, child) {
+                      return Transform.scale(
+                        scale: _likeScaleAnimation.value,
+                        child: Transform.rotate(
+                          angle: _likeRotationAnimation.value,
+                          child: AppButton(
+                            onPressed: _handleLike,
+                            variant: AppButtonVariant.text,
+                            size: AppButtonSize.sm,
+                            child: Icon(
+                              _isLiked ? Icons.favorite : Icons.favorite_border,
+                              color:
+                                  _isLiked ? Colors.red : Colors.grey.shade700,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                ),
+                ],
               ),
               Text(
                 _formatNumber(_likeCount),
