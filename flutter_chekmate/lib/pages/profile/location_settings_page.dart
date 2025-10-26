@@ -131,7 +131,7 @@ class _LocationSettingsPageState extends ConsumerState<LocationSettingsPage> {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      'Enable to discover local dating stories and experiences',
+                      'Enable to discover local experience stories from your community',
                       style: TextStyle(
                         fontSize: 12,
                         color: AppColors.textSecondary,
@@ -337,7 +337,7 @@ class _LocationSettingsPageState extends ConsumerState<LocationSettingsPage> {
           ),
           const SizedBox(height: AppSpacing.md),
           _buildInfoItem(
-            'Your location helps you discover dating stories from your area',
+            'Your location helps you discover experience stories from your community',
           ),
           const SizedBox(height: AppSpacing.sm),
           _buildInfoItem(
