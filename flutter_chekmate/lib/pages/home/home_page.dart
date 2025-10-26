@@ -231,7 +231,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     final nav = ref.watch(navStateProvider);
     return KeyboardShortcuts(
       shortcuts: {
-        ChekMateShortcuts.refresh: _handleRefresh,
+        ChekMateShortcuts.refresh: () => _handleRefresh(),
         ChekMateShortcuts.help: _showKeyboardHelp,
         ChekMateShortcuts.scrollDown: _scrollDown,
         ChekMateShortcuts.scrollUp: _scrollUp,
