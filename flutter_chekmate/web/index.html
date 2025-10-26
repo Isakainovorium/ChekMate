@@ -146,6 +146,49 @@
         setTimeout(() => loading.remove(), 500);
       }
     });
+
+    // Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/flutter_service_worker.js')
+          .then(function(registration) {
+            console.log('Service Worker registered successfully:', registration.scope);
+
+            // Check for updates periodically
+            setInterval(function() {
+              registration.update();
+            }, 60000); // Check every minute
+          })
+          .catch(function(error) {
+            console.log('Service Worker registration failed:', error);
+          });
+      });
+    }
+
+    // Offline/Online status detection
+    window.addEventListener('online', function() {
+      console.log('App is online');
+      // Show online notification
+      if (document.body) {
+        const notification = document.createElement('div');
+        notification.textContent = 'Back online!';
+        notification.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#4CAF50;color:white;padding:12px 24px;border-radius:8px;z-index:10000;font-family:sans-serif;';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
+      }
+    });
+
+    window.addEventListener('offline', function() {
+      console.log('App is offline');
+      // Show offline notification
+      if (document.body) {
+        const notification = document.createElement('div');
+        notification.textContent = 'You are offline. Some features may be limited.';
+        notification.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#FF9800;color:white;padding:12px 24px;border-radius:8px;z-index:10000;font-family:sans-serif;';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 5000);
+      }
+    });
   </script>
 </body>
 </html>

@@ -73,5 +73,6 @@ export 'loading/shimmer_loading.dart';
 export 'loading/shimmer_skeletons.dart';
 // Widgets
 export 'widgets/feature_discovery.dart';
+export 'widgets/push_notification_prompt.dart';
 export 'widgets/skeleton_loader.dart';
 export 'widgets/streak_widget.dart';

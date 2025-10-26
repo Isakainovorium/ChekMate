@@ -14,6 +14,8 @@ import 'package:flutter_chekmate/features/stories/widgets/stories_widget.dart';
 import 'package:flutter_chekmate/pages/explore/explore_page.dart';
 import 'package:flutter_chekmate/pages/live/live_page.dart';
 import 'package:flutter_chekmate/core/providers/gamification_provider.dart';
+import 'package:flutter_chekmate/core/services/keyboard_shortcuts_service.dart';
+import 'package:flutter_chekmate/core/theme/app_breakpoints.dart';
 import 'package:flutter_chekmate/shared/ui/animations/micro_interactions.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -227,93 +229,126 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final nav = ref.watch(navStateProvider);
-    return Scaffold(
-      backgroundColor: Colors.grey.shade50,
-      body: Column(
-        children: [
-          // Header
-          HeaderWidget(
-            scrollController: _scrollController,
-            onSearch: _handleSearch,
-          ),
-
-          // Navigation Tabs
-          NavTabsWidget(
-            activeTab: nav.activeTab,
-            onTabChanged: _handleTabChange,
-          ),
-
-          // Gamification Stats (Streak & Points)
-          const GamificationStatsWidget(),
-
-          // Swipeable Content
-          Expanded(
-            child: PageView(
-              controller: _pageController,
-              onPageChanged: _handlePageChange,
-              physics: const BouncingScrollPhysics(), // iOS-style bounce
-              children: [
-                _buildForYouFeed(),
-                _buildFollowingFeed(),
-                _buildExplorePage(),
-                _buildLivePage(),
-                _buildRateDatePage(),
-                _buildSubscribePage(),
-              ],
+    return KeyboardShortcuts(
+      shortcuts: {
+        ChekMateShortcuts.refresh: _handleRefresh,
+        ChekMateShortcuts.help: _showKeyboardHelp,
+        ChekMateShortcuts.scrollDown: _scrollDown,
+        ChekMateShortcuts.scrollUp: _scrollUp,
+      },
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade50,
+        body: Column(
+          children: [
+            // Header
+            HeaderWidget(
+              scrollController: _scrollController,
+              onSearch: _handleSearch,
             ),
-          ),
-        ],
+
+            // Navigation Tabs
+            NavTabsWidget(
+              activeTab: nav.activeTab,
+              onTabChanged: _handleTabChange,
+            ),
+
+            // Gamification Stats (Streak & Points)
+            const GamificationStatsWidget(),
+
+            // Swipeable Content
+            Expanded(
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: _handlePageChange,
+                physics: const BouncingScrollPhysics(), // iOS-style bounce
+                children: [
+                  _buildForYouFeed(),
+                  _buildFollowingFeed(),
+                  _buildExplorePage(),
+                  _buildLivePage(),
+                  _buildRateDatePage(),
+                  _buildSubscribePage(),
+                ],
+              ),
+            ),
+          ],
+        ),
+        // Bottom navigation handled by MainNavigation shell
       ),
-      // Bottom navigation handled by MainNavigation shell
+    );
+  }
+
+  void _showKeyboardHelp() {
+    showDialog<void>(
+      context: context,
+      builder: (context) => const KeyboardShortcutsHelp(),
+    );
+  }
+
+  void _scrollDown() {
+    _scrollController.animateTo(
+      _scrollController.offset + 200,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+  }
+
+  void _scrollUp() {
+    _scrollController.animateTo(
+      _scrollController.offset - 200,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
     );
   }
 
   Widget _buildForYouFeed() {
-    return RefreshIndicator(
-      onRefresh: _handleRefresh,
-      color: AppColors.primary,
-      child: ListView.builder(
-        controller: _scrollController,
-        physics:
-            const AlwaysScrollableScrollPhysics(), // Required for RefreshIndicator
-        itemCount: _hasMore
-            ? _posts.length + 2
-            : _posts.length + 1, // +1 for stories, +1 for loading
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            // Stories row with slide-in animation
-            return StoriesWidget(
-              stories: _stories,
-              onStoryTap: _handleStoryTap,
-            ).fadeInSlideRight(
-              duration: const Duration(milliseconds: 600),
+    return ResponsiveLayout(
+      child: RefreshIndicator(
+        onRefresh: _handleRefresh,
+        color: AppColors.primary,
+        child: ListView.builder(
+          controller: _scrollController,
+          physics:
+              const AlwaysScrollableScrollPhysics(), // Required for RefreshIndicator
+          itemCount: _hasMore
+              ? _posts.length + 2
+              : _posts.length + 1, // +1 for stories, +1 for loading
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              // Stories row with slide-in animation
+              return StoriesWidget(
+                stories: _stories,
+                onStoryTap: _handleStoryTap,
+              ).fadeInSlideRight(
+                duration: const Duration(milliseconds: 600),
+              );
+            }
+
+            // Loading indicator at end
+            if (index == _posts.length + 1) {
+              return _buildLoadingIndicator();
+            }
+
+            // Posts with staggered fade-in animation
+            final post = _posts[index - 1];
+            return PostWidget(
+              key: ValueKey(post.id),
+              post: post,
+              onSharePressed: () {
+                _showShareModal(post);
+              },
+              onCommentPressed: () {
+                _showComments(post.id);
+              },
+              onMorePressed: () {
+                _showPostOptions(post);
+              },
+            ).staggeredFadeIn(
+              index: index - 1,
+              delay: const Duration(milliseconds: 80),
             );
-          }
-
-          // Loading indicator at end
-          if (index == _posts.length + 1) {
-            return _buildLoadingIndicator();
-          }
-
-          // Posts with staggered fade-in animation
-          final post = _posts[index - 1];
-          return PostWidget(
-            key: ValueKey(post.id),
-            post: post,
-            onSharePressed: () {
-              _showShareModal(post);
-            },
-            onCommentPressed: () {
-              _showComments(post.id);
-            },
-            onMorePressed: () {
-              _showPostOptions(post);
-            },
-          ).staggeredFadeIn(
-            index: index - 1,
-            delay: const Duration(milliseconds: 80),
-          );
-        },
+          },
+        ),
       ),
     );
   }
@@ -326,40 +361,42 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   Widget _buildFollowingFeed() {
-    return RefreshIndicator(
-      onRefresh: _handleRefresh,
-      color: AppColors.primary,
-      child: ListView.builder(
-        controller: _scrollController,
-        physics: const AlwaysScrollableScrollPhysics(),
-        itemCount: _hasMore ? _posts.length + 2 : _posts.length + 1,
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return StoriesWidget(
-              stories: _stories,
-              onStoryTap: _handleStoryTap,
-            ).fadeInSlideRight(
-              duration: const Duration(milliseconds: 600),
+    return ResponsiveLayout(
+      child: RefreshIndicator(
+        onRefresh: _handleRefresh,
+        color: AppColors.primary,
+        child: ListView.builder(
+          controller: _scrollController,
+          physics: const AlwaysScrollableScrollPhysics(),
+          itemCount: _hasMore ? _posts.length + 2 : _posts.length + 1,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return StoriesWidget(
+                stories: _stories,
+                onStoryTap: _handleStoryTap,
+              ).fadeInSlideRight(
+                duration: const Duration(milliseconds: 600),
+              );
+            }
+
+            // Loading indicator at end
+            if (index == _posts.length + 1) {
+              return _buildLoadingIndicator();
+            }
+
+            final post = _posts[index - 1];
+            return PostWidget(
+              key: ValueKey(post.id),
+              post: post,
+              onSharePressed: () => _showShareModal(post),
+              onCommentPressed: () => _showComments(post.id),
+              onMorePressed: () => _showPostOptions(post),
+            ).staggeredFadeIn(
+              index: index - 1,
+              delay: const Duration(milliseconds: 80),
             );
-          }
-
-          // Loading indicator at end
-          if (index == _posts.length + 1) {
-            return _buildLoadingIndicator();
-          }
-
-          final post = _posts[index - 1];
-          return PostWidget(
-            key: ValueKey(post.id),
-            post: post,
-            onSharePressed: () => _showShareModal(post),
-            onCommentPressed: () => _showComments(post.id),
-            onMorePressed: () => _showPostOptions(post),
-          ).staggeredFadeIn(
-            index: index - 1,
-            delay: const Duration(milliseconds: 80),
-          );
-        },
+          },
+        ),
       ),
     );
   }
