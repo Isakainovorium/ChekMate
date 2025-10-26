@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
 import 'package:flutter_chekmate/features/feed/models/post_model.dart';
@@ -127,16 +129,15 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
   }
 
   void _triggerHapticFeedback() {
-    // Web vibration API - light tap
-    // This will work on mobile browsers that support vibration
-    // On desktop/unsupported browsers, it will silently fail
+    // Use Flutter's HapticFeedback for mobile platforms
+    // On web, this will silently fail (which is fine)
     try {
-      // ignore: avoid_dynamic_calls
-      // js.context.callMethod('navigator.vibrate', [10]);
-      // For now, we'll skip the JS interop and just use Flutter's HapticFeedback
-      // which works on mobile platforms
-    } catch (e) {
-      // Silently fail on web
+      HapticFeedback.lightImpact();
+    } on MissingPluginException catch (e) {
+      // Silently fail on unsupported platforms (web)
+      if (kDebugMode) {
+        debugPrint('Haptic feedback not supported: $e');
+      }
     }
   }
 
@@ -144,6 +145,11 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
     setState(() {
       _isBookmarked = !_isBookmarked;
     });
+
+    // Haptic feedback for bookmark
+    if (_isBookmarked) {
+      _triggerHapticFeedback();
+    }
   }
 
   String _formatNumber(int num) {

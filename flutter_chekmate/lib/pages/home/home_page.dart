@@ -147,11 +147,20 @@ class _HomePageState extends ConsumerState<HomePage> {
     final index = _tabs.indexOf(tab);
     if (index != -1) {
       setState(() => _currentTabIndex = index);
+
+      // Smooth page transition with custom curve
       _pageController.animateToPage(
         index,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
+        duration: const Duration(milliseconds: 350),
+        curve: Curves.easeInOutCubic, // Smoother than easeInOut
       );
+
+      // Haptic feedback on tab change
+      try {
+        HapticFeedback.selectionClick();
+      } on MissingPluginException {
+        // Silently fail on web
+      }
     }
     ref.read(navStateProvider.notifier).setActiveTab(tab);
   }
