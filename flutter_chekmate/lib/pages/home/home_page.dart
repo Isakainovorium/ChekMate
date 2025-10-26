@@ -408,9 +408,16 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   Widget _buildLivePage() {
     // Get current user's avatar from provider
+    // Use a default avatar immediately to prevent blocking the UI
+    // The avatar will update when the user data loads
     final currentUser = ref.watch(currentUserProvider);
-    final userAvatar = currentUser.value?.avatar ??
-        'https://via.placeholder.com/150'; // Default avatar if not available
+
+    // Handle async state properly - don't block UI while loading
+    final userAvatar = currentUser.when(
+      data: (user) => user?.avatar ?? 'https://via.placeholder.com/150',
+      loading: () => 'https://via.placeholder.com/150', // Default while loading
+      error: (_, __) => 'https://via.placeholder.com/150', // Default on error
+    );
 
     // Use the actual LivePage widget
     return LivePage(userAvatar: userAvatar);
