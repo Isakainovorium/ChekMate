@@ -9,7 +9,6 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   /// Get current user
   User? get currentUser => _auth.currentUser;
@@ -71,8 +70,19 @@ class AuthService {
   /// Sign in with Google
   Future<UserCredential> signInWithGoogle() async {
     try {
+      // Create GoogleSignIn instance only when needed
+      // This avoids initialization errors when Google Sign-In is not configured
+      GoogleSignIn? googleSignIn;
+      try {
+        googleSignIn = GoogleSignIn();
+      } catch (e) {
+        throw Exception(
+          'Google Sign-In is not configured. Please add your Google Client ID to the web/index.html file. Error: $e',
+        );
+      }
+
       // Trigger the authentication flow
-      final googleUser = await _googleSignIn.signIn();
+      final googleUser = await googleSignIn.signIn();
 
       if (googleUser == null) {
         throw Exception('Google sign in cancelled');
@@ -148,10 +158,9 @@ class AuthService {
 
   /// Sign out
   Future<void> signOut() async {
-    await Future.wait([
-      _auth.signOut(),
-      _googleSignIn.signOut(),
-    ]);
+    await _auth.signOut();
+    // Note: We don't need to sign out of Google Sign-In here
+    // because we create a new instance each time the user signs in
   }
 
   /// Send password reset email
