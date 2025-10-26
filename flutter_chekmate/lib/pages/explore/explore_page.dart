@@ -9,8 +9,9 @@ import 'package:flutter_chekmate/features/feed/widgets/post_widget.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart';
 import 'package:go_router/go_router.dart';
 
-/// Explore page - converted from Explore.tsx
-/// Shows trending content, hashtags, and suggested users
+/// Explore page - ChekMate Dating Experience Platform
+/// Discover trending dating experiences, stories, and community members
+/// Emphasizes experience-sharing and learning from others
 class ExplorePage extends StatefulWidget {
   const ExplorePage({super.key});
 
@@ -251,9 +252,9 @@ class _ExplorePageState extends State<ExplorePage> {
 
   Widget _buildHashtagsSection() {
     final hashtags = [
-      {'tag': '#DateNight', 'posts': '15.2K posts'},
-      {'tag': '#RelationshipGoals', 'posts': '8.7K posts'},
-      {'tag': '#DatingTips', 'posts': '12.1K posts'},
+      {'tag': '#DateExperiences', 'posts': '15.2K posts'},
+      {'tag': '#ExperienceSharing', 'posts': '8.7K posts'},
+      {'tag': '#DateStories', 'posts': '12.1K posts'},
       {'tag': '#LoveStory', 'posts': '6.8K posts'},
       {'tag': '#FirstDate', 'posts': '9.3K posts'},
       {'tag': '#RedFlags', 'posts': '11.5K posts'},
@@ -668,10 +669,11 @@ class MockExplorePosts {
   static final List<Post> trendingPosts = [
     const Post(
       id: 'e1',
-      username: 'RelationshipExpert',
+      username: 'ExperienceSharer',
       userAvatar:
           'https://images.unsplash.com/photo-1580489944761-15a19d654956',
-      content: '🔥 VIRAL: The 5 Dating Red Flags Everyone Ignores (Thread)',
+      content:
+          '🔥 VIRAL: The 5 Red Flags I Spotted - My Dating Experience (Thread)',
       imageUrl: 'https://images.unsplash.com/photo-1516975280-8c86b485204e',
       likes: 45600,
       comments: 2800,
@@ -684,8 +686,8 @@ class MockExplorePosts {
 class MockSuggestedUsers {
   static final List<Map<String, String>> users = [
     {
-      'name': 'Dating Coach Sarah',
-      'username': '@datingcoach_sarah',
+      'name': 'Sarah - Experience Sharer',
+      'username': '@sarahshares',
       'avatar': 'https://images.unsplash.com/photo-1494790108755-2616b612b786',
       'followers': '45.2K',
     },

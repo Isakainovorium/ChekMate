@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
 
-/// Subscribe page - converted from Subscribe.tsx
-/// Shows subscription plans and premium features
+/// Subscribe page - ChekMate Dating Experience Platform
+/// Premium features for enhanced experience-sharing and community engagement
+/// NOT for dating features - for platform features and community tools
 class SubscribePage extends StatefulWidget {
   const SubscribePage({
     super.key,
@@ -144,7 +145,11 @@ class _SubscribePageState extends State<SubscribePage> {
         'title': 'Profile Boosts',
         'color': Colors.amber,
       },
-      {'icon': Icons.videocam, 'title': 'Video Dating', 'color': Colors.green},
+      {
+        'icon': Icons.videocam,
+        'title': 'Live Experience Sharing',
+        'color': Colors.green,
+      },
     ];
 
     return Container(
@@ -632,11 +637,11 @@ class MockSubscriptionPlans {
       id: 'premium',
       name: 'Premium',
       price: '\$9.99',
-      description: 'Enhanced dating experience',
+      description: 'Enhanced experience platform features',
       popular: true,
       features: [
         PlanFeature(name: 'Everything in Free', included: true),
-        PlanFeature(name: 'Unlimited daily swipes', included: true),
+        PlanFeature(name: 'Unlimited experience sharing', included: true),
         PlanFeature(name: 'Ad-free experience', included: true),
         PlanFeature(name: 'Read receipts', included: true),
       ],

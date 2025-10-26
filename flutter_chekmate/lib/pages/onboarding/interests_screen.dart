@@ -152,7 +152,7 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
                   children: [
                     // Heading
                     const Text(
-                      'What dating topics interest you?',
+                      'What experience topics interest you?',
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -164,7 +164,7 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
 
                     // Subtitle
                     Text(
-                      'Choose topics to discover relevant dating stories (${_selectedInterests.length}/3 minimum)',
+                      'Choose topics to discover relevant experience stories (${_selectedInterests.length}/3 minimum)',
                       style: const TextStyle(
                         fontSize: 16,
                         color: AppColors.textSecondary,

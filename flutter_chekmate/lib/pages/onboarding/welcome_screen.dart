@@ -132,7 +132,7 @@ class WelcomeScreen extends ConsumerWidget {
               _buildFeatureItem(
                 icon: Icons.location_on_rounded,
                 title: 'Discover Local Stories',
-                description: 'See what\'s happening in your dating scene',
+                description: 'See what\'s happening in your local community',
               ),
 
               AppSpacing.gapLG,
