@@ -13,6 +13,7 @@ import 'package:flutter_chekmate/features/stories/models/story_model.dart';
 import 'package:flutter_chekmate/features/stories/widgets/stories_widget.dart';
 import 'package:flutter_chekmate/pages/explore/explore_page.dart';
 import 'package:flutter_chekmate/pages/live/live_page.dart';
+import 'package:flutter_chekmate/core/providers/gamification_provider.dart';
 import 'package:flutter_chekmate/shared/ui/animations/micro_interactions.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -62,6 +63,16 @@ class _HomePageState extends ConsumerState<HomePage> {
     _scrollController.addListener(_onScroll);
     _pageController = PageController();
     _loadInitialPosts();
+    _updateLoginStreak();
+  }
+
+  Future<void> _updateLoginStreak() async {
+    // Update login streak when user opens the app
+    final gamificationService = ref.read(gamificationServiceProvider);
+    await gamificationService.updateLoginStreak();
+
+    // Refresh the streak provider
+    ref.invalidate(loginStreakProvider);
   }
 
   @override
@@ -231,6 +242,9 @@ class _HomePageState extends ConsumerState<HomePage> {
             activeTab: nav.activeTab,
             onTabChanged: _handleTabChange,
           ),
+
+          // Gamification Stats (Streak & Points)
+          const GamificationStatsWidget(),
 
           // Swipeable Content
           Expanded(
