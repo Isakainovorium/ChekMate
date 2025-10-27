@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
+import 'package:flutter_chekmate/shared/ui/index.dart';
 import 'package:go_router/go_router.dart';
 
 /// Messages page - converted from MessagesPage.tsx
@@ -126,25 +127,22 @@ class _MessagesPageState extends State<MessagesPage> {
         padding: const EdgeInsets.all(AppSpacing.md),
         child: Row(
           children: [
-            // Avatar with online indicator
+            // Avatar with online indicator using AppBadge
             Stack(
               children: [
-                CircleAvatar(
-                  radius: 28,
-                  backgroundImage: NetworkImage(conversation.avatar),
+                AppAvatar(
+                  imageUrl: conversation.avatar,
+                  name: conversation.name,
+                  size: AppAvatarSize.large,
                 ),
                 if (conversation.online)
                   Positioned(
                     bottom: 0,
                     right: 0,
-                    child: Container(
-                      width: 16,
-                      height: 16,
-                      decoration: BoxDecoration(
-                        color: Colors.green.shade400,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white, width: 2),
-                      ),
+                    child: AppBadge(
+                      label: '',
+                      variant: AppBadgeVariant.success,
+                      size: AppBadgeSize.small,
                     ),
                   ),
               ],

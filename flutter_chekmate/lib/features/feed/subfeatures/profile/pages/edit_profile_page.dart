@@ -7,6 +7,7 @@ import 'package:flutter_chekmate/core/theme/app_spacing.dart';
 import 'package:flutter_chekmate/features/profile/domain/entities/voice_prompt_entity.dart';
 import 'package:flutter_chekmate/features/profile/presentation/widgets/voice_prompt_player.dart';
 import 'package:flutter_chekmate/features/profile/presentation/widgets/voice_prompt_recorder.dart';
+import 'package:flutter_chekmate/shared/ui/index.dart';
 import 'package:uuid/uuid.dart';
 
 /// Edit Profile page - converted from EditProfile.tsx
@@ -20,6 +21,7 @@ class EditProfilePage extends StatefulWidget {
     super.key,
     this.onSave,
     this.currentVoicePrompts,
+    this.currentBirthdate,
   });
   final String currentUsername;
   final String currentBio;
@@ -29,8 +31,10 @@ class EditProfilePage extends StatefulWidget {
     String username,
     String bio,
     List<VoicePromptEntity> voicePrompts,
+    DateTime? birthdate,
   )? onSave;
   final List<VoicePromptEntity>? currentVoicePrompts;
+  final DateTime? currentBirthdate;
 
   @override
   State<EditProfilePage> createState() => _EditProfilePageState();
@@ -44,6 +48,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   bool _hasChanges = false;
   List<VoicePromptEntity> _voicePrompts = [];
   bool _isUploading = false;
+  DateTime? _birthdate;
 
   static const int maxBioLength = 150;
   static const int maxUsernameLength = 30;
@@ -56,6 +61,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     _usernameController = TextEditingController(text: widget.currentUsername);
     _bioController = TextEditingController(text: widget.currentBio);
     _voicePrompts = List.from(widget.currentVoicePrompts ?? []);
+    _birthdate = widget.currentBirthdate;
     _usernameController.addListener(_checkChanges);
     _bioController.addListener(_checkChanges);
   }
@@ -126,6 +132,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         _usernameController.text.trim(),
         _bioController.text.trim(),
         _voicePrompts,
+        _birthdate,
       );
       Navigator.of(context).pop();
     }
@@ -212,98 +219,53 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ),
             const SizedBox(height: AppSpacing.xxl),
             // Username field
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Row(
-                  children: [
-                    Icon(Icons.person_outline, size: 16),
-                    SizedBox(width: 8),
-                    Text(
-                      'Username',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: AppSpacing.xs),
-                TextField(
-                  controller: _usernameController,
-                  maxLength: maxUsernameLength,
-                  onChanged: _validateUsername,
-                  decoration: InputDecoration(
-                    hintText: 'Enter your username',
-                    errorText: _usernameError.isEmpty ? null : _usernameError,
-                    suffixIcon:
-                        _isUsernameValid && _usernameController.text.isNotEmpty
-                            ? const Icon(
-                                Icons.check_circle,
-                                color: Colors.green,
-                                size: 20,
-                              )
-                            : _usernameError.isNotEmpty
-                                ? const Icon(
-                                    Icons.error,
-                                    color: Colors.red,
-                                    size: 20,
-                                  )
-                                : null,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                        color: _usernameError.isEmpty
-                            ? AppColors.primary
-                            : Colors.red,
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            AppInput(
+              controller: _usernameController,
+              label: 'Username',
+              hint: 'Enter your username',
+              maxLength: maxUsernameLength,
+              errorText: _usernameError.isEmpty ? null : _usernameError,
+              prefixIcon: const Icon(Icons.person_outline, size: 20),
+              suffixIcon:
+                  _isUsernameValid && _usernameController.text.isNotEmpty
+                      ? const Icon(
+                          Icons.check_circle,
+                          color: Colors.green,
+                          size: 20,
+                        )
+                      : _usernameError.isNotEmpty
+                          ? const Icon(
+                              Icons.error,
+                              color: Colors.red,
+                              size: 20,
+                            )
+                          : null,
+              onChanged: _validateUsername,
             ),
             const SizedBox(height: AppSpacing.lg),
             // Bio field
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Row(
-                  children: [
-                    Icon(Icons.description_outlined, size: 16),
-                    SizedBox(width: 8),
-                    Text(
-                      'Bio',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: AppSpacing.xs),
-                TextField(
-                  controller: _bioController,
-                  maxLength: maxBioLength,
-                  maxLines: 4,
-                  decoration: InputDecoration(
-                    hintText: 'Tell us about yourself...',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(
-                        color: AppColors.primary,
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            AppTextarea(
+              controller: _bioController,
+              label: 'Bio',
+              hint: 'Tell us about yourself...',
+              maxLength: maxBioLength,
+              minLines: 4,
+              maxLines: 4,
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            // Birthdate field
+            AppDateInput(
+              initialDate: _birthdate,
+              label: 'Birth Date',
+              hint: 'Select your birth date',
+              firstDate: DateTime(1900),
+              lastDate: DateTime.now(),
+              onDateChanged: (date) {
+                setState(() {
+                  _birthdate = date;
+                  _hasChanges = true;
+                });
+              },
             ),
             const SizedBox(height: AppSpacing.xxl),
             // Voice Prompts Section

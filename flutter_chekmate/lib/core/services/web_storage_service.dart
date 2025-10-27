@@ -1,8 +1,8 @@
 /// Web-compatible Firebase Storage service
-/// 
+///
 /// This service provides a unified interface for uploading files to Firebase Storage
 /// that works on both web and mobile platforms.
-/// 
+///
 /// On mobile: Uploads using file path
 /// On web: Uploads using bytes
 library;
@@ -12,7 +12,7 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'web_image_picker_service.dart';
+import 'package:flutter_chekmate/core/services/web_image_picker_service.dart';
 
 /// Upload progress callback
 typedef UploadProgressCallback = void Function(double progress);
@@ -22,7 +22,7 @@ class WebStorageService {
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
   /// Upload an image to Firebase Storage
-  /// 
+  ///
   /// Returns the download URL of the uploaded image
   Future<String> uploadImage({
     required PickedMediaFile file,
@@ -78,7 +78,7 @@ class WebStorageService {
   }
 
   /// Upload a video to Firebase Storage
-  /// 
+  ///
   /// Returns the download URL of the uploaded video
   Future<String> uploadVideo({
     required PickedMediaFile file,
@@ -134,7 +134,7 @@ class WebStorageService {
   }
 
   /// Upload raw bytes to Firebase Storage
-  /// 
+  ///
   /// Useful for uploading data that's already in memory
   Future<String> uploadBytes({
     required Uint8List bytes,
@@ -246,6 +246,8 @@ class WebStorageService {
     required String fileName,
   }) {
     final timestamp = DateTime.now().millisecondsSinceEpoch;
+    // Extension extraction (reserved for future file type validation)
+    // ignore: unused_local_variable
     final extension = fileName.split('.').last;
     return '$folder/$userId/${timestamp}_${fileName.replaceAll(' ', '_')}';
   }
@@ -316,19 +318,19 @@ class WebStorageService {
 
 /// Widget for showing upload progress
 class UploadProgressIndicator extends StatefulWidget {
-  final Future<String> Function(UploadProgressCallback) uploadFunction;
-  final Function(String) onComplete;
-  final Function(Object)? onError;
-
   const UploadProgressIndicator({
     super.key,
     required this.uploadFunction,
     required this.onComplete,
     this.onError,
   });
+  final Future<String> Function(UploadProgressCallback) uploadFunction;
+  final Function(String) onComplete;
+  final Function(Object)? onError;
 
   @override
-  State<UploadProgressIndicator> createState() => _UploadProgressIndicatorState();
+  State<UploadProgressIndicator> createState() =>
+      _UploadProgressIndicatorState();
 }
 
 class _UploadProgressIndicatorState extends State<UploadProgressIndicator> {
@@ -403,4 +405,3 @@ class _UploadProgressIndicatorState extends State<UploadProgressIndicator> {
     );
   }
 }
-

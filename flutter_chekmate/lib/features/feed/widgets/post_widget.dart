@@ -163,26 +163,58 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return AppCard(
-      margin: const EdgeInsets.only(bottom: AppSpacing.sm),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Post Header
-          _buildPostHeader(),
+    // Wrap entire post in AppContextMenu for right-click actions
+    return AppContextMenu(
+      menuItems: [
+        AppContextMenuItem(
+          label: 'Share Post',
+          icon: Icons.share,
+          onTap: widget.onSharePressed,
+        ),
+        AppContextMenuItem(
+          label: _isBookmarked ? 'Remove Bookmark' : 'Bookmark Post',
+          icon: _isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+          onTap: _handleBookmark,
+        ),
+        const AppContextMenuItem.divider(),
+        AppContextMenuItem(
+          label: 'Copy Link',
+          icon: Icons.link,
+          onTap: () {
+            Clipboard.setData(ClipboardData(
+                text: 'https://chekmate.app/post/${widget.post.id}'));
+          },
+        ),
+        AppContextMenuItem(
+          label: 'Report Post',
+          icon: Icons.flag,
+          onTap: () {
+            // Show report dialog
+          },
+        ),
+      ],
+      child: AppCard(
+        margin: const EdgeInsets.only(bottom: AppSpacing.sm),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Post Header
+            _buildPostHeader(),
 
-          // Post Content
-          if (widget.post.content.isNotEmpty) _buildPostContent(),
+            // Post Content
+            if (widget.post.content.isNotEmpty) _buildPostContent(),
 
-          // Post Video (if has video)
-          if (widget.post.hasVideo) _buildPostVideo(),
+            // Post Video (if has video)
+            if (widget.post.hasVideo) _buildPostVideo(),
 
-          // Post Image (if has image and no video)
-          if (widget.post.hasImage && !widget.post.hasVideo) _buildPostImage(),
+            // Post Image (if has image and no video)
+            if (widget.post.hasImage && !widget.post.hasVideo)
+              _buildPostImage(),
 
-          // Post Actions
-          _buildPostActions(),
-        ],
+            // Post Actions
+            _buildPostActions(),
+          ],
+        ),
       ),
     );
   }
@@ -225,11 +257,51 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
             ),
           ),
 
-          // More button
-          AppButton(
-            onPressed: widget.onMorePressed,
-            variant: AppButtonVariant.text,
-            size: AppButtonSize.sm,
+          // More button - replaced with AppDropdownMenu
+          AppDropdownButton<String>(
+            items: [
+              AppDropdownMenuItem<String>(
+                value: 'share',
+                label: 'Share Post',
+                leading: const Icon(Icons.share, size: 18),
+              ),
+              AppDropdownMenuItem<String>(
+                value: 'bookmark',
+                label: _isBookmarked ? 'Remove Bookmark' : 'Bookmark Post',
+                leading: Icon(
+                  _isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                  size: 18,
+                ),
+              ),
+              const AppDropdownMenuItem<String>(
+                value: 'copy',
+                label: 'Copy Link',
+                leading: Icon(Icons.link, size: 18),
+              ),
+              const AppDropdownMenuItem<String>(
+                value: 'report',
+                label: 'Report Post',
+                leading: Icon(Icons.flag, size: 18),
+              ),
+            ],
+            onSelected: (value) {
+              switch (value) {
+                case 'share':
+                  widget.onSharePressed?.call();
+                  break;
+                case 'bookmark':
+                  _handleBookmark();
+                  break;
+                case 'copy':
+                  Clipboard.setData(ClipboardData(
+                    text: 'https://chekmate.app/post/${widget.post.id}',
+                  ));
+                  break;
+                case 'report':
+                  // Show report dialog
+                  break;
+              }
+            },
             child: Icon(Icons.more_horiz, color: Colors.grey.shade600),
           ),
         ],

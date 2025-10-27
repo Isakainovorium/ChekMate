@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/router/app_router_enhanced.dart';
 import 'package:flutter_chekmate/core/theme/app_theme.dart';
+import 'package:flutter_chekmate/shared/ui/components/app_error_boundary.dart';
+import 'package:flutter_chekmate/shared/ui/components/app_notification_banner.dart';
 // import 'package:flutter_chekmate/features/auth/providers/auth_provider.dart'; // For future auth routing
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,17 +26,29 @@ class ChekMateApp extends ConsumerWidget {
       // Router Configuration
       routerConfig: router,
 
-      // Builder for global overlays
+      // Builder for global overlays and error boundary
       builder: (context, child) {
-        return MediaQuery(
-          // Ensure text scaling doesn't break the UI
-          data: MediaQuery.of(context).copyWith(
-            textScaler: MediaQuery.of(context).textScaler.clamp(
-                  minScaleFactor: 0.8,
-                  maxScaleFactor: 1.2,
-                ),
+        return AppErrorBoundary(
+          enableReporting: true,
+          onError: (details) {
+            // Show error notification to user
+            AppNotificationBanner.show(
+              context: context,
+              message: 'An error occurred. Please try again.',
+              type: AppNotificationBannerType.error,
+              duration: const Duration(seconds: 5),
+            );
+          },
+          child: MediaQuery(
+            // Ensure text scaling doesn't break the UI
+            data: MediaQuery.of(context).copyWith(
+              textScaler: MediaQuery.of(context).textScaler.clamp(
+                    minScaleFactor: 0.8,
+                    maxScaleFactor: 1.2,
+                  ),
+            ),
+            child: child ?? const SizedBox.shrink(),
           ),
-          child: child ?? const SizedBox.shrink(),
         );
       },
     );

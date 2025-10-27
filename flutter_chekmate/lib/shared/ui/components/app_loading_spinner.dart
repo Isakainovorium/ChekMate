@@ -118,8 +118,9 @@ class _AppLoadingSpinnerState extends State<AppLoadingSpinner>
           children: List.generate(3, (index) {
             final delay = index * 0.2;
             final animationValue = (_controller.value - delay).clamp(0.0, 1.0);
-            final scale = 0.5 + (0.5 * (1 - (animationValue - 0.5).abs() * 2).clamp(0.0, 1.0));
-            
+            final scale = 0.5 +
+                (0.5 * (1 - (animationValue - 0.5).abs() * 2).clamp(0.0, 1.0));
+
             return Container(
               margin: EdgeInsets.symmetric(horizontal: size / 8),
               child: Transform.scale(
@@ -146,7 +147,7 @@ class _AppLoadingSpinnerState extends State<AppLoadingSpinner>
       builder: (context, child) {
         final scale = 0.8 + (0.4 * (1 - (_controller.value - 0.5).abs() * 2));
         final opacity = 0.3 + (0.7 * (1 - (_controller.value - 0.5).abs() * 2));
-        
+
         return Transform.scale(
           scale: scale,
           child: Container(
@@ -171,8 +172,9 @@ class _AppLoadingSpinnerState extends State<AppLoadingSpinner>
           children: List.generate(5, (index) {
             final delay = index * 0.1;
             final animationValue = (_controller.value - delay) % 1.0;
-            final height = size * (0.3 + 0.7 * (1 - (animationValue - 0.5).abs() * 2));
-            
+            final height =
+                size * (0.3 + 0.7 * (1 - (animationValue - 0.5).abs() * 2));
+
             return Container(
               margin: EdgeInsets.symmetric(horizontal: size / 20),
               width: size / 10,
@@ -192,23 +194,52 @@ class _AppLoadingSpinnerState extends State<AppLoadingSpinner>
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
-        return Transform.rotate(
-          angle: _controller.value * 2 * 3.14159,
-          child: Container(
-            width: size,
-            height: size,
-            decoration: BoxDecoration(
-              gradient: SweepGradient(
-                colors: [
-                  color,
-                  color.withValues(alpha: 0.1),
-                  color,
-                ],
-                stops: const [0.0, 0.5, 1.0],
+        return Stack(
+          alignment: Alignment.center,
+          children: [
+            // Rotating gradient ring
+            Transform.rotate(
+              angle: _controller.value * 2 * 3.14159,
+              child: Container(
+                width: size,
+                height: size,
+                decoration: BoxDecoration(
+                  gradient: SweepGradient(
+                    colors: [
+                      color,
+                      color.withValues(alpha: 0.1),
+                      color,
+                    ],
+                    stops: const [0.0, 0.5, 1.0],
+                  ),
+                  shape: BoxShape.circle,
+                ),
               ),
-              shape: BoxShape.circle,
             ),
-          ),
+            // ChekMate app icon in center
+            Container(
+              width: size * 0.6,
+              height: size * 0.6,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                shape: BoxShape.circle,
+              ),
+              child: ClipOval(
+                child: Image.asset(
+                  'assets/icons/app_icon.png',
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    // Fallback to simple icon if image fails to load
+                    return Icon(
+                      Icons.favorite,
+                      size: size * 0.4,
+                      color: color,
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
         );
       },
     );
@@ -231,7 +262,9 @@ class _AppLoadingSpinnerState extends State<AppLoadingSpinner>
 /// AppLoadingOverlay - Full-screen loading overlay
 class AppLoadingOverlay extends StatelessWidget {
   const AppLoadingOverlay({
-    required this.isLoading, required this.child, super.key,
+    required this.isLoading,
+    required this.child,
+    super.key,
     this.message,
     this.backgroundColor,
     this.spinnerColor,
@@ -287,7 +320,9 @@ class AppLoadingOverlay extends StatelessWidget {
 /// AppLoadingButton - Button with loading state
 class AppLoadingButton extends StatelessWidget {
   const AppLoadingButton({
-    required this.onPressed, required this.child, super.key,
+    required this.onPressed,
+    required this.child,
+    super.key,
     this.isLoading = false,
     this.loadingText,
     this.style,
@@ -400,7 +435,9 @@ class _AppLoadingCardState extends State<AppLoadingCard>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Header with avatar
-                    if (widget.showAvatar || widget.showTitle || widget.showSubtitle)
+                    if (widget.showAvatar ||
+                        widget.showTitle ||
+                        widget.showSubtitle)
                       Row(
                         children: [
                           if (widget.showAvatar)
@@ -409,7 +446,8 @@ class _AppLoadingCardState extends State<AppLoadingCard>
                               height: 40,
                               borderRadius: 20,
                             ),
-                          if (widget.showAvatar) const SizedBox(width: AppSpacing.sm),
+                          if (widget.showAvatar)
+                            const SizedBox(width: AppSpacing.sm),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -531,8 +569,8 @@ class AppLoadingList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       itemCount: itemCount,
-      separatorBuilder: (context, index) => showSeparator 
-          ? const Divider() 
+      separatorBuilder: (context, index) => showSeparator
+          ? const Divider()
           : const SizedBox(height: AppSpacing.sm),
       itemBuilder: (context, index) {
         return AppLoadingCard(

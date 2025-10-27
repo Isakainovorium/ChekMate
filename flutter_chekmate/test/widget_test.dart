@@ -6,25 +6,29 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_chekmate/app.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:flutter_chekmate/main.dart';
+import 'package:network_image_mock/network_image_mock.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('App loads without crashing', (WidgetTester tester) async {
+    // Mock network images to prevent HTTP requests during testing
+    await mockNetworkImagesFor(() async {
+      // Build our app and trigger a frame.
+      await tester.pumpWidget(
+        const ProviderScope(
+          child:
+              ChekMateApp(), // ChekMateApp is the correct class name from app.dart
+        ),
+      );
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+      // Verify that the app loads without throwing an exception
+      // Use pump instead of pumpAndSettle to avoid waiting for network images
+      await tester.pump();
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+      // Basic smoke test - just ensure the app doesn't crash
+      expect(find.byType(MaterialApp), findsOneWidget);
+    });
   });
 }

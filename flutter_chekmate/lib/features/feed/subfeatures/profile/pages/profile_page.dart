@@ -7,7 +7,7 @@ import 'package:flutter_chekmate/features/posts/presentation/providers/posts_pro
 import 'package:flutter_chekmate/features/profile/domain/entities/voice_prompt_entity.dart';
 import 'package:flutter_chekmate/features/profile/presentation/widgets/voice_prompt_player.dart';
 import 'package:flutter_chekmate/features/profile/widgets/profile_video_player.dart';
-import 'package:flutter_chekmate/shared/widgets/app_button.dart';
+import 'package:flutter_chekmate/shared/ui/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -125,23 +125,14 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                       child: Column(
                         children: [
                           // Avatar
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: AppColors.surface,
-                                width: 4,
-                              ),
-                            ),
-                            child: CircleAvatar(
-                              radius: 50,
-                              backgroundImage: user.avatar.isNotEmpty
-                                  ? NetworkImage(user.avatar)
-                                  : null,
-                              child: user.avatar.isEmpty
-                                  ? const Icon(Icons.person)
-                                  : null,
-                            ),
+                          AppAvatar(
+                            imageUrl:
+                                user.avatar.isNotEmpty ? user.avatar : null,
+                            name: user.username,
+                            size: AppAvatarSize.extraLarge,
+                            showBorder: true,
+                            borderColor: AppColors.surface,
+                            borderWidth: 4,
                           ),
 
                           const SizedBox(height: AppSpacing.sm),
@@ -223,22 +214,22 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                                     children: [
                                       Expanded(
                                         child: AppButton(
-                                          text: 'Edit Profile',
-                                          variant: ButtonVariant.outline,
+                                          variant: AppButtonVariant.outline,
                                           onPressed: () {
                                             Navigator.pushNamed(
                                               context,
                                               '/edit-profile',
                                             );
                                           },
+                                          child: const Text('Edit Profile'),
                                         ),
                                       ),
                                       const SizedBox(width: AppSpacing.sm),
                                       Expanded(
                                         child: AppButton(
-                                          text: 'Share Profile',
-                                          variant: ButtonVariant.outline,
+                                          variant: AppButtonVariant.outline,
                                           onPressed: () {},
+                                          child: const Text('Share Profile'),
                                         ),
                                       ),
                                     ],
@@ -247,23 +238,23 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                                     children: [
                                       Expanded(
                                         child: AppButton(
-                                          text: 'Follow',
                                           onPressed: () {
                                             final userController = ref
                                                 .read(userControllerProvider);
                                             userController
                                                 .toggleFollow(user.uid);
                                           },
+                                          child: const Text('Follow'),
                                         ),
                                       ),
                                       const SizedBox(width: AppSpacing.sm),
                                       Expanded(
                                         child: AppButton(
-                                          text: 'Message',
-                                          variant: ButtonVariant.outline,
+                                          variant: AppButtonVariant.outline,
                                           onPressed: () {
                                             // Navigate to chat
                                           },
+                                          child: const Text('Message'),
                                         ),
                                       ),
                                     ],

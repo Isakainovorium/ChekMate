@@ -13,7 +13,9 @@ import 'package:go_router/go_router.dart';
 /// Discover trending dating experiences, stories, and community members
 /// Emphasizes experience-sharing and learning from others
 class ExplorePage extends StatefulWidget {
-  const ExplorePage({super.key});
+  const ExplorePage({super.key, this.showAppBar = true});
+
+  final bool showAppBar;
 
   @override
   State<ExplorePage> createState() => _ExplorePageState();
@@ -88,7 +90,7 @@ class _ExplorePageState extends State<ExplorePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    final body = Column(
       children: [
         _buildSearchBar(),
         _buildCategoryTabs(),
@@ -119,6 +121,20 @@ class _ExplorePageState extends State<ExplorePage> {
         ),
       ],
     );
+
+    if (widget.showAppBar) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Explore'),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 0,
+        ),
+        body: body,
+      );
+    }
+
+    return body;
   }
 
   Widget _buildSearchBar() {

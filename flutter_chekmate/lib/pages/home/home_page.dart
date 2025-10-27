@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chekmate/core/navigation/nav_state.dart';
 import 'package:flutter_chekmate/core/providers/auth_providers.dart';
+import 'package:flutter_chekmate/core/providers/gamification_provider.dart';
+import 'package:flutter_chekmate/core/services/keyboard_shortcuts_service.dart';
+import 'package:flutter_chekmate/core/theme/app_breakpoints.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
 import 'package:flutter_chekmate/features/feed/models/post_model.dart';
@@ -13,9 +16,6 @@ import 'package:flutter_chekmate/features/stories/models/story_model.dart';
 import 'package:flutter_chekmate/features/stories/widgets/stories_widget.dart';
 import 'package:flutter_chekmate/pages/explore/explore_page.dart';
 import 'package:flutter_chekmate/pages/live/live_page.dart';
-import 'package:flutter_chekmate/core/providers/gamification_provider.dart';
-import 'package:flutter_chekmate/core/services/keyboard_shortcuts_service.dart';
-import 'package:flutter_chekmate/core/theme/app_breakpoints.dart';
 import 'package:flutter_chekmate/shared/ui/animations/micro_interactions.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -57,6 +57,8 @@ class _HomePageState extends ConsumerState<HomePage> {
     'Rate Date',
     'Subscribe',
   ];
+  // Tab index tracking (currently unused but reserved for future tab state management)
+  // ignore: unused_field
   int _currentTabIndex = 0;
 
   @override
@@ -402,8 +404,8 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   Widget _buildExplorePage() {
-    // Use the actual ExplorePage widget
-    return const ExplorePage();
+    // Use the actual ExplorePage widget without AppBar (HomePage has its own header)
+    return const ExplorePage(showAppBar: false);
   }
 
   Widget _buildLivePage() {
@@ -419,8 +421,8 @@ class _HomePageState extends ConsumerState<HomePage> {
       error: (_, __) => 'https://via.placeholder.com/150', // Default on error
     );
 
-    // Use the actual LivePage widget
-    return LivePage(userAvatar: userAvatar);
+    // Use the actual LivePage widget without AppBar (HomePage has its own header)
+    return LivePage(userAvatar: userAvatar, showAppBar: false);
   }
 
   Widget _buildRateDatePage() {

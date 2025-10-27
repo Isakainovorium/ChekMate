@@ -11,8 +11,10 @@ class LivePage extends StatefulWidget {
   const LivePage({
     required this.userAvatar,
     super.key,
+    this.showAppBar = true,
   });
   final String userAvatar;
+  final bool showAppBar;
 
   @override
   State<LivePage> createState() => _LivePageState();
@@ -30,7 +32,7 @@ class _LivePageState extends State<LivePage> {
             .where((s) => s.category.toLowerCase().contains(_activeCategory))
             .toList();
 
-    return Stack(
+    final body = Stack(
       children: [
         Column(
           children: [
@@ -48,6 +50,20 @@ class _LivePageState extends State<LivePage> {
         if (_showGoLiveModal) _buildGoLiveModal(),
       ],
     );
+
+    if (widget.showAppBar) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Live'),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 0,
+        ),
+        body: body,
+      );
+    }
+
+    return body;
   }
 
   Widget _buildGoLiveSection() {

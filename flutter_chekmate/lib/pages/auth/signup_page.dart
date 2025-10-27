@@ -1,12 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chekmate/core/services/web_image_picker_service.dart';
+import 'package:flutter_chekmate/core/services/web_storage_service.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:flutter_chekmate/features/onboarding/presentation/providers/onboarding_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_chekmate/core/services/web_image_picker_service.dart';
-import 'package:flutter_chekmate/core/services/web_storage_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 /// Sign Up Page
 class SignUpPage extends ConsumerStatefulWidget {
@@ -27,6 +27,8 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
   bool _isLoading = false;
   bool _obscurePassword = true;
   PickedMediaFile? _profilePhotoFile;
+  // Upload progress tracking (currently unused but reserved for future progress UI)
+  // ignore: unused_field
   double _uploadProgress = 0.0;
 
   @override

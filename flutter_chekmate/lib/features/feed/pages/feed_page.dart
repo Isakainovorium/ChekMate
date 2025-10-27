@@ -95,7 +95,14 @@ class _FeedPageState extends ConsumerState<FeedPage> {
             ],
           );
         },
-        loading: () => const Center(child: AppLoadingSpinner()),
+        loading: () => Column(
+          children: [
+            _buildFeedIndicator(),
+            const Expanded(
+              child: PostFeedShimmer(itemCount: 5),
+            ),
+          ],
+        ),
         error: (error, stack) => AppEmptyState(
           type: AppEmptyStateType.noConnection,
           title: 'Something went wrong',

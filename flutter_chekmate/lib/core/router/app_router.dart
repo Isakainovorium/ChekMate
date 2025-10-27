@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/navigation/main_navigation.dart';
+import 'package:flutter_chekmate/features/auth/pages/two_factor_verification_page.dart';
 import 'package:flutter_chekmate/features/theme_test/theme_test_page.dart';
 import 'package:flutter_chekmate/pages/auth/login_page.dart';
 import 'package:flutter_chekmate/pages/auth/signup_page.dart';
@@ -11,6 +12,8 @@ import 'package:flutter_chekmate/pages/messages/chat_page.dart';
 import 'package:flutter_chekmate/pages/messages/messages_page.dart';
 import 'package:flutter_chekmate/pages/notifications/notifications_page.dart';
 import 'package:flutter_chekmate/pages/profile/my_profile_page.dart';
+import 'package:flutter_chekmate/pages/profile/notification_schedule_settings_page.dart';
+import 'package:flutter_chekmate/pages/profile/theme_settings_page.dart';
 import 'package:flutter_chekmate/pages/rate_date/rate_date_page.dart';
 import 'package:flutter_chekmate/pages/subscribe/subscribe_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -151,6 +154,33 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           hideNavigation: true,
           child: CreatePostPage(),
         ),
+      ),
+
+      // Settings Routes (full screen; hide bottom nav)
+      GoRoute(
+        path: '/profile/notification-schedule-settings',
+        name: 'notification-schedule-settings',
+        builder: (context, state) => const MainNavigation(
+          currentIndex: 4,
+          hideNavigation: true,
+          child: NotificationScheduleSettingsPage(),
+        ),
+      ),
+      GoRoute(
+        path: '/profile/theme-settings',
+        name: 'theme-settings',
+        builder: (context, state) => const MainNavigation(
+          currentIndex: 4,
+          hideNavigation: true,
+          child: ThemeSettingsPage(),
+        ),
+      ),
+
+      // Auth Routes (Additional)
+      GoRoute(
+        path: '/auth/two-factor-verification',
+        name: 'two-factor-verification',
+        builder: (context, state) => const TwoFactorVerificationPage(),
       ),
 
       // Theme Test (Development only)

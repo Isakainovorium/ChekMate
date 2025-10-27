@@ -152,7 +152,58 @@ class TrendingContentWidget extends ConsumerWidget {
           ),
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => AppCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(AppSpacing.md),
+              child: Row(
+                children: [
+                  const AppSkeleton(width: 18, height: 18, isCircular: true),
+                  const SizedBox(width: AppSpacing.xs),
+                  const AppSkeleton(width: 120, height: 16),
+                ],
+              ),
+            ),
+            ...List.generate(
+              3,
+              (index) => Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.md,
+                  vertical: AppSpacing.sm,
+                ),
+                child: Row(
+                  children: [
+                    const AppSkeleton(width: 60, height: 60, borderRadius: 8),
+                    const SizedBox(width: AppSpacing.md),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const AppSkeleton(width: double.infinity, height: 14),
+                          const SizedBox(height: 4),
+                          const AppSkeleton(width: 100, height: 12),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              const AppSkeleton(width: 50, height: 12),
+                              const SizedBox(width: 12),
+                              const AppSkeleton(width: 50, height: 12),
+                              const SizedBox(width: 12),
+                              const AppSkeleton(width: 60, height: 12),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
       error: (error, stack) => AppEmptyState(
         icon: Icons.error_outline,
         title: 'Error loading content',

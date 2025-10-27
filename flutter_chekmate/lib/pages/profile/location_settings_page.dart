@@ -33,6 +33,32 @@ class _LocationSettingsPageState extends ConsumerState<LocationSettingsPage> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(48),
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.md,
+              vertical: AppSpacing.sm,
+            ),
+            alignment: Alignment.centerLeft,
+            child: AppBreadcrumb(
+              items: const [
+                AppBreadcrumbItem(
+                  label: 'Profile',
+                  icon: Icons.person,
+                ),
+                AppBreadcrumbItem(
+                  label: 'Settings',
+                  icon: Icons.settings,
+                ),
+                AppBreadcrumbItem(
+                  label: 'Location',
+                  icon: Icons.location_on,
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
       body: userAsync.when(
         data: (user) {
@@ -47,24 +73,52 @@ class _LocationSettingsPageState extends ConsumerState<LocationSettingsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Location Sharing Section
-                _buildLocationSharingSection(user),
-                const SizedBox(height: AppSpacing.lg),
-
-                // Current Location Section
-                if (user.locationEnabled) ...[
-                  _buildCurrentLocationSection(user),
-                  const SizedBox(height: AppSpacing.lg),
-                ],
-
-                // Search Radius Section
-                if (user.locationEnabled) ...[
-                  _buildSearchRadiusSection(user),
-                  const SizedBox(height: AppSpacing.lg),
-                ],
-
-                // Info Section
-                _buildInfoSection(),
+                // Use AppAccordion for collapsible sections
+                AppAccordion(
+                  items: [
+                    AppAccordionItem(
+                      title: 'Location Sharing',
+                      subtitle: user.locationEnabled
+                          ? 'Location sharing is enabled'
+                          : 'Location sharing is disabled',
+                      leading: Icon(
+                        user.locationEnabled
+                            ? Icons.location_on
+                            : Icons.location_off,
+                        color: user.locationEnabled
+                            ? AppColors.primary
+                            : Colors.grey,
+                      ),
+                      content: _buildLocationSharingSection(user),
+                    ),
+                    if (user.locationEnabled)
+                      AppAccordionItem(
+                        title: 'Current Location',
+                        subtitle: 'View and update your current location',
+                        leading: const Icon(Icons.my_location,
+                            color: AppColors.primary),
+                        content: _buildCurrentLocationSection(user),
+                      ),
+                    if (user.locationEnabled)
+                      AppAccordionItem(
+                        title: 'Search Radius',
+                        subtitle: 'Adjust your search distance',
+                        leading:
+                            const Icon(Icons.radar, color: AppColors.primary),
+                        content: _buildSearchRadiusSection(user),
+                      ),
+                    AppAccordionItem(
+                      title: 'Privacy Information',
+                      subtitle: 'Learn about location privacy',
+                      leading: const Icon(Icons.info_outline,
+                          color: AppColors.primary),
+                      content: _buildInfoSection(),
+                    ),
+                  ],
+                  initialExpandedIndexes: {
+                    0
+                  }, // First section expanded by default
+                ),
 
                 // Error Message
                 if (_errorMessage != null) ...[
@@ -140,12 +194,11 @@ class _LocationSettingsPageState extends ConsumerState<LocationSettingsPage> {
                   ],
                 ),
               ),
-              Switch(
+              AppSwitch(
                 value: user.locationEnabled as bool,
                 onChanged: _isLoading
                     ? null
                     : (value) => _toggleLocationSharing(value),
-                activeTrackColor: AppColors.primary,
               ),
             ],
           ),
@@ -283,13 +336,12 @@ class _LocationSettingsPageState extends ConsumerState<LocationSettingsPage> {
             ),
           ),
           const SizedBox(height: AppSpacing.md),
-          Slider(
+          AppSlider(
             value: radiusKm as double,
             min: 5,
             max: 100,
             divisions: 19,
             label: '${radiusKm.toInt()} km',
-            activeColor: AppColors.primary,
             onChanged: (value) => _updateSearchRadius(value),
           ),
           Row(

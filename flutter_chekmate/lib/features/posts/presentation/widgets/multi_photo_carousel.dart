@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart' as carousel;
 import 'package:flutter/material.dart' hide CarouselController;
-import 'package:flutter_chekmate/features/posts/presentation/widgets/photo_zoom_viewer.dart';
-import 'package:flutter_chekmate/shared/ui/loading/shimmer_loading.dart';
+import 'package:flutter_chekmate/shared/ui/index.dart';
 
 /// Multi-Photo Carousel Widget
 ///
@@ -263,13 +262,14 @@ class _MultiPhotoCarouselState extends State<MultiPhotoCarousel> {
   }
 
   void _openPhotoZoomViewer(int initialIndex) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (context) => PhotoZoomViewer(
-          imageUrls: widget.imageUrls,
-          initialIndex: initialIndex,
-        ),
-      ),
+    // Use AppImageGallery for enhanced viewing experience
+    AppImageGallery.show(
+      context: context,
+      images: widget.imageUrls.map((url) => AppGalleryImage(url: url)).toList(),
+      initialIndex: initialIndex,
+      allowZoom: true,
+      allowDownload: true,
+      allowShare: true,
     );
   }
 }

@@ -6,10 +6,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// Push notification service for web
 /// Handles web push notifications for re-engagement
 class PushNotificationService {
-  // Singleton pattern
-  static final PushNotificationService _instance = PushNotificationService._internal();
   factory PushNotificationService() => _instance;
   PushNotificationService._internal();
+  // Singleton pattern
+  static final PushNotificationService _instance =
+      PushNotificationService._internal();
 
   static const String _permissionKey = 'push_notification_permission';
   static const String _subscribedKey = 'push_notification_subscribed';
@@ -27,7 +28,8 @@ class PushNotificationService {
       _isSubscribed = prefs.getBool(_subscribedKey) ?? false;
 
       if (kDebugMode) {
-        debugPrint('[Push Notifications] Initialized. Subscribed: $_isSubscribed');
+        debugPrint(
+            '[Push Notifications] Initialized. Subscribed: $_isSubscribed');
       }
 
       _isInitialized = true;
@@ -51,13 +53,13 @@ class PushNotificationService {
       // Simulate permission request
       await Future<void>.delayed(const Duration(milliseconds: 500));
 
-      // For now, assume permission is granted
-      final granted = true;
+      // For now, assume permission is granted (web platform limitation)
+      const granted = true;
 
       await prefs.setBool(_permissionKey, granted);
 
       if (kDebugMode) {
-        debugPrint('[Push Notifications] Permission ${granted ? 'granted' : 'denied'}');
+        debugPrint('[Push Notifications] Permission granted (web platform)');
       }
 
       return granted;
@@ -95,7 +97,8 @@ class PushNotificationService {
       await Future<void>.delayed(const Duration(milliseconds: 500));
 
       _isSubscribed = true;
-      _subscriptionEndpoint = 'https://fcm.googleapis.com/fcm/send/mock-endpoint';
+      _subscriptionEndpoint =
+          'https://fcm.googleapis.com/fcm/send/mock-endpoint';
 
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool(_subscribedKey, true);
@@ -275,4 +278,3 @@ class NotificationData {
     };
   }
 }
-

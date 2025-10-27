@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
+import 'package:flutter_chekmate/features/auth/presentation/providers/auth_providers.dart';
+import 'package:flutter_chekmate/features/messages/domain/entities/conversation_entity.dart';
+import 'package:flutter_chekmate/features/messages/presentation/providers/messages_providers.dart';
 import 'package:flutter_chekmate/shared/ui/animations/micro_interactions.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -62,22 +65,58 @@ class _MessagesPageState extends ConsumerState<MessagesPage> {
             ),
           ),
 
-          // Conversations List - Demo version with staggered animations
+          // Conversations List - Real data with shimmer loading
           Expanded(
-            child: AppScrollArea(
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-                itemCount: 3, // Demo conversations
-                itemBuilder: (context, index) {
-                  return _DemoConversationTile(
-                    index: index,
-                    onTap: () => _openDemoConversation(index),
-                  ).staggeredFadeIn(
-                    index: index,
-                    delay: const Duration(milliseconds: 80),
-                  );
-                },
-              ),
+            child: Consumer(
+              builder: (context, ref, child) {
+                final conversationsAsync =
+                    ref.watch(conversationsStreamProvider);
+
+                return conversationsAsync.when(
+                  data: (conversations) {
+                    if (conversations.isEmpty) {
+                      return AppEmptyState(
+                        icon: Icons.message_outlined,
+                        title: 'No conversations yet',
+                        message:
+                            'Start a new conversation to connect with others!',
+                        action: AppButton(
+                          onPressed: _startNewConversation,
+                          child: const Text('Start Conversation'),
+                        ),
+                      );
+                    }
+
+                    return AppScrollArea(
+                      child: ListView.builder(
+                        padding:
+                            const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                        itemCount: conversations.length,
+                        itemBuilder: (context, index) {
+                          final conversation = conversations[index];
+                          return _ConversationTile(
+                            conversation: conversation,
+                            onTap: () => _openConversation(conversation.id),
+                          ).staggeredFadeIn(
+                            index: index,
+                            delay: const Duration(milliseconds: 80),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  loading: () => const MessageListShimmer(itemCount: 5),
+                  error: (error, stack) => AppEmptyState(
+                    type: AppEmptyStateType.noConnection,
+                    title: 'Error loading conversations',
+                    message: error.toString(),
+                    action: AppButton(
+                      onPressed: () => ref.refresh(conversationsStreamProvider),
+                      child: const Text('Retry'),
+                    ),
+                  ),
+                );
+              },
             ),
           ),
         ],
@@ -89,77 +128,35 @@ class _MessagesPageState extends ConsumerState<MessagesPage> {
     // Navigate to user selection or search
   }
 
-  void _openDemoConversation(int index) {
-    final demoUsers = [
-      {
-        'id': 'user1',
-        'name': 'Alice Johnson',
-        'avatar': 'https://via.placeholder.com/60',
-      },
-      {
-        'id': 'user2',
-        'name': 'Bob Smith',
-        'avatar': 'https://via.placeholder.com/60',
-      },
-      {
-        'id': 'user3',
-        'name': 'Carol Davis',
-        'avatar': 'https://via.placeholder.com/60',
-      },
-    ];
-
-    final user = demoUsers[index];
-    context.push(
-      '/chat/demo_$index',
-      extra: {
-        'otherUserId': user['id'],
-        'otherUserName': user['name'],
-        'otherUserAvatar': user['avatar'],
-      },
-    );
+  void _openConversation(String conversationId) {
+    // Navigate to chat page with conversation ID
+    context.push('/chat/$conversationId');
   }
 }
 
-/// Demo Conversation Tile Widget using design system components
-class _DemoConversationTile extends StatelessWidget {
-  const _DemoConversationTile({
-    required this.index,
+/// Conversation Tile Widget using design system components
+class _ConversationTile extends ConsumerWidget {
+  const _ConversationTile({
+    required this.conversation,
     required this.onTap,
   });
 
-  final int index;
+  final ConversationEntity conversation;
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
-    final demoData = [
-      {
-        'name': 'Alice Johnson',
-        'avatar': 'https://via.placeholder.com/60',
-        'lastMessage': 'Hey! How are you doing?',
-        'time': '2h ago',
-        'unreadCount': 2,
-        'isOnline': true,
-      },
-      {
-        'name': 'Bob Smith',
-        'avatar': 'https://via.placeholder.com/60',
-        'lastMessage': 'Thanks for the help yesterday!',
-        'time': '1d ago',
-        'unreadCount': 0,
-        'isOnline': false,
-      },
-      {
-        'name': 'Carol Davis',
-        'avatar': 'https://via.placeholder.com/60',
-        'lastMessage': 'See you at the meeting tomorrow',
-        'time': '3d ago',
-        'unreadCount': 1,
-        'isOnline': true,
-      },
-    ];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authStateProvider);
+    final currentUserId = authState.value?.uid ?? '';
 
-    final data = demoData[index];
+    // Get other participant info
+    final otherParticipantId =
+        conversation.getOtherParticipantId(currentUserId);
+    final otherParticipantName =
+        conversation.getOtherParticipantName(currentUserId);
+    final otherParticipantAvatar =
+        conversation.getOtherParticipantAvatar(currentUserId);
+    final unreadCount = conversation.getUnreadCount(currentUserId);
 
     return AppCard(
       margin: const EdgeInsets.symmetric(
@@ -169,34 +166,16 @@ class _DemoConversationTile extends StatelessWidget {
       padding: EdgeInsets.zero,
       child: ListTile(
         onTap: onTap,
-        leading: Stack(
-          children: [
-            HeroAvatar(
-              tag: HeroTags.messageAvatar(data['id'] as String),
-              imageUrl: data['avatar'] as String,
-              name: data['name'] as String,
-            ),
-            if (data['isOnline'] as bool)
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: Container(
-                  width: 12,
-                  height: 12,
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 2),
-                  ),
-                ),
-              ),
-          ],
+        leading: HeroAvatar(
+          tag: HeroTags.messageAvatar(otherParticipantId ?? ''),
+          imageUrl: otherParticipantAvatar,
+          name: otherParticipantName,
         ),
         title: Row(
           children: [
             Expanded(
               child: Text(
-                data['name'] as String,
+                otherParticipantName,
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -204,9 +183,9 @@ class _DemoConversationTile extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            if ((data['unreadCount'] as int) > 0)
+            if (unreadCount > 0)
               AppBadge(
-                label: (data['unreadCount'] as int).toString(),
+                label: unreadCount.toString(),
                 variant: AppBadgeVariant.error,
               ),
           ],
@@ -216,7 +195,7 @@ class _DemoConversationTile extends StatelessWidget {
           children: [
             const SizedBox(height: AppSpacing.xs),
             Text(
-              data['lastMessage'] as String,
+              conversation.lastMessage,
               style: const TextStyle(
                 fontSize: 14,
                 color: AppColors.textSecondary,
@@ -226,7 +205,7 @@ class _DemoConversationTile extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.xs),
             Text(
-              data['time'] as String,
+              _formatTimestamp(conversation.lastMessageTimestamp),
               style: const TextStyle(
                 fontSize: 12,
                 color: AppColors.textSecondary,
@@ -235,13 +214,30 @@ class _DemoConversationTile extends StatelessWidget {
           ],
         ),
         trailing: AppButton(
-          onPressed: () => _showConversationOptions(context, data),
+          onPressed: () => _showConversationOptions(context, conversation),
           variant: AppButtonVariant.text,
           size: AppButtonSize.sm,
           child: const Icon(Icons.more_vert, color: AppColors.textSecondary),
         ),
       ),
     );
+  }
+
+  String _formatTimestamp(DateTime timestamp) {
+    final now = DateTime.now();
+    final difference = now.difference(timestamp);
+
+    if (difference.inDays > 7) {
+      return '${timestamp.month}/${timestamp.day}/${timestamp.year}';
+    } else if (difference.inDays > 0) {
+      return '${difference.inDays}d ago';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours}h ago';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes}m ago';
+    } else {
+      return 'Just now';
+    }
   }
 
   void _showConversationOptions(BuildContext context, dynamic conversation) {

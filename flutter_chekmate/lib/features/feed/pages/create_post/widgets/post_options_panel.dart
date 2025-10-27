@@ -175,7 +175,7 @@ class PostOptionsPanel extends StatelessWidget {
     showModalBottomSheet<void>(
       context: context,
       builder: (context) => Container(
-        padding: const EdgeInsets.all(AppSpacing.md),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,62 +188,38 @@ class PostOptionsPanel extends StatelessWidget {
                 color: AppColors.navyBlue,
               ),
             ),
+            const SizedBox(height: AppSpacing.lg),
+            // Use AppRadioGroup for privacy selection
+            AppRadioGroup<String>(
+              value: privacy,
+              items: const [
+                AppRadioItem(
+                  value: 'public',
+                  label: 'Public',
+                  subtitle: 'Everyone can see',
+                ),
+                AppRadioItem(
+                  value: 'friends',
+                  label: 'Friends',
+                  subtitle: 'Friends only',
+                ),
+                AppRadioItem(
+                  value: 'private',
+                  label: 'Private',
+                  subtitle: 'Only me',
+                ),
+              ],
+              onChanged: (value) {
+                if (value != null) {
+                  onPrivacyChanged(value);
+                  Navigator.pop(context);
+                }
+              },
+            ),
             const SizedBox(height: AppSpacing.md),
-            _buildPrivacyOption(
-              context,
-              icon: Icons.public,
-              title: 'Public',
-              subtitle: 'Everyone can see',
-              value: 'public',
-            ),
-            _buildPrivacyOption(
-              context,
-              icon: Icons.people,
-              title: 'Friends',
-              subtitle: 'Friends only',
-              value: 'friends',
-            ),
-            _buildPrivacyOption(
-              context,
-              icon: Icons.lock,
-              title: 'Private',
-              subtitle: 'Only me',
-              value: 'private',
-            ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildPrivacyOption(
-    BuildContext context, {
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required String value,
-  }) {
-    final isSelected = privacy == value;
-
-    return ListTile(
-      leading: Icon(
-        icon,
-        color: isSelected ? AppColors.primary : AppColors.textSecondary,
-      ),
-      title: Text(
-        title,
-        style: TextStyle(
-          fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-          color: isSelected ? AppColors.primary : AppColors.textPrimary,
-        ),
-      ),
-      subtitle: Text(subtitle),
-      trailing:
-          isSelected ? const Icon(Icons.check, color: AppColors.primary) : null,
-      onTap: () {
-        onPrivacyChanged(value);
-        Navigator.pop(context);
-      },
     );
   }
 

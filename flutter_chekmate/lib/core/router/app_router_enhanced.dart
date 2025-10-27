@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/navigation/main_navigation.dart';
 import 'package:flutter_chekmate/core/router/route_constants.dart';
+import 'package:flutter_chekmate/features/auth/pages/two_factor_verification_page.dart';
 import 'package:flutter_chekmate/features/feed/subfeatures/profile/pages/user_profile_page.dart';
 import 'package:flutter_chekmate/features/feed/widgets/post_detail_modal.dart';
 import 'package:flutter_chekmate/features/theme_test/theme_test_page.dart';
@@ -19,6 +20,8 @@ import 'package:flutter_chekmate/pages/onboarding/location_screen.dart';
 import 'package:flutter_chekmate/pages/onboarding/profile_photo_screen.dart';
 import 'package:flutter_chekmate/pages/onboarding/welcome_screen.dart';
 import 'package:flutter_chekmate/pages/profile/interests_management_page.dart';
+import 'package:flutter_chekmate/pages/profile/notification_schedule_settings_page.dart';
+import 'package:flutter_chekmate/pages/profile/theme_settings_page.dart';
 import 'package:flutter_chekmate/pages/profile/location_settings_page.dart';
 import 'package:flutter_chekmate/pages/profile/my_profile_page.dart';
 import 'package:flutter_chekmate/pages/rate_date/rate_date_page.dart';
@@ -331,6 +334,45 @@ final appRouterEnhancedProvider = Provider<GoRouter>((ref) {
           context,
           state,
           const CompletionScreen(),
+        ),
+      ),
+
+      // Settings Routes - Slide from right
+      GoRoute(
+        path: RoutePaths.notificationScheduleSettings,
+        name: RouteNames.notificationScheduleSettings,
+        pageBuilder: (context, state) => _buildSlideRightPage(
+          context,
+          state,
+          const MainNavigation(
+            currentIndex: 4,
+            hideNavigation: true,
+            child: NotificationScheduleSettingsPage(),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: RoutePaths.themeSettings,
+        name: RouteNames.themeSettings,
+        pageBuilder: (context, state) => _buildSlideRightPage(
+          context,
+          state,
+          const MainNavigation(
+            currentIndex: 4,
+            hideNavigation: true,
+            child: ThemeSettingsPage(),
+          ),
+        ),
+      ),
+
+      // Auth Routes (Additional) - Fade transition
+      GoRoute(
+        path: RoutePaths.twoFactorVerification,
+        name: RouteNames.twoFactorVerification,
+        pageBuilder: (context, state) => _buildFadePage(
+          context,
+          state,
+          const TwoFactorVerificationPage(),
         ),
       ),
 

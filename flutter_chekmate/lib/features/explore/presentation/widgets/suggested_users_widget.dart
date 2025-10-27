@@ -32,8 +32,11 @@ class SuggestedUsersWidget extends ConsumerWidget {
                 padding: EdgeInsets.all(AppSpacing.md),
                 child: Row(
                   children: [
-                    Icon(Icons.people_outline,
-                        size: 18, color: AppColors.primary,),
+                    Icon(
+                      Icons.people_outline,
+                      size: 18,
+                      color: AppColors.primary,
+                    ),
                     SizedBox(width: AppSpacing.xs),
                     Text(
                       'Suggested Users',
@@ -43,71 +46,83 @@ class SuggestedUsersWidget extends ConsumerWidget {
                 ),
               ),
               ...users.map(
-                (user) => ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage:
-                        user.avatar != null ? NetworkImage(user.avatar!) : null,
-                    child:
-                        user.avatar == null ? const Icon(Icons.person) : null,
+                (user) => AppUserCard(
+                  user: AppUserCardData(
+                    name: user.name,
+                    title: user.username,
+                    bio: user.bio,
+                    avatarUrl: user.avatar,
+                    stats: AppUserStats(
+                      followers: user.followers,
+                      following: 0, // Not available in SuggestedUserEntity
+                    ),
                   ),
-                  title: Row(
-                    children: [
-                      Text(user.name),
-                      if (user.isVerified) ...[
-                        const SizedBox(width: 4),
-                        const Icon(
-                          Icons.verified,
-                          size: 16,
-                          color: AppColors.primary,
-                        ),
+                  child: ListTile(
+                    leading: AppAvatar(
+                      imageUrl: user.avatar,
+                      name: user.name,
+                      size: AppAvatarSize.medium,
+                    ),
+                    title: Row(
+                      children: [
+                        Text(user.name),
+                        if (user.isVerified) ...[
+                          const SizedBox(width: 4),
+                          const AppBadge(
+                            label: '',
+                            variant: AppBadgeVariant.primary,
+                            size: AppBadgeSize.small,
+                            icon: Icons.verified,
+                          ),
+                        ],
                       ],
-                    ],
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(user.username),
-                      if (user.bio != null) ...[
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(user.username),
+                        if (user.bio != null) ...[
+                          const SizedBox(height: 4),
+                          Text(
+                            user.bio!,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                        ],
                         const SizedBox(height: 4),
                         Text(
-                          user.bio!,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                          '${user.formattedFollowers} followers',
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.grey.shade600,
                           ),
                         ),
                       ],
-                      const SizedBox(height: 4),
-                      Text(
-                        '${user.formattedFollowers} followers',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
-                    ],
-                  ),
-                  trailing: AppButton(
-                    onPressed: () {
-                      ref
-                          .read(exploreStateProvider.notifier)
-                          .toggleFollowUser(user.id);
-                    },
-                    variant: exploreState.followedUsers.contains(user.id)
-                        ? AppButtonVariant.outline
-                        : AppButtonVariant.primary,
-                    size: AppButtonSize.sm,
-                    child: Text(
-                      exploreState.followedUsers.contains(user.id)
-                          ? 'Following'
-                          : 'Follow',
                     ),
+                    trailing: AppButton(
+                      onPressed: () {
+                        ref
+                            .read(exploreStateProvider.notifier)
+                            .toggleFollowUser(user.id);
+                      },
+                      variant: exploreState.followedUsers.contains(user.id)
+                          ? AppButtonVariant.outline
+                          : AppButtonVariant.primary,
+                      size: AppButtonSize.sm,
+                      child: Text(
+                        exploreState.followedUsers.contains(user.id)
+                            ? 'Following'
+                            : 'Follow',
+                      ),
+                    ),
+                    onTap: () {
+                      // Navigate to user profile
+                    },
                   ),
-                  onTap: () {
-                    // Navigate to user profile
-                  },
                 ),
               ),
             ],

@@ -33,6 +33,14 @@ abstract class RouteNames {
   static const String locationSettings = 'location-settings';
   static const String interestsManagement = 'interests-management';
 
+  // Settings Routes
+  static const String notificationScheduleSettings =
+      'notification-schedule-settings';
+  static const String themeSettings = 'theme-settings';
+
+  // Auth Routes (Additional)
+  static const String twoFactorVerification = 'two-factor-verification';
+
   // Parameterized Routes
   static const String chat = 'chat';
   static const String userProfile = 'user-profile';
@@ -64,6 +72,14 @@ abstract class RoutePaths {
   static const String createPost = '/create-post';
   static const String locationSettings = '/profile/location-settings';
   static const String interestsManagement = '/profile/interests-management';
+
+  // Settings Routes
+  static const String notificationScheduleSettings =
+      '/profile/notification-schedule-settings';
+  static const String themeSettings = '/profile/theme-settings';
+
+  // Auth Routes (Additional)
+  static const String twoFactorVerification = '/auth/two-factor-verification';
 
   // Parameterized Routes
   static const String chat = '/chat/:conversationId';

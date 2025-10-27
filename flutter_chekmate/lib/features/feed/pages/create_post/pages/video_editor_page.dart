@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit.dart';
-import 'package:ffmpeg_kit_flutter_min_gpl/return_code.dart';
+// FFmpeg imports commented out - package discontinued
+// import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit.dart';
+// import 'package:ffmpeg_kit_flutter_min_gpl/return_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
@@ -842,18 +843,23 @@ class _VideoEditorPageState extends State<VideoEditorPage> {
 
       debugPrint('FFmpeg command: $command');
 
-      // Execute FFmpeg command
-      final session = await FFmpegKit.execute(command);
-      final returnCode = await session.getReturnCode();
+      // FFmpeg execution commented out - package discontinued
+      // TODO: Replace with alternative video processing solution
+      debugPrint('FFmpeg not available - audio mixing skipped');
+      return null;
 
-      if (ReturnCode.isSuccess(returnCode)) {
-        debugPrint('Audio mixing successful! Output: $outputPath');
-        return outputPath;
-      } else {
-        final output = await session.getOutput();
-        debugPrint('Audio mixing failed: $output');
-        return null;
-      }
+      // Execute FFmpeg command
+      // final session = await FFmpegKit.execute(command);
+      // final returnCode = await session.getReturnCode();
+
+      // if (ReturnCode.isSuccess(returnCode)) {
+      //   debugPrint('Audio mixing successful! Output: $outputPath');
+      //   return outputPath;
+      // } else {
+      //   final output = await session.getOutput();
+      //   debugPrint('Audio mixing failed: $output');
+      //   return null;
+      // }
     } on Exception catch (e) {
       debugPrint('Error mixing audio with video: $e');
       return null;
