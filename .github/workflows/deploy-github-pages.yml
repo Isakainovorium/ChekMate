@@ -39,7 +39,7 @@ jobs:
       - name: Build web
         run: |
           cd flutter_chekmate
-          flutter build web --release --web-renderer html --base-href /ChekMate/
+          flutter build web --release --base-href /ChekMate/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
