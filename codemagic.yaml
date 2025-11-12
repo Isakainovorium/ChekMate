@@ -55,11 +55,7 @@ workflows:
           success: true
           failure: true
       app_store_connect:
-        auth: integration
         submit_to_testflight: false
-        beta_groups:
-          - group name 1
-          - group name 2
 
   android-release:
     name: Android Release Build
