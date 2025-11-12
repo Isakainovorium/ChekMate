@@ -54,8 +54,6 @@ workflows:
         notify:
           success: true
           failure: true
-      app_store_connect:
-        submit_to_testflight: false
 
   android-release:
     name: Android Release Build
