@@ -110,6 +110,39 @@ flutter build ios
 flutter build web
 ```
 
+## CI/CD with Codemagic
+
+This project is configured for automated builds using [Codemagic](https://codemagic.io/), allowing you to build iOS apps without a Mac.
+
+### Quick Start
+
+1. **Sign up for Codemagic** (free tier: 500 build minutes/month)
+   - Go to https://codemagic.io/
+   - Sign up with your GitHub account
+   - Connect the ChekMate repository
+
+2. **Configure Credentials**
+   - Set up App Store Connect API key (for iOS)
+   - Add Android keystore (for Android)
+   - See [iOS Deployment Guide](docs/IOS_DEPLOYMENT_GUIDE.md) for detailed steps
+
+3. **Trigger Builds**
+   - Push to `main` branch → automatic build
+   - Or manually trigger from Codemagic dashboard
+
+### Available Workflows
+
+The `codemagic.yaml` file includes three workflows:
+
+- **ios-release**: Builds iOS IPA for App Store
+- **android-release**: Builds Android APK and AAB
+- **ios-and-android**: Builds both platforms
+
+### Documentation
+
+- **iOS Deployment**: See [docs/IOS_DEPLOYMENT_GUIDE.md](docs/IOS_DEPLOYMENT_GUIDE.md)
+- **CI Setup**: See [docs/CI_SETUP.md](docs/CI_SETUP.md)
+
 ## Firebase Setup
 
 1. Create a new Firebase project at https://console.firebase.google.com
