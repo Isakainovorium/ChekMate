@@ -1,0 +1,56 @@
+workflows:
+  ios-release:
+    name: iOS Release Build
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      groups:
+        - app_store_credentials
+        - firebase_credentials
+      vars:
+        APP_ID: com.chekmate.app
+        BUNDLE_ID: com.chekmate.app
+    scripts:
+      - name: Install dependencies
+        script: |
+          cd flutter_chekmate
+          flutter pub get
+      - name: Generate code (mocks, riverpod)
+        script: |
+          cd flutter_chekmate
+          flutter pub run build_runner build --delete-conflicting-outputs
+      - name: Setup Firebase config (if provided)
+        script: |
+          cd flutter_chekmate
+          if [ -n "$GOOGLE_SERVICE_INFO_PLIST" ]; then
+            echo "Placing GoogleService-Info.plist in ios/Runner/"
+            cp "$GOOGLE_SERVICE_INFO_PLIST" ios/Runner/GoogleService-Info.plist
+          else
+            echo "No GoogleService-Info.plist provided, skipping..."
+          fi
+      - name: Run tests
+        script: |
+          cd flutter_chekmate
+          flutter test
+      - name: Install CocoaPods dependencies
+        script: |
+          cd flutter_chekmate/ios && pod install && cd ../..
+      - name: Build iOS IPA
+        script: |
+          cd flutter_chekmate
+          flutter build ipa --release \
+            --build-name=$(cm_get_build_number) \
+            --build-number=$(cm_get_build_number)
+    artifacts:
+      - flutter_chekmate/build/ios/ipa/*.ipa
+      - flutter_chekmate/build/ios/archive/*.xcarchive
+    publishing:
+      email:
+        recipients:
+          - your-email@example.com
+        notify:
+          success: true
+          failure: true
