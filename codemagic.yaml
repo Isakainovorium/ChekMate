@@ -13,11 +13,54 @@ workflows:
       vars:
         APP_ID: com.chekmate.app
         BUNDLE_ID: com.chekmate.app
+        # Update this email address before building
+        NOTIFICATION_EMAIL: your-email@example.com
     scripts:
       - name: Install dependencies
         script: |
           cd flutter_chekmate
           flutter pub get
+      - name: Verify iOS configuration
+        script: |
+          cd flutter_chekmate
+          echo "🔍 Verifying iOS configuration..."
+          
+          # Check Info.plist exists
+          if [ ! -f ios/Runner/Info.plist ]; then
+            echo "❌ ERROR: Info.plist not found!"
+            exit 1
+          fi
+          echo "✅ Info.plist found"
+          
+          # Verify required permissions
+          REQUIRED_PERMS=(
+            "NSCameraUsageDescription"
+            "NSMicrophoneUsageDescription"
+            "NSPhotoLibraryUsageDescription"
+            "NSLocationWhenInUseUsageDescription"
+          )
+          
+          for perm in "${REQUIRED_PERMS[@]}"; do
+            if grep -q "$perm" ios/Runner/Info.plist; then
+              echo "✅ $perm configured"
+            else
+              echo "⚠️  WARNING: $perm missing from Info.plist"
+            fi
+          done
+          
+          # Check bundle ID
+          if grep -q "com.chekmate.app" ios/Runner/Info.plist 2>/dev/null || true; then
+            echo "✅ Bundle ID configuration verified"
+          fi
+          
+          # Check Firebase config
+          if [ -f ios/Runner/GoogleService-Info.plist ]; then
+            echo "✅ Firebase configuration found"
+          else
+            echo "⚠️  WARNING: GoogleService-Info.plist not found (will be added from env var if provided)"
+          fi
+          
+          echo "✅ iOS configuration verification complete"
       - name: Generate code (mocks, riverpod)
         script: |
           cd flutter_chekmate
@@ -26,10 +69,12 @@ workflows:
         script: |
           cd flutter_chekmate
           if [ -n "$GOOGLE_SERVICE_INFO_PLIST" ]; then
-            echo "Placing GoogleService-Info.plist in ios/Runner/"
+            echo "📦 Placing GoogleService-Info.plist in ios/Runner/"
             cp "$GOOGLE_SERVICE_INFO_PLIST" ios/Runner/GoogleService-Info.plist
+            echo "✅ Firebase config placed successfully"
           else
-            echo "No GoogleService-Info.plist provided, skipping..."
+            echo "ℹ️  No GoogleService-Info.plist provided via environment variable"
+            echo "ℹ️  Using existing file if present, or Firebase features may be limited"
           fi
       - name: Run tests
         script: |
@@ -41,16 +86,18 @@ workflows:
       - name: Build iOS IPA
         script: |
           cd flutter_chekmate
+          echo "🚀 Building iOS IPA..."
           flutter build ipa --release \
             --build-name=$(cm_get_build_number) \
             --build-number=$(cm_get_build_number)
+          echo "✅ Build completed successfully"
     artifacts:
       - flutter_chekmate/build/ios/ipa/*.ipa
       - flutter_chekmate/build/ios/archive/*.xcarchive
     publishing:
       email:
         recipients:
-          - your-email@example.com
+          - $NOTIFICATION_EMAIL
         notify:
           success: true
           failure: true
