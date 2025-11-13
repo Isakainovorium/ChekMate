@@ -1,0 +1,2054 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\playwright.config.ts",
+    "rootDir": "C:/Users/IsaKai2296/Downloads/ChekMate_app/flutter_chekmate/test/e2e",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "test/e2e/reports/html"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test/e2e/reports/results.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "C:/Users/IsaKai2296/Downloads/ChekMate_app/flutter_chekmate/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/IsaKai2296/Downloads/ChekMate_app/flutter_chekmate/test/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "C:/Users/IsaKai2296/Downloads/ChekMate_app/flutter_chekmate/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "Mobile Chrome",
+        "name": "Mobile Chrome",
+        "testDir": "C:/Users/IsaKai2296/Downloads/ChekMate_app/flutter_chekmate/test/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 4,
+    "webServer": {
+      "command": "flutter run -d chrome --web-port=54577",
+      "url": "http://127.0.0.1:54577",
+      "reuseExistingServer": true,
+      "timeout": 120000,
+      "stdout": "pipe",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "auth-login.spec.ts",
+      "file": "auth-login.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Login Flow",
+          "file": "auth-login.spec.ts",
+          "line": 20,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should successfully login with valid credentials",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1008,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:38.119Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-shou-f9bdb-ogin-with-valid-credentials-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-shou-f9bdb-ogin-with-valid-credentials-chromium\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "99bb4746d1640918adf9-de16d549652e8a4e7ae2",
+              "file": "auth-login.spec.ts",
+              "line": 37,
+              "column": 7
+            },
+            {
+              "title": "should show error for invalid credentials",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 935,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:38.089Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-shou-9840d-ror-for-invalid-credentials-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-shou-9840d-ror-for-invalid-credentials-chromium\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "99bb4746d1640918adf9-6bf372c3d14b3591c9c3",
+              "file": "auth-login.spec.ts",
+              "line": 78,
+              "column": 7
+            },
+            {
+              "title": "should show validation errors for empty fields",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 936,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:38.088Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-shou-76524-ion-errors-for-empty-fields-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-shou-76524-ion-errors-for-empty-fields-chromium\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "99bb4746d1640918adf9-c4be48663470483328ad",
+              "file": "auth-login.spec.ts",
+              "line": 99,
+              "column": 7
+            },
+            {
+              "title": "should toggle password visibility",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 955,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:38.173Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-should-toggle-password-visibility-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-should-toggle-password-visibility-chromium\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "99bb4746d1640918adf9-87de3f04b6a3e7a61c4f",
+              "file": "auth-login.spec.ts",
+              "line": 116,
+              "column": 7
+            },
+            {
+              "title": "should navigate to signup page",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 642,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:41.422Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-should-navigate-to-signup-page-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-should-navigate-to-signup-page-chromium\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "99bb4746d1640918adf9-feae06643a6925ec5ef7",
+              "file": "auth-login.spec.ts",
+              "line": 130,
+              "column": 7
+            },
+            {
+              "title": "should persist login after page reload",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 453,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:41.392Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-should-persist-login-after-page-reload-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-should-persist-login-after-page-reload-chromium\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "99bb4746d1640918adf9-2eaca253b4f57c5dd192",
+              "file": "auth-login.spec.ts",
+              "line": 144,
+              "column": 7
+            },
+            {
+              "title": "should successfully login with valid credentials",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 14,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 615,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:46.175Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-shou-f9bdb-ogin-with-valid-credentials-Mobile-Chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-shou-f9bdb-ogin-with-valid-credentials-Mobile-Chrome\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "99bb4746d1640918adf9-1297e69ef7ee0d770351",
+              "file": "auth-login.spec.ts",
+              "line": 37,
+              "column": 7
+            },
+            {
+              "title": "should show error for invalid credentials",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 15,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 409,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:46.554Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-shou-9840d-ror-for-invalid-credentials-Mobile-Chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-shou-9840d-ror-for-invalid-credentials-Mobile-Chrome\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "99bb4746d1640918adf9-6d95d72b3067440a3bc3",
+              "file": "auth-login.spec.ts",
+              "line": 78,
+              "column": 7
+            },
+            {
+              "title": "should show validation errors for empty fields",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 16,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 487,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:48.700Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-shou-76524-ion-errors-for-empty-fields-Mobile-Chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-shou-76524-ion-errors-for-empty-fields-Mobile-Chrome\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "99bb4746d1640918adf9-6ed96f58034f0b9c9e32",
+              "file": "auth-login.spec.ts",
+              "line": 99,
+              "column": 7
+            },
+            {
+              "title": "should toggle password visibility",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 17,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 548,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:48.731Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-should-toggle-password-visibility-Mobile-Chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-should-toggle-password-visibility-Mobile-Chrome\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "99bb4746d1640918adf9-77ea640064fa1bb5083b",
+              "file": "auth-login.spec.ts",
+              "line": 116,
+              "column": 7
+            },
+            {
+              "title": "should navigate to signup page",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 18,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 557,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:48.710Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-should-navigate-to-signup-page-Mobile-Chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-should-navigate-to-signup-page-Mobile-Chrome\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "99bb4746d1640918adf9-3a704cad53d6f28e30a9",
+              "file": "auth-login.spec.ts",
+              "line": 130,
+              "column": 7
+            },
+            {
+              "title": "should persist login after page reload",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 19,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 431,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-login.spec.ts:27:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:49.086Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-should-persist-login-after-page-reload-Mobile-Chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-login-Login-Flow-should-persist-login-after-page-reload-Mobile-Chrome\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "99bb4746d1640918adf9-60a038f7825302ba6592",
+              "file": "auth-login.spec.ts",
+              "line": 144,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "auth-signup-with-photo.spec.ts",
+      "file": "auth-signup-with-photo.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Signup with Profile Photo",
+          "file": "auth-signup-with-photo.spec.ts",
+          "line": 24,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should successfully signup with profile photo",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 449,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:41.396Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-3c0f4-y-signup-with-profile-photo-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-3c0f4-y-signup-with-profile-photo-chromium\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "e87afc6572809eceec93-0ef77e9917cba8865684",
+              "file": "auth-signup-with-photo.spec.ts",
+              "line": 45,
+              "column": 7
+            },
+            {
+              "title": "should show validation errors for empty fields",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 347,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:41.742Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-f4199-ion-errors-for-empty-fields-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-f4199-ion-errors-for-empty-fields-chromium\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "e87afc6572809eceec93-4d7384977e1d2f977cb7",
+              "file": "auth-signup-with-photo.spec.ts",
+              "line": 94,
+              "column": 7
+            },
+            {
+              "title": "should show error for invalid email format",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 485,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:43.878Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-bed7c-or-for-invalid-email-format-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-bed7c-or-for-invalid-email-format-chromium\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "e87afc6572809eceec93-4501c97efbe6bafa4082",
+              "file": "auth-signup-with-photo.spec.ts",
+              "line": 109,
+              "column": 7
+            },
+            {
+              "title": "should show error for short password",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 466,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:43.859Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-0863f-ow-error-for-short-password-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-0863f-ow-error-for-short-password-chromium\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "e87afc6572809eceec93-cb7c0b6842baecedb2ed",
+              "file": "auth-signup-with-photo.spec.ts",
+              "line": 126,
+              "column": 7
+            },
+            {
+              "title": "should toggle password visibility",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 497,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:43.879Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-da0e0--toggle-password-visibility-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-da0e0--toggle-password-visibility-chromium\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "e87afc6572809eceec93-2fdd4b3b747ecb900aa6",
+              "file": "auth-signup-with-photo.spec.ts",
+              "line": 143,
+              "column": 7
+            },
+            {
+              "title": "should navigate to login page",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 399,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:44.017Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-76708-ould-navigate-to-login-page-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-76708-ould-navigate-to-login-page-chromium\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "e87afc6572809eceec93-6fa59b8c9d7ccd98310c",
+              "file": "auth-signup-with-photo.spec.ts",
+              "line": 162,
+              "column": 7
+            },
+            {
+              "title": "should successfully signup with profile photo",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 20,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 570,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:51.033Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-3c0f4-y-signup-with-profile-photo-Mobile-Chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-3c0f4-y-signup-with-profile-photo-Mobile-Chrome\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "e87afc6572809eceec93-e215bb068d2d067a751c",
+              "file": "auth-signup-with-photo.spec.ts",
+              "line": 45,
+              "column": 7
+            },
+            {
+              "title": "should show validation errors for empty fields",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 21,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 512,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:51.058Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-f4199-ion-errors-for-empty-fields-Mobile-Chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-f4199-ion-errors-for-empty-fields-Mobile-Chrome\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "e87afc6572809eceec93-fda427a71dc8f05b6fa1",
+              "file": "auth-signup-with-photo.spec.ts",
+              "line": 94,
+              "column": 7
+            },
+            {
+              "title": "should show error for invalid email format",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 22,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 570,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:51.018Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-bed7c-or-for-invalid-email-format-Mobile-Chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-bed7c-or-for-invalid-email-format-Mobile-Chrome\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "e87afc6572809eceec93-568f4ed59d2c01961010",
+              "file": "auth-signup-with-photo.spec.ts",
+              "line": 109,
+              "column": 7
+            },
+            {
+              "title": "should show error for short password",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 23,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 513,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:51.280Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-0863f-ow-error-for-short-password-Mobile-Chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-0863f-ow-error-for-short-password-Mobile-Chrome\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "e87afc6572809eceec93-88c51520de33d6eb08c0",
+              "file": "auth-signup-with-photo.spec.ts",
+              "line": 126,
+              "column": 7
+            },
+            {
+              "title": "should toggle password visibility",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 24,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 487,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:53.323Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-da0e0--toggle-password-visibility-Mobile-Chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-da0e0--toggle-password-visibility-Mobile-Chrome\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "e87afc6572809eceec93-08dc7661841a0150c7f0",
+              "file": "auth-signup-with-photo.spec.ts",
+              "line": 143,
+              "column": 7
+            },
+            {
+              "title": "should navigate to login page",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 25,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 549,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-with-photo.spec.ts:30:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:53.393Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-76708-ould-navigate-to-login-page-Mobile-Chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-with-photo-Sig-76708-ould-navigate-to-login-page-Mobile-Chrome\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "e87afc6572809eceec93-a3b074fef5c901c3c17e",
+              "file": "auth-signup-with-photo.spec.ts",
+              "line": 162,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "auth-signup-without-photo.spec.ts",
+      "file": "auth-signup-without-photo.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Signup without Profile Photo",
+          "file": "auth-signup-without-photo.spec.ts",
+          "line": 20,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should successfully signup without profile photo",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 12,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 669,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-without-photo.spec.ts:26:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-without-photo.spec.ts:26:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:46.118Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-without-photo--e36f3-ignup-without-profile-photo-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-without-photo--e36f3-ignup-without-profile-photo-chromium\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "0fb97f1cdac0c4bb96ce-0ac5b1f4b5547033d282",
+              "file": "auth-signup-without-photo.spec.ts",
+              "line": 40,
+              "column": 7
+            },
+            {
+              "title": "should handle rapid form submission",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 13,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 674,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-without-photo.spec.ts:26:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-without-photo.spec.ts:26:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:46.134Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-without-photo--b0197-andle-rapid-form-submission-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-without-photo--b0197-andle-rapid-form-submission-chromium\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "0fb97f1cdac0c4bb96ce-1a3d80bdd39baac36f27",
+              "file": "auth-signup-without-photo.spec.ts",
+              "line": 68,
+              "column": 7
+            },
+            {
+              "title": "should successfully signup without profile photo",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 26,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 538,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-without-photo.spec.ts:26:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-without-photo.spec.ts:26:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:53.423Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-without-photo--e36f3-ignup-without-profile-photo-Mobile-Chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-without-photo--e36f3-ignup-without-profile-photo-Mobile-Chrome\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "0fb97f1cdac0c4bb96ce-606ec5a9973d50054940",
+              "file": "auth-signup-without-photo.spec.ts",
+              "line": 40,
+              "column": 7
+            },
+            {
+              "title": "should handle rapid form submission",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 27,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 396,
+                      "error": {
+                        "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+                        "stack": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\n    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-without-photo.spec.ts:26:30",
+                        "location": {
+                          "file": "<anonymous>",
+                          "column": 16,
+                          "line": 292
+                        }
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "<anonymous>",
+                            "column": 16,
+                            "line": 292
+                          },
+                          "message": "Error: page.evaluate: SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document.\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at UtilityScript.evaluate (<anonymous>:292:16)\u001b[22m\n\u001b[2m    at UtilityScript.<anonymous> (<anonymous>:1:44)\u001b[22m\n\u001b[2m    at clearBrowserStorage (C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\helpers\\firebase-helpers.ts:187:14)\u001b[22m\n\u001b[2m    at C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test\\e2e\\auth-signup-without-photo.spec.ts:26:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-24T13:57:53.838Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-without-photo--b0197-andle-rapid-form-submission-Mobile-Chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\IsaKai2296\\Downloads\\ChekMate_app\\flutter_chekmate\\test-results\\auth-signup-without-photo--b0197-andle-rapid-form-submission-Mobile-Chrome\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "<anonymous>",
+                        "column": 16,
+                        "line": 292
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "0fb97f1cdac0c4bb96ce-ebce7b342bee0a806f3a",
+              "file": "auth-signup-without-photo.spec.ts",
+              "line": 68,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-10-24T13:57:36.599Z",
+    "duration": 17974.251,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 28,
+    "flaky": 0
+  }
+}

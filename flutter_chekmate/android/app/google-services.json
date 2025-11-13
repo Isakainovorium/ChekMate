@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "209000668199",
+    "project_id": "chekmate-a0423",
+    "storage_bucket": "chekmate-a0423.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209000668199:android:efedf1faf8f908721ac202",
+        "android_client_info": {
+          "package_name": "com.chekmate.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "209000668199-6sq6qle5682ajdniokvgpc6oq4poec4d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chekmate.app",
+            "certificate_hash": "26c9df35869216b62d3bc25c7bd73b64f5bd1a09"
+          }
+        },
+        {
+          "client_id": "209000668199-6hk2n20ufotg0ioc5bd8qqemdd7uonuo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiOPIoXj59reeRJ5c5amUufrDHDa_aN-g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "209000668199-6hk2n20ufotg0ioc5bd8qqemdd7uonuo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "209000668199-aql6kehaocfhlcf5mc4a6s13ou0uoqu1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ChekMate"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
