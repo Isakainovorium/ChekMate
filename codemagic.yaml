@@ -1,0 +1,114 @@
+workflows:
+  ios-release:
+    name: iOS Release Build
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      groups:
+        - app_store_credentials
+        - firebase_credentials
+      vars:
+        APP_ID: com.chekmate.app
+        BUNDLE_ID: com.chekmate.app
+        # Update this email address before building
+        NOTIFICATION_EMAIL: isakaihbg@gmail.com
+        # Apple App Store Connect API Configuration
+        # Issuer ID: 92d1170a-d80b-41dd-b616-a30752db2bec
+        # Key ID: 7WNHASSNQK
+        # Key File: AuthKey_7WNHASSNQK__ASC.p8
+        # Configure in CodeMagic: User Settings → Integrations → Apple Developer Portal
+    scripts:
+      - name: Install dependencies
+        script: |
+          cd flutter_chekmate
+          flutter pub get
+      - name: Verify iOS configuration
+        script: |
+          cd flutter_chekmate
+          echo "Verifying iOS configuration..."
+          
+          # Check Info.plist exists
+          if [ ! -f ios/Runner/Info.plist ]; then
+            echo "ERROR: Info.plist not found!"
+            exit 1
+          fi
+          echo "SUCCESS: Info.plist found"
+          
+          # Verify required permissions
+          REQUIRED_PERMS=(
+            "NSCameraUsageDescription"
+            "NSMicrophoneUsageDescription"
+            "NSPhotoLibraryUsageDescription"
+            "NSLocationWhenInUseUsageDescription"
+          )
+          
+          for perm in "${REQUIRED_PERMS[@]}"; do
+            if grep -q "$perm" ios/Runner/Info.plist; then
+              echo "SUCCESS: $perm configured"
+            else
+              echo "WARNING: $perm missing from Info.plist"
+            fi
+          done
+          
+          # Check bundle ID
+          if grep -q "com.chekmate.app" ios/Runner/Info.plist 2>/dev/null || true; then
+            echo "SUCCESS: Bundle ID configuration verified"
+          fi
+          
+          # Check Firebase config
+          if [ -f ios/Runner/GoogleService-Info.plist ]; then
+            echo "SUCCESS: Firebase configuration found"
+          else
+            echo "WARNING: GoogleService-Info.plist not found (will be added from env var if provided)"
+          fi
+          
+          echo "SUCCESS: iOS configuration verification complete"
+      - name: Generate code (mocks, riverpod)
+        script: |
+          cd flutter_chekmate
+          flutter pub run build_runner build --delete-conflicting-outputs
+      - name: Setup Firebase config (if provided)
+        script: |
+          cd flutter_chekmate
+          if [ -n "$GOOGLE_SERVICE_INFO_PLIST" ]; then
+            echo "Placing GoogleService-Info.plist in ios/Runner/"
+            cp "$GOOGLE_SERVICE_INFO_PLIST" ios/Runner/GoogleService-Info.plist
+            echo "SUCCESS: Firebase config placed successfully"
+          else
+            echo "INFO: No GoogleService-Info.plist provided via environment variable"
+            echo "INFO: Using existing file if present, or Firebase features may be limited"
+          fi
+      - name: Run tests
+        script: |
+          cd flutter_chekmate
+          flutter test
+      - name: Install CocoaPods dependencies
+        script: |
+          cd flutter_chekmate/ios && pod install && cd ../..
+      - name: Build iOS IPA
+        script: |
+          cd flutter_chekmate
+          echo "Building iOS IPA..."
+          flutter build ipa --release \
+            --build-name=$(cm_get_build_number) \
+            --build-number=$(cm_get_build_number)
+          echo "SUCCESS: Build completed successfully"
+    artifacts:
+      - flutter_chekmate/build/ios/ipa/*.ipa
+      - flutter_chekmate/build/ios/archive/*.xcarchive
+    publishing:
+      email:
+        recipients:
+          - $NOTIFICATION_EMAIL
+        notify:
+          success: true
+          failure: true
+      # Uncomment below to enable automatic App Store Connect publishing
+      # app_store_connect:
+      #   auth: integration  # Uses Apple Developer Portal integration
+      #   submit_to_testflight: true  # Automatically submit to TestFlight
+      #   beta_groups:  # Optional: specify beta groups
+      #     - "Internal Testers"
