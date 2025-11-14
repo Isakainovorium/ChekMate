@@ -1,6 +1,7 @@
 workflows:
   ios-release:
     name: iOS Release Build
+    working_directory: flutter_chekmate
     max_build_duration: 60
     instance_type: mac_mini_m1
     environment:
@@ -21,22 +22,6 @@ workflows:
         # Key File: AuthKey_7WNHASSNQK__ASC.p8
         # Configure in CodeMagic: User Settings → Integrations → Apple Developer Portal
     scripts:
-      - name: Verify project structure
-        script: |
-          echo "Verifying Flutter project structure..."
-          
-          # Check if we're in Flutter project root
-          if [ ! -f "pubspec.yaml" ]; then
-            echo "ERROR: pubspec.yaml not found in current directory"
-            echo "ERROR: Not in Flutter project root"
-            ls -la
-            exit 1
-          fi
-          
-          echo "SUCCESS: Found Flutter project at repository root"
-          echo "Project structure:"
-          ls -la
-          
       - name: Install dependencies
         script: |
           echo "Installing Flutter dependencies..."
