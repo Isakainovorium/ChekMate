@@ -21,9 +21,24 @@ workflows:
         # Key File: AuthKey_7WNHASSNQK__ASC.p8
         # Configure in CodeMagic: User Settings → Integrations → Apple Developer Portal
     scripts:
+      - name: Verify project structure
+        script: |
+          echo "Verifying Flutter project structure..."
+          
+          # Check if we're in Flutter project root
+          if [ ! -f "pubspec.yaml" ]; then
+            echo "ERROR: pubspec.yaml not found in current directory"
+            echo "ERROR: Not in Flutter project root"
+            ls -la
+            exit 1
+          fi
+          
+          echo "SUCCESS: Found Flutter project at repository root"
+          echo "Project structure:"
+          ls -la
+          
       - name: Install dependencies
         script: |
-          cd flutter_chekmate
           echo "Installing Flutter dependencies..."
           flutter pub get
           
@@ -45,7 +60,6 @@ workflows:
           echo "SUCCESS: Dependency verification complete"
       - name: Generate app icons
         script: |
-          cd flutter_chekmate
           echo "Generating iOS app icons..."
           
           # Check if app icon exists
@@ -62,7 +76,6 @@ workflows:
           fi
       - name: Verify iOS configuration
         script: |
-          cd flutter_chekmate
           echo "Verifying iOS configuration..."
           
           # Check Info.plist exists
@@ -103,7 +116,6 @@ workflows:
           echo "SUCCESS: iOS configuration verification complete"
       - name: Generate code (mocks, riverpod)
         script: |
-          cd flutter_chekmate
           # Check if any files use code generation
           if grep -r "@riverpod" lib/ 2>/dev/null || grep -r "part.*\.g\.dart" lib/ 2>/dev/null; then
             echo "Code generation annotations found, running build_runner..."
@@ -113,7 +125,6 @@ workflows:
           fi
       - name: Setup Firebase config (if provided)
         script: |
-          cd flutter_chekmate
           if [ -n "$GOOGLE_SERVICE_INFO_PLIST" ]; then
             echo "Decoding and placing GoogleService-Info.plist in ios/Runner/"
             echo "$GOOGLE_SERVICE_INFO_PLIST" | base64 -d > ios/Runner/GoogleService-Info.plist
@@ -129,22 +140,20 @@ workflows:
           fi
       - name: Run tests
         script: |
-          cd flutter_chekmate
           flutter test
       - name: Install CocoaPods dependencies
         script: |
-          cd flutter_chekmate/ios && pod install && cd ../..
+          cd ios && pod install && cd ..
       - name: Build iOS IPA
         script: |
-          cd flutter_chekmate
           echo "Building iOS IPA..."
           flutter build ipa --release \
             --build-name=$(cm_get_build_number) \
             --build-number=$(cm_get_build_number)
           echo "SUCCESS: Build completed successfully"
     artifacts:
-      - flutter_chekmate/build/ios/ipa/*.ipa
-      - flutter_chekmate/build/ios/archive/*.xcarchive
+      - build/ios/ipa/*.ipa
+      - build/ios/archive/*.xcarchive
     publishing:
       email:
         recipients:
