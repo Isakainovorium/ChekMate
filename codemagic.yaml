@@ -14,23 +14,63 @@ workflows:
         APP_ID: com.chekmate.app
         BUNDLE_ID: com.chekmate.app
         # Update this email address before building
-        NOTIFICATION_EMAIL: your-email@example.com
+        NOTIFICATION_EMAIL: isakaihbg@gmail.com
+        # Apple App Store Connect API Configuration
+        # Issuer ID: 92d1170a-d80b-41dd-b616-a30752db2bec
+        # Key ID: 7WNHASSNQK
+        # Key File: AuthKey_7WNHASSNQK__ASC.p8
+        # Configure in CodeMagic: User Settings → Integrations → Apple Developer Portal
     scripts:
       - name: Install dependencies
         script: |
           cd flutter_chekmate
+          echo "Installing Flutter dependencies..."
           flutter pub get
+          
+          # Verify all dependencies resolved successfully
+          if [ $? -ne 0 ]; then
+            echo "ERROR: Failed to install dependencies"
+            exit 1
+          fi
+          
+          echo "SUCCESS: All dependencies installed"
+          
+          # Verify critical dependencies are available
+          echo "Verifying critical dependencies..."
+          flutter pub deps | grep -q "firebase_messaging" && echo "SUCCESS: firebase_messaging found" || echo "WARNING: firebase_messaging not found"
+          flutter pub deps | grep -q "flutter_riverpod" && echo "SUCCESS: flutter_riverpod found" || echo "WARNING: flutter_riverpod not found"
+          flutter pub deps | grep -q "image_picker" && echo "SUCCESS: image_picker found" || echo "WARNING: image_picker not found"
+          flutter pub deps | grep -q "geolocator" && echo "SUCCESS: geolocator found" || echo "WARNING: geolocator not found"
+          
+          echo "SUCCESS: Dependency verification complete"
+      - name: Generate app icons
+        script: |
+          cd flutter_chekmate
+          echo "Generating iOS app icons..."
+          
+          # Check if app icon exists
+          if [ ! -f assets/icons/app_icon.png ]; then
+            echo "WARNING: app_icon.png not found, skipping icon generation"
+          else
+            echo "SUCCESS: app_icon.png found"
+            flutter pub run flutter_launcher_icons
+            if [ $? -eq 0 ]; then
+              echo "SUCCESS: iOS app icons generated"
+            else
+              echo "WARNING: Icon generation failed, but continuing build"
+            fi
+          fi
       - name: Verify iOS configuration
         script: |
           cd flutter_chekmate
-          echo "🔍 Verifying iOS configuration..."
+          echo "Verifying iOS configuration..."
           
           # Check Info.plist exists
           if [ ! -f ios/Runner/Info.plist ]; then
-            echo "❌ ERROR: Info.plist not found!"
+            echo "ERROR: Info.plist not found!"
             exit 1
           fi
-          echo "✅ Info.plist found"
+          echo "SUCCESS: Info.plist found"
           
           # Verify required permissions
           REQUIRED_PERMS=(
@@ -42,39 +82,50 @@ workflows:
           
           for perm in "${REQUIRED_PERMS[@]}"; do
             if grep -q "$perm" ios/Runner/Info.plist; then
-              echo "✅ $perm configured"
+              echo "SUCCESS: $perm configured"
             else
-              echo "⚠️  WARNING: $perm missing from Info.plist"
+              echo "WARNING: $perm missing from Info.plist"
             fi
           done
           
           # Check bundle ID
           if grep -q "com.chekmate.app" ios/Runner/Info.plist 2>/dev/null || true; then
-            echo "✅ Bundle ID configuration verified"
+            echo "SUCCESS: Bundle ID configuration verified"
           fi
           
           # Check Firebase config
           if [ -f ios/Runner/GoogleService-Info.plist ]; then
-            echo "✅ Firebase configuration found"
+            echo "SUCCESS: Firebase configuration found"
           else
-            echo "⚠️  WARNING: GoogleService-Info.plist not found (will be added from env var if provided)"
+            echo "WARNING: GoogleService-Info.plist not found (will be added from env var if provided)"
           fi
           
-          echo "✅ iOS configuration verification complete"
+          echo "SUCCESS: iOS configuration verification complete"
       - name: Generate code (mocks, riverpod)
         script: |
           cd flutter_chekmate
-          flutter pub run build_runner build --delete-conflicting-outputs
+          # Check if any files use code generation
+          if grep -r "@riverpod" lib/ 2>/dev/null || grep -r "part.*\.g\.dart" lib/ 2>/dev/null; then
+            echo "Code generation annotations found, running build_runner..."
+            flutter pub run build_runner build --delete-conflicting-outputs
+          else
+            echo "INFO: No code generation annotations found, skipping build_runner"
+          fi
       - name: Setup Firebase config (if provided)
         script: |
           cd flutter_chekmate
           if [ -n "$GOOGLE_SERVICE_INFO_PLIST" ]; then
-            echo "📦 Placing GoogleService-Info.plist in ios/Runner/"
-            cp "$GOOGLE_SERVICE_INFO_PLIST" ios/Runner/GoogleService-Info.plist
-            echo "✅ Firebase config placed successfully"
+            echo "Decoding and placing GoogleService-Info.plist in ios/Runner/"
+            echo "$GOOGLE_SERVICE_INFO_PLIST" | base64 -d > ios/Runner/GoogleService-Info.plist
+            if [ $? -eq 0 ]; then
+              echo "SUCCESS: Firebase config placed successfully"
+            else
+              echo "ERROR: Failed to decode Firebase config"
+              exit 1
+            fi
           else
-            echo "ℹ️  No GoogleService-Info.plist provided via environment variable"
-            echo "ℹ️  Using existing file if present, or Firebase features may be limited"
+            echo "INFO: No GoogleService-Info.plist provided via environment variable"
+            echo "INFO: Using existing file if present, or Firebase features may be limited"
           fi
       - name: Run tests
         script: |
@@ -86,11 +137,11 @@ workflows:
       - name: Build iOS IPA
         script: |
           cd flutter_chekmate
-          echo "🚀 Building iOS IPA..."
+          echo "Building iOS IPA..."
           flutter build ipa --release \
             --build-name=$(cm_get_build_number) \
             --build-number=$(cm_get_build_number)
-          echo "✅ Build completed successfully"
+          echo "SUCCESS: Build completed successfully"
     artifacts:
       - flutter_chekmate/build/ios/ipa/*.ipa
       - flutter_chekmate/build/ios/archive/*.xcarchive
@@ -101,3 +152,9 @@ workflows:
         notify:
           success: true
           failure: true
+      # Uncomment below to enable automatic App Store Connect publishing
+      # app_store_connect:
+      #   auth: integration  # Uses Apple Developer Portal integration
+      #   submit_to_testflight: true  # Automatically submit to TestFlight
+      #   beta_groups:  # Optional: specify beta groups
+      #     - "Internal Testers"

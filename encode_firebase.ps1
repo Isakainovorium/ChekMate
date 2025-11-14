@@ -1,0 +1,42 @@
+$content = @"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>209000668199-ecoboha2cfiui0325p5l74pqbdpc0mgd.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.209000668199-ecoboha2cfiui0325p5l74pqbdpc0mgd</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCJ1KQOw3dXeRGOhZVcpN6MgPs9OZYp5jc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>209000668199</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.chekmate.app</string>
+	<key>PROJECT_ID</key>
+	<string>chekmate-a0423</string>
+	<key>STORAGE_BUCKET</key>
+	<string>chekmate-a0423.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:209000668199:ios:c6c7680afe597e441ac202</string>
+</dict>
+</plist>
+"@
+$bytes = [System.Text.Encoding]::UTF8.GetBytes($content)
+$base64 = [Convert]::ToBase64String($bytes)
+$base64 | Out-File -FilePath "google_service_base64.txt" -Encoding ASCII -NoNewline
+Write-Host "Base64 encoded content saved to google_service_base64.txt"
+Write-Host "Length: $($base64.Length) characters"
+
