@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="ChekMate - Dating Experience Platform. Share your dating experiences, rate your dates, and discover what others are saying. Dating can be a Game - Don't Get Played.">
+  <meta name="keywords" content="dating experience, rate dates, dating stories, social platform, chekmate, dating reviews">
+  <meta name="author" content="ChekMate">
+
+  <!-- Open Graph Meta Tags (for social sharing) -->
+  <meta property="og:title" content="ChekMate - Dating Experience Platform">
+  <meta property="og:description" content="Share your dating experiences, rate your dates, and discover what others are saying. Dating can be a Game - Don't Get Played.">
+  <meta property="og:image" content="icons/Icon-512.png">
+  <meta property="og:url" content="https://chekmate-a0423.web.app">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ChekMate - Dating Experience Platform">
+  <meta name="twitter:description" content="Share your dating experiences, rate your dates, and discover what others are saying. Dating can be a Game - Don't Get Played.">
+  <meta name="twitter:image" content="icons/Icon-512.png">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ChekMate">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>ChekMate - Dating Experience Platform</title>
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Performance Optimization: Preload critical resources -->
+  <link rel="preload" as="style" href="flutter.css">
+  <link rel="preload" as="script" href="flutter_bootstrap.js">
+
+  <!-- Preconnect to external domains for faster resource loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://firebasestorage.googleapis.com">
+
+  <!-- DNS prefetch for faster lookups -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://firebasestorage.googleapis.com">
+
+  <style>
+    /* Loading screen styles */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #FFFFFF;
+      overflow: hidden;
+    }
+
+    #loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #FFFFFF;
+      z-index: 9999;
+    }
+
+    #loading-logo {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 24px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    #loading-text {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: #F5A623;
+      margin-bottom: 16px;
+    }
+
+    #loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #E8E8E8;
+      border-top-color: #F5A623;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.8; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading">
+    <div id="loading-logo">
+      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="60" r="50" fill="#F5A623"/>
+        <text x="60" y="75" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#FFFFFF" text-anchor="middle">CM</text>
+      </svg>
+    </div>
+    <div id="loading-text">ChekMate</div>
+    <div id="loading-spinner"></div>
+  </div>
+
+  <script src="flutter_bootstrap.js" async></script>
+
+  <script>
+    // Remove loading screen when Flutter app is ready
+    window.addEventListener('flutter-first-frame', function() {
+      const loading = document.getElementById('loading');
+      if (loading) {
+        loading.style.opacity = '0';
+        loading.style.transition = 'opacity 0.5s ease-out';
+        setTimeout(() => loading.remove(), 500);
+      }
+    });
+
+    // Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/flutter_service_worker.js')
+          .then(function(registration) {
+            console.log('Service Worker registered successfully:', registration.scope);
+
+            // Check for updates periodically
+            setInterval(function() {
+              registration.update();
+            }, 60000); // Check every minute
+          })
+          .catch(function(error) {
+            console.log('Service Worker registration failed:', error);
+          });
+      });
+    }
+
+    // Offline/Online status detection
+    window.addEventListener('online', function() {
+      console.log('App is online');
+      // Show online notification
+      if (document.body) {
+        const notification = document.createElement('div');
+        notification.textContent = 'Back online!';
+        notification.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#4CAF50;color:white;padding:12px 24px;border-radius:8px;z-index:10000;font-family:sans-serif;';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
+      }
+    });
+
+    window.addEventListener('offline', function() {
+      console.log('App is offline');
+      // Show offline notification
+      if (document.body) {
+        const notification = document.createElement('div');
+        notification.textContent = 'You are offline. Some features may be limited.';
+        notification.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#FF9800;color:white;padding:12px 24px;border-radius:8px;z-index:10000;font-family:sans-serif;';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 5000);
+      }
+    });
+  </script>
+</body>
+</html>

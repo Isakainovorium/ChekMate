@@ -34,6 +34,14 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# Playwright Test Artifacts
+/test/e2e/screenshots/
+/test/e2e/reports/
+/test-results/
+/playwright-report/
+/playwright/.cache/
+node_modules/
+
 # Symbolication related
 app.*.symbols
 
