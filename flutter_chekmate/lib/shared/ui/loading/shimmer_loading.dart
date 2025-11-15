@@ -5,6 +5,9 @@ import 'package:shimmer/shimmer.dart';
 ///
 /// Provides shimmer effect for loading states throughout the app.
 /// Supports light and dark themes with customizable colors.
+/// Used for dating experience platform loading states.
+///
+/// Date: November 13, 2025
 ///
 /// Usage:
 /// ```dart
@@ -48,6 +51,8 @@ class ShimmerLoading extends StatelessWidget {
 }
 
 /// Shimmer Box - Simple rectangular shimmer placeholder
+///
+/// Used for dating content loading states.
 class ShimmerBox extends StatelessWidget {
   const ShimmerBox({
     super.key,
@@ -76,6 +81,8 @@ class ShimmerBox extends StatelessWidget {
 }
 
 /// Shimmer Circle - Circular shimmer placeholder (for avatars)
+///
+/// Used for dating profile avatar loading states.
 class ShimmerCircle extends StatelessWidget {
   const ShimmerCircle({
     required this.size,
@@ -100,6 +107,8 @@ class ShimmerCircle extends StatelessWidget {
 }
 
 /// Shimmer Line - Single line shimmer placeholder (for text)
+///
+/// Used for dating story text loading states.
 class ShimmerLine extends StatelessWidget {
   const ShimmerLine({
     super.key,
@@ -128,6 +137,8 @@ class ShimmerLine extends StatelessWidget {
 }
 
 /// Shimmer Text - Multi-line text shimmer placeholder
+///
+/// Used for dating experience description loading states.
 class ShimmerText extends StatelessWidget {
   const ShimmerText({
     super.key,
@@ -161,6 +172,8 @@ class ShimmerText extends StatelessWidget {
 }
 
 /// Shimmer Image - Image placeholder with shimmer
+///
+/// Used for dating photo loading states.
 class ShimmerImage extends StatelessWidget {
   const ShimmerImage({
     super.key,
@@ -200,6 +213,8 @@ class ShimmerImage extends StatelessWidget {
 }
 
 /// Shimmer Card - Complete card skeleton with image, title, and text
+///
+/// Used for dating story card loading states.
 class ShimmerCard extends StatelessWidget {
   const ShimmerCard({
     super.key,
@@ -270,6 +285,8 @@ class ShimmerCard extends StatelessWidget {
 }
 
 /// Shimmer List Item - Single list item skeleton
+///
+/// Used for dating message list and user list loading states.
 class ShimmerListItem extends StatelessWidget {
   const ShimmerListItem({
     super.key,
@@ -304,4 +321,5 @@ class ShimmerListItem extends StatelessWidget {
     );
   }
 }
+
 

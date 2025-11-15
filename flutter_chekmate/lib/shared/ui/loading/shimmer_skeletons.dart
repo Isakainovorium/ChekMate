@@ -5,6 +5,9 @@ import 'package:flutter_chekmate/shared/ui/loading/shimmer_loading.dart';
 ///
 /// Displays a loading skeleton for social media posts in the feed.
 /// Mimics the structure of a real post with avatar, username, image, and actions.
+/// Used for dating experience story feed loading states.
+///
+/// Date: November 13, 2025
 class PostFeedShimmer extends StatelessWidget {
   const PostFeedShimmer({
     super.key,
@@ -109,6 +112,8 @@ class _PostItemShimmer extends StatelessWidget {
 }
 
 /// Profile Header Shimmer Skeleton
+///
+/// Used for dating profile header loading states.
 class ProfileHeaderShimmer extends StatelessWidget {
   const ProfileHeaderShimmer({super.key});
 
@@ -171,6 +176,8 @@ class _StatShimmer extends StatelessWidget {
 }
 
 /// Message List Shimmer Skeleton
+///
+/// Used for dating community message list loading states.
 class MessageListShimmer extends StatelessWidget {
   const MessageListShimmer({
     super.key,
@@ -226,6 +233,8 @@ class _MessageItemShimmer extends StatelessWidget {
 }
 
 /// Story Circle Shimmer Skeleton
+///
+/// Used for dating story circle loading states.
 class StoryCircleShimmer extends StatelessWidget {
   const StoryCircleShimmer({
     super.key,
@@ -260,6 +269,8 @@ class StoryCircleShimmer extends StatelessWidget {
 }
 
 /// Grid Photo Shimmer Skeleton (for profile photo grid)
+///
+/// Used for dating profile photo grid loading states.
 class GridPhotoShimmer extends StatelessWidget {
   const GridPhotoShimmer({
     super.key,
@@ -289,6 +300,8 @@ class GridPhotoShimmer extends StatelessWidget {
 }
 
 /// Comment Shimmer Skeleton
+///
+/// Used for dating story comment loading states.
 class CommentShimmer extends StatelessWidget {
   const CommentShimmer({
     super.key,
@@ -330,6 +343,8 @@ class CommentShimmer extends StatelessWidget {
 }
 
 /// Search Result Shimmer Skeleton
+///
+/// Used for dating content search result loading states.
 class SearchResultShimmer extends StatelessWidget {
   const SearchResultShimmer({
     super.key,
@@ -349,4 +364,5 @@ class SearchResultShimmer extends StatelessWidget {
     );
   }
 }
+
 

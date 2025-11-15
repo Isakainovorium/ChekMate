@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart';
-import 'package:flutter_chekmate/shared/widgets/app_bottom_sheet.dart';
 
 /// AppErrorBoundary - Comprehensive error handling and recovery
 class AppErrorBoundary extends StatefulWidget {
@@ -561,3 +560,4 @@ enum AppErrorType {
   notFound,
   generic,
 }
+

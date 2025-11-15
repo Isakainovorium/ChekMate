@@ -1,355 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chekmate/shared/ui/animations/lottie_animations.dart';
-import 'package:lottie/lottie.dart';
 
-/// Like Button with Lottie Animation
+/// Interactive Animations - Animations that respond to user interactions
 ///
-/// Animated like button that plays a Lottie animation when toggled.
-/// Perfect for social media interactions.
-class AnimatedLikeButton extends StatefulWidget {
-  const AnimatedLikeButton({
-    required this.isLiked,
-    required this.onTap,
-    super.key,
-    this.size = 32,
-    this.likeCount,
-    this.showCount = true,
-  });
-
-  final bool isLiked;
-  final VoidCallback onTap;
-  final double size;
-  final int? likeCount;
-  final bool showCount;
-
-  @override
-  State<AnimatedLikeButton> createState() => _AnimatedLikeButtonState();
-}
-
-class _AnimatedLikeButtonState extends State<AnimatedLikeButton>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  bool _isAnimating = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(AnimatedLikeButton oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.isLiked != oldWidget.isLiked && widget.isLiked) {
-      _playAnimation();
-    }
-  }
-
-  void _playAnimation() {
-    if (!_isAnimating) {
-      setState(() => _isAnimating = true);
-      _controller.forward(from: 0).then((_) {
-        setState(() => _isAnimating = false);
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onTap,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            width: widget.size,
-            height: widget.size,
-            child: widget.isLiked
-                ? Lottie.asset(
-                    LottieAnimations.heart,
-                    controller: _controller,
-                    repeat: false,
-                    onLoaded: (composition) {
-                      _controller.duration = composition.duration;
-                    },
-                  )
-                : Icon(
-                    Icons.favorite_border,
-                    size: widget.size * 0.8,
-                    color: Theme.of(context).iconTheme.color,
-                  ),
-          ),
-          if (widget.showCount && widget.likeCount != null) ...[
-            const SizedBox(width: 4),
-            Text(
-              _formatCount(widget.likeCount!),
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight:
-                        widget.isLiked ? FontWeight.bold : FontWeight.normal,
-                  ),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-
-  String _formatCount(int count) {
-    if (count >= 1000000) {
-      return '${(count / 1000000).toStringAsFixed(1)}M';
-    } else if (count >= 1000) {
-      return '${(count / 1000).toStringAsFixed(1)}K';
-    }
-    return count.toString();
-  }
-}
-
-/// Bookmark Button with Lottie Animation
-class AnimatedBookmarkButton extends StatefulWidget {
-  const AnimatedBookmarkButton({
-    required this.isBookmarked,
-    required this.onTap,
-    super.key,
-    this.size = 32,
-  });
-
-  final bool isBookmarked;
-  final VoidCallback onTap;
-  final double size;
-
-  @override
-  State<AnimatedBookmarkButton> createState() => _AnimatedBookmarkButtonState();
-}
-
-class _AnimatedBookmarkButtonState extends State<AnimatedBookmarkButton>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  bool _isAnimating = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(AnimatedBookmarkButton oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.isBookmarked != oldWidget.isBookmarked && widget.isBookmarked) {
-      _playAnimation();
-    }
-  }
-
-  void _playAnimation() {
-    if (!_isAnimating) {
-      setState(() => _isAnimating = true);
-      _controller.forward(from: 0).then((_) {
-        setState(() => _isAnimating = false);
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onTap,
-      child: SizedBox(
-        width: widget.size,
-        height: widget.size,
-        child: widget.isBookmarked
-            ? Lottie.asset(
-                LottieAnimations.bookmark,
-                controller: _controller,
-                repeat: false,
-                onLoaded: (composition) {
-                  _controller.duration = composition.duration;
-                },
-              )
-            : Icon(
-                Icons.bookmark_border,
-                size: widget.size * 0.8,
-                color: Theme.of(context).iconTheme.color,
-              ),
-      ),
-    );
-  }
-}
-
-/// Checkmark Animation (for success states)
-class AnimatedCheckmark extends StatefulWidget {
-  const AnimatedCheckmark({
-    super.key,
-    this.size = 100,
-    this.onComplete,
-  });
-
-  final double size;
-  final VoidCallback? onComplete;
-
-  @override
-  State<AnimatedCheckmark> createState() => _AnimatedCheckmarkState();
-}
-
-class _AnimatedCheckmarkState extends State<AnimatedCheckmark>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Lottie.asset(
-      LottieAnimations.checkmark,
-      width: widget.size,
-      height: widget.size,
-      controller: _controller,
-      repeat: false,
-      onLoaded: (composition) {
-        _controller.duration = composition.duration;
-        _controller.forward().then((_) {
-          widget.onComplete?.call();
-        });
-      },
-    );
-  }
-}
-
-/// Confetti Animation (for celebrations)
-class ConfettiAnimation extends StatefulWidget {
-  const ConfettiAnimation({
-    super.key,
-    this.size = 300,
-    this.autoPlay = true,
-  });
-
-  final double size;
-  final bool autoPlay;
-
-  @override
-  State<ConfettiAnimation> createState() => _ConfettiAnimationState();
-}
-
-class _ConfettiAnimationState extends State<ConfettiAnimation>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void play() {
-    _controller.forward(from: 0);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return IgnorePointer(
-      child: Lottie.asset(
-        LottieAnimations.confetti,
-        width: widget.size,
-        height: widget.size,
-        controller: _controller,
-        repeat: false,
-        onLoaded: (composition) {
-          _controller.duration = composition.duration;
-          if (widget.autoPlay) {
-            _controller.forward();
-          }
-        },
-      ),
-    );
-  }
-}
-
-/// Swipe Indicator Animation
-class SwipeIndicatorAnimation extends StatelessWidget {
-  const SwipeIndicatorAnimation({
-    super.key,
-    this.direction = SwipeDirection.up,
-    this.size = 80,
-  });
-
-  final SwipeDirection direction;
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    String animationPath;
-    switch (direction) {
-      case SwipeDirection.up:
-        animationPath = LottieAnimations.swipeUp;
-        break;
-      case SwipeDirection.left:
-        animationPath = LottieAnimations.swipeLeft;
-        break;
-      case SwipeDirection.right:
-        animationPath = LottieAnimations.swipeRight;
-        break;
-    }
-
-    return LottieAnimation.asset(
-      animationPath,
-      width: size,
-      height: size,
-    );
-  }
-}
-
-enum SwipeDirection { up, left, right }
-
-/// Pulsing Animation Wrapper
+/// Provides interactive animation widgets for the dating experience platform.
 ///
-/// Wraps any widget with a pulsing scale animation.
-/// Useful for drawing attention to interactive elements.
-class PulsingAnimation extends StatefulWidget {
-  const PulsingAnimation({
+/// Date: November 13, 2025
+
+/// AnimatedButton - Button with press animation
+class AnimatedButton extends StatefulWidget {
+  const AnimatedButton({
+    required this.onPressed,
     required this.child,
     super.key,
-    this.duration = const Duration(milliseconds: 1000),
-    this.minScale = 0.95,
-    this.maxScale = 1.05,
+    this.scale = 0.95,
+    this.duration = const Duration(milliseconds: 100),
   });
 
+  final VoidCallback? onPressed;
   final Widget child;
+  final double scale;
   final Duration duration;
-  final double minScale;
-  final double maxScale;
 
   @override
-  State<PulsingAnimation> createState() => _PulsingAnimationState();
+  State<AnimatedButton> createState() => _AnimatedButtonState();
 }
 
-class _PulsingAnimationState extends State<PulsingAnimation>
+class _AnimatedButtonState extends State<AnimatedButton>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
@@ -361,18 +37,86 @@ class _PulsingAnimationState extends State<PulsingAnimation>
       duration: widget.duration,
       vsync: this,
     );
-
     _scaleAnimation = Tween<double>(
-      begin: widget.minScale,
-      end: widget.maxScale,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeInOut,
+      begin: 1.0,
+      end: widget.scale,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _handleTapDown(TapDownDetails details) {
+    _controller.forward();
+  }
+
+  void _handleTapUp(TapUpDetails details) {
+    _controller.reverse();
+  }
+
+  void _handleTapCancel() {
+    _controller.reverse();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTapDown: widget.onPressed != null ? _handleTapDown : null,
+      onTapUp: widget.onPressed != null ? _handleTapUp : null,
+      onTapCancel: widget.onPressed != null ? _handleTapCancel : null,
+      onTap: widget.onPressed,
+      child: ScaleTransition(
+        scale: _scaleAnimation,
+        child: widget.child,
       ),
     );
+  }
+}
 
-    _controller.repeat(reverse: true);
+/// AnimatedCard - Card with hover/press animations
+class AnimatedCard extends StatefulWidget {
+  const AnimatedCard({
+    required this.child,
+    super.key,
+    this.onTap,
+    this.elevation = 2.0,
+    this.hoverElevation = 4.0,
+  });
+
+  final Widget child;
+  final VoidCallback? onTap;
+  final double elevation;
+  final double hoverElevation;
+
+  @override
+  State<AnimatedCard> createState() => _AnimatedCardState();
+}
+
+class _AnimatedCardState extends State<AnimatedCard>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _elevationAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+    _elevationAnimation = Tween<double>(
+      begin: widget.elevation,
+      end: widget.hoverElevation,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
   }
 
   @override
@@ -383,10 +127,114 @@ class _PulsingAnimationState extends State<PulsingAnimation>
 
   @override
   Widget build(BuildContext context) {
-    return ScaleTransition(
-      scale: _scaleAnimation,
-      child: widget.child,
+    return MouseRegion(
+      onEnter: (_) {
+        _controller.forward();
+      },
+      onExit: (_) {
+        _controller.reverse();
+      },
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedBuilder(
+          animation: _elevationAnimation,
+          builder: (context, child) {
+            return Card(
+              elevation: _elevationAnimation.value,
+              child: widget.child,
+            );
+          },
+        ),
+      ),
     );
+  }
+}
+
+/// AnimatedIconButton - Icon button with animation
+class AnimatedIconButton extends StatefulWidget {
+  const AnimatedIconButton({
+    required this.icon,
+    required this.onPressed,
+    super.key,
+    this.size = 24.0,
+    this.color,
+    this.tooltip,
+  });
+
+  final IconData icon;
+  final VoidCallback? onPressed;
+  final double size;
+  final Color? color;
+  final String? tooltip;
+
+  @override
+  State<AnimatedIconButton> createState() => _AnimatedIconButtonState();
+}
+
+class _AnimatedIconButtonState extends State<AnimatedIconButton>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 150),
+      vsync: this,
+    );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.8,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _handleTapDown(TapDownDetails details) {
+    _controller.forward();
+  }
+
+  void _handleTapUp(TapUpDetails details) {
+    _controller.reverse();
+    widget.onPressed?.call();
+  }
+
+  void _handleTapCancel() {
+    _controller.reverse();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget button = GestureDetector(
+      onTapDown: _handleTapDown,
+      onTapUp: _handleTapUp,
+      onTapCancel: _handleTapCancel,
+      child: ScaleTransition(
+        scale: _scaleAnimation,
+        child: Icon(
+          widget.icon,
+          size: widget.size,
+          color: widget.color ?? Theme.of(context).iconTheme.color,
+        ),
+      ),
+    );
+
+    if (widget.tooltip != null) {
+      return Tooltip(
+        message: widget.tooltip!,
+        child: button,
+      );
+    }
+
+    return button;
   }
 }
 

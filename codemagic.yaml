@@ -1,0 +1,248 @@
+workflows:
+  ios-release:
+    name: iOS Release Build
+    working_directory: flutter_chekmate
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      groups:
+        - app_store_credentials
+        - firebase_credentials
+      vars:
+        APP_ID: com.chekmate.app
+        BUNDLE_ID: com.chekmate.app
+        NOTIFICATION_EMAIL: isakaihbg@gmail.com
+    scripts:
+      - name: Install dependencies
+        script: |
+          echo "Installing Flutter dependencies..."
+          flutter pub get
+          
+          if [ $? -ne 0 ]; then
+            echo "ERROR: Failed to install dependencies"
+            exit 1
+          fi
+          
+          echo "SUCCESS: All dependencies installed"
+          
+      - name: Generate app icons
+        script: |
+          echo "Generating iOS app icons..."
+          
+          if [ -f assets/icons/app_icon.png ]; then
+            echo "SUCCESS: app_icon.png found"
+            flutter pub run flutter_launcher_icons
+            if [ $? -eq 0 ]; then
+              echo "SUCCESS: iOS app icons generated"
+            else
+              echo "WARNING: Icon generation failed, but continuing build"
+            fi
+          else
+            echo "WARNING: app_icon.png not found, skipping icon generation"
+          fi
+          
+      - name: Verify iOS configuration
+        script: |
+          echo "Verifying iOS configuration..."
+          
+          if [ ! -f ios/Runner/Info.plist ]; then
+            echo "ERROR: Info.plist not found!"
+            exit 1
+          fi
+          echo "SUCCESS: Info.plist found"
+          
+          REQUIRED_PERMS=(
+            "NSCameraUsageDescription"
+            "NSMicrophoneUsageDescription"
+            "NSPhotoLibraryUsageDescription"
+            "NSLocationWhenInUseUsageDescription"
+          )
+          
+          for perm in "${REQUIRED_PERMS[@]}"; do
+            if grep -q "$perm" ios/Runner/Info.plist; then
+              echo "SUCCESS: $perm configured"
+            else
+              echo "WARNING: $perm missing from Info.plist"
+            fi
+          done
+          
+          if [ -f ios/Runner/GoogleService-Info.plist ]; then
+            echo "SUCCESS: Firebase configuration found"
+          else
+            echo "WARNING: GoogleService-Info.plist not found (will be added from env var if provided)"
+          fi
+          
+          echo "SUCCESS: iOS configuration verification complete"
+          
+      - name: Generate code
+        script: |
+          if grep -r "@riverpod" lib/ 2>/dev/null || grep -r "part.*\.g\.dart" lib/ 2>/dev/null; then
+            echo "Code generation annotations found, running build_runner..."
+            flutter pub run build_runner build --delete-conflicting-outputs
+          else
+            echo "INFO: No code generation annotations found, skipping build_runner"
+          fi
+          
+      - name: Setup Firebase config
+        script: |
+          if [ -n "$GOOGLE_SERVICE_INFO_PLIST" ]; then
+            echo "Decoding and placing GoogleService-Info.plist in ios/Runner/"
+            echo "$GOOGLE_SERVICE_INFO_PLIST" | base64 -d > ios/Runner/GoogleService-Info.plist
+            if [ $? -eq 0 ]; then
+              echo "SUCCESS: Firebase config placed successfully"
+            else
+              echo "ERROR: Failed to decode Firebase config"
+              exit 1
+            fi
+          else
+            echo "INFO: No GoogleService-Info.plist provided via environment variable"
+          fi
+          
+      - name: Run tests
+        script: |
+          flutter test
+          
+      - name: Install CocoaPods dependencies
+        script: |
+          cd ios && pod install && cd ..
+          
+      - name: Build iOS IPA
+        script: |
+          echo "Building iOS IPA..."
+          flutter build ipa --release \
+            --build-name=$(cm_get_build_number) \
+            --build-number=$(cm_get_build_number)
+          echo "SUCCESS: Build completed successfully"
+          
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - build/ios/archive/*.xcarchive
+    publishing:
+      email:
+        recipients:
+          - $NOTIFICATION_EMAIL
+        notify:
+          success: true
+          failure: true
+
+  android-release:
+    name: Android Release Build
+    working_directory: flutter_chekmate
+    max_build_duration: 60
+    instance_type: linux_x2
+    environment:
+      flutter: stable
+      groups:
+        - google_play_credentials
+        - firebase_credentials
+      vars:
+        APP_ID: com.chekmate.app
+        PACKAGE_NAME: com.chekmate.app
+        NOTIFICATION_EMAIL: isakaihbg@gmail.com
+    scripts:
+      - name: Install dependencies
+        script: |
+          echo "Installing Flutter dependencies..."
+          flutter pub get
+          
+          if [ $? -ne 0 ]; then
+            echo "ERROR: Failed to install dependencies"
+            exit 1
+          fi
+          
+          echo "SUCCESS: All dependencies installed"
+          
+      - name: Generate app icons
+        script: |
+          echo "Generating Android app icons..."
+          
+          if [ -f assets/icons/app_icon.png ]; then
+            echo "SUCCESS: app_icon.png found"
+            flutter pub run flutter_launcher_icons
+            if [ $? -eq 0 ]; then
+              echo "SUCCESS: Android app icons generated"
+            else
+              echo "WARNING: Icon generation failed, but continuing build"
+            fi
+          else
+            echo "WARNING: app_icon.png not found, skipping icon generation"
+          fi
+          
+      - name: Setup Firebase config
+        script: |
+          if [ -n "$GOOGLE_SERVICES_JSON" ]; then
+            echo "Decoding and placing google-services.json in android/app/"
+            echo "$GOOGLE_SERVICES_JSON" | base64 -d > android/app/google-services.json
+            if [ $? -eq 0 ]; then
+              echo "SUCCESS: Firebase config placed successfully"
+            else
+              echo "ERROR: Failed to decode Firebase config"
+              exit 1
+            fi
+          else
+            echo "INFO: No google-services.json provided via environment variable"
+          fi
+          
+      - name: Run tests
+        script: |
+          flutter test
+          
+      - name: Build Android AAB
+        script: |
+          echo "Building Android AAB..."
+          flutter build appbundle --release \
+            --build-name=$(cm_get_build_number) \
+            --build-number=$(cm_get_build_number)
+          echo "SUCCESS: Build completed successfully"
+          
+    artifacts:
+      - build/app/outputs/bundle/release/*.aab
+      - build/app/outputs/apk/release/*.apk
+    publishing:
+      email:
+        recipients:
+          - $NOTIFICATION_EMAIL
+        notify:
+          success: true
+          failure: true
+
+  web-release:
+    name: Web Release Build
+    working_directory: flutter_chekmate
+    max_build_duration: 30
+    instance_type: linux_x2
+    environment:
+      flutter: stable
+      groups:
+        - firebase_credentials
+      vars:
+        APP_ID: com.chekmate.app
+        NOTIFICATION_EMAIL: isakaihbg@gmail.com
+    scripts:
+      - name: Install dependencies
+        script: |
+          echo "Installing Flutter dependencies..."
+          flutter pub get
+          
+          if [ $? -ne 0 ]; then
+            echo "ERROR: Failed to install dependencies"
+            exit 1
+          fi
+          
+          echo "SUCCESS: All dependencies installed"
+          
+      - name: Run tests
+        script: |
+          flutter test
+          
+      - name: Build Web
+        script: |
+          echo "Building Web..."
+          flutter build web --release
+          echo "SUCCESS: Web build completed successfully"
+          
+    artifacts:
+      - build/web/**

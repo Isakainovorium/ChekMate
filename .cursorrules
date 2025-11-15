@@ -1,0 +1,67 @@
+# Cursor Rules for ChekMate Project
+
+## CRITICAL STYLE RULES - MUST FOLLOW
+
+### NO EMOJIS - ABSOLUTE REQUIREMENT
+- NEVER use emojis in ANY output, including:
+  * Code files and comments
+  * Markdown documentation files
+  * README files
+  * Error messages
+  * Success messages
+  * Status indicators
+  * File names
+  * Variable names
+  * Any text output
+  * YAML files
+  * Configuration files
+
+- Instead of emojis, use plain text prefixes:
+  * "SUCCESS:" instead of checkmark emoji
+  * "ERROR:" instead of X emoji
+  * "WARNING:" instead of warning emoji
+  * "INFO:" instead of info emoji
+  * "NOTE:" for notes
+
+- This is a HARD REQUIREMENT, not a suggestion
+- If you use emojis, you are violating the rules
+- Always verify no emojis before creating any file
+
+### VERIFICATION BEFORE OUTPUT
+Before outputting any file, check:
+1. Search for common emoji characters
+2. Replace any emojis with text alternatives
+3. Verify the output is emoji-free
+4. Double-check markdown files especially
+
+## Code Style
+
+- Follow Flutter/Dart best practices
+- Use meaningful variable names
+- Add comments where necessary (without emojis)
+- Keep functions focused and single-purpose
+
+## Documentation Style
+
+- Use clear, professional language
+- Use text-based status indicators (SUCCESS:, ERROR:, WARNING:, INFO:)
+- Structure documentation with proper headings
+- Include code examples where helpful
+
+## File Naming
+
+- Use snake_case for Dart files
+- Use kebab-case for configuration files
+- No emojis in file names
+
+## Output Format
+
+- Console output: Use text prefixes (SUCCESS:, ERROR:, WARNING:, INFO:)
+- Build scripts: Use text prefixes, not emojis
+- Log messages: Use text prefixes, not emojis
+- Status messages: Use text prefixes, not emojis
+
+## Reminder
+
+Remember: NO EMOJIS ANYWHERE. This rule applies to all outputs, all files, all documentation, and all code. When in doubt, use plain text.
+

@@ -53,6 +53,7 @@ export 'components/app_scroll_area.dart';
 export 'components/app_select.dart';
 export 'components/app_separator.dart';
 export 'components/app_sheet.dart';
+export 'components/app_bottom_sheet.dart';
 export 'components/app_skeleton.dart';
 export 'components/app_slider.dart';
 export 'components/app_sparkline.dart';
@@ -65,9 +66,6 @@ export 'components/app_toggle_group.dart';
 export 'components/app_tooltip.dart';
 export 'components/app_video_player.dart';
 export 'components/app_virtualized_list.dart';
-// Examples
-export 'examples/file_picker_example.dart';
-export 'examples/ios_polish_example.dart';
 // Loading
 export 'loading/shimmer_loading.dart';
 export 'loading/shimmer_skeletons.dart';
