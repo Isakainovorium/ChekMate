@@ -124,3 +124,8 @@ coverage/
 
 # Snyk Security Extension - AI Rules (auto-generated)
 .windsurf\rules\snyk_rules.md
+
+# Firebase Service Account Keys (CRITICAL - Never commit these!)
+**/scripts/serviceAccountKey.json
+**/scripts/*serviceAccount*.json
+**/*serviceAccount*.json
