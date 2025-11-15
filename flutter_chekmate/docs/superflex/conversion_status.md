@@ -1,0 +1,116 @@
+# Conversion Status Tracker
+
+## UI Primitives Progress (48 total)
+
+### ✅ Completed (3/48)
+- [x] AppButton (`button.tsx` → `app_button.dart`)
+- [x] AppCard (`card.tsx` → `app_card.dart`) 
+- [x] AppDialog (`dialog.tsx` → `app_dialog.dart`)
+
+### 🚧 High Priority (9/48)
+- [ ] AppSheet (`sheet.tsx` → `app_sheet.dart`)
+- [ ] AppPopover (`popover.tsx` → `app_popover.dart`)
+- [ ] AppTooltip (`tooltip.tsx` → `app_tooltip.dart`)
+- [ ] AppSelect (`select.tsx` → `app_select.dart`)
+- [ ] AppDropdownMenu (`dropdown-menu.tsx` → `app_dropdown_menu.dart`)
+- [ ] AppTabs (`tabs.tsx` → `app_tabs.dart`)
+- [ ] AppInput (`input.tsx` → `app_input.dart`)
+- [ ] AppTextarea (`textarea.tsx` → `app_textarea.dart`)
+
+### 📋 Medium Priority (15/48)
+- [ ] AppCheckbox (`checkbox.tsx` → `app_checkbox.dart`)
+- [ ] AppRadioGroup (`radio-group.tsx` → `app_radio_group.dart`)
+- [ ] AppSwitch (`switch.tsx` → `app_switch.dart`)
+- [ ] AppSlider (`slider.tsx` → `app_slider.dart`)
+- [ ] AppInputOTP (`input-otp.tsx` → `app_input_otp.dart`)
+- [ ] AppForm (`form.tsx` → `app_form.dart`)
+- [ ] AppLabel (`label.tsx` → `app_label.dart`)
+- [ ] AppAvatar (`avatar.tsx` → `app_avatar.dart`)
+- [ ] AppBadge (`badge.tsx` → `app_badge.dart`)
+- [ ] AppSkeleton (`skeleton.tsx` → `app_skeleton.dart`)
+- [ ] AppProgress (`progress.tsx` → `app_progress.dart`)
+- [ ] AppTable (`table.tsx` → `app_table.dart`)
+- [ ] AppPagination (`pagination.tsx` → `app_pagination.dart`)
+- [ ] AppCarousel (`carousel.tsx` → `app_carousel.dart`)
+- [ ] AppChart (`chart.tsx` → `app_chart.dart`)
+
+### 📦 Low Priority (21/48)
+- [ ] AppAccordion (`accordion.tsx` → `app_accordion.dart`)
+- [ ] AppAlert (`alert.tsx` → `app_alert.dart`)
+- [ ] AppAlertDialog (`alert-dialog.tsx` → `app_alert_dialog.dart`)
+- [ ] AppAspectRatio (`aspect-ratio.tsx` → `app_aspect_ratio.dart`)
+- [ ] AppBreadcrumb (`breadcrumb.tsx` → `app_breadcrumb.dart`)
+- [ ] AppCalendar (`calendar.tsx` → `app_calendar.dart`)
+- [ ] AppCollapsible (`collapsible.tsx` → `app_collapsible.dart`)
+- [ ] AppCommand (`command.tsx` → `app_command.dart`)
+- [ ] AppContextMenu (`context-menu.tsx` → `app_context_menu.dart`)
+- [ ] AppDrawer (`drawer.tsx` → `app_drawer.dart`)
+- [ ] AppHoverCard (`hover-card.tsx` → `app_hover_card.dart`)
+- [ ] AppMenubar (`menubar.tsx` → `app_menubar.dart`)
+- [ ] AppNavigationMenu (`navigation-menu.tsx` → `app_navigation_menu.dart`)
+- [ ] AppResizable (`resizable.tsx` → `app_resizable.dart`)
+- [ ] AppScrollArea (`scroll-area.tsx` → `app_scroll_area.dart`)
+- [ ] AppSeparator (`separator.tsx` → `app_separator.dart`)
+- [ ] AppSidebar (`sidebar.tsx` → `app_sidebar.dart`)
+- [ ] AppToast (`sonner.tsx` → `app_toast.dart`)
+- [ ] AppToggle (`toggle.tsx` → `app_toggle.dart`)
+- [ ] AppToggleGroup (`toggle-group.tsx` → `app_toggle_group.dart`)
+- [ ] ResponsiveUtils (`use-mobile.ts` → `responsive_utils.dart`)
+
+---
+
+## Feature Components Progress (35 total)
+
+### ✅ Navigation & Shell (4/4 complete)
+- [x] BottomNavigation → `bottom_nav_widget.dart`
+- [x] Header → `header_widget.dart`
+- [x] NavigationTabs → `nav_tabs_widget.dart`
+- [x] NavigationWidget → `navigation_widget.dart`
+
+### 🚧 Home, Feed & Stories (6 total - 0 complete, 6 partial)
+- [ ] Stories → `stories_widget.dart` (PARTIAL - needs polish)
+- [ ] StoryViewer → `story_viewer.dart` (PARTIAL - needs gestures/progress)
+- [ ] Post → `post_widget.dart` (PARTIAL - needs actions/menu)
+- [ ] PostCreationModal → `post_creation_modal.dart` (PARTIAL - needs media)
+- [ ] PostDetailModal → `post_detail_modal.dart` (PARTIAL - needs comments)
+- [ ] PostInputBar → `post_input_widget.dart` (PARTIAL - needs media picker)
+
+### 🚧 Explore & Location (2 total - 0 complete, 2 partial)
+- [ ] Explore → `explore_page.dart` (PARTIAL - needs filters/search)
+- [ ] LocationSelector → `location_selector.dart` (PARTIAL - needs permissions)
+
+### 🚧 Create Post & Media (3 total - 0 complete, 1 partial, 2 missing)
+- [ ] VideoCard → `video_card_widget.dart` (MISSING)
+- [ ] VideoPlayer → `video_player_widget.dart` (PARTIAL - needs controls)
+- [ ] ShareModal → `share_modal.dart` (MISSING)
+
+### 🚧 Messaging & Chat (3 total - 0 complete, 3 partial)
+- [ ] MessagesPage → `messages_page.dart` (PARTIAL - needs list polish)
+- [ ] MessagingInterface → `messaging_interface.dart` (PARTIAL - needs real-time)
+- [ ] ConversationInputBar → `conversation_input_widget.dart` (PARTIAL - needs media)
+
+### 🚧 Notifications (3 total - 0 complete, 2 partial, 1 missing)
+- [ ] Notifications → `notifications_page.dart` (PARTIAL - needs grouping)
+- [ ] NotificationItem → `notification_item_widget.dart` (PARTIAL - needs actions)
+- [ ] NotificationsHeader → `notifications_header_widget.dart` (MISSING)
+
+### 🚧 Profile, Settings & Subscription (10 total - 0 complete, 7 partial, 3 missing)
+- [ ] MyProfile → `my_profile_page.dart` (PARTIAL - needs stats)
+- [ ] UserProfile → `user_profile_page.dart` (PARTIAL - needs actions)
+- [ ] EditProfile → `edit_profile_page.dart` (PARTIAL - needs validation)
+- [ ] ProfileCard → `profile_card_widget.dart` (PARTIAL - needs flip animation)
+- [ ] ProfileHeader → `profile_header_widget.dart` (PARTIAL - needs actions)
+- [ ] ProfileStats → `profile_stats_widget.dart` (MISSING)
+- [ ] FlippableProfileCard → `flippable_profile_card.dart` (PARTIAL - needs 3D flip)
+- [ ] ProfilePictureChanger → `profile_picture_changer.dart` (PARTIAL - needs camera)
+- [ ] ShareProfile → `share_profile_widget.dart` (PARTIAL - needs share options)
+- [ ] SettingsPage → `settings_page.dart` (MISSING)
+- [ ] Subscribe → `subscribe_page.dart` (PARTIAL - needs payment)
+### 🚧 Live & Video (2 total - 0 complete, 2 partial)
+- [ ] Live → `live_page.dart` (PARTIAL - needs streaming)
+- [ ] Following → `following_page.dart` (PARTIAL - needs infinite scroll)
+
+### 🚧 Rate Your Date (2 total - 0 complete, 1 partial, 1 missing)
+- [ ] RateYourDate → `rate_your_date_page.dart` (PARTIAL - needs rating UI)
+- [ ] RateYourDateHeader → `rate_your_date_header_widget.dart` (MISSING)
+4. Target: 50% completion by end of sprint
