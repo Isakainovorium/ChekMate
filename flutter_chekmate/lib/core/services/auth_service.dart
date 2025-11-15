@@ -284,4 +284,12 @@ class AuthService {
       throw _handleAuthException(e);
     }
   }
+
+  /// Get user document from Firestore
+  Stream<UserModel?> getUserDocument(String uid) {
+    return _firestore.collection('users').doc(uid).snapshots().map((snapshot) {
+      if (!snapshot.exists) return null;
+      return UserModel.fromJson(snapshot.data()!);
+    });
+  }
 }

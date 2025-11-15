@@ -247,7 +247,7 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
                   ),
                 ),
                 Text(
-                  widget.post.timestamp,
+                  _formatTimestamp(widget.post.timestamp),
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.grey.shade600,
@@ -260,10 +260,10 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
           // More button - replaced with AppDropdownMenu
           AppDropdownButton<String>(
             items: [
-              AppDropdownMenuItem<String>(
+              const AppDropdownMenuItem<String>(
                 value: 'share',
                 label: 'Share Post',
-                leading: const Icon(Icons.share, size: 18),
+                leading: Icon(Icons.share, size: 18),
               ),
               AppDropdownMenuItem<String>(
                 value: 'bookmark',
@@ -529,5 +529,27 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
         ],
       ),
     );
+  }
+
+  /// Format timestamp to relative time (e.g., "2h ago", "3d ago")
+  String _formatTimestamp(DateTime timestamp) {
+    final now = DateTime.now();
+    final difference = now.difference(timestamp);
+
+    if (difference.inDays > 365) {
+      final years = (difference.inDays / 365).floor();
+      return '${years}y ago';
+    } else if (difference.inDays > 30) {
+      final months = (difference.inDays / 30).floor();
+      return '${months}mo ago';
+    } else if (difference.inDays > 0) {
+      return '${difference.inDays}d ago';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours}h ago';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes}m ago';
+    } else {
+      return 'Just now';
+    }
   }
 }

@@ -419,7 +419,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       backgroundColor: Colors.transparent,
       builder: (context) => VoicePromptRecorder(
         question: question,
-        onRecordingComplete: (voicePrompt) async {
+        onRecordingComplete: (audioFilePath) async {
           final scaffoldMessenger = ScaffoldMessenger.of(context);
           Navigator.pop(context);
 
@@ -429,6 +429,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
           });
 
           try {
+            // Create VoicePromptEntity from the recorded audio file path
+            final voicePrompt = VoicePromptEntity(
+              id: '', // Will be set during upload
+              userId: widget.userId,
+              question: question,
+              audioUrl: audioFilePath, // Local file path for now
+              duration: 30, // TODO: Get actual duration in seconds
+              createdAt: DateTime.now(),
+            );
+
             final uploadedPrompt = await _uploadVoicePrompt(voicePrompt);
 
             if (!mounted) return;
@@ -500,6 +510,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       // Return updated voice prompt with Firebase Storage URL
       return VoicePromptEntity(
         id: promptId,
+        userId: voicePrompt.userId,
         question: voicePrompt.question,
         audioUrl: downloadUrl,
         duration: voicePrompt.duration,

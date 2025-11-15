@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/providers/providers.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
+import 'package:flutter_chekmate/features/auth/presentation/providers/auth_providers.dart'
+    as auth;
 import 'package:flutter_chekmate/features/posts/domain/entities/post_entity.dart';
 import 'package:flutter_chekmate/features/posts/presentation/providers/posts_providers.dart';
 import 'package:flutter_chekmate/features/profile/domain/entities/voice_prompt_entity.dart';
@@ -45,13 +47,14 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
 
   @override
   Widget build(BuildContext context) {
-    final currentUserId = ref.watch(currentUserIdProvider);
+    final currentUserIdAsync = ref.watch(currentUserIdProvider);
+    final currentUserId = currentUserIdAsync.value;
     final isOwnProfile =
         widget.userId == null || widget.userId == currentUserId;
 
     final userProvider = isOwnProfile
         ? currentUserProvider
-        : userProfileProvider(widget.userId ?? '');
+        : auth.userProfileProvider(widget.userId ?? '');
 
     final userAsync = ref.watch(userProvider);
 

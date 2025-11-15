@@ -56,95 +56,92 @@ class TrendingContentWidget extends ConsumerWidget {
                 (entry) {
                   final index = entry.key;
                   final item = entry.value;
-                  return AnimatedListItem(
-                    index: index,
-                    child: ListTile(
-                      leading: item.imageUrl != null
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.network(
-                                item.imageUrl!,
-                                width: 60,
-                                height: 60,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Container(
-                                    width: 60,
-                                    height: 60,
-                                    color: Colors.grey.shade200,
-                                    child: const Icon(Icons.image),
-                                  );
-                                },
-                              ),
-                            )
-                          : null,
-                      title: Text(
-                        item.title,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item.authorName,
-                            style: TextStyle(
-                              fontSize: 12,
+                  return ListTile(
+                    leading: item.imageUrl != null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(
+                              item.imageUrl!,
+                              width: 60,
+                              height: 60,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Container(
+                                  width: 60,
+                                  height: 60,
+                                  color: Colors.grey.shade200,
+                                  child: const Icon(Icons.image),
+                                );
+                              },
+                            ),
+                          )
+                        : null,
+                    title: Text(
+                      item.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item.authorName,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey.shade600,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.favorite,
+                              size: 14,
                               color: Colors.grey.shade600,
                             ),
-                          ),
-                          const SizedBox(height: 4),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.favorite,
-                                size: 14,
+                            const SizedBox(width: 4),
+                            Text(
+                              item.formattedLikes,
+                              style: TextStyle(
+                                fontSize: 12,
                                 color: Colors.grey.shade600,
                               ),
-                              const SizedBox(width: 4),
-                              Text(
-                                item.formattedLikes,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey.shade600,
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              Icon(
-                                Icons.comment,
-                                size: 14,
+                            ),
+                            const SizedBox(width: 12),
+                            Icon(
+                              Icons.comment,
+                              size: 14,
+                              color: Colors.grey.shade600,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              item.formattedComments,
+                              style: TextStyle(
+                                fontSize: 12,
                                 color: Colors.grey.shade600,
                               ),
-                              const SizedBox(width: 4),
-                              Text(
-                                item.formattedComments,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey.shade600,
-                                ),
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              item.timeAgo,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey.shade600,
                               ),
-                              const SizedBox(width: 12),
-                              Text(
-                                item.timeAgo,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey.shade600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      trailing: item.isTrending
-                          ? const Icon(
-                              Icons.trending_up,
-                              color: AppColors.primary,
-                            )
-                          : null,
-                      onTap: () {
-                        // Navigate to content detail
-                      },
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
+                    trailing: item.isTrending
+                        ? const Icon(
+                            Icons.trending_up,
+                            color: AppColors.primary,
+                          )
+                        : null,
+                    onTap: () {
+                      // Navigate to content detail
+                    },
                   );
                 },
               ),
@@ -156,42 +153,42 @@ class TrendingContentWidget extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(AppSpacing.md),
+            const Padding(
+              padding: EdgeInsets.all(AppSpacing.md),
               child: Row(
                 children: [
-                  const AppSkeleton(width: 18, height: 18, isCircular: true),
-                  const SizedBox(width: AppSpacing.xs),
-                  const AppSkeleton(width: 120, height: 16),
+                  AppSkeleton(width: 18, height: 18, isCircular: true),
+                  SizedBox(width: AppSpacing.xs),
+                  AppSkeleton(width: 120, height: 16),
                 ],
               ),
             ),
             ...List.generate(
               3,
-              (index) => Padding(
-                padding: const EdgeInsets.symmetric(
+              (index) => const Padding(
+                padding: EdgeInsets.symmetric(
                   horizontal: AppSpacing.md,
                   vertical: AppSpacing.sm,
                 ),
                 child: Row(
                   children: [
-                    const AppSkeleton(width: 60, height: 60, borderRadius: 8),
-                    const SizedBox(width: AppSpacing.md),
+                    AppSkeleton(width: 60, height: 60, borderRadius: 8),
+                    SizedBox(width: AppSpacing.md),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const AppSkeleton(width: double.infinity, height: 14),
-                          const SizedBox(height: 4),
-                          const AppSkeleton(width: 100, height: 12),
-                          const SizedBox(height: 8),
+                          AppSkeleton(width: double.infinity, height: 14),
+                          SizedBox(height: 4),
+                          AppSkeleton(width: 100, height: 12),
+                          SizedBox(height: 8),
                           Row(
                             children: [
-                              const AppSkeleton(width: 50, height: 12),
-                              const SizedBox(width: 12),
-                              const AppSkeleton(width: 50, height: 12),
-                              const SizedBox(width: 12),
-                              const AppSkeleton(width: 60, height: 12),
+                              AppSkeleton(width: 50, height: 12),
+                              SizedBox(width: 12),
+                              AppSkeleton(width: 50, height: 12),
+                              SizedBox(width: 12),
+                              AppSkeleton(width: 60, height: 12),
                             ],
                           ),
                         ],

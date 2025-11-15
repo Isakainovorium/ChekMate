@@ -48,6 +48,115 @@ class SlidePageRoute<T> extends PageRouteBuilder<T> {
   }
 }
 
+/// TikTok-style Page Transition
+enum TikTokTransitionType {
+  slideUp,
+  slideDown,
+  fade,
+}
+
+class TikTokPageTransition<T> extends Page<T> {
+  const TikTokPageTransition({
+    required this.child,
+    required this.type,
+    super.key,
+    super.name,
+    super.arguments,
+    super.restorationId,
+  });
+
+  final Widget child;
+  final TikTokTransitionType type;
+
+  @override
+  Route<T> createRoute(BuildContext context) {
+    return PageRouteBuilder<T>(
+      settings: this,
+      pageBuilder: (context, animation, secondaryAnimation) => child,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        switch (type) {
+          case TikTokTransitionType.slideUp:
+            return SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0, 1),
+                end: Offset.zero,
+              ).animate(CurvedAnimation(
+                parent: animation,
+                curve: Curves.easeOut,
+              )),
+              child: child,
+            );
+          case TikTokTransitionType.slideDown:
+            return SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0, -1),
+                end: Offset.zero,
+              ).animate(CurvedAnimation(
+                parent: animation,
+                curve: Curves.easeOut,
+              )),
+              child: child,
+            );
+          case TikTokTransitionType.fade:
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+        }
+      },
+    );
+  }
+}
+
+/// Shared Axis Transition (Material Design 3)
+class SharedAxisTransition extends StatelessWidget {
+  const SharedAxisTransition({
+    required this.animation,
+    required this.child,
+    super.key,
+  });
+
+  final Animation<double> animation;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return SlideTransition(
+      position: Tween<Offset>(
+        begin: const Offset(0.3, 0),
+        end: Offset.zero,
+      ).animate(CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeOut,
+      )),
+      child: FadeTransition(
+        opacity: animation,
+        child: child,
+      ),
+    );
+  }
+}
+
+/// Fade Through Transition (Material Design 3)
+class FadeThroughTransition extends StatelessWidget {
+  const FadeThroughTransition({
+    required this.animation,
+    required this.child,
+    super.key,
+  });
+
+  final Animation<double> animation;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: animation,
+      child: child,
+    );
+  }
+}
+
 /// FadePageRoute - Fade transition for page navigation
 class FadePageRoute<T> extends PageRouteBuilder<T> {
   FadePageRoute({
@@ -138,4 +247,3 @@ class SlideFadePageRoute<T> extends PageRouteBuilder<T> {
     }
   }
 }
-

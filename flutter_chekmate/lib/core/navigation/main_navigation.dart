@@ -11,16 +11,39 @@ import 'nav_state.dart';
 /// Manages navigation state and provides unified navigation interface.
 /// 
 /// Date: 11/13/2025
-class MainNavigation extends ConsumerWidget {
+class MainNavigation extends ConsumerStatefulWidget {
   const MainNavigation({
     required this.child,
+    this.currentIndex,
+    this.hideNavigation = false,
     super.key,
   });
 
   final Widget child;
+  final int? currentIndex;
+  final bool hideNavigation;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MainNavigation> createState() => _MainNavigationState();
+}
+
+class _MainNavigationState extends ConsumerState<MainNavigation> {
+  @override
+  void initState() {
+    super.initState();
+    // Update navigation state if currentIndex is provided
+    if (widget.currentIndex != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final index = widget.currentIndex!;
+        if (index < BottomNavTab.values.length) {
+          updateBottomNavTab(ref, BottomNavTab.values[index]);
+        }
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final currentBottomTab = ref.watch(bottomNavTabProvider);
     final currentTopTab = ref.watch(topNavTabProvider);
 
@@ -28,7 +51,7 @@ class MainNavigation extends ConsumerWidget {
       body: Column(
         children: [
           // Top tab navigation (shown on home/explore pages)
-          if (_shouldShowTopTabs(currentBottomTab))
+          if (_shouldShowTopTabs(currentBottomTab) && !widget.hideNavigation)
             _TopTabNavigation(
               currentTab: currentTopTab,
               onTabChanged: (tab) {
@@ -37,16 +60,18 @@ class MainNavigation extends ConsumerWidget {
               },
             ),
           // Main content
-          Expanded(child: child),
+          Expanded(child: widget.child),
         ],
       ),
-      bottomNavigationBar: _BottomNavigationBar(
-        currentTab: currentBottomTab,
-        onTabChanged: (tab) {
-          updateBottomNavTab(ref, tab);
-          _navigateToBottomTab(context, tab);
-        },
-      ),
+      bottomNavigationBar: widget.hideNavigation
+          ? null
+          : _BottomNavigationBar(
+              currentTab: currentBottomTab,
+              onTabChanged: (tab) {
+                updateBottomNavTab(ref, tab);
+                _navigateToBottomTab(context, tab);
+              },
+            ),
     );
   }
 
@@ -59,16 +84,16 @@ class MainNavigation extends ConsumerWidget {
   void _navigateToBottomTab(BuildContext context, BottomNavTab tab) {
     switch (tab) {
       case BottomNavTab.home:
-        context.go(RouteConstants.home);
+        context.go(RoutePaths.home);
         break;
       case BottomNavTab.messages:
-        context.go(RouteConstants.messages);
+        context.go(RoutePaths.messages);
         break;
       case BottomNavTab.notifications:
-        context.go(RouteConstants.notifications);
+        context.go(RoutePaths.notifications);
         break;
       case BottomNavTab.profile:
-        context.go(RouteConstants.profile);
+        context.go(RoutePaths.profile);
         break;
     }
   }
@@ -77,19 +102,19 @@ class MainNavigation extends ConsumerWidget {
   void _navigateToTopTab(BuildContext context, TopNavTab tab) {
     switch (tab) {
       case TopNavTab.forYou:
-        context.go(RouteConstants.home);
+        context.go(RoutePaths.home);
         break;
       case TopNavTab.following:
         // TODO: Navigate to following feed when implemented
         break;
       case TopNavTab.explore:
-        context.go(RouteConstants.explore);
+        context.go(RoutePaths.explore);
         break;
       case TopNavTab.live:
-        context.go(RouteConstants.live);
+        context.go(RoutePaths.live);
         break;
       case TopNavTab.subscribe:
-        context.go(RouteConstants.subscribe);
+        context.go(RoutePaths.subscribe);
         break;
     }
   }

@@ -1,5 +1,5 @@
 /// User Model - Core user data model
-/// 
+///
 /// Represents a user in the ChekMate application.
 class UserModel {
   UserModel({
@@ -41,6 +41,48 @@ class UserModel {
   final int? age;
   final String? gender;
   final List<String> interests;
+
+  /// Alias for uid (for compatibility)
+  String get id => uid;
+
+  /// Alias for displayName (for compatibility)
+  String get name => displayName;
+
+  /// Check if location is enabled (has location data)
+  bool get locationEnabled => location != null && location!.isNotEmpty;
+
+  /// Get formatted followers count (e.g., "1.2K", "3.5M")
+  String get formattedFollowers {
+    if (followers >= 1000000) {
+      return '${(followers / 1000000).toStringAsFixed(1)}M';
+    } else if (followers >= 1000) {
+      return '${(followers / 1000).toStringAsFixed(1)}K';
+    } else {
+      return followers.toString();
+    }
+  }
+
+  /// Get formatted following count (e.g., "1.2K", "3.5M")
+  String get formattedFollowing {
+    if (following >= 1000000) {
+      return '${(following / 1000000).toStringAsFixed(1)}M';
+    } else if (following >= 1000) {
+      return '${(following / 1000).toStringAsFixed(1)}K';
+    } else {
+      return following.toString();
+    }
+  }
+
+  /// Get formatted posts count (e.g., "1.2K", "3.5M")
+  String get formattedPosts {
+    if (posts >= 1000000) {
+      return '${(posts / 1000000).toStringAsFixed(1)}M';
+    } else if (posts >= 1000) {
+      return '${(posts / 1000).toStringAsFixed(1)}K';
+    } else {
+      return posts.toString();
+    }
+  }
 
   /// Convert UserModel to JSON for Firestore
   Map<String, dynamic> toJson() {
@@ -136,4 +178,3 @@ class UserModel {
     );
   }
 }
-

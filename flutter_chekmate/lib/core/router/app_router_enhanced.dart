@@ -21,7 +21,7 @@ import 'package:flutter_chekmate/pages/onboarding/profile_photo_screen.dart';
 import 'package:flutter_chekmate/pages/onboarding/welcome_screen.dart';
 import 'package:flutter_chekmate/pages/profile/interests_management_page.dart';
 import 'package:flutter_chekmate/pages/profile/notification_schedule_settings_page.dart';
-import 'package:flutter_chekmate/pages/profile/theme_settings_page.dart';
+import 'package:flutter_chekmate/features/profile/pages/theme_settings_page.dart';
 import 'package:flutter_chekmate/pages/profile/location_settings_page.dart';
 import 'package:flutter_chekmate/pages/profile/my_profile_page.dart';
 import 'package:flutter_chekmate/pages/rate_date/rate_date_page.dart';

@@ -720,18 +720,21 @@ class _ExplorePageState extends State<ExplorePage> {
 /// Mock data
 class MockExplorePosts {
   static final List<Post> trendingPosts = [
-    const Post(
+    Post(
       id: 'e1',
+      userId: 'user1',
       username: 'ExperienceSharer',
       userAvatar:
           'https://images.unsplash.com/photo-1580489944761-15a19d654956',
       content:
           '🔥 VIRAL: The 5 Red Flags I Spotted - My Dating Experience (Thread)',
-      imageUrl: 'https://images.unsplash.com/photo-1516975280-8c86b485204e',
+      images: const [
+        'https://images.unsplash.com/photo-1516975280-8c86b485204e'
+      ],
       likes: 45600,
       comments: 2800,
       shares: 1200,
-      timestamp: '2h ago',
+      timestamp: DateTime.now().subtract(const Duration(hours: 2)),
     ),
   ];
 }

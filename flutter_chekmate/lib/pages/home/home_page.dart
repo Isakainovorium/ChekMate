@@ -1,13 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_chekmate/core/navigation/nav_state.dart';
 import 'package:flutter_chekmate/core/providers/auth_providers.dart';
 import 'package:flutter_chekmate/core/providers/gamification_provider.dart';
+import 'package:flutter_chekmate/core/providers/navigation_providers.dart';
 import 'package:flutter_chekmate/core/services/keyboard_shortcuts_service.dart';
 import 'package:flutter_chekmate/core/theme/app_breakpoints.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
+import 'package:flutter_chekmate/features/feed/data/mock_data.dart';
 import 'package:flutter_chekmate/features/feed/models/post_model.dart';
 import 'package:flutter_chekmate/features/feed/pages/messaging/pages/navigation/widgets/header_widget.dart';
 import 'package:flutter_chekmate/features/feed/pages/messaging/pages/navigation/widgets/nav_tabs_widget.dart';
@@ -16,7 +17,7 @@ import 'package:flutter_chekmate/features/stories/models/story_model.dart';
 import 'package:flutter_chekmate/features/stories/widgets/stories_widget.dart';
 import 'package:flutter_chekmate/pages/explore/explore_page.dart';
 import 'package:flutter_chekmate/pages/live/live_page.dart';
-import 'package:flutter_chekmate/shared/ui/animations/micro_interactions.dart';
+import 'package:flutter_chekmate/shared/ui/animations/widget_animations.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -187,8 +188,8 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   // Bottom navigation is provided by the MainNavigation shell.
 
-  void _handleStoryTap(String userId) {
-    _openStoryViewer(userId);
+  void _handleStoryTap(StoryUser storyUser) {
+    _openStoryViewer(storyUser);
   }
 
   void _handleSearch(String query) {
@@ -199,7 +200,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
   }
 
-  Future<void> _openStoryViewer(String userId) async {
+  Future<void> _openStoryViewer(StoryUser storyUser) async {
     // Hide bottom nav while viewing stories
     ref.read(navStateProvider.notifier).setViewingStories(true);
     await showModalBottomSheet<void>(
@@ -213,7 +214,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           child: SafeArea(
             child: Center(
               child: Text(
-                'Story Viewer for $userId\n(Tap anywhere to close)',
+                'Story Viewer for ${storyUser.username}\n(Tap anywhere to close)',
                 textAlign: TextAlign.center,
                 style: const TextStyle(color: Colors.white, fontSize: 18),
               ),
@@ -347,7 +348,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               },
             ).staggeredFadeIn(
               index: index - 1,
-              delay: const Duration(milliseconds: 80),
+              staggerDelay: const Duration(milliseconds: 80),
             );
           },
         ),
@@ -395,7 +396,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               onMorePressed: () => _showPostOptions(post),
             ).staggeredFadeIn(
               index: index - 1,
-              delay: const Duration(milliseconds: 80),
+              staggerDelay: const Duration(milliseconds: 80),
             );
           },
         ),
@@ -409,20 +410,11 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   Widget _buildLivePage() {
-    // Get current user's avatar from provider
-    // Use a default avatar immediately to prevent blocking the UI
-    // The avatar will update when the user data loads
-    final currentUser = ref.watch(currentUserProvider);
-
-    // Handle async state properly - don't block UI while loading
-    final userAvatar = currentUser.when(
-      data: (user) => user?.avatar ?? 'https://via.placeholder.com/150',
-      loading: () => 'https://via.placeholder.com/150', // Default while loading
-      error: (_, __) => 'https://via.placeholder.com/150', // Default on error
-    );
+    // Use a default avatar - LivePage doesn't require user data to function
+    const userAvatar = 'https://via.placeholder.com/150';
 
     // Use the actual LivePage widget without AppBar (HomePage has its own header)
-    return LivePage(userAvatar: userAvatar, showAppBar: false);
+    return const LivePage(userAvatar: userAvatar, showAppBar: false);
   }
 
   Widget _buildRateDatePage() {

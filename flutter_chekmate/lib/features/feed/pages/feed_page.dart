@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
 import 'package:flutter_chekmate/features/auth/presentation/providers/auth_providers.dart';
+import 'package:flutter_chekmate/features/feed/presentation/providers/feed_providers.dart';
 import 'package:flutter_chekmate/features/posts/domain/entities/post_entity.dart';
 import 'package:flutter_chekmate/features/posts/presentation/providers/posts_providers.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart';
+import 'package:flutter_chekmate/shared/widgets/animated_feed_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -378,7 +380,7 @@ class _PostCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final postController = ref.read(postsControllerProvider.notifier);
+    final postController = ref.read(postsControllerProvider);
     final hasLikedAsync = ref.watch(hasLikedPostProvider(post.id));
 
     return AppCard(
@@ -514,7 +516,7 @@ class _ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedButton(
-      onTap: onTap,
+      onPressed: onTap,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

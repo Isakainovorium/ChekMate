@@ -5,8 +5,9 @@ import 'package:flutter_chekmate/core/theme/app_spacing.dart';
 import 'package:flutter_chekmate/features/auth/presentation/providers/auth_providers.dart';
 import 'package:flutter_chekmate/features/messages/domain/entities/conversation_entity.dart';
 import 'package:flutter_chekmate/features/messages/presentation/providers/messages_providers.dart';
-import 'package:flutter_chekmate/shared/ui/animations/micro_interactions.dart';
+import 'package:flutter_chekmate/shared/ui/animations/widget_animations.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart';
+import 'package:flutter_chekmate/shared/utils/hero_tags.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -69,8 +70,9 @@ class _MessagesPageState extends ConsumerState<MessagesPage> {
           Expanded(
             child: Consumer(
               builder: (context, ref, child) {
+                final currentUserId = ref.watch(currentUserIdProvider) ?? '';
                 final conversationsAsync =
-                    ref.watch(conversationsStreamProvider);
+                    ref.watch(conversationsStreamProvider(currentUserId));
 
                 return conversationsAsync.when(
                   data: (conversations) {
@@ -99,7 +101,7 @@ class _MessagesPageState extends ConsumerState<MessagesPage> {
                             onTap: () => _openConversation(conversation.id),
                           ).staggeredFadeIn(
                             index: index,
-                            delay: const Duration(milliseconds: 80),
+                            staggerDelay: const Duration(milliseconds: 80),
                           );
                         },
                       ),
@@ -111,7 +113,8 @@ class _MessagesPageState extends ConsumerState<MessagesPage> {
                     title: 'Error loading conversations',
                     message: error.toString(),
                     action: AppButton(
-                      onPressed: () => ref.refresh(conversationsStreamProvider),
+                      onPressed: () => ref
+                          .refresh(conversationsStreamProvider(currentUserId)),
                       child: const Text('Retry'),
                     ),
                   ),
@@ -167,9 +170,8 @@ class _ConversationTile extends ConsumerWidget {
       child: ListTile(
         onTap: onTap,
         leading: HeroAvatar(
-          tag: HeroTags.messageAvatar(otherParticipantId ?? ''),
+          tag: HeroTags.messageAvatar(otherParticipantId),
           imageUrl: otherParticipantAvatar,
-          name: otherParticipantName,
         ),
         title: Row(
           children: [

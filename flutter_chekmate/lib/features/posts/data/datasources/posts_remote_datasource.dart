@@ -4,12 +4,13 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:flutter_chekmate/core/utils/geohash_utils.dart';
 import 'package:flutter_chekmate/features/posts/data/models/post_model.dart';
+import 'package:flutter_chekmate/features/posts/domain/entities/post_entity.dart';
 import 'package:geoflutterfire_plus/geoflutterfire_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 /// Posts Remote Data Source - Data Layer
 ///
@@ -134,7 +135,7 @@ class PostsRemoteDataSource {
         createdAt: now,
         updatedAt: now,
         location: location,
-        tags: tags,
+        tags: tags ?? [],
         coordinates: coordinates,
         geohash: geohash,
         isVerified: false,
@@ -196,7 +197,7 @@ class PostsRemoteDataSource {
   }
 
   /// Get posts feed stream
-  Stream<List<PostModel>> getPosts({
+  Stream<List<PostEntity>> getPosts({
     int limit = 20,
     String? userId,
   }) {
@@ -237,11 +238,210 @@ class PostsRemoteDataSource {
   }
 
   /// Get posts for a specific user
-  Stream<List<PostModel>> getUserPosts({
+  Stream<List<PostEntity>> getUserPosts({
     required String userId,
     int limit = 20,
   }) {
     return getPosts(limit: limit, userId: userId);
+  }
+
+  /// Get feed posts for a user (includes posts from followed users)
+  ///
+  /// Parameters:
+  /// - userId: The ID of the user requesting the feed
+  /// - limit: Maximum number of posts to return (default: 20)
+  ///
+  /// Returns: Stream<List<PostEntity>> of feed posts
+  Stream<List<PostEntity>> getFeedPosts({
+    required String userId,
+    int limit = 20,
+  }) {
+    try {
+      developer.log('Getting feed posts for user: $userId',
+          name: 'PostsRemoteDataSource');
+
+      // For now, return all posts ordered by creation date
+      // TODO: Implement following logic to filter by followed users
+      return _firestore
+          .collection('posts')
+          .orderBy('createdAt', descending: true)
+          .limit(limit)
+          .snapshots()
+          .map((snapshot) {
+        return snapshot.docs.map((doc) {
+          return PostModel.fromFirestore(doc);
+        }).toList();
+      });
+    } catch (e, stackTrace) {
+      developer.log(
+        'Failed to get feed posts',
+        name: 'PostsRemoteDataSource',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      return Stream.value([]);
+    }
+  }
+
+  /// Get a single post by ID (alias for getPost)
+  Future<PostEntity> getPostById(String postId) async {
+    return await getPost(postId);
+  }
+
+  /// Get trending posts (high engagement in last 24 hours)
+  ///
+  /// Parameters:
+  /// - limit: Maximum number of posts to return (default: 20)
+  ///
+  /// Returns: Stream<List<PostEntity>> of trending posts
+  Stream<List<PostEntity>> getTrendingPosts({int limit = 20}) {
+    try {
+      developer.log('Getting trending posts', name: 'PostsRemoteDataSource');
+
+      // Get posts from last 24 hours with high engagement
+      final yesterday = DateTime.now().subtract(const Duration(hours: 24));
+
+      return _firestore
+          .collection('posts')
+          .where('createdAt', isGreaterThan: yesterday)
+          .orderBy('createdAt', descending: true)
+          .orderBy('likes', descending: true)
+          .limit(limit)
+          .snapshots()
+          .map((snapshot) {
+        return snapshot.docs.map((doc) {
+          return PostModel.fromFirestore(doc);
+        }).toList();
+      });
+    } catch (e, stackTrace) {
+      developer.log(
+        'Failed to get trending posts',
+        name: 'PostsRemoteDataSource',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      return Stream.value([]);
+    }
+  }
+
+  /// Get posts from users the current user follows
+  ///
+  /// Parameters:
+  /// - userId: The ID of the current user
+  /// - limit: Maximum number of posts to return (default: 20)
+  ///
+  /// Returns: Stream<List<PostEntity>> of posts from followed users
+  Stream<List<PostEntity>> getFollowingPosts({
+    required String userId,
+    int limit = 20,
+  }) {
+    try {
+      developer.log('Getting following posts for user: $userId',
+          name: 'PostsRemoteDataSource');
+
+      // TODO: Implement following logic
+      // For now, return all posts
+      return getFeedPosts(userId: userId, limit: limit);
+    } catch (e, stackTrace) {
+      developer.log(
+        'Failed to get following posts',
+        name: 'PostsRemoteDataSource',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      return Stream.value([]);
+    }
+  }
+
+  /// Get explore posts by user interests (alias for getPostsByInterests)
+  Future<List<PostEntity>> getExplorePostsByInterests({
+    required List<String> interests,
+    int limit = 20,
+  }) async {
+    return await getPostsByInterests(interests: interests, limit: limit);
+  }
+
+  /// Get bookmarked posts for a user
+  ///
+  /// Parameters:
+  /// - userId: The ID of the user
+  /// - limit: Maximum number of posts to return (default: 20)
+  ///
+  /// Returns: Stream<List<PostEntity>> of bookmarked posts
+  Stream<List<PostEntity>> getBookmarkedPosts({
+    required String userId,
+    int limit = 20,
+  }) {
+    try {
+      developer.log('Getting bookmarked posts for user: $userId',
+          name: 'PostsRemoteDataSource');
+
+      return _firestore
+          .collection('posts')
+          .where('bookmarkedBy', arrayContains: userId)
+          .orderBy('createdAt', descending: true)
+          .limit(limit)
+          .snapshots()
+          .map((snapshot) {
+        return snapshot.docs.map((doc) {
+          return PostModel.fromFirestore(doc);
+        }).toList();
+      });
+    } catch (e, stackTrace) {
+      developer.log(
+        'Failed to get bookmarked posts',
+        name: 'PostsRemoteDataSource',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      return Stream.value([]);
+    }
+  }
+
+  /// Remove bookmark from a post (alias for unbookmarkPost)
+  Future<void> removeBookmark({
+    required String postId,
+    required String userId,
+  }) async {
+    return await unbookmarkPost(postId: postId, userId: userId);
+  }
+
+  /// Report a post
+  ///
+  /// Parameters:
+  /// - postId: The ID of the post to report
+  /// - userId: The ID of the user reporting the post
+  /// - reason: The reason for reporting
+  ///
+  /// Returns: Future<void>
+  Future<void> reportPost({
+    required String postId,
+    required String userId,
+    required String reason,
+  }) async {
+    try {
+      developer.log('Reporting post: $postId by user: $userId',
+          name: 'PostsRemoteDataSource');
+
+      await _firestore.collection('reports').add({
+        'postId': postId,
+        'userId': userId,
+        'reason': reason,
+        'createdAt': FieldValue.serverTimestamp(),
+        'status': 'pending',
+      });
+
+      developer.log('Post reported successfully',
+          name: 'PostsRemoteDataSource');
+    } catch (e, stackTrace) {
+      developer.log(
+        'Failed to report post',
+        name: 'PostsRemoteDataSource',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      rethrow;
+    }
   }
 
   /// Get posts near a location using geohash

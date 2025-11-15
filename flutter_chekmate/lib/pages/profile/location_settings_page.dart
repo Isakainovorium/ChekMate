@@ -24,7 +24,8 @@ class _LocationSettingsPageState extends ConsumerState<LocationSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final userAsync = ref.watch(authStateProvider);
+    // Use currentUserDocumentProvider to get UserModel with locationEnabled property
+    final userModelAsync = ref.watch(currentUserDocumentProvider);
 
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
@@ -41,8 +42,8 @@ class _LocationSettingsPageState extends ConsumerState<LocationSettingsPage> {
               vertical: AppSpacing.sm,
             ),
             alignment: Alignment.centerLeft,
-            child: AppBreadcrumb(
-              items: const [
+            child: const AppBreadcrumb(
+              items: [
                 AppBreadcrumbItem(
                   label: 'Profile',
                   icon: Icons.person,
@@ -60,7 +61,7 @@ class _LocationSettingsPageState extends ConsumerState<LocationSettingsPage> {
           ),
         ),
       ),
-      body: userAsync.when(
+      body: userModelAsync.when(
         data: (user) {
           if (user == null) {
             return const Center(
@@ -115,7 +116,7 @@ class _LocationSettingsPageState extends ConsumerState<LocationSettingsPage> {
                       content: _buildInfoSection(),
                     ),
                   ],
-                  initialExpandedIndexes: {
+                  initialExpandedIndexes: const {
                     0
                   }, // First section expanded by default
                 ),

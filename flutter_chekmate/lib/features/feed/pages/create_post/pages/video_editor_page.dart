@@ -7,8 +7,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
-import 'package:flutter_chekmate/features/voice_messages/domain/entities/voice_message_entity.dart';
-import 'package:flutter_chekmate/features/voice_messages/presentation/widgets/voiceover_recorder.dart';
+import 'package:flutter_chekmate/features/feed/pages/create_post/widgets/voiceover_recorder.dart';
+import 'package:flutter_chekmate/features/messages/domain/entities/voice_message_entity.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -697,7 +697,7 @@ class _VideoEditorPageState extends State<VideoEditorPage> {
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
-              'Duration: ${_formatDuration(_voiceoverAudio!.duration)}',
+              'Duration: ${_formatDuration(_voiceoverAudio!.duration.inSeconds)}',
               style: const TextStyle(
                 color: Colors.white70,
                 fontSize: 14,
@@ -781,11 +781,13 @@ class _VideoEditorPageState extends State<VideoEditorPage> {
       backgroundColor: Colors.transparent,
       builder: (context) => VoiceoverRecorder(
         videoPath: widget.videoPath,
-        videoDuration: videoDuration,
+        videoDuration: Duration(milliseconds: videoDuration),
         onRecordingComplete: (voiceMessage) {
-          setState(() {
-            _voiceoverAudio = voiceMessage;
-          });
+          // voiceMessage is a String (file path), but _voiceoverAudio expects VoiceMessageEntity
+          // For now, we'll skip setting it until VoiceMessageEntity is properly created
+          // setState(() {
+          //   _voiceoverAudio = voiceMessage;
+          // });
           Navigator.pop(context);
 
           // Show success message

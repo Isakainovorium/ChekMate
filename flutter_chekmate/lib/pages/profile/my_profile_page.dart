@@ -110,9 +110,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
           const SliverToBoxAdapter(
             child: ProfileStatsWidget(
               posts: 89,
-              followers: '1.2K',
-              subscribers: '567',
-              likes: '12.5K',
+              followers: 1200,
+              following: 567,
             ),
           ),
           SliverToBoxAdapter(child: _buildEditProfileButton()),
