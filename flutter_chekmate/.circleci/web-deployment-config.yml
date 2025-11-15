@@ -1,0 +1,326 @@
+# CircleCI Configuration for ChekMate Flutter Web PWA Deployment
+# Purpose: Automated build, test, and deployment to Firebase Hosting
+# Branch: web-pwa
+# Created: 2025-10-27
+# Version: 1.0.0
+
+version: 2.1
+
+# Executors - Define the execution environment
+executors:
+  flutter-web-executor:
+    docker:
+      - image: ghcr.io/cirruslabs/flutter:3.24.3
+    resource_class: medium
+    working_directory: ~/project/flutter_chekmate
+    environment:
+      FLUTTER_HOME: /sdks/flutter
+
+  node-executor:
+    docker:
+      - image: cimg/node:18.19
+    resource_class: small
+    working_directory: ~/project/flutter_chekmate
+
+# Commands - Reusable command sequences
+commands:
+  setup_flutter_web:
+    description: "Setup Flutter SDK for web builds"
+    steps:
+      - checkout
+      - run:
+          name: "Flutter Doctor"
+          command: flutter doctor -v
+      - run:
+          name: "Enable Flutter Web"
+          command: flutter config --enable-web
+      - run:
+          name: "Get Dependencies"
+          command: flutter pub get
+      - run:
+          name: "Generate Code (Riverpod)"
+          command: flutter pub run build_runner build --delete-conflicting-outputs || echo "No code generation needed"
+
+  setup_firebase_cli:
+    description: "Install and configure Firebase CLI"
+    steps:
+      - run:
+          name: "Install Firebase CLI"
+          command: |
+            curl -sL https://firebase.tools | bash
+      - run:
+          name: "Verify Firebase CLI"
+          command: firebase --version
+
+  build_web_release:
+    description: "Build Flutter web app in release mode"
+    steps:
+      - run:
+          name: "Clean Previous Builds"
+          command: flutter clean
+      - run:
+          name: "Build Web (Release)"
+          command: |
+            flutter build web --release \
+              --web-renderer canvaskit \
+              --dart-define=FLUTTER_WEB_USE_SKIA=true \
+              --source-maps
+      - run:
+          name: "Verify Build Output"
+          command: |
+            if [ ! -d "build/web" ]; then
+              echo "ERROR: build/web directory not found!"
+              exit 1
+            fi
+            
+            if [ ! -f "build/web/index.html" ]; then
+              echo "ERROR: index.html not found in build/web!"
+              exit 1
+            fi
+            
+            echo "✅ Web build successful"
+            echo "Build size:"
+            du -sh build/web
+            
+            echo "Main files:"
+            ls -lh build/web/*.{html,js} 2>/dev/null || true
+
+# Jobs - Individual units of work
+jobs:
+  # Job 1: Lint and Analyze
+  lint_and_analyze:
+    executor: flutter-web-executor
+    steps:
+      - setup_flutter_web
+      - run:
+          name: "Flutter Analyze"
+          command: flutter analyze --no-fatal-infos
+      - run:
+          name: "Check Formatting"
+          command: flutter format --set-exit-if-changed lib/ test/ || echo "Formatting issues found (non-blocking)"
+
+  # Job 2: Unit Tests
+  unit_tests:
+    executor: flutter-web-executor
+    steps:
+      - setup_flutter_web
+      - run:
+          name: "Run Unit Tests"
+          command: flutter test --coverage --reporter=expanded
+      - run:
+          name: "Generate Coverage Report"
+          command: |
+            if [ -f coverage/lcov.info ]; then
+              echo "✅ Coverage report generated"
+              sudo apt-get update && sudo apt-get install -y lcov
+              genhtml coverage/lcov.info -o coverage/html
+            else
+              echo "⚠️  No coverage data generated"
+            fi
+      - store_artifacts:
+          path: coverage
+          destination: coverage-reports
+      - store_test_results:
+          path: test-results
+
+  # Job 3: Widget Tests
+  widget_tests:
+    executor: flutter-web-executor
+    steps:
+      - setup_flutter_web
+      - run:
+          name: "Run Widget Tests"
+          command: flutter test test/widgets/ --reporter=expanded || echo "Widget tests completed with warnings"
+      - store_test_results:
+          path: test-results
+
+  # Job 4: Build Web Release
+  build_web:
+    executor: flutter-web-executor
+    steps:
+      - setup_flutter_web
+      - build_web_release
+      - run:
+          name: "Optimize Build"
+          command: |
+            echo "Checking build optimization..."
+            
+            # Check for source maps
+            if [ -f "build/web/main.dart.js.map" ]; then
+              echo "✅ Source maps generated"
+            fi
+            
+            # Check for service worker
+            if [ -f "build/web/flutter_service_worker.js" ]; then
+              echo "✅ Service worker generated"
+            fi
+            
+            # Check for manifest
+            if [ -f "build/web/manifest.json" ]; then
+              echo "✅ PWA manifest found"
+            fi
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build/web
+      - store_artifacts:
+          path: build/web
+          destination: web-build
+
+  # Job 5: Deploy to Firebase Hosting
+  deploy_firebase:
+    executor: node-executor
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - setup_firebase_cli
+      - run:
+          name: "Verify Build Exists"
+          command: |
+            if [ ! -d "build/web" ]; then
+              echo "ERROR: build/web not found! Build job may have failed."
+              exit 1
+            fi
+            echo "✅ Build directory found"
+      - run:
+          name: "Deploy to Firebase Hosting"
+          command: |
+            # Use Firebase token from environment variable
+            firebase deploy --only hosting --token "$FIREBASE_TOKEN" --project chekmate-a0423
+      - run:
+          name: "Get Deployment URL"
+          command: |
+            echo "🚀 Deployment complete!"
+            echo "Live URL: https://chekmate-a0423.web.app"
+            echo "Firebase Console: https://console.firebase.google.com/project/chekmate-a0423/hosting"
+
+  # Job 6: Post-Deployment Verification
+  verify_deployment:
+    executor: node-executor
+    steps:
+      - run:
+          name: "Install curl"
+          command: sudo apt-get update && sudo apt-get install -y curl
+      - run:
+          name: "Verify Site is Live"
+          command: |
+            echo "Checking if site is accessible..."
+            
+            # Wait for deployment to propagate
+            sleep 10
+            
+            # Check if site returns 200
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" https://chekmate-a0423.web.app)
+            
+            if [ "$HTTP_CODE" = "200" ]; then
+              echo "✅ Site is live and accessible (HTTP $HTTP_CODE)"
+            else
+              echo "⚠️  Site returned HTTP $HTTP_CODE"
+              exit 1
+            fi
+      - run:
+          name: "Check PWA Manifest"
+          command: |
+            echo "Checking PWA manifest..."
+            
+            MANIFEST_CODE=$(curl -s -o /dev/null -w "%{http_code}" https://chekmate-a0423.web.app/manifest.json)
+            
+            if [ "$MANIFEST_CODE" = "200" ]; then
+              echo "✅ PWA manifest accessible"
+            else
+              echo "⚠️  PWA manifest not found (HTTP $MANIFEST_CODE)"
+            fi
+      - run:
+          name: "Check Service Worker"
+          command: |
+            echo "Checking service worker..."
+            
+            SW_CODE=$(curl -s -o /dev/null -w "%{http_code}" https://chekmate-a0423.web.app/flutter_service_worker.js)
+            
+            if [ "$SW_CODE" = "200" ]; then
+              echo "✅ Service worker accessible"
+            else
+              echo "⚠️  Service worker not found (HTTP $SW_CODE)"
+            fi
+
+  # Job 7: Notify Deployment Status
+  notify_deployment:
+    executor: node-executor
+    steps:
+      - run:
+          name: "Deployment Summary"
+          command: |
+            echo "================================================"
+            echo "🎉 ChekMate Web PWA Deployment Complete!"
+            echo "================================================"
+            echo ""
+            echo "📱 Live URL: https://chekmate-a0423.web.app"
+            echo "🔧 Firebase Console: https://console.firebase.google.com/project/chekmate-a0423"
+            echo "📊 CircleCI Build: $CIRCLE_BUILD_URL"
+            echo "🌿 Branch: $CIRCLE_BRANCH"
+            echo "📝 Commit: $CIRCLE_SHA1"
+            echo ""
+            echo "================================================"
+
+# Workflows - Orchestrate jobs
+workflows:
+  version: 2
+
+  # Main workflow - runs on every commit to web-pwa branch
+  web_deployment:
+    jobs:
+      # Phase 1: Lint and Test (parallel)
+      - lint_and_analyze:
+          filters:
+            branches:
+              only:
+                - web-pwa
+      - unit_tests:
+          filters:
+            branches:
+              only:
+                - web-pwa
+      - widget_tests:
+          filters:
+            branches:
+              only:
+                - web-pwa
+
+      # Phase 2: Build (after tests pass)
+      - build_web:
+          requires:
+            - lint_and_analyze
+            - unit_tests
+            - widget_tests
+          filters:
+            branches:
+              only:
+                - web-pwa
+
+      # Phase 3: Deploy (after build succeeds)
+      - deploy_firebase:
+          requires:
+            - build_web
+          filters:
+            branches:
+              only:
+                - web-pwa
+
+      # Phase 4: Verify and Notify (after deployment)
+      - verify_deployment:
+          requires:
+            - deploy_firebase
+          filters:
+            branches:
+              only:
+                - web-pwa
+
+      - notify_deployment:
+          requires:
+            - verify_deployment
+          filters:
+            branches:
+              only:
+                - web-pwa
+

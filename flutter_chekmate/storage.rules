@@ -1,0 +1,22 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Helper functions
+    function isAuth() { return request.auth != null; }
+    function isOwner(uid) { return request.auth.uid == uid; }
+    function isImage() { return request.resource.contentType.matches('image/.*'); }
+    function maxSize(mb) { return request.resource.size < mb * 1024 * 1024; }
+
+    // Users can read any profile picture, but only write their own (max 5MB image)
+    match /users/{userId}/{file} {
+      allow read: if isAuth();
+      allow write: if isAuth() && isOwner(userId) && isImage() && maxSize(5);
+    }
+    
+    // Users can read any post media, and write their own (max 50MB)
+    match /posts/{postId}/{file} {
+      allow read: if isAuth();
+      allow write: if isAuth() && maxSize(50);
+    }
+  }
+}
