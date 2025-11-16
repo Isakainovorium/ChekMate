@@ -89,21 +89,21 @@ class PostSkeleton extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Header (avatar + username)
           Row(
             children: [
-              const SkeletonLoader(
+              SkeletonLoader(
                 width: 40,
                 height: 40,
                 borderRadius: 20,
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   SkeletonLoader(width: 120, height: 14),
                   SizedBox(height: 4),
                   SkeletonLoader(width: 80, height: 12),
@@ -111,27 +111,27 @@ class PostSkeleton extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
 
           // Content lines
-          const SkeletonLoader(width: double.infinity, height: 14),
-          const SizedBox(height: 8),
-          const SkeletonLoader(width: double.infinity, height: 14),
-          const SizedBox(height: 8),
-          const SkeletonLoader(width: 200, height: 14),
-          const SizedBox(height: 16),
+          SkeletonLoader(width: double.infinity, height: 14),
+          SizedBox(height: 8),
+          SkeletonLoader(width: double.infinity, height: 14),
+          SizedBox(height: 8),
+          SkeletonLoader(width: 200, height: 14),
+          SizedBox(height: 16),
 
           // Image placeholder
-          const SkeletonLoader(
+          SkeletonLoader(
             width: double.infinity,
             height: 200,
             borderRadius: 8,
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
 
           // Action buttons
           Row(
-            children: const [
+            children: [
               SkeletonLoader(width: 60, height: 32, borderRadius: 16),
               SizedBox(width: 12),
               SkeletonLoader(width: 60, height: 32, borderRadius: 16),
@@ -151,8 +151,8 @@ class StorySkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: const [
+    return const Column(
+      children: [
         SkeletonLoader(
           width: 64,
           height: 64,

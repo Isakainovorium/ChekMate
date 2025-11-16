@@ -220,9 +220,9 @@ Future<void> showPlatformLimitationDialog(
           Text(limitation),
           if (workaround != null) ...[
             const SizedBox(height: 16),
-            Text(
+            const Text(
               'Workaround:',
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(workaround),

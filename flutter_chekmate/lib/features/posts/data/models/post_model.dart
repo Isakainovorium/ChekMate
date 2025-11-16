@@ -21,6 +21,7 @@ class PostModel extends PostEntity {
     required super.cheks,
     required super.likedBy,
     required super.bookmarkedBy,
+    required super.chekedBy,
     required super.tags,
     required super.createdAt,
     required super.updatedAt,
@@ -55,6 +56,10 @@ class PostModel extends PostEntity {
               .toList() ??
           [],
       bookmarkedBy: (json['bookmarkedBy'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+      chekedBy: (json['chekedBy'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
@@ -98,6 +103,7 @@ class PostModel extends PostEntity {
       'cheks': cheks,
       'likedBy': likedBy,
       'bookmarkedBy': bookmarkedBy,
+      'chekedBy': chekedBy,
       'tags': tags,
       'location': location,
       'coordinates': coordinates,
@@ -125,6 +131,7 @@ class PostModel extends PostEntity {
       cheks: entity.cheks,
       likedBy: entity.likedBy,
       bookmarkedBy: entity.bookmarkedBy,
+      chekedBy: entity.chekedBy,
       tags: entity.tags,
       location: entity.location,
       coordinates: entity.coordinates,
@@ -152,6 +159,7 @@ class PostModel extends PostEntity {
       cheks: cheks,
       likedBy: likedBy,
       bookmarkedBy: bookmarkedBy,
+      chekedBy: chekedBy,
       tags: tags,
       location: location,
       coordinates: coordinates,
@@ -194,6 +202,7 @@ class PostModel extends PostEntity {
     int? cheks,
     List<String>? likedBy,
     List<String>? bookmarkedBy,
+    List<String>? chekedBy,
     List<String>? tags,
     String? location,
     GeoPoint? coordinates,
@@ -217,6 +226,7 @@ class PostModel extends PostEntity {
       cheks: cheks ?? this.cheks,
       likedBy: likedBy ?? this.likedBy,
       bookmarkedBy: bookmarkedBy ?? this.bookmarkedBy,
+      chekedBy: chekedBy ?? this.chekedBy,
       tags: tags ?? this.tags,
       location: location ?? this.location,
       coordinates: coordinates ?? this.coordinates,

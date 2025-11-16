@@ -44,8 +44,8 @@ final currentUserProvider = StreamProvider<UserModel?>((ref) async* {
   }
 });
 
-/// User Controller Provider (placeholder)
-/// TODO: Implement proper user controller
+/// User Controller Provider
+/// Provides a controller for user-related operations like following/unfollowing users
 final userControllerProvider = Provider((ref) {
   return UserController(ref);
 });
@@ -58,7 +58,6 @@ class UserController {
 
   /// Follow a user
   Future<void> followUser(String userId) async {
-    // TODO: Implement follow logic
     final firestore = ref.read(firestoreProvider);
     final currentUserId = ref.read(currentUserIdProvider).value;
 
@@ -75,7 +74,6 @@ class UserController {
 
   /// Unfollow a user
   Future<void> unfollowUser(String userId) async {
-    // TODO: Implement unfollow logic
     final firestore = ref.read(firestoreProvider);
     final currentUserId = ref.read(currentUserIdProvider).value;
 
@@ -111,7 +109,6 @@ class UserController {
 
   /// Update user profile
   Future<void> updateProfile(Map<String, dynamic> data) async {
-    // TODO: Implement update profile logic
     final firestore = ref.read(firestoreProvider);
     final currentUserId = ref.read(currentUserIdProvider).value;
 

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_chekmate/core/providers/auth_providers.dart';
+import 'package:flutter_chekmate/core/navigation/nav_state.dart';
 import 'package:flutter_chekmate/core/providers/gamification_provider.dart';
 import 'package:flutter_chekmate/core/providers/navigation_providers.dart';
 import 'package:flutter_chekmate/core/services/keyboard_shortcuts_service.dart';
@@ -232,6 +232,33 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final nav = ref.watch(navStateProvider);
+    final topNavTab = ref.watch(topNavTabProvider);
+
+    // Automatically switch tabs when top navigation changes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      String targetTab;
+      switch (topNavTab) {
+        case TopNavTab.forYou:
+          targetTab = 'For you';
+          break;
+        case TopNavTab.following:
+          targetTab = 'Following';
+          break;
+        case TopNavTab.explore:
+          targetTab = 'Explore';
+          break;
+        case TopNavTab.live:
+          targetTab = 'Live';
+          break;
+        case TopNavTab.subscribe:
+          targetTab = 'Subscribe';
+          break;
+      }
+
+      if (nav.activeTab != targetTab) {
+        _handleTabChange(targetTab);
+      }
+    });
     return KeyboardShortcuts(
       shortcuts: {
         ChekMateShortcuts.refresh: () => _handleRefresh(),

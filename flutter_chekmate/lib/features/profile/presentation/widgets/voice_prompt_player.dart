@@ -21,14 +21,14 @@ class VoicePromptPlayer extends StatefulWidget {
 
 class _VoicePromptPlayerState extends State<VoicePromptPlayer> {
   bool _isPlaying = false;
-  double _progress = 0.0;
+  final double _progress = 0.0;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceVariant,
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(

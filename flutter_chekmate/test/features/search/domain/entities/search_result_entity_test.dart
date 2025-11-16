@@ -173,11 +173,11 @@ void main() {
           },
         );
 
-        expect(complexMetadata.metadata['followers'], 1000);
-        expect(complexMetadata.metadata['following'], 500);
-        expect(complexMetadata.metadata['posts'], 250);
-        expect(complexMetadata.metadata['isVerified'], true);
-        expect(complexMetadata.metadata['bio'], 'Test bio');
+        expect(complexMetadata.metadata!['followers'], 1000);
+        expect(complexMetadata.metadata!['following'], 500);
+        expect(complexMetadata.metadata!['posts'], 250);
+        expect(complexMetadata.metadata!['isVerified'], true);
+        expect(complexMetadata.metadata!['bio'], 'Test bio');
       });
     });
   });
@@ -188,6 +188,8 @@ void main() {
     setUp(() {
       filter = const SearchFilterEntity(
         id: 'all',
+        name: 'All',
+        type: 'category',
         label: 'All',
         count: 1500,
         isActive: true,
@@ -219,6 +221,8 @@ void main() {
       test('two filters with same properties are equal', () {
         const filter1 = SearchFilterEntity(
           id: 'all',
+          name: 'All',
+          type: 'category',
           label: 'All',
           count: 100,
           isActive: true,
@@ -226,6 +230,8 @@ void main() {
 
         const filter2 = SearchFilterEntity(
           id: 'all',
+          name: 'All',
+          type: 'category',
           label: 'All',
           count: 100,
           isActive: true,

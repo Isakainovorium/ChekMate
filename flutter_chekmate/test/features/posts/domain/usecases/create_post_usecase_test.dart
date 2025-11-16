@@ -4,12 +4,10 @@ import 'package:flutter_chekmate/features/posts/domain/entities/post_entity.dart
 import 'package:flutter_chekmate/features/posts/domain/repositories/posts_repository.dart';
 import 'package:flutter_chekmate/features/posts/domain/usecases/create_post_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
-import 'create_post_usecase_test.mocks.dart';
+class MockPostsRepository extends Mock implements PostsRepository {}
 
-@GenerateMocks([PostsRepository])
 void main() {
   group('CreatePostUseCase', () {
     late CreatePostUseCase useCase;
@@ -178,31 +176,30 @@ void main() {
           username: 'Test User',
           userAvatar: 'https://example.com/avatar.jpg',
           content: 'Test content',
-          images: [],
+          images: const [],
           likes: 0,
           comments: 0,
           shares: 0,
           cheks: 0,
-          likedBy: [],
-          bookmarkedBy: [],
-          tags: [],
+          likedBy: const [],
+          bookmarkedBy: const [],
+          chekedBy: const [],
+          tags: const [],
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
           isVerified: false,
         );
 
-        when(
-          mockRepository.createPost(
-            userId: anyNamed('userId'),
-            username: anyNamed('username'),
-            userAvatar: anyNamed('userAvatar'),
-            content: anyNamed('content'),
-            images: anyNamed('images'),
-            video: anyNamed('video'),
-            tags: anyNamed('tags'),
-            location: anyNamed('location'),
-          ),
-        ).thenAnswer((_) async => mockPost);
+        when(() => mockRepository.createPost(
+            userId: any(named: 'userId'),
+            username: any(named: 'username'),
+            userAvatar: any(named: 'userAvatar'),
+            content: any(named: 'content'),
+            images: any(named: 'images'),
+            video: any(named: 'video'),
+            tags: any(named: 'tags'),
+            location: any(named: 'location'),
+        )).thenAnswer((_) async => mockPost);
 
         final result = await useCase(
           userId: 'user1',
@@ -212,14 +209,12 @@ void main() {
         );
 
         expect(result, mockPost);
-        verify(
-          mockRepository.createPost(
+        verify(() => mockRepository.createPost(
             userId: 'user1',
             username: 'Test User',
             userAvatar: 'https://example.com/avatar.jpg',
             content: 'Test content',
-          ),
-        ).called(1);
+        )).called(1);
       });
 
       test('accepts valid post with images', () async {
@@ -234,7 +229,7 @@ void main() {
           username: 'Test User',
           userAvatar: 'https://example.com/avatar.jpg',
           content: 'Test content',
-          images: [
+          images: const [
             'https://example.com/image1.jpg',
             'https://example.com/image2.jpg',
           ],
@@ -242,26 +237,25 @@ void main() {
           comments: 0,
           shares: 0,
           cheks: 0,
-          likedBy: [],
-          bookmarkedBy: [],
-          tags: [],
+          likedBy: const [],
+          bookmarkedBy: const [],
+          chekedBy: const [],
+          tags: const [],
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
           isVerified: false,
         );
 
-        when(
-          mockRepository.createPost(
-            userId: anyNamed('userId'),
-            username: anyNamed('username'),
-            userAvatar: anyNamed('userAvatar'),
-            content: anyNamed('content'),
-            images: anyNamed('images'),
-            video: anyNamed('video'),
-            tags: anyNamed('tags'),
-            location: anyNamed('location'),
-          ),
-        ).thenAnswer((_) async => mockPost);
+        when(() => mockRepository.createPost(
+            userId: any(named: 'userId'),
+            username: any(named: 'username'),
+            userAvatar: any(named: 'userAvatar'),
+            content: any(named: 'content'),
+            images: any(named: 'images'),
+            video: any(named: 'video'),
+            tags: any(named: 'tags'),
+            location: any(named: 'location'),
+        )).thenAnswer((_) async => mockPost);
 
         final result = await useCase(
           userId: 'user1',
@@ -272,15 +266,13 @@ void main() {
         );
 
         expect(result, mockPost);
-        verify(
-          mockRepository.createPost(
+        verify(() => mockRepository.createPost(
             userId: 'user1',
             username: 'Test User',
             userAvatar: 'https://example.com/avatar.jpg',
             content: 'Test content',
             images: images,
-          ),
-        ).called(1);
+        )).called(1);
       });
 
       test('accepts valid post with video', () async {
@@ -292,31 +284,30 @@ void main() {
           username: 'Test User',
           userAvatar: 'https://example.com/avatar.jpg',
           content: 'Test content',
-          images: [],
+          images: const [],
           likes: 0,
           comments: 0,
           shares: 0,
           cheks: 0,
-          likedBy: [],
-          bookmarkedBy: [],
-          tags: [],
+          likedBy: const [],
+          bookmarkedBy: const [],
+          chekedBy: const [],
+          tags: const [],
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
           isVerified: false,
         );
 
-        when(
-          mockRepository.createPost(
-            userId: anyNamed('userId'),
-            username: anyNamed('username'),
-            userAvatar: anyNamed('userAvatar'),
-            content: anyNamed('content'),
-            images: anyNamed('images'),
-            video: anyNamed('video'),
-            tags: anyNamed('tags'),
-            location: anyNamed('location'),
-          ),
-        ).thenAnswer((_) async => mockPost);
+        when(() => mockRepository.createPost(
+            userId: any(named: 'userId'),
+            username: any(named: 'username'),
+            userAvatar: any(named: 'userAvatar'),
+            content: any(named: 'content'),
+            images: any(named: 'images'),
+            video: any(named: 'video'),
+            tags: any(named: 'tags'),
+            location: any(named: 'location'),
+        )).thenAnswer((_) async => mockPost);
 
         final result = await useCase(
           userId: 'user1',
@@ -327,15 +318,13 @@ void main() {
         );
 
         expect(result, mockPost);
-        verify(
-          mockRepository.createPost(
+        verify(() => mockRepository.createPost(
             userId: 'user1',
             username: 'Test User',
             userAvatar: 'https://example.com/avatar.jpg',
             content: 'Test content',
             video: video,
-          ),
-        ).called(1);
+        )).called(1);
       });
 
       test('accepts valid post with tags and location', () async {
@@ -345,32 +334,31 @@ void main() {
           username: 'Test User',
           userAvatar: 'https://example.com/avatar.jpg',
           content: 'Test content',
-          images: [],
+          images: const [],
           likes: 0,
           comments: 0,
           shares: 0,
           cheks: 0,
-          likedBy: [],
-          bookmarkedBy: [],
-          tags: ['flutter', 'dart'],
+          likedBy: const [],
+          bookmarkedBy: const [],
+          chekedBy: const [],
+          tags: const ['flutter', 'dart'],
           location: 'San Francisco, CA',
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
           isVerified: false,
         );
 
-        when(
-          mockRepository.createPost(
-            userId: anyNamed('userId'),
-            username: anyNamed('username'),
-            userAvatar: anyNamed('userAvatar'),
-            content: anyNamed('content'),
-            images: anyNamed('images'),
-            video: anyNamed('video'),
-            tags: anyNamed('tags'),
-            location: anyNamed('location'),
-          ),
-        ).thenAnswer((_) async => mockPost);
+        when(() => mockRepository.createPost(
+            userId: any(named: 'userId'),
+            username: any(named: 'username'),
+            userAvatar: any(named: 'userAvatar'),
+            content: any(named: 'content'),
+            images: any(named: 'images'),
+            video: any(named: 'video'),
+            tags: any(named: 'tags'),
+            location: any(named: 'location'),
+        )).thenAnswer((_) async => mockPost);
 
         final result = await useCase(
           userId: 'user1',
@@ -382,31 +370,28 @@ void main() {
         );
 
         expect(result, mockPost);
-        verify(
-          mockRepository.createPost(
+        verify(() => mockRepository.createPost(
             userId: 'user1',
             username: 'Test User',
             userAvatar: 'https://example.com/avatar.jpg',
             content: 'Test content',
             tags: ['flutter', 'dart'],
             location: 'San Francisco, CA',
-          ),
-        ).called(1);
+        )).called(1);
       });
     });
 
     group('Error Handling', () {
       test('propagates repository errors', () async {
-        when(
-          mockRepository.createPost(
-            userId: anyNamed('userId'),
-            username: anyNamed('username'),
-            userAvatar: anyNamed('userAvatar'),
-            content: anyNamed('content'),
-            images: anyNamed('images'),
-            video: anyNamed('video'),
-            tags: anyNamed('tags'),
-            location: anyNamed('location'),
+        when(() => mockRepository.createPost(
+            userId: any(named: 'userId'),
+            username: any(named: 'username'),
+            userAvatar: any(named: 'userAvatar'),
+            content: any(named: 'content'),
+            images: any(named: 'images'),
+            video: any(named: 'video'),
+            tags: any(named: 'tags'),
+            location: any(named: 'location'),
           ),
         ).thenThrow(Exception('Failed to create post'));
 

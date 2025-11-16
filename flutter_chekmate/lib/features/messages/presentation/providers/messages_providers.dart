@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_chekmate/features/messages/data/repositories/messages_repository_impl.dart';
 import 'package:flutter_chekmate/features/messages/domain/entities/conversation_entity.dart';
+import 'package:flutter_chekmate/features/messages/domain/entities/message_entity.dart';
+import 'package:flutter_chekmate/features/messages/domain/repositories/messages_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Firestore instance provider
@@ -157,6 +160,45 @@ final messagesNotifierProvider = StateNotifierProvider.family<MessagesNotifier,
     return MessagesNotifier(firestore, userId);
   },
 );
+
+/// Messages Stream Provider
+/// Provides a stream of messages for a specific conversation
+final messagesProvider = StreamProvider.family<List<MessageEntity>, String>((ref, conversationId) {
+  final firestore = ref.watch(firestoreProvider);
+
+  return firestore
+      .collection('conversations')
+      .doc(conversationId)
+      .collection('messages')
+      .orderBy('createdAt', descending: false)
+      .snapshots()
+      .map((snapshot) {
+    return snapshot.docs.map((doc) {
+      final data = doc.data();
+      return MessageEntity(
+        id: doc.id,
+        conversationId: conversationId,
+        senderId: data['senderId'] as String? ?? '',
+        senderName: data['senderName'] as String? ?? '',
+        senderAvatar: data['senderAvatar'] as String? ?? '',
+        receiverId: data['receiverId'] as String? ?? '',
+        content: data['content'] as String? ?? '',
+        isRead: data['isRead'] as bool? ?? false,
+        createdAt: (data['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+        voiceUrl: data['voiceUrl'] as String?,
+        voiceDuration: data['voiceDuration'] as int?,
+        imageUrl: data['imageUrl'] as String?,
+        videoUrl: data['videoUrl'] as String?,
+      );
+    }).toList();
+  });
+});
+
+/// Messages Repository Provider
+final messagesRepositoryProvider = Provider<MessagesRepository>((ref) {
+  final firestore = ref.watch(firestoreProvider);
+  return MessagesRepositoryImpl(firestore: firestore);
+});
 
 /// Conversations Stream Provider (alias for conversationsProvider)
 /// Used by legacy code

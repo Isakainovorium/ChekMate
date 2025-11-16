@@ -14,6 +14,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "accessibility_tools",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/accessibility_tools-2.7.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.9"
+    },
+    {
       "name": "analyzer",
       "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/analyzer-7.6.0",
       "packageUri": "lib/",
@@ -42,6 +48,48 @@
       "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/async-2.13.0",
       "packageUri": "lib/",
       "languageVersion": "3.4"
+    },
+    {
+      "name": "audioplayers",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/audioplayers-5.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "audioplayers_android",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/audioplayers_android-4.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "audioplayers_darwin",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/audioplayers_darwin-5.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "audioplayers_linux",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/audioplayers_linux-3.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "audioplayers_platform_interface",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/audioplayers_platform_interface-6.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "audioplayers_web",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/audioplayers_web-4.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "audioplayers_windows",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/audioplayers_windows-3.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
     },
     {
       "name": "boolean_selector",
@@ -236,6 +284,12 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "device_frame_plus",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/device_frame_plus-1.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "device_info_plus",
       "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/device_info_plus-9.1.2",
       "packageUri": "lib/",
@@ -417,7 +471,7 @@
     },
     {
       "name": "flutter",
-      "rootUri": "file:///C:/Users/IsaKai2296/flutter/flutter/packages/flutter",
+      "rootUri": "file:///C:/flutter/packages/flutter",
       "packageUri": "lib/",
       "languageVersion": "3.8"
     },
@@ -426,6 +480,12 @@
       "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_cache_manager-3.4.0",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "flutter_ffmpeg",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_ffmpeg-0.4.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "flutter_launcher_icons",
@@ -440,6 +500,24 @@
       "languageVersion": "3.1"
     },
     {
+      "name": "flutter_local_notifications",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_local_notifications-16.3.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "flutter_local_notifications_linux",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_local_notifications_linux-4.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "flutter_local_notifications_platform_interface",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_local_notifications_platform_interface-7.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "flutter_plugin_android_lifecycle",
       "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.32",
       "packageUri": "lib/",
@@ -452,14 +530,26 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "flutter_staggered_grid_view",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_staggered_grid_view-0.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_svg",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_svg-2.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.7"
+    },
+    {
       "name": "flutter_test",
-      "rootUri": "file:///C:/Users/IsaKai2296/flutter/flutter/packages/flutter_test",
+      "rootUri": "file:///C:/flutter/packages/flutter_test",
       "packageUri": "lib/",
       "languageVersion": "3.8"
     },
     {
       "name": "flutter_web_plugins",
-      "rootUri": "file:///C:/Users/IsaKai2296/flutter/flutter/packages/flutter_web_plugins",
+      "rootUri": "file:///C:/flutter/packages/flutter_web_plugins",
       "packageUri": "lib/",
       "languageVersion": "3.8"
     },
@@ -704,6 +794,12 @@
       "languageVersion": "3.6"
     },
     {
+      "name": "inspector",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/inspector-3.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "intl",
       "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.18.1",
       "packageUri": "lib/",
@@ -788,6 +884,30 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "mockito",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/mockito-5.4.6",
+      "packageUri": "lib/",
+      "languageVersion": "3.7"
+    },
+    {
+      "name": "mocktail",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/mocktail-1.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "nested",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/nested-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "network_image_mock",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/network_image_mock-2.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "nm",
       "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/nm-0.5.0",
       "packageUri": "lib/",
@@ -822,6 +942,12 @@
       "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/path-1.9.1",
       "packageUri": "lib/",
       "languageVersion": "3.4"
+    },
+    {
+      "name": "path_parsing",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/path_parsing-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
     },
     {
       "name": "path_provider",
@@ -860,10 +986,52 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "permission_handler",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler-11.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "permission_handler_android",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_android-12.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "permission_handler_apple",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_apple-9.4.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "permission_handler_html",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_html-0.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "permission_handler_platform_interface",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_platform_interface-4.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "permission_handler_windows",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_windows-0.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "petitparser",
       "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/petitparser-7.0.1",
       "packageUri": "lib/",
       "languageVersion": "3.8"
+    },
+    {
+      "name": "photo_view",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/photo_view-0.15.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "platform",
@@ -894,6 +1062,12 @@
       "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/pubspec_parse-1.5.0",
       "packageUri": "lib/",
       "languageVersion": "3.6"
+    },
+    {
+      "name": "resizable_widget",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/resizable_widget-1.0.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "riverpod",
@@ -1017,7 +1191,7 @@
     },
     {
       "name": "sky_engine",
-      "rootUri": "file:///C:/Users/IsaKai2296/flutter/flutter/bin/cache/pkg/sky_engine",
+      "rootUri": "file:///C:/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
       "languageVersion": "3.8"
     },
@@ -1112,6 +1286,12 @@
       "languageVersion": "3.5"
     },
     {
+      "name": "timezone",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/timezone-0.9.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
       "name": "timing",
       "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/timing-1.0.2",
       "packageUri": "lib/",
@@ -1176,6 +1356,24 @@
       "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/uuid-4.5.2",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "vector_graphics",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/vector_graphics-1.1.19",
+      "packageUri": "lib/",
+      "languageVersion": "3.6"
+    },
+    {
+      "name": "vector_graphics_codec",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/vector_graphics_codec-1.1.13",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "vector_graphics_compiler",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/vector_graphics_compiler-1.1.19",
+      "packageUri": "lib/",
+      "languageVersion": "3.7"
     },
     {
       "name": "vector_math",
@@ -1250,6 +1448,24 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "widgetbook",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/widgetbook-3.20.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.8"
+    },
+    {
+      "name": "widgetbook_annotation",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/widgetbook_annotation-3.9.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.8"
+    },
+    {
+      "name": "widgetbook_generator",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/widgetbook_generator-3.14.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
       "name": "win32",
       "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/win32-5.15.0",
       "packageUri": "lib/",
@@ -1288,7 +1504,7 @@
   ],
   "generator": "pub",
   "generatorVersion": "3.9.2",
-  "flutterRoot": "file:///C:/Users/IsaKai2296/flutter/flutter",
-  "flutterVersion": "3.35.3",
+  "flutterRoot": "file:///C:/flutter",
+  "flutterVersion": "3.35.5",
   "pubCache": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache"
 }

@@ -53,7 +53,7 @@ class _ProfileVideoPlayerState extends State<ProfileVideoPlayer> {
                       end: Alignment.bottomCenter,
                       colors: [
                         Colors.transparent,
-                        Colors.black.withOpacity(0.7),
+                        Colors.black.withValues(alpha: 0.7),
                       ],
                     ),
                   ),
@@ -73,7 +73,7 @@ class _ProfileVideoPlayerState extends State<ProfileVideoPlayer> {
                       Expanded(
                         child: LinearProgressIndicator(
                           value: 0.0,
-                          backgroundColor: Colors.white.withOpacity(0.3),
+                          backgroundColor: Colors.white.withValues(alpha: 0.3),
                           valueColor: const AlwaysStoppedAnimation<Color>(
                             Colors.white,
                           ),

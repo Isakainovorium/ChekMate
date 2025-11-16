@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Search Result Entity
 class SearchResult {
@@ -79,7 +80,32 @@ final searchStateProvider =
 
 /// Search State Notifier
 class SearchStateNotifier extends StateNotifier<SearchState> {
-  SearchStateNotifier() : super(const SearchState());
+  SearchStateNotifier() : super(const SearchState()) {
+    _loadRecentSearches();
+  }
+
+  static const String _recentSearchesKey = 'recent_searches';
+
+  /// Load recent searches from SharedPreferences
+  Future<void> _loadRecentSearches() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final recentSearches = prefs.getStringList(_recentSearchesKey) ?? [];
+      state = state.copyWith(recentSearches: recentSearches);
+    } catch (e) {
+      // Silently fail if loading fails - use empty list as default
+    }
+  }
+
+  /// Save recent searches to SharedPreferences
+  Future<void> _saveRecentSearches(List<String> searches) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setStringList(_recentSearchesKey, searches);
+    } catch (e) {
+      // Silently fail if saving fails - data will be lost but app continues
+    }
+  }
 
   void setQuery(String query) {
     state = state.copyWith(query: query);
@@ -102,7 +128,7 @@ class SearchStateNotifier extends StateNotifier<SearchState> {
   }
 
   /// Save a recent search query
-  void saveRecentSearch(String query) {
+  Future<void> saveRecentSearch(String query) async {
     if (query.trim().isEmpty) return;
 
     final recentSearches = List<String>.from(state.recentSearches);
@@ -120,12 +146,14 @@ class SearchStateNotifier extends StateNotifier<SearchState> {
 
     state = state.copyWith(recentSearches: recentSearches);
 
-    // TODO: Persist to local storage or Firestore
+    // Persist to local storage
+    await _saveRecentSearches(recentSearches);
   }
 
   /// Clear recent searches
-  void clearRecentSearches() {
+  Future<void> clearRecentSearches() async {
     state = state.copyWith(recentSearches: const []);
+    await _saveRecentSearches([]);
   }
 }
 

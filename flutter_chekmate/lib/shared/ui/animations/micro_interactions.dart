@@ -286,7 +286,7 @@ class _RipplePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = color.withOpacity(opacity)
+      ..color = color.withValues(alpha: opacity)
       ..style = PaintingStyle.fill;
 
     final center = Offset(size.width / 2, size.height / 2);

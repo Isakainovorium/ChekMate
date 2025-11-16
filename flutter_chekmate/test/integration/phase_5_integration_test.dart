@@ -90,7 +90,7 @@ void main() {
                       onPressed: () {
                         Navigator.of(context).push(
                           TikTokPageRoute<void>(
-                            builder: (context) => const Scaffold(
+                            pageBuilder: (context, animation, secondaryAnimation) => const Scaffold(
                               body: Center(child: Text('Second Page')),
                             ),
                             type: TikTokTransitionType.slideUp,
@@ -130,6 +130,7 @@ void main() {
               body: Column(
                 children: [
                   const AnimatedFeedCard(
+                    index: 0,
                     child: Card(child: Text('Feed Card')),
                   ),
                   AnimatedButton(
@@ -245,7 +246,7 @@ void main() {
                           onTap: () {
                             Navigator.of(context).push(
                               TikTokPageRoute<void>(
-                                builder: (context) => Scaffold(
+                                pageBuilder: (context, animation, secondaryAnimation) => Scaffold(
                                   appBar: AppBar(title: Text('Post $index')),
                                   body: Center(
                                     child: Column(
@@ -337,7 +338,7 @@ void main() {
                       onPressed: () {
                         Navigator.of(context).push(
                           TikTokPageRoute<void>(
-                            builder: (context) => const Scaffold(
+                            pageBuilder: (context, animation, secondaryAnimation) => const Scaffold(
                               body: Center(child: Text('Page 2')),
                             ),
                             type: TikTokTransitionType.fade,

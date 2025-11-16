@@ -54,7 +54,6 @@ class TrendingContentWidget extends ConsumerWidget {
               ),
               ...content.asMap().entries.map(
                 (entry) {
-                  final index = entry.key;
                   final item = entry.value;
                   return ListTile(
                     leading: item.imageUrl != null

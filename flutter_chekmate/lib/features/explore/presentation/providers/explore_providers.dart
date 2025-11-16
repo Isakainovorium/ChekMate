@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_chekmate/core/models/user_model.dart';
+import 'package:flutter_chekmate/core/providers/providers.dart';
 import 'package:flutter_chekmate/features/posts/domain/entities/post_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -33,14 +34,16 @@ class ExploreState {
 }
 
 /// Explore State Provider
-final exploreStateProvider =
-    StateNotifierProvider<ExploreStateNotifier, ExploreState>((ref) {
+final exploreStateProvider = NotifierProvider<ExploreStateNotifier, ExploreState>(() {
   return ExploreStateNotifier();
 });
 
 /// Explore State Notifier
-class ExploreStateNotifier extends StateNotifier<ExploreState> {
-  ExploreStateNotifier() : super(const ExploreState());
+class ExploreStateNotifier extends Notifier<ExploreState> {
+  @override
+  ExploreState build() {
+    return const ExploreState();
+  }
 
   void selectCategory(String category) {
     state = state.copyWith(selectedCategory: category);
@@ -57,33 +60,58 @@ class ExploreStateNotifier extends StateNotifier<ExploreState> {
   /// Toggle follow/unfollow for a user
   Future<void> toggleFollowUser(String userId) async {
     try {
+      // Get current user ID from provider
+      final currentUserId = ref.read(currentUserIdProvider).value;
+      if (currentUserId == null) {
+        setError('User not authenticated');
+        return;
+      }
+
       final followedUsers = List<String>.from(state.followedUsers);
+      final firestore = FirebaseFirestore.instance;
 
       if (followedUsers.contains(userId)) {
-        // Unfollow
+        // Unfollow - remove follow relationship and update counts
         followedUsers.remove(userId);
 
-        // TODO: Update Firestore to remove follow relationship
-        await FirebaseFirestore.instance
+        // Remove follow relationship from Firestore
+        final followQuery = await firestore
             .collection('follows')
-            .where('followerId',
-                isEqualTo: 'currentUserId') // TODO: Get actual current user ID
+            .where('followerId', isEqualTo: currentUserId)
             .where('followingId', isEqualTo: userId)
-            .get()
-            .then((snapshot) {
-          for (var doc in snapshot.docs) {
-            doc.reference.delete();
-          }
+            .get();
+
+        // Delete all matching follow documents
+        for (var doc in followQuery.docs) {
+          await doc.reference.delete();
+        }
+
+        // Update follower counts
+        await firestore.collection('users').doc(userId).update({
+          'followers': FieldValue.increment(-1),
+        });
+
+        await firestore.collection('users').doc(currentUserId).update({
+          'following': FieldValue.increment(-1),
         });
       } else {
-        // Follow
+        // Follow - add follow relationship and update counts
         followedUsers.add(userId);
 
-        // TODO: Update Firestore to add follow relationship
-        await FirebaseFirestore.instance.collection('follows').add({
-          'followerId': 'currentUserId', // TODO: Get actual current user ID
+        // Add follow relationship to Firestore
+        await firestore.collection('follows').add({
+          'followerId': currentUserId,
           'followingId': userId,
           'createdAt': FieldValue.serverTimestamp(),
+        });
+
+        // Update follower counts
+        await firestore.collection('users').doc(userId).update({
+          'followers': FieldValue.increment(1),
+        });
+
+        await firestore.collection('users').doc(currentUserId).update({
+          'following': FieldValue.increment(1),
         });
       }
 
@@ -146,6 +174,10 @@ final popularContentProvider = StreamProvider<List<PostEntity>>((ref) {
                 ?.map((e) => e as String)
                 .toList() ??
             [],
+        chekedBy: (data['chekedBy'] as List<dynamic>?)
+                ?.map((e) => e as String)
+                .toList() ??
+            [],
         tags: (data['tags'] as List<dynamic>?)
                 ?.map((e) => e as String)
                 .toList() ??
@@ -199,6 +231,10 @@ final trendingContentProvider = StreamProvider<List<PostEntity>>((ref) {
                 .toList() ??
             [],
         bookmarkedBy: (data['bookmarkedBy'] as List<dynamic>?)
+                ?.map((e) => e as String)
+                .toList() ??
+            [],
+        chekedBy: (data['chekedBy'] as List<dynamic>?)
                 ?.map((e) => e as String)
                 .toList() ??
             [],

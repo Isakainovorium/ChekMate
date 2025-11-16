@@ -3,7 +3,7 @@ library shared_ui;
 // Animations
 export 'animations/animated_widgets.dart';
 export 'animations/hero_animations.dart';
-export 'animations/interactive_animations.dart';
+export 'animations/interactive_animations.dart' hide AnimatedButton, AnimatedIconButton;
 export 'animations/lottie_animations.dart';
 export 'animations/page_transitions.dart';
 export 'animations/shared_element_transitions.dart';

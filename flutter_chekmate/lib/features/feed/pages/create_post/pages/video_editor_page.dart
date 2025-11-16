@@ -5,6 +5,7 @@ import 'dart:io';
 // import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit.dart';
 // import 'package:ffmpeg_kit_flutter_min_gpl/return_code.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
 import 'package:flutter_chekmate/features/feed/pages/create_post/widgets/voiceover_recorder.dart';
@@ -845,23 +846,23 @@ class _VideoEditorPageState extends State<VideoEditorPage> {
 
       debugPrint('FFmpeg command: $command');
 
-      // FFmpeg execution commented out - package discontinued
-      // TODO: Replace with alternative video processing solution
-      debugPrint('FFmpeg not available - audio mixing skipped');
-      return null;
+      // Use flutter_ffmpeg for audio mixing
+      final flutterFFmpeg = FlutterFFmpeg();
 
-      // Execute FFmpeg command
-      // final session = await FFmpegKit.execute(command);
-      // final returnCode = await session.getReturnCode();
+      debugPrint('Starting audio mixing with flutter_ffmpeg');
+      debugPrint('FFmpeg command: $command');
 
-      // if (ReturnCode.isSuccess(returnCode)) {
-      //   debugPrint('Audio mixing successful! Output: $outputPath');
-      //   return outputPath;
-      // } else {
-      //   final output = await session.getOutput();
-      //   debugPrint('Audio mixing failed: $output');
-      //   return null;
-      // }
+      // Execute the FFmpeg command
+      final returnCode = await flutterFFmpeg.execute(command);
+
+      if (returnCode == 0) {
+        debugPrint('Audio mixing successful! Output: $outputPath');
+        return outputPath;
+      } else {
+        debugPrint('Audio mixing failed with return code: $returnCode');
+        return null;
+      }
+
     } on Exception catch (e) {
       debugPrint('Error mixing audio with video: $e');
       return null;

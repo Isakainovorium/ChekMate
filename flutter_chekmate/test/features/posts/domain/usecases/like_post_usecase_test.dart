@@ -1,12 +1,10 @@
 import 'package:flutter_chekmate/features/posts/domain/repositories/posts_repository.dart';
 import 'package:flutter_chekmate/features/posts/domain/usecases/like_post_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
-import 'create_post_usecase_test.mocks.dart';
+class MockPostsRepository extends Mock implements PostsRepository {}
 
-@GenerateMocks([PostsRepository])
 void main() {
   group('LikePostUseCase', () {
     late LikePostUseCase likeUseCase;
@@ -35,24 +33,24 @@ void main() {
       });
 
       test('calls repository with correct parameters', () async {
-        when(mockRepository.likePost(
-          postId: anyNamed('postId'),
-          userId: anyNamed('userId'),
-        ),).thenAnswer((_) async => {});
+        when(() => mockRepository.likePost(
+          postId: any(named: 'postId'),
+          userId: any(named: 'userId'),
+        )).thenAnswer((_) async => {});
 
         await likeUseCase(postId: 'post1', userId: 'user1');
 
-        verify(mockRepository.likePost(
+        verify(() => mockRepository.likePost(
           postId: 'post1',
           userId: 'user1',
-        ),).called(1);
+        )).called(1);
       });
 
       test('propagates repository errors', () async {
-        when(mockRepository.likePost(
-          postId: anyNamed('postId'),
-          userId: anyNamed('userId'),
-        ),).thenThrow(Exception('Failed to like post'));
+        when(() => mockRepository.likePost(
+          postId: any(named: 'postId'),
+          userId: any(named: 'userId'),
+        )).thenThrow(Exception('Failed to like post'));
 
         expect(
           () => likeUseCase(postId: 'post1', userId: 'user1'),
@@ -77,24 +75,24 @@ void main() {
       });
 
       test('calls repository with correct parameters', () async {
-        when(mockRepository.unlikePost(
-          postId: anyNamed('postId'),
-          userId: anyNamed('userId'),
-        ),).thenAnswer((_) async => {});
+        when(() => mockRepository.unlikePost(
+          postId: any(named: 'postId'),
+          userId: any(named: 'userId'),
+        )).thenAnswer((_) async => {});
 
         await unlikeUseCase(postId: 'post1', userId: 'user1');
 
-        verify(mockRepository.unlikePost(
+        verify(() => mockRepository.unlikePost(
           postId: 'post1',
           userId: 'user1',
-        ),).called(1);
+        )).called(1);
       });
 
       test('propagates repository errors', () async {
-        when(mockRepository.unlikePost(
-          postId: anyNamed('postId'),
-          userId: anyNamed('userId'),
-        ),).thenThrow(Exception('Failed to unlike post'));
+        when(() => mockRepository.unlikePost(
+          postId: any(named: 'postId'),
+          userId: any(named: 'userId'),
+        )).thenThrow(Exception('Failed to unlike post'));
 
         expect(
           () => unlikeUseCase(postId: 'post1', userId: 'user1'),

@@ -31,6 +31,7 @@ void main() {
         voicePrompts: [
           VoicePromptEntity(
             id: 'vp1',
+            userId: 'user1',
             question: 'What makes you happy?',
             audioUrl: 'https://example.com/vp1.mp3',
             duration: 30,
@@ -162,6 +163,7 @@ void main() {
       test('has correct properties', () {
         final voicePrompt = VoicePromptEntity(
           id: 'vp1',
+          userId: 'user1',
           question: 'Test question',
           audioUrl: 'https://example.com/audio.mp3',
           duration: 45,
@@ -177,6 +179,7 @@ void main() {
       test('can be created with different durations', () {
         final voicePrompt = VoicePromptEntity(
           id: 'vp1',
+          userId: 'user1',
           question: 'Test question',
           audioUrl: 'https://example.com/audio.mp3',
           duration: 125,

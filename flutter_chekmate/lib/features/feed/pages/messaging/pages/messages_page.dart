@@ -136,7 +136,7 @@ class _MessagesPageState extends State<MessagesPage> {
                   size: AppAvatarSize.large,
                 ),
                 if (conversation.online)
-                  Positioned(
+                  const Positioned(
                     bottom: 0,
                     right: 0,
                     child: AppBadge(

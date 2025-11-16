@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chekmate/core/models/location_entity.dart';
+import 'package:flutter_chekmate/core/domain/entities/location_entity.dart';
 import 'package:flutter_chekmate/core/services/location_service.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
@@ -33,7 +33,7 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
 
     try {
       // Get current location using LocationService
-      final location = await LocationService.getCurrentLocation();
+      final LocationEntity location = await LocationService.getCurrentLocation();
 
       setState(() {
         _currentLocation = location;

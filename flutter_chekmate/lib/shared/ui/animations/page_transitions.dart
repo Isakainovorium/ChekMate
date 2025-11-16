@@ -157,6 +157,59 @@ class FadeThroughTransition extends StatelessWidget {
   }
 }
 
+/// TikTokPageRoute - TikTok-style page route with customizable transitions
+class TikTokPageRoute<T> extends PageRouteBuilder<T> {
+  TikTokPageRoute({
+    required super.pageBuilder,
+    super.settings,
+    this.type = TikTokTransitionType.slideUp,
+    Duration duration = const Duration(milliseconds: 300),
+  }) : super(
+          transitionDuration: duration,
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _buildTransition(type, animation, child);
+          },
+        );
+
+  final TikTokTransitionType type;
+
+  static Widget _buildTransition(
+    TikTokTransitionType type,
+    Animation<double> animation,
+    Widget child,
+  ) {
+    switch (type) {
+      case TikTokTransitionType.slideUp:
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0, 1), // Slide up from bottom
+            end: Offset.zero,
+          ).animate(CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeOut,
+          )),
+          child: child,
+        );
+      case TikTokTransitionType.slideDown:
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0, -1), // Slide down from top
+            end: Offset.zero,
+          ).animate(CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeOut,
+          )),
+          child: child,
+        );
+      case TikTokTransitionType.fade:
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+    }
+  }
+}
+
 /// FadePageRoute - Fade transition for page navigation
 class FadePageRoute<T> extends PageRouteBuilder<T> {
   FadePageRoute({

@@ -1,12 +1,10 @@
 import 'package:flutter_chekmate/features/messages/domain/repositories/messages_repository.dart';
 import 'package:flutter_chekmate/features/messages/domain/usecases/send_voice_message_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
-import 'send_message_usecase_test.mocks.dart';
+class MockMessagesRepository extends Mock implements MessagesRepository {}
 
-@GenerateMocks([MessagesRepository])
 void main() {
   group('SendVoiceMessageUseCase', () {
     late SendVoiceMessageUseCase useCase;
@@ -109,15 +107,15 @@ void main() {
       });
 
       test('accepts valid voice message', () async {
-        when(mockRepository.sendVoiceMessage(
-          conversationId: anyNamed('conversationId'),
-          senderId: anyNamed('senderId'),
-          senderName: anyNamed('senderName'),
-          senderAvatar: anyNamed('senderAvatar'),
-          receiverId: anyNamed('receiverId'),
-          voiceUrl: anyNamed('voiceUrl'),
-          voiceDuration: anyNamed('voiceDuration'),
-        ),).thenAnswer((_) async => 'message1');
+        when(() => mockRepository.sendVoiceMessage(
+          conversationId: any(named: 'conversationId'),
+          senderId: any(named: 'senderId'),
+          senderName: any(named: 'senderName'),
+          senderAvatar: any(named: 'senderAvatar'),
+          receiverId: any(named: 'receiverId'),
+          voiceUrl: any(named: 'voiceUrl'),
+          voiceDuration: any(named: 'voiceDuration'),
+        )).thenAnswer((_) async => 'message1');
 
         final result = await useCase(
           conversationId: 'conv1',
@@ -130,7 +128,7 @@ void main() {
         );
 
         expect(result, 'message1');
-        verify(mockRepository.sendVoiceMessage(
+        verify(() => mockRepository.sendVoiceMessage(
           conversationId: 'conv1',
           senderId: 'user1',
           senderName: 'Test User',
@@ -138,21 +136,21 @@ void main() {
           receiverId: 'user2',
           voiceUrl: 'voice.m4a',
           voiceDuration: 30,
-        ),).called(1);
+        )).called(1);
       });
     });
 
     group('Error Handling', () {
       test('propagates repository errors', () async {
-        when(mockRepository.sendVoiceMessage(
-          conversationId: anyNamed('conversationId'),
-          senderId: anyNamed('senderId'),
-          senderName: anyNamed('senderName'),
-          senderAvatar: anyNamed('senderAvatar'),
-          receiverId: anyNamed('receiverId'),
-          voiceUrl: anyNamed('voiceUrl'),
-          voiceDuration: anyNamed('voiceDuration'),
-        ),).thenThrow(Exception('Failed to send voice message'));
+        when(() => mockRepository.sendVoiceMessage(
+          conversationId: any(named: 'conversationId'),
+          senderId: any(named: 'senderId'),
+          senderName: any(named: 'senderName'),
+          senderAvatar: any(named: 'senderAvatar'),
+          receiverId: any(named: 'receiverId'),
+          voiceUrl: any(named: 'voiceUrl'),
+          voiceDuration: any(named: 'voiceDuration'),
+        )).thenThrow(Exception('Failed to send voice message'));
 
         expect(
           () => useCase(

@@ -46,6 +46,7 @@ void main() {
       id: 'msg123',
       senderId: 'user123',
       receiverId: 'user456',
+      url: 'https://example.com/voice.mp3',
       duration: 45,
       filePath: '/temp/voice_123.m4a',
       fileName: 'voice_123.m4a',
@@ -140,6 +141,7 @@ void main() {
       id: 'msg123',
       senderId: 'user123',
       receiverId: 'user456',
+      url: 'https://example.com/voice.mp3',
       downloadUrl:
           'https://storage.googleapis.com/voice_messages/user123/voice_123.m4a',
       duration: 45,

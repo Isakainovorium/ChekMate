@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_chekmate/features/posts/data/datasources/posts_remote_datasource.dart';
@@ -132,6 +134,44 @@ class PostsNotifier extends StateNotifier<AsyncValue<List<PostEntity>>> {
   Future<void> sharePost(String postId, String userId) async {
     try {
       await _datasource.sharePost(postId: postId, userId: userId);
+    } catch (e) {
+      // Handle error
+      rethrow;
+    }
+  }
+
+  /// Chek a post (ChekMate's unique interaction for rating/verifying dating experiences)
+  Future<void> chekPost(String postId, String userId) async {
+    try {
+      await _datasource.chekPost(postId: postId, userId: userId);
+    } catch (e) {
+      // Handle error
+      rethrow;
+    }
+  }
+
+  /// Create a new post
+  Future<void> createPost({
+    required String userId,
+    required String username,
+    required String userAvatar,
+    required String content,
+    List<Uint8List>? images,
+    Uint8List? video,
+    String? location,
+    List<String>? tags,
+  }) async {
+    try {
+      await _datasource.createPost(
+        userId: userId,
+        username: username,
+        userAvatar: userAvatar,
+        content: content,
+        images: images,
+        video: video,
+        location: location,
+        tags: tags,
+      );
     } catch (e) {
       // Handle error
       rethrow;

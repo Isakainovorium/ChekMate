@@ -580,6 +580,39 @@ Before you begin, ensure you have the following installed:
    flutter pub get
    ```
 
+4. **Run the app**
+   ```bash
+   # iOS Simulator
+   flutter run -d "iPhone 15 Pro"
+
+   # Android Emulator
+   flutter run -d emulator-5554
+
+   # Web Browser
+   flutter run -d chrome
+   ```
+
+5. **Run Widgetbook (Component Library)** 🎨
+   ```bash
+   # Browse all 70+ components interactively
+   flutter run -t lib/widgetbook.dart
+
+   # iOS
+   flutter run -d "iPhone 15 Pro" -t lib/widgetbook.dart
+
+   # Android
+   flutter run -d emulator-5554 -t lib/widgetbook.dart
+
+   # Web
+   flutter run -d chrome -t lib/widgetbook.dart
+   ```
+
+   **What is Widgetbook?**
+   - Interactive component library showcasing all 70+ ChekMate UI components
+   - Test components in isolation across iOS, Android, and Web
+   - Perfect for client demos, design reviews, and development
+   - See `docs/WIDGETBOOK_QUICK_START.md` for details
+
 4. **Verify Flutter installation**
    ```bash
    flutter doctor
@@ -1362,6 +1395,12 @@ Comprehensive documentation is available in the `docs/` directory:
 - [iOS Pre-Build Checklist](flutter_chekmate/docs/IOS_PRE_BUILD_CHECKLIST.md) - iOS preparation
 - [Component Fix Plan](flutter_chekmate/docs/COMPONENT_FIX_PLAN.md) - UI components
 - [Phase Tracker](flutter_chekmate/docs/PHASE_TRACKER.md) - Development phases
+
+### Component Library (Widgetbook) 🎨
+- [**Widgetbook Integration Plan**](docs/WIDGETBOOK_INTEGRATION_PLAN.md) - Complete iOS/Android/Web setup guide
+- [**Widgetbook Quick Start**](docs/WIDGETBOOK_QUICK_START.md) - Get started in 5 minutes
+- [Components Guide](docs/COMPONENTS_GUIDE.md) - All 70+ UI components
+- [Features & Components Overview](docs/FEATURES_AND_COMPONENTS_OVERVIEW.md) - Component inventory
 
 ### API Documentation
 - [API Reference](docs/api/README.md) - API endpoints and usage

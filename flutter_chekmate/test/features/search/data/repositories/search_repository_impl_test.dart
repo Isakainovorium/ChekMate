@@ -32,63 +32,63 @@ void main() {
     group('Method Return Types', () {
       test('searchAll returns Future<List<SearchResultEntity>>', () {
         expect(
-          repository.searchAll('flutter'),
+          repository.searchAll(query: 'flutter'),
           isA<Future<List<SearchResultEntity>>>(),
         );
       });
 
       test('searchUsers returns Future<List<SearchResultEntity>>', () {
         expect(
-          repository.searchUsers('john'),
+          repository.searchUsers(query: 'john'),
           isA<Future<List<SearchResultEntity>>>(),
         );
       });
 
       test('searchPosts returns Future<List<SearchResultEntity>>', () {
         expect(
-          repository.searchPosts('flutter'),
+          repository.searchPosts(query: 'flutter'),
           isA<Future<List<SearchResultEntity>>>(),
         );
       });
 
       test('searchHashtags returns Future<List<SearchResultEntity>>', () {
         expect(
-          repository.searchHashtags('flutter'),
+          repository.searchHashtags(query: 'flutter'),
           isA<Future<List<SearchResultEntity>>>(),
         );
       });
 
       test('getSearchSuggestions returns Future<List<SearchSuggestionEntity>>', () {
         expect(
-          repository.getSearchSuggestions('flu'),
+          repository.getSearchSuggestions(query: 'flu'),
           isA<Future<List<SearchSuggestionEntity>>>(),
         );
       });
 
       test('getRecentSearches returns Future<List<RecentSearchEntity>>', () {
         expect(
-          repository.getRecentSearches(),
+          repository.getRecentSearches('user123'),
           isA<Future<List<RecentSearchEntity>>>(),
         );
       });
 
       test('saveRecentSearch returns Future<void>', () {
         expect(
-          repository.saveRecentSearch('flutter'),
+          repository.saveRecentSearch('user123', 'flutter'),
           isA<Future<void>>(),
         );
       });
 
       test('clearRecentSearches returns Future<void>', () {
         expect(
-          repository.clearRecentSearches(),
+          repository.clearRecentSearches('user123'),
           isA<Future<void>>(),
         );
       });
 
       test('removeRecentSearch returns Future<void>', () {
         expect(
-          repository.removeRecentSearch('flutter'),
+          repository.removeRecentSearch('user123', 'flutter'),
           isA<Future<void>>(),
         );
       });
@@ -104,35 +104,35 @@ void main() {
     group('Method Parameters', () {
       test('searchAll accepts limit parameter', () {
         expect(
-          () => repository.searchAll('flutter', limit: 10),
+          () => repository.searchAll(query: 'flutter', limit: 10),
           isA<Function>(),
         );
       });
 
       test('searchUsers accepts limit parameter', () {
         expect(
-          () => repository.searchUsers('john', limit: 10),
+          () => repository.searchUsers(query: 'john', limit: 10),
           isA<Function>(),
         );
       });
 
       test('searchPosts accepts limit parameter', () {
         expect(
-          () => repository.searchPosts('flutter', limit: 10),
+          () => repository.searchPosts(query: 'flutter', limit: 10),
           isA<Function>(),
         );
       });
 
       test('searchHashtags accepts limit parameter', () {
         expect(
-          () => repository.searchHashtags('flutter', limit: 10),
+          () => repository.searchHashtags(query: 'flutter', limit: 10),
           isA<Function>(),
         );
       });
 
       test('getSearchSuggestions accepts limit parameter', () {
         expect(
-          () => repository.getSearchSuggestions('flu'),
+          () => repository.getSearchSuggestions(query: 'flu'),
           isA<Function>(),
         );
       });
@@ -148,63 +148,63 @@ void main() {
     group('Input Validation', () {
       test('searchAll throws exception for empty query', () async {
         expect(
-          () => repository.searchAll(''),
+          () => repository.searchAll(query: ''),
           throwsA(isA<Exception>()),
         );
       });
 
       test('searchUsers throws exception for empty query', () async {
         expect(
-          () => repository.searchUsers(''),
+          () => repository.searchUsers(query: ''),
           throwsA(isA<Exception>()),
         );
       });
 
       test('searchPosts throws exception for empty query', () async {
         expect(
-          () => repository.searchPosts(''),
+          () => repository.searchPosts(query: ''),
           throwsA(isA<Exception>()),
         );
       });
 
       test('searchHashtags throws exception for empty query', () async {
         expect(
-          () => repository.searchHashtags(''),
+          () => repository.searchHashtags(query: ''),
           throwsA(isA<Exception>()),
         );
       });
 
       test('getSearchSuggestions throws exception for empty query', () async {
         expect(
-          () => repository.getSearchSuggestions(''),
+          () => repository.getSearchSuggestions(query: ''),
           throwsA(isA<Exception>()),
         );
       });
 
       test('saveRecentSearch throws exception for empty query', () async {
         expect(
-          () => repository.saveRecentSearch(''),
+          () => repository.saveRecentSearch('user123', ''),
           throwsA(isA<Exception>()),
         );
       });
 
       test('removeRecentSearch throws exception for empty query', () async {
         expect(
-          () => repository.removeRecentSearch(''),
+          () => repository.removeRecentSearch('user123', ''),
           throwsA(isA<Exception>()),
         );
       });
 
       test('searchAll throws exception for negative limit', () async {
         expect(
-          () => repository.searchAll('flutter', limit: -1),
+          () => repository.searchAll(query: 'flutter', limit: -1),
           throwsA(isA<Exception>()),
         );
       });
 
       test('searchUsers throws exception for negative limit', () async {
         expect(
-          () => repository.searchUsers('john', limit: -1),
+          () => repository.searchUsers(query: 'john', limit: -1),
           throwsA(isA<Exception>()),
         );
       });
@@ -213,35 +213,35 @@ void main() {
     group('Default Parameters', () {
       test('searchAll uses default limit of 20', () {
         expect(
-          () => repository.searchAll('flutter'),
+          () => repository.searchAll(query: 'flutter'),
           isA<Function>(),
         );
       });
 
       test('searchUsers uses default limit of 20', () {
         expect(
-          () => repository.searchUsers('john'),
+          () => repository.searchUsers(query: 'john'),
           isA<Function>(),
         );
       });
 
       test('searchPosts uses default limit of 20', () {
         expect(
-          () => repository.searchPosts('flutter'),
+          () => repository.searchPosts(query: 'flutter'),
           isA<Function>(),
         );
       });
 
       test('searchHashtags uses default limit of 20', () {
         expect(
-          () => repository.searchHashtags('flutter'),
+          () => repository.searchHashtags(query: 'flutter'),
           isA<Function>(),
         );
       });
 
       test('getSearchSuggestions uses default limit of 5', () {
         expect(
-          () => repository.getSearchSuggestions('flu'),
+          () => repository.getSearchSuggestions(query: 'flu'),
           isA<Function>(),
         );
       });
@@ -257,42 +257,42 @@ void main() {
     group('Edge Cases', () {
       test('searchAll handles whitespace-only query', () async {
         expect(
-          () => repository.searchAll('   '),
+          () => repository.searchAll(query: '   '),
           throwsA(isA<Exception>()),
         );
       });
 
       test('searchUsers handles whitespace-only query', () async {
         expect(
-          () => repository.searchUsers('   '),
+          () => repository.searchUsers(query: '   '),
           throwsA(isA<Exception>()),
         );
       });
 
       test('searchPosts handles whitespace-only query', () async {
         expect(
-          () => repository.searchPosts('   '),
+          () => repository.searchPosts(query: '   '),
           throwsA(isA<Exception>()),
         );
       });
 
       test('searchHashtags handles whitespace-only query', () async {
         expect(
-          () => repository.searchHashtags('   '),
+          () => repository.searchHashtags(query: '   '),
           throwsA(isA<Exception>()),
         );
       });
 
       test('searchAll handles limit of 0', () async {
         expect(
-          () => repository.searchAll('flutter', limit: 0),
+          () => repository.searchAll(query: 'flutter', limit: 0),
           throwsA(isA<Exception>()),
         );
       });
 
       test('searchUsers handles limit of 0', () async {
         expect(
-          () => repository.searchUsers('john', limit: 0),
+          () => repository.searchUsers(query: 'john', limit: 0),
           throwsA(isA<Exception>()),
         );
       });
@@ -300,22 +300,22 @@ void main() {
 
     group('Recent Searches Management', () {
       test('saveRecentSearch accepts valid query', () async {
-        await repository.saveRecentSearch('flutter');
+        await repository.saveRecentSearch('user123', 'flutter');
         // Should not throw
       });
 
       test('clearRecentSearches can be called', () async {
-        await repository.clearRecentSearches();
+        await repository.clearRecentSearches('user123');
         // Should not throw
       });
 
       test('removeRecentSearch accepts valid query', () async {
-        await repository.removeRecentSearch('flutter');
+        await repository.removeRecentSearch('user123', 'flutter');
         // Should not throw
       });
 
       test('getRecentSearches returns list', () async {
-        final searches = await repository.getRecentSearches();
+        final searches = await repository.getRecentSearches('user123');
         expect(searches, isA<List<RecentSearchEntity>>());
       });
     });
@@ -323,21 +323,21 @@ void main() {
     group('Search Suggestions', () {
       test('getSearchSuggestions handles short queries', () {
         expect(
-          () => repository.getSearchSuggestions('fl'),
+          () => repository.getSearchSuggestions(query: 'fl'),
           isA<Function>(),
         );
       });
 
       test('getSearchSuggestions handles single character queries', () {
         expect(
-          () => repository.getSearchSuggestions('f'),
+          () => repository.getSearchSuggestions(query: 'f'),
           isA<Function>(),
         );
       });
 
       test('getSearchSuggestions handles long queries', () {
         expect(
-          () => repository.getSearchSuggestions('flutter development tutorial'),
+          () => repository.getSearchSuggestions(query: 'flutter development tutorial'),
           isA<Function>(),
         );
       });
@@ -365,24 +365,24 @@ void main() {
     group('Query Optimization', () {
       test('searchAll accepts reasonable limit values', () {
         expect(
-          () => repository.searchAll('flutter', limit: 50),
+          () => repository.searchAll(query: 'flutter', limit: 50),
           isA<Function>(),
         );
 
         expect(
-          () => repository.searchAll('flutter', limit: 100),
+          () => repository.searchAll(query: 'flutter', limit: 100),
           isA<Function>(),
         );
       });
 
       test('searchUsers accepts reasonable limit values', () {
         expect(
-          () => repository.searchUsers('john', limit: 50),
+          () => repository.searchUsers(query: 'john', limit: 50),
           isA<Function>(),
         );
 
         expect(
-          () => repository.searchUsers('john', limit: 100),
+          () => repository.searchUsers(query: 'john', limit: 100),
           isA<Function>(),
         );
       });
@@ -391,34 +391,34 @@ void main() {
     group('Case Sensitivity', () {
       test('searchAll handles case-insensitive queries', () {
         expect(
-          () => repository.searchAll('FLUTTER'),
+          () => repository.searchAll(query: 'FLUTTER'),
           isA<Function>(),
         );
 
         expect(
-          () => repository.searchAll('flutter'),
+          () => repository.searchAll(query: 'flutter'),
           isA<Function>(),
         );
 
         expect(
-          () => repository.searchAll('Flutter'),
+          () => repository.searchAll(query: 'Flutter'),
           isA<Function>(),
         );
       });
 
       test('searchUsers handles case-insensitive queries', () {
         expect(
-          () => repository.searchUsers('JOHN'),
+          () => repository.searchUsers(query: 'JOHN'),
           isA<Function>(),
         );
 
         expect(
-          () => repository.searchUsers('john'),
+          () => repository.searchUsers(query: 'john'),
           isA<Function>(),
         );
 
         expect(
-          () => repository.searchUsers('John'),
+          () => repository.searchUsers(query: 'John'),
           isA<Function>(),
         );
       });
@@ -427,24 +427,24 @@ void main() {
     group('Special Characters', () {
       test('searchHashtags handles hashtag symbol', () {
         expect(
-          () => repository.searchHashtags('#flutter'),
+          () => repository.searchHashtags(query: '#flutter'),
           isA<Function>(),
         );
 
         expect(
-          () => repository.searchHashtags('flutter'),
+          () => repository.searchHashtags(query: 'flutter'),
           isA<Function>(),
         );
       });
 
       test('searchUsers handles @ symbol', () {
         expect(
-          () => repository.searchUsers('@john'),
+          () => repository.searchUsers(query: '@john'),
           isA<Function>(),
         );
 
         expect(
-          () => repository.searchUsers('john'),
+          () => repository.searchUsers(query: 'john'),
           isA<Function>(),
         );
       });

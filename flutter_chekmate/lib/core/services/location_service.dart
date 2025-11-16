@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer' as developer;
-import 'package:flutter_chekmate/core/models/location_entity.dart';
+import 'package:flutter_chekmate/core/domain/entities/location_entity.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 /// Location Service Exception
@@ -41,7 +42,7 @@ class LocationService {
         name: 'LocationService',
         error: e,
       );
-      throw LocationServiceException(
+      throw const LocationServiceException(
         'Failed to check location permission',
         code: 'PERMISSION_CHECK_FAILED',
       );
@@ -58,7 +59,7 @@ class LocationService {
         name: 'LocationService',
         error: e,
       );
-      throw LocationServiceException(
+      throw const LocationServiceException(
         'Failed to request location permission',
         code: 'PERMISSION_REQUEST_FAILED',
       );
@@ -66,12 +67,12 @@ class LocationService {
   }
 
   /// Get current location
-  static Future<LocationEntity> getCurrentLocation() async {
+  static Future<LocationEntity> getCurrentLocation({bool includeAddress = false}) async {
     try {
       // Check if location services are enabled
       final serviceEnabled = await isLocationServiceEnabled();
       if (!serviceEnabled) {
-        throw LocationServiceException(
+        throw const LocationServiceException(
           'Location services are disabled',
           code: 'SERVICE_DISABLED',
         );
@@ -82,7 +83,7 @@ class LocationService {
       if (permission == LocationPermission.denied) {
         permission = await requestPermission();
         if (permission == LocationPermission.denied) {
-          throw LocationServiceException(
+          throw const LocationServiceException(
             'Location permission denied',
             code: 'PERMISSION_DENIED',
           );
@@ -90,7 +91,7 @@ class LocationService {
       }
 
       if (permission == LocationPermission.deniedForever) {
-        throw LocationServiceException(
+        throw const LocationServiceException(
           'Location permission permanently denied',
           code: 'PERMISSION_DENIED_FOREVER',
         );
@@ -110,7 +111,7 @@ class LocationService {
         latitude: position.latitude,
         longitude: position.longitude,
         accuracy: position.accuracy,
-        timestamp: position.timestamp ?? DateTime.now(),
+        timestamp: position.timestamp,
       );
     } on LocationServiceException {
       rethrow;
@@ -124,6 +125,96 @@ class LocationService {
       throw LocationServiceException(
         'Failed to get current location: $e',
         code: 'LOCATION_FETCH_FAILED',
+      );
+    }
+  }
+
+  /// Get last known location
+  static Future<LocationEntity?> getLastKnownLocation() async {
+    try {
+      final position = await Geolocator.getLastKnownPosition();
+      if (position == null) return null;
+
+      return LocationEntity(
+        latitude: position.latitude,
+        longitude: position.longitude,
+        accuracy: position.accuracy,
+        timestamp: position.timestamp,
+      );
+    } catch (e) {
+      developer.log(
+        'Failed to get last known location',
+        name: 'LocationService',
+        error: e,
+      );
+      return null;
+    }
+  }
+
+  /// Get address from coordinates
+  static Future<LocationEntity> getAddressFromCoordinates({
+    required double latitude,
+    required double longitude,
+  }) async {
+    try {
+      final placemarks = await placemarkFromCoordinates(latitude, longitude);
+
+      if (placemarks.isEmpty) {
+        throw const LocationServiceException(
+          'No address found for coordinates',
+          code: 'ADDRESS_NOT_FOUND',
+        );
+      }
+
+      final placemark = placemarks.first;
+
+      return LocationEntity(
+        latitude: latitude,
+        longitude: longitude,
+        name: placemark.name,
+        address: placemark.street,
+        city: placemark.locality,
+        state: placemark.administrativeArea,
+        country: placemark.country,
+        postalCode: placemark.postalCode,
+        timestamp: DateTime.now(),
+      );
+    } catch (e) {
+      developer.log(
+        'Failed to get address from coordinates',
+        name: 'LocationService',
+        error: e,
+      );
+      throw LocationServiceException(
+        'Failed to get address from coordinates: $e',
+        code: 'ADDRESS_LOOKUP_FAILED',
+      );
+    }
+  }
+
+  /// Get coordinates from address
+  static Future<List<LocationEntity>> getCoordinatesFromAddress({
+    required String address,
+  }) async {
+    try {
+      final locations = await locationFromAddress(address);
+
+      return locations.map((location) {
+        return LocationEntity(
+          latitude: location.latitude,
+          longitude: location.longitude,
+          timestamp: DateTime.now(),
+        );
+      }).toList();
+    } catch (e) {
+      developer.log(
+        'Failed to get coordinates from address',
+        name: 'LocationService',
+        error: e,
+      );
+      throw LocationServiceException(
+        'Failed to get coordinates from address: $e',
+        code: 'COORDINATES_LOOKUP_FAILED',
       );
     }
   }
@@ -146,7 +237,7 @@ class LocationService {
           latitude: position.latitude,
           longitude: position.longitude,
           accuracy: position.accuracy,
-          timestamp: position.timestamp ?? DateTime.now(),
+          timestamp: position.timestamp,
         );
       });
     } catch (e, stackTrace) {

@@ -1,7 +1,6 @@
 import 'package:flutter_chekmate/features/voice_messages/data/datasources/voice_recording_local_data_source.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:record/record.dart';
 import 'package:uuid/uuid.dart';
 
 class MockAudioRecorder extends Mock implements AudioRecorder {}
@@ -14,7 +13,11 @@ void main() {
   late MockUuid mockUuid;
 
   setUpAll(() {
-    registerFallbackValue(const RecordConfig());
+    registerFallbackValue(const RecordConfig(
+      encoder: AudioEncoder.aacLc,
+      bitRate: 128000,
+      sampleRate: 44100,
+    ));
   });
 
   setUp(() {

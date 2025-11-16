@@ -8,16 +8,17 @@ void main() {
     late Post testPost;
 
     setUp(() {
-      testPost = const Post(
+      testPost = Post(
         id: 'post1',
+        userId: 'test-user-id',
         username: 'Test User',
         userAvatar: 'https://example.com/avatar.jpg',
         content: 'Test post content',
-        imageUrls: ['https://example.com/image1.jpg'],
+        images: ['https://example.com/image1.jpg'],
         likes: 2,
         comments: 10,
         shares: 5,
-        timestamp: '2 hours ago',
+        timestamp: DateTime.now().subtract(const Duration(hours: 2)),
       );
     });
 

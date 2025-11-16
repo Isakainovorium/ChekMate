@@ -353,7 +353,7 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
         ),
 
         // Caption overlay (if exists)
-        if (widget.post.caption != null && widget.post.caption!.isNotEmpty)
+        if (widget.post.caption.isNotEmpty)
           Positioned(
             bottom: 0,
             left: 0,
@@ -371,7 +371,7 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
               ),
               padding: const EdgeInsets.all(AppSpacing.md),
               child: Text(
-                widget.post.caption!,
+                widget.post.caption,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
@@ -500,8 +500,7 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
           ),
 
           // Caption preview (if exists and not shown in image)
-          if (widget.post.caption != null &&
-              widget.post.caption!.isNotEmpty &&
+          if (widget.post.caption.isNotEmpty &&
               widget.post.imageUrl == null)
             Padding(
               padding: const EdgeInsets.only(top: AppSpacing.xs),
@@ -520,7 +519,7 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
                       ),
                     ),
                     TextSpan(
-                      text: widget.post.caption!.toLowerCase(),
+                      text: widget.post.caption.toLowerCase(),
                     ),
                   ],
                 ),

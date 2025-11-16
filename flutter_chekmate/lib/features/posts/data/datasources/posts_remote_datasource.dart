@@ -132,15 +132,16 @@ class PostsRemoteDataSource {
         comments: 0,
         shares: 0,
         cheks: 0,
+        chekedBy: const [],
         createdAt: now,
         updatedAt: now,
         location: location,
-        tags: tags ?? [],
+        tags: tags ?? const [],
         coordinates: coordinates,
         geohash: geohash,
         isVerified: false,
-        likedBy: [],
-        bookmarkedBy: [],
+        likedBy: const [],
+        bookmarkedBy: const [],
       );
 
       // Save to Firestore
@@ -256,22 +257,51 @@ class PostsRemoteDataSource {
     required String userId,
     int limit = 20,
   }) {
+    return Stream.fromFuture(_getFeedPosts(userId, limit));
+  }
+
+  /// Helper method to get feed posts with following logic
+  Future<List<PostEntity>> _getFeedPosts(String userId, int limit) async {
     try {
       developer.log('Getting feed posts for user: $userId',
           name: 'PostsRemoteDataSource');
 
-      // For now, return all posts ordered by creation date
-      // TODO: Implement following logic to filter by followed users
-      return _firestore
-          .collection('posts')
-          .orderBy('createdAt', descending: true)
-          .limit(limit)
-          .snapshots()
-          .map((snapshot) {
-        return snapshot.docs.map((doc) {
-          return PostModel.fromFirestore(doc);
-        }).toList();
-      });
+      // Get users that the current user follows
+      final followsSnapshot = await _firestore
+          .collection('follows')
+          .where('followerId', isEqualTo: userId)
+          .get();
+
+      final followingUserIds = followsSnapshot.docs
+          .map((doc) => doc.data()['followingId'] as String)
+          .toList();
+
+      // If user follows no one, return empty list
+      if (followingUserIds.isEmpty) {
+        developer.log('User $userId follows no one, returning empty feed',
+            name: 'PostsRemoteDataSource');
+        return [];
+      }
+
+      // Query posts from followed users
+      // Note: Firestore whereIn has a limit of 10 items, so if user follows >10 people,
+      // we might need to split into multiple queries in production
+      final postsQuery = followingUserIds.length <= 10
+          ? _firestore
+              .collection('posts')
+              .where('userId', whereIn: followingUserIds)
+              .orderBy('createdAt', descending: true)
+              .limit(limit)
+          : _firestore
+              .collection('posts')
+              .where('userId', whereIn: followingUserIds.sublist(0, 10))
+              .orderBy('createdAt', descending: true)
+              .limit(limit);
+
+      final snapshot = await postsQuery.get();
+      return snapshot.docs.map((doc) {
+        return PostModel.fromFirestore(doc);
+      }).toList();
     } catch (e, stackTrace) {
       developer.log(
         'Failed to get feed posts',
@@ -279,7 +309,7 @@ class PostsRemoteDataSource {
         error: e,
         stackTrace: stackTrace,
       );
-      return Stream.value([]);
+      return [];
     }
   }
 
@@ -335,13 +365,49 @@ class PostsRemoteDataSource {
     required String userId,
     int limit = 20,
   }) {
+    return Stream.fromFuture(_getFollowingPosts(userId, limit));
+  }
+
+  /// Helper method to get following posts
+  Future<List<PostEntity>> _getFollowingPosts(String userId, int limit) async {
     try {
       developer.log('Getting following posts for user: $userId',
           name: 'PostsRemoteDataSource');
 
-      // TODO: Implement following logic
-      // For now, return all posts
-      return getFeedPosts(userId: userId, limit: limit);
+      // Get users that the current user follows
+      final followsSnapshot = await _firestore
+          .collection('follows')
+          .where('followerId', isEqualTo: userId)
+          .get();
+
+      final followingUserIds = followsSnapshot.docs
+          .map((doc) => doc.data()['followingId'] as String)
+          .toList();
+
+      // If user follows no one, return empty list
+      if (followingUserIds.isEmpty) {
+        developer.log('User $userId follows no one, returning empty following posts',
+            name: 'PostsRemoteDataSource');
+        return [];
+      }
+
+      // Query posts from followed users
+      final postsQuery = followingUserIds.length <= 10
+          ? _firestore
+              .collection('posts')
+              .where('userId', whereIn: followingUserIds)
+              .orderBy('createdAt', descending: true)
+              .limit(limit)
+          : _firestore
+              .collection('posts')
+              .where('userId', whereIn: followingUserIds.sublist(0, 10))
+              .orderBy('createdAt', descending: true)
+              .limit(limit);
+
+      final snapshot = await postsQuery.get();
+      return snapshot.docs.map((doc) {
+        return PostModel.fromFirestore(doc);
+      }).toList();
     } catch (e, stackTrace) {
       developer.log(
         'Failed to get following posts',
@@ -349,7 +415,7 @@ class PostsRemoteDataSource {
         error: e,
         stackTrace: stackTrace,
       );
-      return Stream.value([]);
+      return [];
     }
   }
 
@@ -747,6 +813,50 @@ class PostsRemoteDataSource {
         stackTrace: stackTrace,
       );
       throw Exception('Failed to share post: $e');
+    }
+  }
+
+  /// Chek a post (ChekMate's unique interaction for rating/verifying dating experiences)
+  Future<void> chekPost({
+    required String postId,
+    required String userId,
+  }) async {
+    try {
+      developer.log(
+        'Checking post: $postId by user: $userId',
+        name: 'PostsRemoteDataSource',
+      );
+
+      // Get current post data to check if user has already cheked
+      final postDoc = await _firestore.collection(_postsCollection).doc(postId).get();
+      if (!postDoc.exists) {
+        throw Exception('Post not found');
+      }
+
+      final postData = postDoc.data()!;
+      final chekedBy = List<String>.from(postData['chekedBy'] ?? []);
+
+      // Check if user has already cheked this post
+      if (chekedBy.contains(userId)) {
+        developer.log('User has already cheked this post', name: 'PostsRemoteDataSource');
+        return; // Don't increment if already cheked
+      }
+
+      // Add user to chekedBy array and increment cheks count
+      await _firestore.collection(_postsCollection).doc(postId).update({
+        'cheks': FieldValue.increment(1),
+        'chekedBy': FieldValue.arrayUnion([userId]),
+      });
+
+      developer.log('Post cheked successfully', name: 'PostsRemoteDataSource');
+    } catch (e, stackTrace) {
+      developer.log(
+        'Failed to chek post',
+        name: 'PostsRemoteDataSource',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      throw Exception('Failed to chek post: $e');
     }
   }
 

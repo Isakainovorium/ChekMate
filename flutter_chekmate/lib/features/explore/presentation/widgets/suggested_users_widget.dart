@@ -81,10 +81,10 @@ class SuggestedUsersWidget extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(user.username),
-                        if (user.bio != null) ...[
+                        if (user.bio.isNotEmpty) ...[
                           const SizedBox(height: 4),
                           Text(
-                            user.bio!,
+                            user.bio,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(

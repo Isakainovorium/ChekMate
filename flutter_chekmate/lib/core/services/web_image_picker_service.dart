@@ -277,9 +277,15 @@ class WebImagePickerButton extends StatelessWidget {
 
     return ElevatedButton.icon(
       onPressed: () async {
+        if (!context.mounted) return;
+
+        if (!context.mounted) return;
+
         final file = isVideo
             ? await service.pickVideo(context)
             : await service.pickImage(context);
+
+        if (!context.mounted) return;
 
         if (file != null) {
           onImagePicked(file);

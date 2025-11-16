@@ -28,10 +28,10 @@ class AppHero extends StatelessWidget {
   Widget build(BuildContext context) {
     return Hero(
       tag: tag,
-      child: child,
       flightShuttleBuilder: flightShuttleBuilder,
       placeholderBuilder: placeholderBuilder,
       transitionOnUserGestures: transitionOnUserGestures,
+      child: child,
     );
   }
 }

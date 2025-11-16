@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../shared/ui/components/app_alert.dart';
 import '../../../shared/ui/components/app_breadcrumb.dart';
@@ -32,12 +33,13 @@ class _ThemeSettingsPageState extends ConsumerState<ThemeSettingsPage> {
   // Theme preset selection
   int _selectedPreset = 0;
   final List<ThemePreset> _presets = [
-    ThemePreset(name: 'Purple', primary: Colors.purple, accent: Colors.purpleAccent),
-    ThemePreset(name: 'Blue', primary: Colors.blue, accent: Colors.blueAccent),
-    ThemePreset(name: 'Green', primary: Colors.green, accent: Colors.greenAccent),
-    ThemePreset(name: 'Orange', primary: Colors.orange, accent: Colors.orangeAccent),
-    ThemePreset(name: 'Red', primary: Colors.red, accent: Colors.redAccent),
-    ThemePreset(name: 'Teal', primary: Colors.teal, accent: Colors.tealAccent),
+    const ThemePreset(name: 'Purple', primary: Colors.purple, accent: Colors.purpleAccent),
+    const ThemePreset(name: 'Blue', primary: Colors.blue, accent: Colors.blueAccent),
+
+    const ThemePreset(name: 'Green', primary: Colors.green, accent: Colors.greenAccent),
+    const ThemePreset(name: 'Orange', primary: Colors.orange, accent: Colors.orangeAccent),
+    const ThemePreset(name: 'Red', primary: Colors.red, accent: Colors.redAccent),
+    const ThemePreset(name: 'Teal', primary: Colors.teal, accent: Colors.tealAccent),
   ];
 
   // Custom colors
@@ -51,6 +53,42 @@ class _ThemeSettingsPageState extends ConsumerState<ThemeSettingsPage> {
   bool _isSaving = false;
   String? _errorMessage;
   bool _hasChanges = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedPreferences();
+  }
+
+  /// Load saved theme preferences from SharedPreferences
+  Future<void> _loadSavedPreferences() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+
+      setState(() {
+        // Load theme preset selection
+        _selectedPreset = prefs.getInt('theme_selected_preset') ?? 0;
+
+        // Load custom color preferences
+        _useCustomColors = prefs.getBool('theme_use_custom_colors') ?? false;
+        final primaryColorValue = prefs.getInt('theme_custom_primary');
+        final accentColorValue = prefs.getInt('theme_custom_accent');
+
+        if (primaryColorValue != null) {
+          _customPrimary = Color(primaryColorValue);
+        }
+        if (accentColorValue != null) {
+          _customAccent = Color(accentColorValue);
+        }
+
+        // Load dark mode preference
+        _darkModeEnabled = prefs.getBool('theme_dark_mode_enabled') ?? false;
+      });
+    } catch (e) {
+      debugPrint('Error loading saved theme preferences: $e');
+      // Use default values if loading fails
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +118,7 @@ class _ThemeSettingsPageState extends ConsumerState<ThemeSettingsPage> {
                   AppBreadcrumb(
                     items: const [
                       AppBreadcrumbItem(label: 'Profile'),
-                      AppBreadcrumbItem(label: 'Theme Settings'),
+                      const AppBreadcrumbItem(label: 'Theme Settings'),
                     ],
                   ),
                   const SizedBox(height: 24),
@@ -292,8 +330,19 @@ class _ThemeSettingsPageState extends ConsumerState<ThemeSettingsPage> {
     });
 
     try {
-      // TODO: Implement actual save functionality with theme provider
-      await Future.delayed(const Duration(seconds: 1));
+      // Save theme preferences to SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+
+      // Save theme preset selection
+      await prefs.setInt('theme_selected_preset', _selectedPreset);
+
+      // Save custom color preferences
+      await prefs.setBool('theme_use_custom_colors', _useCustomColors);
+      await prefs.setInt('theme_custom_primary', _customPrimary.toARGB32());
+      await prefs.setInt('theme_custom_accent', _customAccent.toARGB32());
+
+      // Save dark mode preference
+      await prefs.setBool('theme_dark_mode_enabled', _darkModeEnabled);
 
       if (mounted) {
         setState(() {

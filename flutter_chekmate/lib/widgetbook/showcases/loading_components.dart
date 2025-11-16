@@ -71,7 +71,7 @@ class LoadingComponentShowcases {
           useCases: [
             WidgetbookUseCase(
               name: 'Loading',
-              builder: (context) => LoadingAnimation(
+              builder: (context) => LottieLoading(
                 size: context.knobs.double.slider(
                   label: 'Size',
                   initialValue: 100,
@@ -82,7 +82,7 @@ class LoadingComponentShowcases {
             ),
             WidgetbookUseCase(
               name: 'Success',
-              builder: (context) => SuccessAnimation(
+              builder: (context) => LottieSuccess(
                 size: context.knobs.double.slider(
                   label: 'Size',
                   initialValue: 100,
@@ -93,18 +93,7 @@ class LoadingComponentShowcases {
             ),
             WidgetbookUseCase(
               name: 'Error',
-              builder: (context) => ErrorAnimation(
-                size: context.knobs.double.slider(
-                  label: 'Size',
-                  initialValue: 100,
-                  min: 50,
-                  max: 200,
-                ),
-              ),
-            ),
-            WidgetbookUseCase(
-              name: 'Empty State',
-              builder: (context) => EmptyStateAnimation(
+              builder: (context) => LottieError(
                 size: context.knobs.double.slider(
                   label: 'Size',
                   initialValue: 100,
@@ -137,6 +126,67 @@ class LoadingComponentShowcases {
                   label: 'Message',
                   initialValue: 'Loading...',
                 ),
+              ),
+            ),
+          ],
+        ),
+
+        // MessageListShimmer
+        WidgetbookComponent(
+          name: 'MessageListShimmer',
+          useCases: [
+            WidgetbookUseCase(
+              name: 'Default',
+              builder: (context) => const MessageListShimmer(),
+            ),
+            WidgetbookUseCase(
+              name: 'Multiple Items',
+              builder: (context) => ListView.builder(
+                itemCount: context.knobs.int.slider(
+                  label: 'Items',
+                  initialValue: 3,
+                  min: 1,
+                  max: 10,
+                ),
+                itemBuilder: (context, index) => const MessageListShimmer(),
+              ),
+            ),
+          ],
+        ),
+
+        // ShimmerImage
+        WidgetbookComponent(
+          name: 'ShimmerImage',
+          useCases: [
+            WidgetbookUseCase(
+              name: 'Default',
+              builder: (context) => ShimmerImage(
+                width: context.knobs.double.slider(
+                  label: 'Width',
+                  initialValue: 200,
+                  min: 50,
+                  max: 400,
+                ),
+                height: context.knobs.double.slider(
+                  label: 'Height',
+                  initialValue: 200,
+                  min: 50,
+                  max: 400,
+                ),
+              ),
+            ),
+            WidgetbookUseCase(
+              name: 'Square',
+              builder: (context) => const ShimmerImage(
+                width: 200,
+                height: 200,
+              ),
+            ),
+            WidgetbookUseCase(
+              name: 'Rectangle',
+              builder: (context) => const ShimmerImage(
+                width: 300,
+                height: 150,
               ),
             ),
           ],

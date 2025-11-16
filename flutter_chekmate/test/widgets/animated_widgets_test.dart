@@ -11,6 +11,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: AnimatedFeedCard(
+              index: 0,
               child: testChild,
             ),
           ),
@@ -28,6 +29,7 @@ void main() {
             body: Column(
               children: [
                 AnimatedFeedCard(
+                  index: 0,
                   child: Text('Card 1'),
                 ),
                 AnimatedFeedCard(
@@ -60,6 +62,7 @@ void main() {
             body: GestureDetector(
               onTap: () => tapped = true,
               child: const AnimatedFeedCard(
+                index: 0,
                 child: Text('Tappable Card'),
               ),
             ),
@@ -82,6 +85,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: AnimatedStoryCircle(
+              index: 0,
               child: testChild,
             ),
           ),
@@ -99,6 +103,7 @@ void main() {
             body: Row(
               children: [
                 AnimatedStoryCircle(
+                  index: 0,
                   child: Text('Story 1'),
                 ),
                 AnimatedStoryCircle(
@@ -162,6 +167,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: AnimatedListItem(
+              index: 0,
               child: testChild,
             ),
           ),
@@ -178,6 +184,7 @@ void main() {
             body: ListView(
               children: const [
                 AnimatedListItem(
+                  index: 0,
                   child: Text('Item 1'),
                 ),
                 AnimatedListItem(

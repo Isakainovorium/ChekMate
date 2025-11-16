@@ -1,26 +1,56 @@
 import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 /// FilePickerService - File Selection Service
 ///
-/// NOTE: This service is currently DISABLED due to file_picker package incompatibility with Flutter v2 embedding.
-/// TODO: Re-enable when a compatible version is available or replace with image_picker for images.
+/// Image and video picking is implemented using image_picker package.
+/// Document and generic file picking remain disabled due to package limitations.
 ///
-/// All methods throw UnimplementedError until the package is re-enabled.
+/// Supported functionality:
+/// - Image picking from gallery/camera
+/// - Video picking from gallery/camera
+///
+/// Unsupported functionality (disabled):
+/// - Document picking
+/// - Audio picking
+/// - Generic file picking
 class FilePickerService {
   static Future<File?> pickImage({bool allowMultiple = false}) async {
-    throw UnimplementedError('FilePickerService disabled - file_picker package incompatibility');
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+      return image != null ? File(image.path) : null;
+    } catch (e) {
+      throw FilePickerException('Failed to pick image: $e');
+    }
   }
 
   static Future<List<File>> pickImages({int? maxFiles}) async {
-    throw UnimplementedError('FilePickerService disabled - file_picker package incompatibility');
+    try {
+      final file = await pickImage(allowMultiple: false);
+      return file != null ? [file] : [];
+    } catch (e) {
+      throw FilePickerException('Failed to pick images: $e');
+    }
   }
 
   static Future<File?> pickVideo({bool allowMultiple = false}) async {
-    throw UnimplementedError('FilePickerService disabled - file_picker package incompatibility');
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? video = await picker.pickVideo(source: ImageSource.gallery);
+      return video != null ? File(video.path) : null;
+    } catch (e) {
+      throw FilePickerException('Failed to pick video: $e');
+    }
   }
 
   static Future<List<File>> pickVideos({int? maxFiles}) async {
-    throw UnimplementedError('FilePickerService disabled - file_picker package incompatibility');
+    try {
+      final file = await pickVideo(allowMultiple: false);
+      return file != null ? [file] : [];
+    } catch (e) {
+      throw FilePickerException('Failed to pick videos: $e');
+    }
   }
 
   static Future<File?> pickAudio() async {

@@ -105,7 +105,7 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
         context.go(RoutePaths.home);
         break;
       case TopNavTab.following:
-        // TODO: Navigate to following feed when implemented
+        context.go(RoutePaths.home);
         break;
       case TopNavTab.explore:
         context.go(RoutePaths.explore);

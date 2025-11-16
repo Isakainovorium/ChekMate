@@ -15,6 +15,7 @@ void main() {
         displayName: 'Test User',
         bio: 'Test bio',
         avatar: 'https://example.com/avatar.jpg',
+       
         coverPhoto: 'https://example.com/cover.jpg',
         followers: 100,
         following: 50,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/domain/entities/notification_entity.dart';
+import 'package:flutter_chekmate/shared/ui/notifications/notification_badge.dart';
 import 'package:flutter_chekmate/shared/ui/notifications/notification_card_widget.dart';
+import 'package:flutter_chekmate/shared/ui/notifications/notification_list_tile.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

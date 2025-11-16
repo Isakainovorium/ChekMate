@@ -2,12 +2,10 @@ import 'package:flutter_chekmate/features/stories/domain/entities/story_entity.d
 import 'package:flutter_chekmate/features/stories/domain/repositories/story_repository.dart';
 import 'package:flutter_chekmate/features/stories/domain/usecases/create_story_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
-import 'create_story_usecase_test.mocks.dart';
+class MockStoryRepository extends Mock implements StoryRepository {}
 
-@GenerateMocks([StoryRepository])
 void main() {
   group('CreateStoryUsecase', () {
     late CreateStoryUsecase usecase;
@@ -26,6 +24,8 @@ void main() {
         url: 'https://example.com/story.jpg',
         createdAt: DateTime.now(),
         expiresAt: DateTime.now().add(const Duration(hours: 24)),
+        views: 10,
+        likes: 5,
       );
     });
 
@@ -63,50 +63,50 @@ void main() {
       });
 
       test('uses default duration of 5 seconds for images', () async {
-        when(mockRepository.createStory(
-          type: anyNamed('type'),
-          filePath: anyNamed('filePath'),
-          duration: anyNamed('duration'),
-        ),).thenAnswer((_) async => testStory);
+        when(() => mockRepository.createStory(
+          type: any(named: 'type'),
+          filePath: any(named: 'filePath'),
+          duration: any(named: 'duration'),
+        )).thenAnswer((_) async => testStory);
 
         await usecase(
           type: StoryType.image,
           filePath: '/path/to/image.jpg',
         );
 
-        verify(mockRepository.createStory(
+        verify(() => mockRepository.createStory(
           type: StoryType.image,
           filePath: '/path/to/image.jpg',
           duration: 5,
-        ),).called(1);
+        )).called(1);
       });
 
       test('uses default duration of 15 seconds for videos', () async {
-        when(mockRepository.createStory(
-          type: anyNamed('type'),
-          filePath: anyNamed('filePath'),
-          duration: anyNamed('duration'),
-        ),).thenAnswer((_) async => testStory);
+        when(() => mockRepository.createStory(
+          type: any(named: 'type'),
+          filePath: any(named: 'filePath'),
+          duration: any(named: 'duration'),
+        )).thenAnswer((_) async => testStory);
 
         await usecase(
           type: StoryType.video,
           filePath: '/path/to/video.mp4',
         );
 
-        verify(mockRepository.createStory(
+        verify(() => mockRepository.createStory(
           type: StoryType.video,
           filePath: '/path/to/video.mp4',
           duration: 15,
-        ),).called(1);
+        )).called(1);
       });
 
       test('uses provided duration when specified', () async {
-        when(mockRepository.createStory(
-          type: anyNamed('type'),
-          filePath: anyNamed('filePath'),
-          duration: anyNamed('duration'),
-          text: anyNamed('text'),
-        ),).thenAnswer((_) async => testStory);
+        when(() => mockRepository.createStory(
+          type: any(named: 'type'),
+          filePath: any(named: 'filePath'),
+          duration: any(named: 'duration'),
+          text: any(named: 'text'),
+        )).thenAnswer((_) async => testStory);
 
         await usecase(
           type: StoryType.image,
@@ -115,20 +115,20 @@ void main() {
           text: 'Hello!',
         );
 
-        verify(mockRepository.createStory(
+        verify(() => mockRepository.createStory(
           type: StoryType.image,
           filePath: '/path/to/image.jpg',
           duration: 10,
           text: 'Hello!',
-        ),).called(1);
+        )).called(1);
       });
 
       test('returns created story from repository', () async {
-        when(mockRepository.createStory(
-          type: anyNamed('type'),
-          filePath: anyNamed('filePath'),
-          duration: anyNamed('duration'),
-        ),).thenAnswer((_) async => testStory);
+        when(() => mockRepository.createStory(
+          type: any(named: 'type'),
+          filePath: any(named: 'filePath'),
+          duration: any(named: 'duration'),
+        )).thenAnswer((_) async => testStory);
 
         final result = await usecase(
           type: StoryType.image,
@@ -158,11 +158,11 @@ void main() {
       });
 
       test('calls repository when storyId is valid', () async {
-        when(mockRepository.deleteStory(any)).thenAnswer((_) async => {});
+        when(() => mockRepository.deleteStory(any())).thenAnswer((_) async => {});
 
         await usecase('story1');
 
-        verify(mockRepository.deleteStory('story1')).called(1);
+        verify(() => mockRepository.deleteStory('story1')).called(1);
       });
     });
   });

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
@@ -429,13 +430,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
           });
 
           try {
+            // Get the actual duration of the recorded audio
+            final audioDuration = await _getAudioDuration(audioFilePath);
+
             // Create VoicePromptEntity from the recorded audio file path
             final voicePrompt = VoicePromptEntity(
               id: '', // Will be set during upload
               userId: widget.userId,
               question: question,
               audioUrl: audioFilePath, // Local file path for now
-              duration: 30, // TODO: Get actual duration in seconds
+              duration: audioDuration, // Actual duration in seconds
               createdAt: DateTime.now(),
             );
 
@@ -579,6 +583,23 @@ class _EditProfilePageState extends State<EditProfilePage> {
           backgroundColor: Colors.red,
         ),
       );
+    }
+  }
+
+  /// Get the duration of an audio file in seconds
+  Future<int> _getAudioDuration(String filePath) async {
+    try {
+      final player = AudioPlayer();
+      await player.setSource(DeviceFileSource(filePath));
+      final duration = await player.getDuration();
+      await player.dispose();
+
+      // If we can't get duration, return a default of 30 seconds
+      return duration?.inSeconds ?? 30;
+    } catch (e) {
+      debugPrint('Error getting audio duration: $e');
+      // Return default duration if we can't get the actual duration
+      return 30;
     }
   }
 }

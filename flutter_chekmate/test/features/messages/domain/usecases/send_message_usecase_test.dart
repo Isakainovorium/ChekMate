@@ -1,12 +1,10 @@
 import 'package:flutter_chekmate/features/messages/domain/repositories/messages_repository.dart';
 import 'package:flutter_chekmate/features/messages/domain/usecases/send_message_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
-import 'send_message_usecase_test.mocks.dart';
+class MockMessagesRepository extends Mock implements MessagesRepository {}
 
-@GenerateMocks([MessagesRepository])
 void main() {
   group('SendMessageUseCase', () {
     late SendMessageUseCase useCase;
@@ -104,14 +102,14 @@ void main() {
       });
 
       test('trims whitespace from content', () async {
-        when(mockRepository.sendMessage(
-          conversationId: anyNamed('conversationId'),
-          senderId: anyNamed('senderId'),
-          senderName: anyNamed('senderName'),
-          senderAvatar: anyNamed('senderAvatar'),
-          receiverId: anyNamed('receiverId'),
-          content: anyNamed('content'),
-        ),).thenAnswer((_) async => 'message1');
+        when(() => mockRepository.sendMessage(
+          conversationId: any(named: 'conversationId'),
+          senderId: any(named: 'senderId'),
+          senderName: any(named: 'senderName'),
+          senderAvatar: any(named: 'senderAvatar'),
+          receiverId: any(named: 'receiverId'),
+          content: any(named: 'content'),
+        )).thenAnswer((_) async => 'message1');
 
         await useCase(
           conversationId: 'conv1',
@@ -122,25 +120,25 @@ void main() {
           content: '  Test message  ',
         );
 
-        verify(mockRepository.sendMessage(
+        verify(() => mockRepository.sendMessage(
           conversationId: 'conv1',
           senderId: 'user1',
           senderName: 'Test User',
           senderAvatar: 'avatar.jpg',
           receiverId: 'user2',
           content: 'Test message',
-        ),).called(1);
+        )).called(1);
       });
 
       test('accepts valid message', () async {
-        when(mockRepository.sendMessage(
-          conversationId: anyNamed('conversationId'),
-          senderId: anyNamed('senderId'),
-          senderName: anyNamed('senderName'),
-          senderAvatar: anyNamed('senderAvatar'),
-          receiverId: anyNamed('receiverId'),
-          content: anyNamed('content'),
-        ),).thenAnswer((_) async => 'message1');
+        when(() => mockRepository.sendMessage(
+          conversationId: any(named: 'conversationId'),
+          senderId: any(named: 'senderId'),
+          senderName: any(named: 'senderName'),
+          senderAvatar: any(named: 'senderAvatar'),
+          receiverId: any(named: 'receiverId'),
+          content: any(named: 'content'),
+        )).thenAnswer((_) async => 'message1');
 
         final result = await useCase(
           conversationId: 'conv1',
@@ -152,27 +150,27 @@ void main() {
         );
 
         expect(result, 'message1');
-        verify(mockRepository.sendMessage(
+        verify(() => mockRepository.sendMessage(
           conversationId: 'conv1',
           senderId: 'user1',
           senderName: 'Test User',
           senderAvatar: 'avatar.jpg',
           receiverId: 'user2',
           content: 'Test message',
-        ),).called(1);
+        )).called(1);
       });
     });
 
     group('Error Handling', () {
       test('propagates repository errors', () async {
-        when(mockRepository.sendMessage(
-          conversationId: anyNamed('conversationId'),
-          senderId: anyNamed('senderId'),
-          senderName: anyNamed('senderName'),
-          senderAvatar: anyNamed('senderAvatar'),
-          receiverId: anyNamed('receiverId'),
-          content: anyNamed('content'),
-        ),).thenThrow(Exception('Failed to send message'));
+        when(() => mockRepository.sendMessage(
+          conversationId: any(named: 'conversationId'),
+          senderId: any(named: 'senderId'),
+          senderName: any(named: 'senderName'),
+          senderAvatar: any(named: 'senderAvatar'),
+          receiverId: any(named: 'receiverId'),
+          content: any(named: 'content'),
+        )).thenThrow(Exception('Failed to send message'));
 
         expect(
           () => useCase(

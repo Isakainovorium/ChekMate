@@ -4,7 +4,6 @@ import 'package:flutter_chekmate/core/constants/app_constants.dart';
 import 'package:flutter_chekmate/core/providers/auth_providers.dart';
 import 'package:flutter_chekmate/core/providers/providers.dart';
 import 'package:flutter_chekmate/core/utils/platform_utils.dart';
-import 'package:flutter_chekmate/features/posts/presentation/providers/posts_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';

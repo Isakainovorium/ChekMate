@@ -336,5 +336,84 @@ class FormComponentShowcases {
             ),
           ],
         ),
+
+        // AppTimePicker
+        WidgetbookComponent(
+          name: 'AppTimePicker',
+          useCases: [
+            WidgetbookUseCase(
+              name: 'Default',
+              builder: (context) => AppTimePicker(
+                label: context.knobs.string(
+                  label: 'Label',
+                  initialValue: 'Select Time',
+                ),
+                use24HourFormat: context.knobs.boolean(
+                  label: '24 Hour Format',
+                  initialValue: false,
+                ),
+                onTimeChanged: (time) {},
+              ),
+            ),
+            WidgetbookUseCase(
+              name: 'With Initial Time',
+              builder: (context) => AppTimePicker(
+                initialTime: const TimeOfDay(hour: 14, minute: 30),
+                label: 'Meeting Time',
+                onTimeChanged: (time) {},
+              ),
+            ),
+            WidgetbookUseCase(
+              name: '24 Hour Format',
+              builder: (context) => AppTimePicker(
+                use24HourFormat: true,
+                label: 'Time (24h)',
+                onTimeChanged: (time) {},
+              ),
+            ),
+          ],
+        ),
+
+        // AppColorPicker
+        WidgetbookComponent(
+          name: 'AppColorPicker',
+          useCases: [
+            WidgetbookUseCase(
+              name: 'Default',
+              builder: (context) => AppColorPicker(
+                label: context.knobs.string(
+                  label: 'Label',
+                  initialValue: 'Select Color',
+                ),
+                showHexInput: context.knobs.boolean(
+                  label: 'Show Hex Input',
+                  initialValue: true,
+                ),
+                showSwatches: context.knobs.boolean(
+                  label: 'Show Swatches',
+                  initialValue: true,
+                ),
+                onColorChanged: (color) {},
+              ),
+            ),
+            WidgetbookUseCase(
+              name: 'With Selected Color',
+              builder: (context) => AppColorPicker(
+                selectedColor: Colors.blue,
+                label: 'Theme Color',
+                onColorChanged: (color) {},
+              ),
+            ),
+            WidgetbookUseCase(
+              name: 'Minimal',
+              builder: (context) => AppColorPicker(
+                showHexInput: false,
+                showSwatches: false,
+                label: 'Color Picker',
+                onColorChanged: (color) {},
+              ),
+            ),
+          ],
+        ),
       ];
 }

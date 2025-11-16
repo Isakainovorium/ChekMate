@@ -3,6 +3,7 @@ import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Notification scheduling settings page
 class NotificationScheduleSettingsPage extends StatefulWidget {
@@ -31,17 +32,103 @@ class _NotificationScheduleSettingsPageState
 
   bool _hasChanges = false;
 
-  void _saveSettings() {
-    // TODO: Implement save logic
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Notification schedule saved!'),
-        backgroundColor: AppColors.primary,
-      ),
-    );
-    setState(() {
-      _hasChanges = false;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _loadSettings();
+  }
+
+  /// Load notification settings from SharedPreferences
+  Future<void> _loadSettings() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+
+      setState(() {
+        // Quiet Hours
+        _quietHoursEnabled = prefs.getBool('notification_quiet_hours_enabled') ?? false;
+        _quietHoursStart = _timeOfDayFromString(
+          prefs.getString('notification_quiet_hours_start') ?? '22:00',
+        );
+        _quietHoursEnd = _timeOfDayFromString(
+          prefs.getString('notification_quiet_hours_end') ?? '08:00',
+        );
+
+        // Daily Digest
+        _dailyDigestEnabled = prefs.getBool('notification_daily_digest_enabled') ?? true;
+        _dailyDigestTime = _timeOfDayFromString(
+          prefs.getString('notification_daily_digest_time') ?? '09:00',
+        );
+
+        // Weekly Report
+        _weeklyReportEnabled = prefs.getBool('notification_weekly_report_enabled') ?? true;
+        _weeklyReportDay = prefs.getString('notification_weekly_report_day') ?? 'Monday';
+        _weeklyReportTime = _timeOfDayFromString(
+          prefs.getString('notification_weekly_report_time') ?? '10:00',
+        );
+      });
+    } catch (e) {
+      // Silently fail if loading fails - use default values
+      debugPrint('Failed to load notification settings: $e');
+    }
+  }
+
+  /// Save notification settings to SharedPreferences
+  Future<void> _saveSettings() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+
+      // Quiet Hours
+      await prefs.setBool('notification_quiet_hours_enabled', _quietHoursEnabled);
+      await prefs.setString('notification_quiet_hours_start', _timeOfDayToString(_quietHoursStart));
+      await prefs.setString('notification_quiet_hours_end', _timeOfDayToString(_quietHoursEnd));
+
+      // Daily Digest
+      await prefs.setBool('notification_daily_digest_enabled', _dailyDigestEnabled);
+      await prefs.setString('notification_daily_digest_time', _timeOfDayToString(_dailyDigestTime));
+
+      // Weekly Report
+      await prefs.setBool('notification_weekly_report_enabled', _weeklyReportEnabled);
+      await prefs.setString('notification_weekly_report_day', _weeklyReportDay);
+      await prefs.setString('notification_weekly_report_time', _timeOfDayToString(_weeklyReportTime));
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Notification schedule saved!'),
+            backgroundColor: AppColors.primary,
+          ),
+        );
+      }
+
+      setState(() {
+        _hasChanges = false;
+      });
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Failed to save settings. Please try again.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  /// Convert TimeOfDay to string format (HH:MM)
+  String _timeOfDayToString(TimeOfDay time) {
+    return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
+  }
+
+  /// Convert string format (HH:MM) to TimeOfDay
+  TimeOfDay _timeOfDayFromString(String timeString) {
+    final parts = timeString.split(':');
+    if (parts.length == 2) {
+      final hour = int.tryParse(parts[0]) ?? 9;
+      final minute = int.tryParse(parts[1]) ?? 0;
+      return TimeOfDay(hour: hour, minute: minute);
+    }
+    return const TimeOfDay(hour: 9, minute: 0);
   }
 
   @override
@@ -314,7 +401,7 @@ class _NotificationScheduleSettingsPageState
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withValues(alpha: 0.05),
                       blurRadius: 10,
                       offset: const Offset(0, -2),
                     ),

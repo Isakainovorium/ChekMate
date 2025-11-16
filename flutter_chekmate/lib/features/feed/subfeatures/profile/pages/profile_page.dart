@@ -4,7 +4,6 @@ import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
 import 'package:flutter_chekmate/features/auth/presentation/providers/auth_providers.dart'
     as auth;
-import 'package:flutter_chekmate/features/posts/domain/entities/post_entity.dart';
 import 'package:flutter_chekmate/features/posts/presentation/providers/posts_providers.dart';
 import 'package:flutter_chekmate/features/profile/domain/entities/voice_prompt_entity.dart';
 import 'package:flutter_chekmate/features/profile/presentation/widgets/voice_prompt_player.dart';
@@ -405,7 +404,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
           ),
           itemCount: posts.length,
           itemBuilder: (context, index) {
-            final post = posts[index] as PostEntity;
+            final post = posts[index];
             return InkWell(
               onTap: () {
                 // View post

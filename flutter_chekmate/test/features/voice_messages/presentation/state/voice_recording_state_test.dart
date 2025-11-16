@@ -108,6 +108,7 @@ void main() {
           id: 'msg123',
           senderId: 'user1',
           receiverId: 'user2',
+          url: 'https://example.com/voice.mp3',
           duration: 30,
           fileName: 'voice.m4a',
           fileSize: 1024,
@@ -115,6 +116,8 @@ void main() {
         );
 
         final state = VoiceRecordingState.uploading(
+          duration: 30,
+          filePath: '/path/to/file.m4a',
           voiceMessage: voiceMessage,
           uploadProgress: 0.5,
         );
@@ -132,6 +135,7 @@ void main() {
           id: 'msg123',
           senderId: 'user1',
           receiverId: 'user2',
+          url: 'https://example.com/voice.mp3',
           duration: 30,
           fileName: 'voice.m4a',
           fileSize: 1024,
@@ -139,6 +143,8 @@ void main() {
         );
 
         final state = VoiceRecordingState.completed(
+          duration: 30,
+          filePath: '/path/to/file.m4a',
           voiceMessage: voiceMessage,
         );
 

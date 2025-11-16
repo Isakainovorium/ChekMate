@@ -21,6 +21,7 @@ class PostEntity extends Equatable {
     required this.cheks,
     required this.likedBy,
     required this.bookmarkedBy,
+    required this.chekedBy,
     required this.tags,
     required this.createdAt,
     required this.updatedAt,
@@ -46,6 +47,7 @@ class PostEntity extends Equatable {
   final int cheks;
   final List<String> likedBy;
   final List<String> bookmarkedBy;
+  final List<String> chekedBy;
   final List<String> tags;
   final String? location;
   final GeoPoint? coordinates;
@@ -62,6 +64,11 @@ class PostEntity extends Equatable {
   /// Check if the current user has bookmarked this post
   bool isBookmarkedBy(String userId) {
     return bookmarkedBy.contains(userId);
+  }
+
+  /// Check if the current user has cheked this post
+  bool isChekedBy(String userId) {
+    return chekedBy.contains(userId);
   }
 
   /// Get formatted timestamp (e.g., "2h ago", "1d ago")
@@ -200,6 +207,7 @@ class PostEntity extends Equatable {
     int? cheks,
     List<String>? likedBy,
     List<String>? bookmarkedBy,
+    List<String>? chekedBy,
     List<String>? tags,
     String? location,
     GeoPoint? coordinates,
@@ -223,6 +231,7 @@ class PostEntity extends Equatable {
       cheks: cheks ?? this.cheks,
       likedBy: likedBy ?? this.likedBy,
       bookmarkedBy: bookmarkedBy ?? this.bookmarkedBy,
+      chekedBy: chekedBy ?? this.chekedBy,
       tags: tags ?? this.tags,
       location: location ?? this.location,
       coordinates: coordinates ?? this.coordinates,

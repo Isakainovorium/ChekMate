@@ -6,6 +6,39 @@ import 'package:permission_handler/permission_handler.dart';
 // Mock classes
 class MockPermission extends Mock implements Permission {}
 
+// PermissionCheckResult class for testing
+class PermissionCheckResult {
+  const PermissionCheckResult({
+    required this.permission,
+    required this.status,
+    required this.isGranted,
+    required this.isDenied,
+    required this.isPermanentlyDenied,
+    required this.isRestricted,
+    required this.shouldOpenSettings,
+  });
+
+  final Permission permission;
+  final PermissionStatus status;
+  final bool isGranted;
+  final bool isDenied;
+  final bool isPermanentlyDenied;
+  final bool isRestricted;
+  final bool shouldOpenSettings;
+
+  @override
+  String toString() {
+    return 'PermissionCheckResult('
+        'permission: $permission, '
+        'status: $status, '
+        'isGranted: $isGranted, '
+        'isDenied: $isDenied, '
+        'isPermanentlyDenied: $isPermanentlyDenied, '
+        'isRestricted: $isRestricted, '
+        'shouldOpenSettings: $shouldOpenSettings)';
+  }
+}
+
 void main() {
   group('PermissionService', () {
     late PermissionService permissionService;

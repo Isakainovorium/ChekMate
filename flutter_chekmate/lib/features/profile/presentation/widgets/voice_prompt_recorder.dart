@@ -27,7 +27,7 @@ class _VoicePromptRecorderState extends State<VoicePromptRecorder> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceVariant,
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -48,7 +48,7 @@ class _VoicePromptRecorderState extends State<VoicePromptRecorder> {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: Colors.red.withOpacity(0.2),
+                color: Colors.red.withValues(alpha: 0.2),
                 shape: BoxShape.circle,
               ),
               child: const Center(
@@ -64,7 +64,7 @@ class _VoicePromptRecorderState extends State<VoicePromptRecorder> {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
                 shape: BoxShape.circle,
               ),
               child: Center(
