@@ -27,9 +27,11 @@ workflows:
           flutter pub run build_runner build --delete-conflicting-outputs || echo "Build runner completed with warnings"
       - name: Setup Firebase config
         script: |
+          #!/usr/bin/env sh
+          set -e
           if [ -n "$GOOGLE_SERVICE_INFO_PLIST" ]; then
             echo "Setting up GoogleService-Info.plist..."
-            echo "$GOOGLE_SERVICE_INFO_PLIST" | base64 --decode > ios/Runner/GoogleService-Info.plist
+            echo "$GOOGLE_SERVICE_INFO_PLIST" | base64 --decode > $CM_BUILD_DIR/ios/Runner/GoogleService-Info.plist
             echo "GoogleService-Info.plist placed successfully"
           else
             echo "WARNING: No GOOGLE_SERVICE_INFO_PLIST provided, skipping Firebase setup..."
@@ -158,9 +160,11 @@ workflows:
           flutter pub run build_runner build --delete-conflicting-outputs
       - name: Setup Firebase config (if provided)
         script: |
+          #!/usr/bin/env sh
+          set -e
           if [ -n "$GOOGLE_SERVICE_INFO_PLIST" ]; then
             echo "Placing GoogleService-Info.plist in ios/Runner/"
-            echo "$GOOGLE_SERVICE_INFO_PLIST" | base64 --decode > ios/Runner/GoogleService-Info.plist
+            echo "$GOOGLE_SERVICE_INFO_PLIST" | base64 --decode > $CM_BUILD_DIR/ios/Runner/GoogleService-Info.plist
             echo "GoogleService-Info.plist placed successfully"
           else
             echo "No GoogleService-Info.plist provided, skipping..."
