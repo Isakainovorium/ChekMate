@@ -1,36 +1,96 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Helper functions to check authentication and ownership
-    function isAuth() { 
-      return request.auth != null; 
-    }
-    function isOwner(uid) { 
-      return request.auth.uid == uid; 
+    
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
     }
     
-    // By default, deny all reads and writes to prevent accidental open collections
-    match /{document=**} { 
-      allow read, write: if false; 
+    function isOwner(userId) {
+      return request.auth.uid == userId;
     }
     
-    // Users can read any profile, but only write to their own
+    function isValidString(text, minLen, maxLen) {
+      return text is string && 
+             text.size() >= minLen && 
+             text.size() <= maxLen;
+    }
+    
+    // Users collection
     match /users/{userId} {
-      allow read: if isAuth();
-      allow write: if isAuth() && isOwner(userId);
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && 
+                      isOwner(userId) &&
+                      isValidString(request.resource.data.displayName, 1, 50);
+      allow update: if isSignedIn() && isOwner(userId);
+      allow delete: if isSignedIn() && isOwner(userId);
     }
     
-    // Users can read any post, create their own, and only modify/delete their own
+    // Posts collection
     match /posts/{postId} {
-      allow read: if isAuth();
-      allow create: if isAuth() && request.resource.data.authorId == request.auth.uid;
-      allow update, delete: if isAuth() && resource.data.authorId == request.auth.uid;
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() &&
+                      isOwner(request.resource.data.userId) &&
+                      isValidString(request.resource.data.content, 0, 5000);
+      allow update: if isSignedIn() && 
+                      (isOwner(resource.data.userId) || 
+                       request.resource.data.diff(resource.data).affectedKeys()
+                         .hasOnly(['likes', 'likesCount', 'commentsCount']));
+      allow delete: if isSignedIn() && isOwner(resource.data.userId);
     }
     
-    // Users can read messages they are a part of and create new messages
+    // Comments collection
+    match /posts/{postId}/comments/{commentId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() &&
+                      isOwner(request.resource.data.userId) &&
+                      isValidString(request.resource.data.content, 1, 1000);
+      allow update: if isSignedIn() && isOwner(resource.data.userId);
+      allow delete: if isSignedIn() && isOwner(resource.data.userId);
+    }
+    
+    // Messages collection
     match /messages/{messageId} {
-      allow read: if isAuth() && request.auth.uid in resource.data.participants;
-      allow create: if isAuth();
+      allow read: if isSignedIn() && 
+                    (isOwner(resource.data.senderId) || 
+                     isOwner(resource.data.receiverId));
+      allow create: if isSignedIn() && 
+                      isOwner(request.resource.data.senderId);
+      allow update: if isSignedIn() && 
+                      (isOwner(resource.data.senderId) || 
+                       isOwner(resource.data.receiverId));
+      allow delete: if isSignedIn() && 
+                      (isOwner(resource.data.senderId) || 
+                       isOwner(resource.data.receiverId));
+    }
+    
+    // Stories collection
+    match /stories/{storyId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isOwner(request.resource.data.userId);
+      allow update: if isSignedIn() && isOwner(resource.data.userId);
+      allow delete: if isSignedIn() && isOwner(resource.data.userId);
+    }
+    
+    // Notifications collection
+    match /notifications/{notificationId} {
+      allow read: if isSignedIn() && isOwner(resource.data.userId);
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && isOwner(resource.data.userId);
+      allow delete: if isSignedIn() && isOwner(resource.data.userId);
+    }
+    
+    // Bookmarks collection
+    match /users/{userId}/bookmarks/{bookmarkId} {
+      allow read: if isSignedIn() && isOwner(userId);
+      allow create: if isSignedIn() && isOwner(userId);
+      allow delete: if isSignedIn() && isOwner(userId);
+    }
+    
+    // Default deny all
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

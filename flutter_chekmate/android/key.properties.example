@@ -1,0 +1,9 @@
+# Android Signing Key Configuration Example
+# Copy this file to key.properties and fill in your actual values
+# NEVER commit key.properties to version control!
+
+storePassword=your_keystore_password
+keyPassword=your_key_password
+keyAlias=chekmate-key
+storeFile=../path/to/your/keystore.jks
+

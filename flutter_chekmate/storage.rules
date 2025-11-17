@@ -1,22 +1,89 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
+    
     // Helper functions
-    function isAuth() { return request.auth != null; }
-    function isOwner(uid) { return request.auth.uid == uid; }
-    function isImage() { return request.resource.contentType.matches('image/.*'); }
-    function maxSize(mb) { return request.resource.size < mb * 1024 * 1024; }
-
-    // Users can read any profile picture, but only write their own (max 5MB image)
-    match /users/{userId}/{file} {
-      allow read: if isAuth();
-      allow write: if isAuth() && isOwner(userId) && isImage() && maxSize(5);
+    function isSignedIn() {
+      return request.auth != null;
     }
     
-    // Users can read any post media, and write their own (max 50MB)
-    match /posts/{postId}/{file} {
-      allow read: if isAuth();
-      allow write: if isAuth() && maxSize(50);
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+    
+    function isImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+    
+    function isVideo() {
+      return request.resource.contentType.matches('video/.*');
+    }
+    
+    function isAudio() {
+      return request.resource.contentType.matches('audio/.*');
+    }
+    
+    function isValidImageSize() {
+      return request.resource.size < 10 * 1024 * 1024; // 10MB
+    }
+    
+    function isValidVideoSize() {
+      return request.resource.size < 50 * 1024 * 1024; // 50MB
+    }
+    
+    function isValidAudioSize() {
+      return request.resource.size < 5 * 1024 * 1024; // 5MB
+    }
+    
+    // Profile pictures
+    match /users/{userId}/profile/{fileName} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && 
+                     isOwner(userId) && 
+                     isImage() && 
+                     isValidImageSize();
+      allow delete: if isSignedIn() && isOwner(userId);
+    }
+    
+    // Post images
+    match /posts/{postId}/images/{fileName} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && 
+                     isImage() && 
+                     isValidImageSize();
+      allow delete: if isSignedIn();
+    }
+    
+    // Post videos
+    match /posts/{postId}/videos/{fileName} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && 
+                     isVideo() && 
+                     isValidVideoSize();
+      allow delete: if isSignedIn();
+    }
+    
+    // Story media
+    match /stories/{storyId}/{fileName} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && 
+                     (isImage() || isVideo()) && 
+                     (isValidImageSize() || isValidVideoSize());
+      allow delete: if isSignedIn();
+    }
+    
+    // Voice messages
+    match /messages/{messageId}/voice/{fileName} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && 
+                     isAudio() && 
+                     isValidAudioSize();
+      allow delete: if isSignedIn();
+    }
+    
+    // Default deny all
+    match /{allPaths=**} {
+      allow read, write: if false;
     }
   }
 }
