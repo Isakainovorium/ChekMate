@@ -160,7 +160,8 @@ workflows:
         script: |
           if [ -n "$GOOGLE_SERVICE_INFO_PLIST" ]; then
             echo "Placing GoogleService-Info.plist in ios/Runner/"
-            cp "$GOOGLE_SERVICE_INFO_PLIST" ios/Runner/GoogleService-Info.plist
+            echo "$GOOGLE_SERVICE_INFO_PLIST" | base64 --decode > ios/Runner/GoogleService-Info.plist
+            echo "GoogleService-Info.plist placed successfully"
           else
             echo "No GoogleService-Info.plist provided, skipping..."
           fi
