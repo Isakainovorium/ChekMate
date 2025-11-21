@@ -8,6 +8,7 @@ import 'package:flutter_chekmate/features/posts/presentation/providers/posts_pro
 import 'package:flutter_chekmate/features/profile/domain/entities/voice_prompt_entity.dart';
 import 'package:flutter_chekmate/features/profile/presentation/widgets/voice_prompt_player.dart';
 import 'package:flutter_chekmate/features/profile/widgets/profile_video_player.dart';
+import 'package:flutter_chekmate/features/wisdom/presentation/widgets/wisdom_score_card.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -205,6 +206,19 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                           ),
 
                           const SizedBox(height: AppSpacing.md),
+
+                          // Wisdom Score Card
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppSpacing.md,
+                            ),
+                            child: WisdomScoreCard(
+                              userId: user.uid,
+                              isOwnProfile: isOwnProfile,
+                            ),
+                          ),
+
+                          const SizedBox(height: AppSpacing.lg),
 
                           // Action Buttons
                           Padding(

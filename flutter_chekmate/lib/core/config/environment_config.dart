@@ -187,6 +187,25 @@ class AppConfig {
   static const bool enableErrorReporting = true;
 }
 
+/// Cultural/ML system feature configuration
+///
+/// Centralized toggle for pausing the ML rollout while leaving
+/// the evolved data model in place.
+class CulturalSystemConfig {
+  CulturalSystemConfig._();
+
+  /// When false, the app should avoid calling any ML APIs and
+  /// remain enum-only for cultural matching.
+  static const bool enableMLMatching = false;
+
+  /// Controls whether vector generation or enrichment jobs should run.
+  /// Keep this false while external ML services are unfunded.
+  static const bool enableVectorGeneration = false;
+
+  /// Convenience helper used across services.
+  static bool get mlFeaturesOnHold => !enableMLMatching;
+}
+
 /// Firebase Configuration
 ///
 /// Centralized Firebase-specific configuration

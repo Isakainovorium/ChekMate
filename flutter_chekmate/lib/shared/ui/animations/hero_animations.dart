@@ -91,4 +91,3 @@ class HeroAvatar extends StatelessWidget {
     );
   }
 }
-

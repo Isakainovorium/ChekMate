@@ -15,7 +15,6 @@ void main() {
         displayName: 'Test User',
         bio: 'Test bio',
         avatar: 'https://example.com/avatar.jpg',
-       
         coverPhoto: 'https://example.com/cover.jpg',
         followers: 100,
         following: 50,
@@ -27,7 +26,7 @@ void main() {
         location: 'San Francisco, CA',
         age: 25,
         gender: 'male',
-        interests: ['coding', 'music', 'travel'],
+        interests: const ['coding', 'music', 'travel'],
       );
     });
 
@@ -126,12 +125,14 @@ void main() {
 
     group('canSendMessages', () {
       test('should return true when user is verified', () {
-        final verifiedUser = testUser.copyWith(isVerified: true, isPremium: false);
+        final verifiedUser =
+            testUser.copyWith(isVerified: true, isPremium: false);
         expect(verifiedUser.canSendMessages, true);
       });
 
       test('should return true when user is premium', () {
-        final premiumUser = testUser.copyWith(isVerified: false, isPremium: true);
+        final premiumUser =
+            testUser.copyWith(isVerified: false, isPremium: true);
         expect(premiumUser.canSendMessages, true);
       });
 
@@ -141,7 +142,8 @@ void main() {
       });
 
       test('should return false when user is neither verified nor premium', () {
-        final basicUser = testUser.copyWith(isVerified: false, isPremium: false);
+        final basicUser =
+            testUser.copyWith(isVerified: false, isPremium: false);
         expect(basicUser.canSendMessages, false);
       });
     });
@@ -223,4 +225,3 @@ void main() {
     });
   });
 }
-

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:widgetbook/widgetbook.dart';
 
 // Import ChekMate theme and components
@@ -14,7 +13,6 @@ import 'package:flutter_chekmate/widgetbook/showcases/layout_components.dart';
 import 'package:flutter_chekmate/widgetbook/showcases/navigation_components.dart';
 import 'package:flutter_chekmate/widgetbook/showcases/advanced_components.dart';
 import 'package:flutter_chekmate/widgetbook/showcases/animation_components.dart';
-
 
 void main() {
   runApp(const WidgetbookApp());
@@ -61,7 +59,7 @@ class WidgetbookApp extends StatelessWidget {
           children: LoadingComponentShowcases.showcases,
         ),
       ],
-      
+
       // Addons for customization
       addons: [
         // Theme Addon - ChekMate Light/Dark themes
@@ -100,7 +98,7 @@ class WidgetbookApp extends StatelessWidget {
             ),
           ],
         ),
-        
+
         // Viewport Addon for responsive breakpoints (replaces deprecated DeviceFrameAddon)
         ViewportAddon(
           [
@@ -133,7 +131,7 @@ class WidgetbookApp extends StatelessWidget {
               platform: TargetPlatform.iOS,
               pixelRatio: 3.0,
             ),
-            
+
             // Previous Generation iPhones
             const ViewportData(
               name: 'iPhone 14',
@@ -170,7 +168,7 @@ class WidgetbookApp extends StatelessWidget {
               platform: TargetPlatform.iOS,
               pixelRatio: 2.0,
             ),
-            
+
             // iPads
             const ViewportData(
               name: 'iPad',
@@ -207,7 +205,7 @@ class WidgetbookApp extends StatelessWidget {
               platform: TargetPlatform.iOS,
               pixelRatio: 2.0,
             ),
-            
+
             // Android Devices
             const ViewportData(
               name: 'Samsung Galaxy S20',
@@ -230,7 +228,7 @@ class WidgetbookApp extends StatelessWidget {
               platform: TargetPlatform.android,
               pixelRatio: 3.5,
             ),
-            
+
             // Desktop
             const ViewportData(
               name: 'Desktop',
@@ -241,17 +239,17 @@ class WidgetbookApp extends StatelessWidget {
             ),
           ],
         ),
-        
+
         // Text Scale Addon for accessibility
         TextScaleAddon(
           min: 0.8,
           max: 3.0,
         ),
-        
+
         // Grid Addon for alignment
         GridAddon(),
       ],
-      
+
       // App Builder for global configuration
       appBuilder: (context, child) {
         return MaterialApp(
@@ -262,4 +260,3 @@ class WidgetbookApp extends StatelessWidget {
     );
   }
 }
-

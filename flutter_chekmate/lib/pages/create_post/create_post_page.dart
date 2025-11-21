@@ -9,7 +9,12 @@ import '../../core/domain/entities/location_entity.dart';
 import '../../core/providers/providers.dart';
 import '../../core/services/file_picker_service.dart';
 import '../../core/services/location_service.dart';
+import '../../core/services/content_generation_service.dart';
 import '../../features/posts/presentation/providers/posts_providers.dart';
+import '../../features/templates/models/story_template_model.dart';
+import '../../features/templates/presentation/providers/template_providers.dart';
+import '../../features/templates/presentation/widgets/template_selector_sheet.dart';
+import '../../features/templates/presentation/widgets/template_guided_form.dart';
 
 /// Create Post Page - Full screen post creation interface
 ///
@@ -38,7 +43,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
   /// Pick images from gallery
   Future<void> _pickImages() async {
     try {
-      final images = await FilePickerService.pickImages(maxFiles: 9); // Allow up to 9 images
+      final images = await FilePickerService.pickImages(
+          maxFiles: 9); // Allow up to 9 images
       if (images.isNotEmpty) {
         setState(() {
           // Add new images, but limit total to 9
@@ -117,7 +123,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Location set to: ${locationWithAddress.displayName}'),
+            content:
+                Text('Location set to: ${locationWithAddress.displayName}'),
             backgroundColor: Colors.green,
           ),
         );
@@ -136,7 +143,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
             action = () => LocationService.openLocationSettings();
             break;
           case 'PERMISSION_DENIED':
-            message = 'Location permission is required to add location to posts.';
+            message =
+                'Location permission is required to add location to posts.';
             actionText = 'Grant Permission';
             action = () async {
               try {
@@ -147,7 +155,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
             };
             break;
           case 'PERMISSION_DENIED_FOREVER':
-            message = 'Location permission is permanently denied. Please enable it in settings.';
+            message =
+                'Location permission is permanently denied. Please enable it in settings.';
             actionText = 'Settings';
             action = () => LocationService.openAppSettings();
             break;
@@ -253,6 +262,63 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     setState(() {
       _selectedTags.remove(tag);
     });
+  }
+
+  /// Open template selector sheet
+  Future<void> _openTemplateSelector() async {
+    if (!mounted) return;
+
+    final template = await showModalBottomSheet<StoryTemplate?>(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => const TemplateSelectorSheet(),
+    );
+
+    if (template == null) return;
+
+    final controller = ref.read(readingInsightsControllerProvider);
+
+    try {
+      final responses = await controller.startGuidedTemplate(template);
+      if (!mounted) return;
+
+      final generatedContent =
+          await ContentGenerationService.instance.generatePostContent(
+        template: template,
+        responses: responses,
+        includeMetadata: true,
+      );
+
+      final generatedTags = await ContentGenerationService.instance
+          .generateTags(template: template, responses: responses);
+
+      setState(() {
+        _textController.text = generatedContent;
+        for (final tag in generatedTags) {
+          if (!_selectedTags.contains(tag)) {
+            _selectedTags.add(tag);
+          }
+        }
+      });
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Story created! Review and post when ready.'),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error generating content: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   /// Create a new post
@@ -382,9 +448,9 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
         actions: [
           TextButton(
             onPressed: (_textController.text.trim().isNotEmpty ||
-                    _selectedImages.isNotEmpty ||
-                    _selectedVideo != null) &&
-                !_isCreatingPost
+                        _selectedImages.isNotEmpty ||
+                        _selectedVideo != null) &&
+                    !_isCreatingPost
                 ? _createPost
                 : null,
             child: _isCreatingPost
@@ -485,7 +551,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                             shape: BoxShape.circle,
                           ),
                           child: IconButton(
-                            icon: const Icon(Icons.close, size: 16, color: Colors.white),
+                            icon: const Icon(Icons.close,
+                                size: 16, color: Colors.white),
                             onPressed: () {
                               setState(() {
                                 _selectedImages.removeAt(index);
@@ -538,7 +605,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                         shape: BoxShape.circle,
                       ),
                       child: IconButton(
-                        icon: const Icon(Icons.close, size: 16, color: Colors.white),
+                        icon: const Icon(Icons.close,
+                            size: 16, color: Colors.white),
                         onPressed: () {
                           setState(() {
                             _selectedVideo = null;
@@ -578,7 +646,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.close, size: 16, color: Colors.blue),
+                      icon:
+                          const Icon(Icons.close, size: 16, color: Colors.blue),
                       onPressed: () {
                         setState(() {
                           _selectedLocation = null;
@@ -605,17 +674,17 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    const Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.tag,
                           color: Colors.green,
                           size: 20.0,
                         ),
-                        const SizedBox(width: 8),
-                        const Text(
+                        SizedBox(width: 8),
+                        Text(
                           'Tags',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Colors.green,
                             fontWeight: FontWeight.w500,
                           ),
@@ -636,9 +705,11 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                             ),
                           ),
                           backgroundColor: Colors.green.withValues(alpha: 0.1),
-                          deleteIcon: const Icon(Icons.close, size: 14, color: Colors.green),
+                          deleteIcon: const Icon(Icons.close,
+                              size: 14, color: Colors.green),
                           onDeleted: () => _removeTag(tag),
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
                           padding: EdgeInsets.zero,
                         );
                       }).toList(),
@@ -648,30 +719,38 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               ),
             if (_selectedTags.isNotEmpty) const SizedBox(height: 16),
             // Action buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildActionButton(
-                  icon: Icons.photo_library,
-                  label: 'Photo',
-                  onPressed: _pickImages,
-                ),
-                _buildActionButton(
-                  icon: Icons.videocam,
-                  label: 'Video',
-                  onPressed: _pickVideo,
-                ),
-                _buildActionButton(
-                  icon: Icons.location_on,
-                  label: 'Location',
-                  onPressed: _pickLocation,
-                ),
-                _buildActionButton(
-                  icon: Icons.tag,
-                  label: 'Tag',
-                  onPressed: _pickTags,
-                ),
-              ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildActionButton(
+                    icon: Icons.description,
+                    label: 'Template',
+                    onPressed: _openTemplateSelector,
+                  ),
+                  _buildActionButton(
+                    icon: Icons.photo_library,
+                    label: 'Photo',
+                    onPressed: _pickImages,
+                  ),
+                  _buildActionButton(
+                    icon: Icons.videocam,
+                    label: 'Video',
+                    onPressed: _pickVideo,
+                  ),
+                  _buildActionButton(
+                    icon: Icons.location_on,
+                    label: 'Location',
+                    onPressed: _pickLocation,
+                  ),
+                  _buildActionButton(
+                    icon: Icons.tag,
+                    label: 'Tag',
+                    onPressed: _pickTags,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -706,4 +785,3 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     );
   }
 }
-

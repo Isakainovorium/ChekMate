@@ -278,6 +278,12 @@
       "languageVersion": "3.7"
     },
     {
+      "name": "dartz",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/dartz-0.10.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "dbus",
       "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/dbus-0.7.11",
       "packageUri": "lib/",
@@ -824,6 +830,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "json_serializable",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/json_serializable-6.9.5",
+      "packageUri": "lib/",
+      "languageVersion": "3.6"
+    },
+    {
       "name": "leak_tracker",
       "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker-11.0.2",
       "packageUri": "lib/",
@@ -1198,6 +1210,12 @@
     {
       "name": "source_gen",
       "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/source_gen-2.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.6"
+    },
+    {
+      "name": "source_helper",
+      "rootUri": "file:///C:/Users/IsaKai2296/AppData/Local/Pub/Cache/hosted/pub.dev/source_helper-1.3.7",
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },

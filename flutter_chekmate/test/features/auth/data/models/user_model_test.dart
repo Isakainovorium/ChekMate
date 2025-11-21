@@ -28,7 +28,7 @@ void main() {
         location: 'San Francisco, CA',
         age: 25,
         gender: 'male',
-        interests: ['coding', 'music', 'travel'],
+        interests: const ['coding', 'music', 'travel'],
       );
     });
 
@@ -296,4 +296,3 @@ void main() {
     });
   });
 }
-

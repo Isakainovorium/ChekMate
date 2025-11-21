@@ -22,14 +22,14 @@ class _PushNotificationPromptState extends State<PushNotificationPrompt> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.primary.withValues(alpha: 0.9),
+            AppColors.primary.withOpacity(0.9),
             AppColors.primary,
           ],
         ),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.3),
+            color: AppColors.primary.withOpacity(0.3),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -130,7 +130,8 @@ class _PushNotificationPromptState extends State<PushNotificationPrompt> {
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Failed to enable notifications. Please try again.'),
+              content:
+                  Text('Failed to enable notifications. Please try again.'),
               backgroundColor: Colors.red,
               duration: Duration(seconds: 3),
             ),
@@ -154,7 +155,8 @@ class PushNotificationSettings extends StatefulWidget {
   const PushNotificationSettings({super.key});
 
   @override
-  State<PushNotificationSettings> createState() => _PushNotificationSettingsState();
+  State<PushNotificationSettings> createState() =>
+      _PushNotificationSettingsState();
 }
 
 class _PushNotificationSettingsState extends State<PushNotificationSettings> {
@@ -339,4 +341,3 @@ class _PushNotificationSettingsState extends State<PushNotificationSettings> {
     }
   }
 }
-

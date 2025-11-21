@@ -18,7 +18,8 @@ class FCMServiceException implements Exception {
 class FCMService {
   FCMService._();
 
-  static final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  static final FirebaseMessaging _firebaseMessaging =
+      FirebaseMessaging.instance;
   static final FlutterLocalNotificationsPlugin _localNotifications =
       FlutterLocalNotificationsPlugin();
 
@@ -80,7 +81,6 @@ class FCMService {
 
       // Handle background messages
       FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-
     } catch (e) {
       throw FCMServiceException('Failed to initialize FCM service: $e');
     }
@@ -182,15 +182,16 @@ class FCMService {
   }) async {
     final details = notificationDetails ??
         const NotificationDetails(
-          android: const AndroidNotificationDetails(
+          android: AndroidNotificationDetails(
             'high_importance_channel',
             'High Importance Notifications',
-            channelDescription: 'This channel is used for important notifications.',
+            channelDescription:
+                'This channel is used for important notifications.',
             importance: Importance.high,
             priority: Priority.high,
             showWhen: true,
           ),
-          iOS: const DarwinNotificationDetails(
+          iOS: DarwinNotificationDetails(
             presentAlert: true,
             presentBadge: true,
             presentSound: true,
@@ -217,8 +218,10 @@ class FCMService {
   }
 
   /// Get pending notifications (Android only)
-  static Future<List<PendingNotificationRequest>> getPendingNotifications() async {
-    final pendingNotifications = await _localNotifications.pendingNotificationRequests();
+  static Future<List<PendingNotificationRequest>>
+      getPendingNotifications() async {
+    final pendingNotifications =
+        await _localNotifications.pendingNotificationRequests();
     return pendingNotifications;
   }
 }

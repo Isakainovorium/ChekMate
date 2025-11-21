@@ -7,3 +7,4 @@ keyPassword=your_key_password
 keyAlias=chekmate-key
 storeFile=../path/to/your/keystore.jks
 
+

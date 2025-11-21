@@ -5,6 +5,7 @@ import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
 import 'package:flutter_chekmate/features/auth/presentation/providers/auth_providers.dart';
 import 'package:flutter_chekmate/features/feed/presentation/providers/feed_providers.dart';
+import 'package:flutter_chekmate/features/intelligence/presentation/providers/serendipity_feed_provider.dart';
 import 'package:flutter_chekmate/features/posts/domain/entities/post_entity.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart' hide AnimatedFeedCard;
 import 'package:flutter_chekmate/shared/widgets/animated_feed_card.dart';
@@ -17,6 +18,7 @@ enum FeedType {
   following, // Global chronological feed
   nearby, // Location-based feed
   forYou, // Interest-based feed
+  serendipity, // Serendipity mode (diverse content discovery)
 }
 
 /// Feed Page with Multiple Feed Types
@@ -39,6 +41,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
       FeedType.following => ref.watch(postsFeedProvider),
       FeedType.nearby => ref.watch(locationBasedFeedProvider),
       FeedType.forYou => ref.watch(interestBasedFeedProvider),
+      FeedType.serendipity => ref.watch(serendipityFeedProvider),
     };
 
     return Scaffold(
@@ -123,6 +126,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
       FeedType.following => 'Following',
       FeedType.nearby => 'Nearby',
       FeedType.forYou => 'For You',
+      FeedType.serendipity => 'Serendipity',
     };
   }
 
@@ -132,6 +136,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
       FeedType.following => Icons.people,
       FeedType.nearby => Icons.location_on,
       FeedType.forYou => Icons.favorite,
+      FeedType.serendipity => Icons.explore,
     };
   }
 
@@ -222,6 +227,25 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                 setState(() => _feedType = FeedType.forYou);
               },
             ),
+            const Divider(),
+            // Serendipity Feed
+            ListTile(
+              leading: Icon(
+                Icons.explore,
+                color: _feedType == FeedType.serendipity
+                    ? AppColors.primary
+                    : Colors.grey,
+              ),
+              title: const Text('Serendipity'),
+              subtitle: const Text('Discover diverse perspectives'),
+              trailing: _feedType == FeedType.serendipity
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                Navigator.pop(context);
+                setState(() => _feedType = FeedType.serendipity);
+              },
+            ),
           ],
         ),
       ),
@@ -238,6 +262,8 @@ class _FeedPageState extends ConsumerState<FeedPage> {
         ref.invalidate(locationBasedFeedProvider);
       case FeedType.forYou:
         ref.invalidate(interestBasedFeedProvider);
+      case FeedType.serendipity:
+        ref.invalidate(serendipityFeedProvider);
     }
   }
 
@@ -290,6 +316,10 @@ class _FeedPageState extends ConsumerState<FeedPage> {
       FeedType.forYou => (
           'No matching posts',
           'No posts found matching your interests. Try adding more interests in your profile.'
+        ),
+      FeedType.serendipity => (
+          'No diverse content',
+          'Explore different perspectives and experiences. Keep reading to build your serendipity profile.'
         ),
     };
 

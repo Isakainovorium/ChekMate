@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wisdom Achievements Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.4.1/flowbite.min.css"
+      integrity="sha512-1oJ4mQ2k87ziiZ2QGZh2rkEYZ7rUBC+zDNONHCgWcdnLG8Kg/uOj8ZXKuQF7H9H6C8y6gw/2Y9qsut0kGugR3A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      :root {
+        --sand: #f7f2e7;
+        --onyx: #161513;
+        --mauve: #a26aff;
+        --sunset: #ff9770;
+        --copper: #c46f42;
+        --mint: #4ecdc4;
+        --slate: #3c3832;
+      }
+      body {
+        font-family: "Space Grotesk", "Inter", sans-serif !important;
+        background: radial-gradient(circle at top, rgba(255, 151, 112, 0.18), transparent 40%),
+          radial-gradient(circle at 20% 20%, rgba(162, 106, 255, 0.25), transparent 45%),
+          var(--onyx) !important;
+        color: var(--sand) !important;
+        min-height: 100vh !important;
+        padding: 1.5rem !important;
+      }
+      .glass-panel {
+        background: rgba(22, 21, 19, 0.75) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 28px !important;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35) !important;
+        backdrop-filter: blur(16px) !important;
+      }
+      .stat-chip {
+        background: rgba(255, 255, 255, 0.08) !important;
+        border-radius: 999px !important;
+        padding: 0.4rem 0.8rem !important;
+        font-size: 0.85rem !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0.35rem !important;
+      }
+      .gradient-border {
+        border: 1px solid transparent !important;
+        background: linear-gradient(var(--onyx), var(--onyx)) padding-box,
+          linear-gradient(120deg, var(--mauve), var(--sunset)) border-box !important;
+        border-radius: 24px !important;
+      }
+      .achievement-card {
+        border-radius: 20px !important;
+        padding: 1.25rem !important;
+        background: rgba(255, 255, 255, 0.03) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        transition: transform 250ms ease, border-color 250ms ease !important;
+      }
+      .achievement-card:hover {
+        transform: translateY(-6px) !important;
+        border-color: var(--mauve) !important;
+      }
+      .progress-bar {
+        height: 12px !important;
+        border-radius: 999px !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        position: relative !important;
+        overflow: hidden !important;
+      }
+      .progress-fill {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        height: 100% !important;
+        border-radius: inherit !important;
+        background: linear-gradient(90deg, var(--mint), var(--sunset)) !important;
+      }
+      .timeline-node {
+        width: 16px !important;
+        height: 16px !important;
+        border-radius: 999px !important;
+        background: var(--mint) !important;
+        border: 3px solid rgba(255, 255, 255, 0.12) !important;
+      }
+      .timeline-node.pending {
+        background: transparent !important;
+        border-color: rgba(255, 255, 255, 0.2) !important;
+      }
+      @media (max-width: 768px) {
+        body {
+          padding: 1rem !important;
+        }
+        .hero-grid {
+          grid-template-columns: 1fr !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="h-full">
+    <main class="mx-auto max-w-6xl space-y-8">
+      <section class="grid hero-grid gap-6 md:grid-cols-[1.2fr_0.8fr]">
+        <div class="glass-panel p-8 gradient-border">
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="stat-chip text-orange-200">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path d="M12 3v18m6-4-6 4-6-4" />
+              </svg>
+              Luminary Path
+            </span>
+            <span class="stat-chip text-teal-200">
+              142 helpful ratings this month
+            </span>
+          </div>
+          <div class="mt-6 flex flex-wrap items-center gap-6">
+            <div>
+              <h1 class="text-4xl font-semibold tracking-tight">Wisdom Score 8.4</h1>
+              <p class="mt-2 text-sm text-slate-200">
+                Engagement multiplier applied ×1.3 — closing in on Luminary status.
+              </p>
+            </div>
+            <div class="ml-auto flex items-center gap-3 rounded-2xl bg-gradient-to-r from-[#2d2720] to-[#3e2d27] px-5 py-3">
+              <div>
+                <p class="text-xs uppercase tracking-widest text-orange-200">Progress</p>
+                <p class="text-2xl font-semibold">78%</p>
+              </div>
+              <div class="relative h-16 w-16">
+                <svg class="h-full w-full" viewBox="0 0 36 36">
+                  <path
+                    d="M18 2.0845a15.9155 15.9155 0 0 1 0 31.831"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.15)"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  ></path>
+                  <path
+                    d="M18 2.0845a15.9155 15.9155 0 1 1 0 31.831"
+                    fill="none"
+                    stroke="url(#grad)"
+                    stroke-width="2.8"
+                    stroke-linecap="round"
+                    stroke-dasharray="78 100"
+                  ></path>
+                  <defs>
+                    <linearGradient id="grad" x1="0%" x2="100%" y1="0%" y2="0%">
+                      <stop offset="0%" stop-color="#4ecdc4" />
+                      <stop offset="100%" stop-color="#ff9770" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <span class="absolute inset-0 flex items-center justify-center text-xs">Level</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-8 grid gap-4 sm:grid-cols-2">
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <p class="text-sm text-white/70">Achievement Points</p>
+              <p class="mt-2 text-3xl font-semibold text-mint-200">1,240</p>
+              <div class="mt-3 progress-bar">
+                <div class="progress-fill" style="width: 62%"></div>
+              </div>
+              <p class="mt-2 text-xs text-white/60">+240 this week</p>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <p class="text-sm text-white/70">Rarity Mix</p>
+              <div class="mt-3 flex flex-wrap gap-3 text-sm">
+                <span class="stat-chip bg-transparent text-[#ffcd70]">
+                  Legendary ×2
+                </span>
+                <span class="stat-chip bg-transparent text-[#c5b4ff]">
+                  Epic ×4
+                </span>
+                <span class="stat-chip bg-transparent text-[#a0f0e0]">
+                  Uncommon ×9
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="glass-panel p-6">
+          <div class="flex items-center justify-between">
+            <h2 class="text-xl font-semibold">Milestone Timeline</h2>
+            <button class="rounded-full border border-white/20 px-4 py-2 text-xs uppercase tracking-widest text-white/80">
+              Export Log
+            </button>
+          </div>
+          <ol class="mt-6 space-y-6">
+            <li class="flex gap-4">
+              <span class="timeline-node"></span>
+              <div>
+                <p class="font-medium">Mentor Achieved</p>
+                <p class="text-sm text-white/60">Score crossed 6.5 • Oct 04</p>
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <span class="timeline-node"></span>
+              <div>
+                <p class="font-medium">Coach Achieved</p>
+                <p class="text-sm text-white/60">Verified stories streak • Nov 02</p>
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <span class="timeline-node pending"></span>
+              <div>
+                <p class="font-medium text-white/60">Luminary Unlocked</p>
+                <p class="text-sm text-white/40">Requires ≥ 9.0 score • Track verification votes</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="glass-panel p-8">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p class="text-sm uppercase tracking-widest text-white/70">Active Objectives</p>
+            <h2 class="mt-1 text-2xl font-semibold">Close to unlocking 3 achievements</h2>
+          </div>
+          <div class="flex gap-3 text-sm">
+            <button class="rounded-full border border-white/20 px-4 py-2 hover:border-white/40">
+              View definitions
+            </button>
+            <button class="rounded-full bg-gradient-to-r from-[#4ecdc4] to-[#ff9770] px-4 py-2 font-semibold text-black">
+              Trigger recalculation
+            </button>
+          </div>
+        </div>
+        <div class="mt-8 grid gap-6 md:grid-cols-3">
+          <article class="achievement-card">
+            <div class="flex items-center justify-between">
+              <span class="text-xs uppercase tracking-widest text-mint">Milestone</span>
+              <span class="rounded-full bg-white/10 px-3 py-1 text-xs">78% ready</span>
+            </div>
+            <h3 class="mt-4 text-xl font-semibold">Luminary Achieved</h3>
+            <p class="mt-2 text-sm text-white/70">
+              Push overall wisdom score to 9.0 with consistent peer validation across categories.
+            </p>
+            <div class="mt-4 progress-bar">
+              <div class="progress-fill" style="width: 78%"></div>
+            </div>
+            <ul class="mt-4 space-y-2 text-sm text-white/70">
+              <li>• Current score 8.4 / 9.0</li>
+              <li>• Helpful ratio 91% (goal 88%)</li>
+              <li>• Verified story gap: 3 remaining</li>
+            </ul>
+          </article>
+          <article class="achievement-card">
+            <div class="flex items-center justify-between">
+              <span class="text-xs uppercase tracking-widest text-[#ffa8d5]">Specialty</span>
+              <span class="rounded-full bg-white/10 px-3 py-1 text-xs">62% ready</span>
+            </div>
+            <h3 class="mt-4 text-xl font-semibold">Safety Champion</h3>
+            <p class="mt-2 text-sm text-white/70">
+              Maintain 7.0+ score in the Safety Awareness vertical with fresh verifications.
+            </p>
+            <div class="mt-4 progress-bar">
+              <div class="progress-fill" style="width: 62%"></div>
+            </div>
+            <ul class="mt-4 space-y-2 text-sm text-white/70">
+              <li>• Current score 6.4 / 7.0</li>
+              <li>• Add 2 endorsed reports</li>
+              <li>• Respond to pending verifications</li>
+            </ul>
+          </article>
+          <article class="achievement-card">
+            <div class="flex items-center justify-between">
+              <span class="text-xs uppercase tracking-widest text-[#ffd479]">Community</span>
+              <span class="rounded-full bg-white/10 px-3 py-1 text-xs">40% ready</span>
+            </div>
+            <h3 class="mt-4 text-xl font-semibold">Community Pillar</h3>
+            <p class="mt-2 text-sm text-white/70">
+              Reach 250 lifetime helpful ratings with balanced endorsements across categories.
+            </p>
+            <div class="mt-4 progress-bar">
+              <div class="progress-fill" style="width: 40%"></div>
+            </div>
+            <ul class="mt-4 space-y-2 text-sm text-white/70">
+              <li>• Helpful ratings: 102 / 250</li>
+              <li>• Add 5 high-signal responses</li>
+              <li>• Encourage mentorship votes</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="glass-panel p-8">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p class="text-sm uppercase tracking-widest text-white/70">Unlocked Showcase</p>
+            <h2 class="mt-1 text-2xl font-semibold">Badges & rarity impact</h2>
+          </div>
+          <div class="flex gap-3 text-sm">
+            <button class="rounded-full border border-white/20 px-4 py-2">
+              Filter
+            </button>
+            <button class="rounded-full border border-white/20 px-4 py-2">
+              Share profile
+            </button>
+          </div>
+        </div>
+        <div class="mt-8 grid gap-5 lg:grid-cols-4 md:grid-cols-2">
+          <div class="achievement-card">
+            <p class="text-xs text-white/60">Legendary</p>
+            <div class="mt-3 flex items-center gap-3">
+              <div class="h-12 w-12 rounded-2xl bg-gradient-to-br from-[#ffce4f] to-[#d68b2a] text-2xl text-black flex items-center justify-center">★</div>
+              <div>
+                <p class="font-semibold">Verified Expert</p>
+                <p class="text-xs text-white/60">Unlocked 02 Nov</p>
+              </div>
+            </div>
+            <p class="mt-3 text-sm text-white/70">10 verified stories with ≥ 95% peer validation.</p>
+          </div>
+          <div class="achievement-card">
+            <p class="text-xs text-white/60">Rare</p>
+            <div class="mt-3 flex items-center gap-3">
+              <div class="h-12 w-12 rounded-2xl bg-gradient-to-br from-[#a26aff] to-[#5d3fd6] text-2xl flex items-center justify-center">♢</div>
+              <div>
+                <p class="font-semibold">Mentor Circle</p>
+                <p class="text-xs text-white/60">Unlocked 18 Oct</p>
+              </div>
+            </div>
+            <p class="mt-3 text-sm text-white/70">Mentored 5 verified users with active streaks.</p>
+          </div>
+          <div class="achievement-card">
+            <p class="text-xs text-white/60">Uncommon</p>
+            <div class="mt-3 flex items-center gap-3">
+              <div class="h-12 w-12 rounded-2xl bg-gradient-to-br from-[#4ecdc4] to-[#1f8d85] text-2xl flex items-center justify-center">✺</div>
+              <div>
+                <p class="font-semibold">Week Warrior</p>
+                <p class="text-xs text-white/60">Unlocked 11 Nov</p>
+              </div>
+            </div>
+            <p class="mt-3 text-sm text-white/70">7-day consecutive interaction streak.</p>
+          </div>
+          <div class="achievement-card">
+            <p class="text-xs text-white/60">Uncommon</p>
+            <div class="mt-3 flex items-center gap-3">
+              <div class="h-12 w-12 rounded-2xl bg-gradient-to-br from-[#ff9770] to-[#f55c3e] text-2xl flex items-center justify-center">⟳</div>
+              <div>
+                <p class="font-semibold">Helpful Contributor</p>
+                <p class="text-xs text-white/60">Unlocked 03 Sep</p>
+              </div>
+            </div>
+            <p class="mt-3 text-sm text-white/70">50 lifetime helpful ratings across categories.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.4.1/flowbite.min.js" integrity="sha512-gwQq1JMu38xpv8uKXuX4nHCqB6f+GO6zkRgZNpmjQe7YQDdyCjTiMQuuLHfoalGexiLRNvKcJsteVEhDWUpAJQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  </body>
+</html>
