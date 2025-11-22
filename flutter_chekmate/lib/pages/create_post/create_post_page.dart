@@ -276,12 +276,22 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
 
     if (template == null) return;
 
-    final controller = ref.read(readingInsightsControllerProvider);
-
     try {
-      final responses = await controller.startGuidedTemplate(template);
-      if (!mounted) return;
+      // Show the template guided form to get user responses
+      final responses =
+          await Navigator.of(context).push<List<TemplateResponse>?>(
+        MaterialPageRoute(
+          builder: (context) => TemplateGuidedForm(
+            template: template,
+            onComplete: (responses) => Navigator.of(context).pop(responses),
+            onCancel: () => Navigator.of(context).pop(),
+          ),
+        ),
+      );
 
+      if (responses == null || !mounted) return;
+
+      // Generate content from the template and responses
       final generatedContent =
           await ContentGenerationService.instance.generatePostContent(
         template: template,

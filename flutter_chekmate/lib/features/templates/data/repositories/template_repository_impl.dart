@@ -4,14 +4,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/repositories/template_repository.dart';
 import '../../models/story_template_model.dart';
 import '../datasources/template_remote_data_source.dart';
+import '../datasources/template_local_data_source.dart';
 
 /// Implementation of TemplateRepository
 class TemplateRepositoryImpl implements TemplateRepository {
   final TemplateRemoteDataSource _remoteDataSource;
+  final TemplateLocalDataSourceImpl _localDataSource;
 
   TemplateRepositoryImpl({
     required TemplateRemoteDataSource remoteDataSource,
-  }) : _remoteDataSource = remoteDataSource;
+  })  : _remoteDataSource = remoteDataSource,
+        _localDataSource = TemplateLocalDataSourceImpl() {
+    _initializeLocalDataSource();
+  }
+
+  Future<void> _initializeLocalDataSource() async {
+    await _localDataSource.initialize();
+  }
 
   @override
   Future<List<StoryTemplate>> getAllTemplates({
@@ -302,7 +311,7 @@ class TemplateRepositoryImpl implements TemplateRepository {
   @override
   Future<Either<Exception, Unit>> clearTemplateCache() async {
     try {
-      // TODO: implement local cache clear via remote/local datastore
+      await _localDataSource.clearAllTemplates();
       return const Right(unit);
     } catch (e) {
       return Left(e is Exception ? e : Exception(e.toString()));
@@ -329,20 +338,3 @@ class TemplateRepositoryImpl implements TemplateRepository {
     return sortedEntries.take(3).map((e) => e.key).toList();
   }
 }
-
-/// Provider for TemplateRepository
-final templateRepositoryProvider = Provider<TemplateRepository>((ref) {
-  final firestore = ref.watch(firestoreProvider);
-  final uuid = ref.watch(uuidProvider);
-
-  return TemplateRepositoryImpl(
-    remoteDataSource: TemplateRemoteDataSource(
-      firestore,
-      uuid,
-    ),
-  );
-});
-
-/// Note: These providers are imported/injected as dependencies
-final firestoreProvider = Provider((ref) => throw UnimplementedError());
-final uuidProvider = Provider((ref) => throw UnimplementedError());

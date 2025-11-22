@@ -76,6 +76,10 @@ build/
 **/ios/Runner/RunnerDebug.entitlements
 **/ios/Runner/RunnerRelease.entitlements
 
+# Apple API Keys (CRITICAL - Never commit these!)
+AuthKey_*.p8
+**/AuthKey_*.p8
+
 # IDE
 .vscode/
 .idea/

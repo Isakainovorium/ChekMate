@@ -51,11 +51,11 @@ The following steps require you to log into CodeMagic. I can guide you through t
 4. Fill in:
    - **API key name**: `CodeMagic API Key`
    - **Issuer ID**: `92d1170a-d80b-41dd-b616-a30752db2bec`
-   - **Key ID**: `7WNHASSNQK`
-   - **API key**: Upload `AuthKey_7WNHASSNQK__ASC.p8` file
+   - **Key ID**: `Y25ANC77X6`
+   - **API key**: Upload `AuthKey_Y25ANC77X6.p8` file
 5. Click "Save"
 
-**File Location**: `C:\Users\IsaKai2296\Downloads\ChekMate_app\AuthKey_7WNHASSNQK__ASC.p8`
+**File Location**: `C:\Users\IsaKai2296\Downloads\AuthKey_Y25ANC77X6.p8`
 
 ### Step 4: Configure Environment Variables
 **Navigation**: User Settings → Environment variables
@@ -123,13 +123,13 @@ The following steps require you to log into CodeMagic. I can guide you through t
 
 ### Credentials
 - **Issuer ID**: `92d1170a-d80b-41dd-b616-a30752db2bec`
-- **Key ID**: `7WNHASSNQK`
-- **API Key File**: `AuthKey_7WNHASSNQK__ASC.p8`
+- **Key ID**: `Y25ANC77X6`
+- **API Key File**: `AuthKey_Y25ANC77X6.p8`
 - **Bundle ID**: `com.chekmate.app`
 - **Email**: `isakaihbg@gmail.com`
 
 ### File Locations
-- API Key: `C:\Users\IsaKai2296\Downloads\ChekMate_app\AuthKey_7WNHASSNQK__ASC.p8`
+- API Key: `C:\Users\IsaKai2296\Downloads\AuthKey_Y25ANC77X6.p8`
 - Config: `C:\Users\IsaKai2296\Downloads\ChekMate_app\codemagic.yaml`
 
 ## Next Actions

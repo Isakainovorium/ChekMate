@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../shared/ui/components/app_accordion.dart';
 import '../../../shared/ui/components/app_alert.dart';
@@ -286,8 +287,21 @@ class _NotificationScheduleSettingsPageState
     });
 
     try {
-      // TODO: Implement actual save functionality with backend
-      await Future.delayed(const Duration(seconds: 1));
+      // Save notification schedule settings to shared preferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('notif_quiet_hours_enabled', _quietHoursEnabled);
+      await prefs.setInt('notif_quiet_start_hour', _quietHoursStart.hour);
+      await prefs.setInt('notif_quiet_start_minute', _quietHoursStart.minute);
+      await prefs.setInt('notif_quiet_end_hour', _quietHoursEnd.hour);
+      await prefs.setInt('notif_quiet_end_minute', _quietHoursEnd.minute);
+      await prefs.setBool('notif_daily_digest_enabled', _dailyDigestEnabled);
+      await prefs.setInt('notif_daily_digest_hour', _dailyDigestTime.hour);
+      await prefs.setInt('notif_daily_digest_minute', _dailyDigestTime.minute);
+      await prefs.setBool('notif_weekly_report_enabled', _weeklyReportEnabled);
+      await prefs.setInt('notif_weekly_report_day', _weeklyReportDay);
+      await prefs.setInt('notif_weekly_report_hour', _weeklyReportTime.hour);
+      await prefs.setInt(
+          'notif_weekly_report_minute', _weeklyReportTime.minute);
 
       if (mounted) {
         setState(() {

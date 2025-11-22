@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../shared/ui/components/app_alert.dart';
 import '../../../shared/ui/components/app_breadcrumb.dart';
@@ -296,8 +297,13 @@ class _ThemeSettingsPageState extends ConsumerState<ThemeSettingsPage> {
     });
 
     try {
-      // TODO: Implement actual save functionality with theme provider
-      await Future.delayed(const Duration(seconds: 1));
+      // Save theme settings to shared preferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt('theme_preset', _selectedPreset);
+      await prefs.setBool('theme_use_custom', _useCustomColors);
+      await prefs.setInt('theme_custom_primary', _customPrimary.value);
+      await prefs.setInt('theme_custom_accent', _customAccent.value);
+      await prefs.setBool('theme_dark_mode', _darkModeEnabled);
 
       if (mounted) {
         setState(() {
