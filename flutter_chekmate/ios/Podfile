@@ -1,12 +1,12 @@
 # Uncomment this line to define a global platform for your project
-# iOS 17.0 provides excellent compatibility with latest Firebase and Google SDKs
-platform :ios, '17.0'
+# iOS 18.0 required for GoogleSignIn 7.1+ and Firebase SDK compatibility
+platform :ios, '18.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
 # Set minimum iOS version for all pods
-$iOSVersion = '17.0'
+$iOSVersion = '18.0'
 
 project 'Runner', {
   'Debug' => :debug,
