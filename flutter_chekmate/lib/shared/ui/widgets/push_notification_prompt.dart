@@ -22,14 +22,14 @@ class _PushNotificationPromptState extends State<PushNotificationPrompt> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.primary.withOpacity(0.9),
+            AppColors.primary.withValues(alpha: 0.9),
             AppColors.primary,
           ],
         ),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.3),
+            color: AppColors.primary.withValues(alpha: 0.3),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),

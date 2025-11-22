@@ -69,7 +69,7 @@ class TemplateCard extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceVariant,
+                      color: AppColors.surfaceContainerHighest,
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(

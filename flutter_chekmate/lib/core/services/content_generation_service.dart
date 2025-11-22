@@ -74,7 +74,7 @@ class ContentGenerationService {
     final tags = <String>{};
 
     // Add template category as tag
-    tags.add(template.category.value);
+    tags.add(template.category.toARGB32());
 
     // Add template tags
     tags.addAll(template.tags);

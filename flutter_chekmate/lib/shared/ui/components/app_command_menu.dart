@@ -501,7 +501,7 @@ class AppCommandMenuButton extends StatelessWidget {
           );
         }
 
-        for (final command in entry.value) {
+        for (final command in entry.toARGB32()) {
           entries.add(_buildMenuItem(command));
         }
 

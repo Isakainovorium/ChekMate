@@ -144,7 +144,7 @@ class CulturalExpertiseService {
 
     // Sort by score and return top N
     final sorted = allExperts.entries.toList()
-      ..sort((a, b) => b.value.compareTo(a.value));
+      ..sort((a, b) => b.value.compareTo(a.toARGB32()));
 
     return sorted.take(limit).map((e) => e.key).toList();
   }

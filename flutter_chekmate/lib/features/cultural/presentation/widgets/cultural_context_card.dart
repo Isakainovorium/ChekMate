@@ -6,11 +6,7 @@ class CulturalContextCard extends StatelessWidget {
   final CulturalContext context;
   final VoidCallback? onTap;
 
-  const CulturalContextCard({
-    super.key,
-    required this.context,
-    this.onTap,
-  });
+  const CulturalContextCard({super.key, required this.context, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +31,8 @@ class CulturalContextCard extends StatelessWidget {
                     child: Text(
                       this.context.cultureCategory.displayName,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   _buildConfidenceBadge(context),
@@ -45,26 +41,26 @@ class CulturalContextCard extends StatelessWidget {
               if (this.context.contextAnnotations.isNotEmpty) ...[
                 const SizedBox(height: 12),
                 ...this.context.contextAnnotations.map(
-                      (annotation) => Padding(
-                        padding: const EdgeInsets.only(bottom: 4),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.info_outline,
-                              size: 16,
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                annotation,
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
-                            ),
-                          ],
+                  (annotation) => Padding(
+                    padding: const EdgeInsets.only(bottom: 4),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.info_outline,
+                          size: 16,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
-                      ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            annotation,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ),
+                      ],
                     ),
+                  ),
+                ),
               ],
             ],
           ),
@@ -78,13 +74,13 @@ class CulturalContextCard extends StatelessWidget {
     final color = confidence >= 0.8
         ? Colors.green
         : confidence >= 0.5
-            ? Colors.orange
-            : Colors.red;
+        ? Colors.orange
+        : Colors.red;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: color),
       ),

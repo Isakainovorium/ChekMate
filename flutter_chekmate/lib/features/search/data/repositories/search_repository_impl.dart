@@ -328,7 +328,7 @@ class SearchRepositoryImpl implements SearchRepository {
 
       // Sort by frequency (weighted by recency) and return top results
       final sortedSearches = searchFrequency.entries.toList()
-        ..sort((a, b) => b.value.compareTo(a.value));
+        ..sort((a, b) => b.value.compareTo(a.toARGB32()));
 
       return sortedSearches
           .take(limit)
@@ -591,7 +591,7 @@ class SearchRepositoryImpl implements SearchRepository {
 
       // Sort hashtags by usage and take top ones
       final sortedEntries = hashtagCount.entries.toList()
-        ..sort((a, b) => b.value.compareTo(a.value));
+        ..sort((a, b) => b.value.compareTo(a.toARGB32()));
 
       final sortedHashtags = sortedEntries
           .take(limit ~/ 2)

@@ -72,14 +72,14 @@ class _AppToggleGroupState<T> extends State<AppToggleGroup<T>> {
     final children = widget.options.asMap().entries.map((entry) {
       final index = entry.key;
       final option = entry.value;
-      final isSelected = _selectedValues.contains(option.value);
+      final isSelected = _selectedValues.contains(option.toARGB32());
       final isFirst = index == 0;
       final isLast = index == widget.options.length - 1;
 
       return _ToggleButton<T>(
         option: option,
         isSelected: isSelected,
-        onTap: () => _onToggle(option.value),
+        onTap: () => _onToggle(option.toARGB32()),
         enabled: widget.enabled && option.enabled,
         isFirst: isFirst,
         isLast: isLast,
@@ -279,7 +279,7 @@ class _AppSegmentedControlState<T> extends State<AppSegmentedControl<T>> {
             return Flexible(
               child: GestureDetector(
                 onTap: widget.enabled && option.enabled
-                    ? () => _onSelectionChanged(option.value)
+                    ? () => _onSelectionChanged(option.toARGB32())
                     : null,
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
@@ -410,7 +410,7 @@ class _AppToggleChipsState<T> extends State<AppToggleChips<T>> {
       spacing: widget.spacing,
       runSpacing: widget.runSpacing,
       children: widget.options.map((option) {
-        final isSelected = _selectedValues.contains(option.value);
+        final isSelected = _selectedValues.contains(option.toARGB32());
 
         return FilterChip(
           label: Row(
@@ -425,7 +425,7 @@ class _AppToggleChipsState<T> extends State<AppToggleChips<T>> {
           ),
           selected: isSelected,
           onSelected: widget.enabled && option.enabled
-              ? (_) => _onToggle(option.value)
+              ? (_) => _onToggle(option.toARGB32())
               : null,
         );
       }).toList(),

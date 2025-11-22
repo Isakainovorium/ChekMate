@@ -44,7 +44,7 @@ class _WisdomScoreContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final topCategories = (score.categoryScores.entries.toList()
-          ..sort((a, b) => b.value.compareTo(a.value)))
+          ..sort((a, b) => b.value.compareTo(a.toARGB32())))
         .take(3)
         .toList();
 

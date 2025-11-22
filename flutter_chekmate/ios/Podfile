@@ -36,6 +36,10 @@ target 'Runner' do
   use_modular_headers!
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+  
+  # Override GoogleSignIn to use 7.x for Firebase compatibility
+  # This overrides the google_sign_in_ios plugin's default 8.0 requirement
+  pod 'GoogleSignIn', '~> 7.1', :modular_headers => true
 end
 
 post_install do |installer|

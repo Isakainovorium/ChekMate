@@ -73,7 +73,7 @@ class _AppScrollAreaState extends State<AppScrollArea> {
     // Debounce scroll end detection
     Future.delayed(const Duration(milliseconds: 100), () {
       if (_controller.hasClients &&
-          !_controller.position.isScrollingNotifier.value) {
+          !_controller.position.isScrollingNotifier.toARGB32()) {
         if (_isScrolling) {
           _isScrolling = false;
           widget.onScrollEnd?.call();

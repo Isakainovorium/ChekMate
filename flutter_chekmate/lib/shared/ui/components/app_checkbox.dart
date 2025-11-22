@@ -107,13 +107,13 @@ class AppCheckboxGroup<T> extends StatelessWidget {
           const SizedBox(height: AppSpacing.sm),
         ],
         ...items.map((item) => AppCheckbox(
-          value: selectedValues.contains(item.value),
+          value: selectedValues.contains(item.toARGB32()),
           onChanged: enabled ? (checked) {
             final newSet = Set<T>.from(selectedValues);
             if (checked == true) {
-              newSet.add(item.value);
+              newSet.add(item.toARGB32());
             } else {
-              newSet.remove(item.value);
+              newSet.remove(item.toARGB32());
             }
             onChanged(newSet);
           } : null,

@@ -333,7 +333,7 @@ class TemplateRepositoryImpl implements TemplateRepository {
     }
 
     final sortedEntries = categoryCount.entries.toList()
-      ..sort((a, b) => b.value.compareTo(a.value));
+      ..sort((a, b) => b.value.compareTo(a.toARGB32()));
 
     return sortedEntries.take(3).map((e) => e.key).toList();
   }

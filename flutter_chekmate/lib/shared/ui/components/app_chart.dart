@@ -108,7 +108,7 @@ class _AppChartState extends State<AppChart> with TickerProviderStateMixin {
               child: widget.animate
                   ? AnimatedBuilder(
                       animation: _animation,
-                      builder: (context, child) => _buildChart(_animation.value),
+                      builder: (context, child) => _buildChart(_animation.toARGB32()),
                     )
                   : _buildChart(1.0),
             ),
@@ -583,7 +583,7 @@ class _PieChartPainter extends CustomPainter {
     final radius = (size.width < size.height ? size.width : size.height) / 2 - 20;
 
     final series = data.series.first;
-    final total = series.dataPoints.fold(0.0, (sum, point) => sum + point.value);
+    final total = series.dataPoints.fold(0.0, (sum, point) => sum + point.toARGB32());
     
     var startAngle = -90 * (3.14159 / 180); // Start from top
 

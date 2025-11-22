@@ -171,7 +171,7 @@ class CulturalFingerprintService {
     }
 
     // Sort by similarity score (highest first) and return top results
-    matches.sort((a, b) => b.value.compareTo(a.value));
+    matches.sort((a, b) => b.value.compareTo(a.toARGB32()));
     return matches.take(maxResults).map((entry) => entry.key).toList();
   }
 

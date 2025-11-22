@@ -241,7 +241,7 @@ class TemplateEngineService {
         return response != logic.value;
       case 'contains':
         if (response is String && logic.value is String) {
-          return response.contains(logic.value);
+          return response.contains(logic.toARGB32());
         }
         return false;
       case 'greater_than':

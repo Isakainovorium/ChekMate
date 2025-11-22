@@ -84,7 +84,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                           fit: BoxFit.cover,
                         )
                       else
-                        Container(color: AppColors.surfaceVariant),
+                        Container(color: AppColors.surfaceContainerHighest),
 
                       // Gradient Overlay
                       Container(
@@ -429,7 +429,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                       fit: BoxFit.cover,
                     )
                   : Container(
-                      color: AppColors.surfaceVariant,
+                      color: AppColors.surfaceContainerHighest,
                       child: const Center(
                         child: Icon(
                           Icons.article,

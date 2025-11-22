@@ -253,7 +253,7 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
         decoration: BoxDecoration(
           color: isSelected
               ? AppColors.primary.withValues(alpha: 0.1)
-              : AppColors.surfaceVariant,
+              : AppColors.surfaceContainerHighest,
           border: Border.all(
             color: isSelected ? AppColors.primary : AppColors.border,
             width: isSelected ? 2 : 1,

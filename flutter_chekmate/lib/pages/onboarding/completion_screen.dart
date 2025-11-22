@@ -159,7 +159,7 @@ class _CompletionScreenState extends ConsumerState<CompletionScreen>
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceVariant,
+                  color: AppColors.surfaceContainerHighest,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: AppColors.border,

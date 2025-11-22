@@ -59,7 +59,7 @@ class CulturalInsightCard extends StatelessWidget {
               const SizedBox(height: 8),
               LinearProgressIndicator(
                 value: pattern.confidenceScore,
-                backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+                backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
                 valueColor: AlwaysStoppedAnimation<Color>(
                   _getConfidenceColor(pattern.confidenceScore),
                 ),
@@ -105,7 +105,7 @@ class CulturalInsightCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(icon, color: color),

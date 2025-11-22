@@ -40,7 +40,7 @@ class AppTheme {
         onErrorContainer: AppColors.errorDark,
         surface: AppColors.surface,
         onSurface: AppColors.textPrimary,
-        surfaceContainerHighest: AppColors.surfaceVariant,
+        surfaceContainerHighest: AppColors.surfaceContainerHighest,
         outline: AppColors.outline,
         outlineVariant: AppColors.border,
         shadow: AppColors.shadow,
@@ -80,7 +80,7 @@ class AppTheme {
       // Input Decoration Theme
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.surfaceVariant,
+        fillColor: AppColors.surfaceContainerHighest,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: AppColors.border),
@@ -240,7 +240,7 @@ class AppTheme {
 
       // Chip Theme
       chipTheme: ChipThemeData(
-        backgroundColor: AppColors.surfaceVariant,
+        backgroundColor: AppColors.surfaceContainerHighest,
         selectedColor: AppColors.primary.withValues(alpha: 0.1),
         labelStyle: const TextStyle(color: AppColors.textPrimary),
         secondaryLabelStyle: const TextStyle(color: AppColors.textSecondary),
@@ -287,7 +287,7 @@ class AppTheme {
         onErrorContainer: AppColors.errorLight,
         surface: AppColors.surfaceDark,
         onSurface: AppColors.textPrimaryDark,
-        surfaceContainerHighest: AppColors.surfaceVariantDark,
+        surfaceContainerHighest: AppColors.surfaceContainerHighestDark,
         outline: AppColors.borderDark,
         outlineVariant: AppColors.dividerDark,
         shadow: AppColors.shadow,

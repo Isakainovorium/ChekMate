@@ -85,7 +85,7 @@ class _RadioTile<T> extends StatelessWidget {
     if (isCompact) {
       return InkWell(
         onTap: item.enabled && onChanged != null
-            ? () => onChanged!(item.value)
+            ? () => onChanged!(item.toARGB32())
             : null,
         borderRadius: BorderRadius.circular(8),
         child: Padding(
@@ -118,7 +118,7 @@ class _RadioTile<T> extends StatelessWidget {
 
     return InkWell(
       onTap: item.enabled && onChanged != null
-          ? () => onChanged!(item.value)
+          ? () => onChanged!(item.toARGB32())
           : null,
       borderRadius: BorderRadius.circular(8),
       child: Padding(
