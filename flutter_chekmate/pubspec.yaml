@@ -38,7 +38,7 @@ dependencies:
   go_router: ^13.0.0
 
   # Authentication
-  google_sign_in: ^6.2.1
+  google_sign_in: ^6.1.6  # Downgraded for Firebase compatibility
   sign_in_with_apple: ^5.0.0
 
   # HTTP & Networking
