@@ -18,10 +18,6 @@ workflows:
         script: |
           cd flutter_chekmate
           flutter pub get
-      - name: Generate code (mocks, riverpod)
-        script: |
-          cd flutter_chekmate
-          flutter pub run build_runner build --delete-conflicting-outputs || echo "Code generation had errors - continuing build"
       - name: Setup Firebase config (if provided)
         script: |
           #!/usr/bin/env sh
