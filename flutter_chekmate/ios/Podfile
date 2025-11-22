@@ -36,6 +36,9 @@ target 'Runner' do
   use_modular_headers!
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+  
+  # Force GoogleSignIn 7.x for Firebase compatibility
+  pod 'GoogleSignIn', '~> 7.1'
 end
 
 post_install do |installer|
