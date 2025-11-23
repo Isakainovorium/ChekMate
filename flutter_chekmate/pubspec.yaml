@@ -27,7 +27,7 @@ dependencies:
 
   # Location Services
   geolocator: ^13.0.1
-  geocoding: ^3.0.2
+  geocoding: ^3.0.0
 
   # State Management
   flutter_riverpod: ^2.6.1
