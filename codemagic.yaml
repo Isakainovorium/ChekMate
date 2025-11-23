@@ -19,6 +19,10 @@ workflows:
         distribution_type: app_store
         bundle_identifier: com.chekmate.app
     scripts:
+      - name: Set up code signing settings on Xcode project
+        script: |
+          cd flutter_chekmate
+          xcode-project use-profiles
       - name: Install dependencies
         script: |
           cd flutter_chekmate
