@@ -13,6 +13,11 @@ workflows:
       vars:
         APP_ID: com.chekmate.app
         BUNDLE_ID: com.chekmate.app
+        XCODE_WORKSPACE: "Runner.xcworkspace"
+        XCODE_SCHEME: "Runner"
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.chekmate.app
     scripts:
       - name: Install dependencies
         script: |
