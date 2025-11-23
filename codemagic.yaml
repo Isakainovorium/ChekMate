@@ -26,8 +26,9 @@ workflows:
       - name: Install dependencies
         script: |
           cd flutter_chekmate
-          rm -f ios/Flutter/Generated.xcconfig
+          rm -rf ios/Flutter/*.xcconfig
           flutter pub get
+          flutter precache --ios
       - name: Setup Firebase config (if provided)
         script: |
           #!/usr/bin/env sh
