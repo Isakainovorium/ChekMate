@@ -26,15 +26,18 @@ class SearchRepositoryImpl implements SearchRepository {
       final List<SearchResultEntity> results = [];
 
       // Search posts
-      final postsResults = await _searchPosts(firestore, normalizedQuery, limit ~/ 3);
+      final postsResults =
+          await _searchPosts(firestore, normalizedQuery, limit ~/ 3);
       results.addAll(postsResults);
 
       // Search users
-      final usersResults = await _searchUsers(firestore, normalizedQuery, limit ~/ 3);
+      final usersResults =
+          await _searchUsers(firestore, normalizedQuery, limit ~/ 3);
       results.addAll(usersResults);
 
       // Search hashtags
-      final hashtagsResults = await _searchHashtags(firestore, normalizedQuery, limit ~/ 3);
+      final hashtagsResults =
+          await _searchHashtags(firestore, normalizedQuery, limit ~/ 3);
       results.addAll(hashtagsResults);
 
       // Sort by relevance score and limit results
@@ -123,15 +126,18 @@ class SearchRepositoryImpl implements SearchRepository {
       final suggestions = <String>[];
 
       // Get hashtag suggestions
-      final hashtagSuggestions = await _getHashtagSuggestions(firestore, normalizedQuery, limit ~/ 3);
+      final hashtagSuggestions =
+          await _getHashtagSuggestions(firestore, normalizedQuery, limit ~/ 3);
       suggestions.addAll(hashtagSuggestions);
 
       // Get user suggestions
-      final userSuggestions = await _getUserSuggestions(firestore, normalizedQuery, limit ~/ 3);
+      final userSuggestions =
+          await _getUserSuggestions(firestore, normalizedQuery, limit ~/ 3);
       suggestions.addAll(userSuggestions);
 
       // Get query-based suggestions from recent posts
-      final querySuggestions = await _getQuerySuggestions(firestore, normalizedQuery, limit ~/ 3);
+      final querySuggestions =
+          await _getQuerySuggestions(firestore, normalizedQuery, limit ~/ 3);
       suggestions.addAll(querySuggestions);
 
       // Remove duplicates and limit results
@@ -320,20 +326,19 @@ class SearchRepositoryImpl implements SearchRepository {
         if (query != null && query.trim().isNotEmpty && timestamp != null) {
           // Calculate recency weight (more recent = higher weight)
           final hoursSinceSearch = now.difference(timestamp).inHours;
-          final recencyWeight = 1.0 / (1.0 + hoursSinceSearch / 24.0); // Exponential decay
+          final recencyWeight =
+              1.0 / (1.0 + hoursSinceSearch / 24.0); // Exponential decay
 
-          searchFrequency[query] = (searchFrequency[query] ?? 0) + recencyWeight;
+          searchFrequency[query] =
+              (searchFrequency[query] ?? 0) + recencyWeight;
         }
       }
 
       // Sort by frequency (weighted by recency) and return top results
       final sortedSearches = searchFrequency.entries.toList()
-        ..sort((a, b) => b.value.compareTo(a.toARGB32()));
+        ..sort((a, b) => b.value.compareTo(a.value));
 
-      return sortedSearches
-          .take(limit)
-          .map((entry) => entry.key)
-          .toList();
+      return sortedSearches.take(limit).map((entry) => entry.key).toList();
     } catch (e) {
       // Fallback to mock data if trending search retrieval fails
       return _getMockTrendingSearches(limit);
@@ -392,9 +397,10 @@ class SearchRepositoryImpl implements SearchRepository {
             title: data['content'] as String? ?? '',
             subtitle: 'Post by ${data['username'] as String? ?? 'Unknown'}',
             relevanceScore: relevanceScore,
-            imageUrl: data['images'] != null && (data['images'] as List).isNotEmpty
-                ? (data['images'] as List)[0] as String
-                : null,
+            imageUrl:
+                data['images'] != null && (data['images'] as List).isNotEmpty
+                    ? (data['images'] as List)[0] as String
+                    : null,
             metadata: {
               'likes': data['likes'] ?? 0,
               'comments': data['comments'] ?? 0,
@@ -431,7 +437,8 @@ class SearchRepositoryImpl implements SearchRepository {
       for (final doc in usersSnapshot.docs) {
         final data = doc.data();
         final username = (data['username'] as String? ?? '').toLowerCase();
-        final displayName = (data['displayName'] as String? ?? '').toLowerCase();
+        final displayName =
+            (data['displayName'] as String? ?? '').toLowerCase();
 
         // Calculate relevance score
         final usernameScore = _calculateRelevanceScore(query, username);
@@ -442,7 +449,9 @@ class SearchRepositoryImpl implements SearchRepository {
           results.add(SearchResultEntity(
             id: doc.id,
             type: SearchResultType.user,
-            title: data['displayName'] as String? ?? data['username'] as String? ?? 'Unknown User',
+            title: data['displayName'] as String? ??
+                data['username'] as String? ??
+                'Unknown User',
             subtitle: '@${data['username'] as String? ?? ''}',
             relevanceScore: relevanceScore,
             imageUrl: data['avatar'] as String?,
@@ -486,15 +495,20 @@ class SearchRepositoryImpl implements SearchRepository {
       for (final doc in postsWithHashtag.docs) {
         final tags = (doc.data()['tags'] as List<dynamic>?) ?? [];
         for (final tag in tags) {
-          if (tag.toString().toLowerCase().contains(hashtagQuery.toLowerCase())) {
-            hashtagCounts[tag.toString()] = (hashtagCounts[tag.toString()] ?? 0) + 1;
+          if (tag
+              .toString()
+              .toLowerCase()
+              .contains(hashtagQuery.toLowerCase())) {
+            hashtagCounts[tag.toString()] =
+                (hashtagCounts[tag.toString()] ?? 0) + 1;
           }
         }
       }
 
       // Create search results for hashtags
       for (final entry in hashtagCounts.entries) {
-        final relevanceScore = _calculateRelevanceScore(query, entry.key) * min(entry.value / 10, 1.0);
+        final relevanceScore = _calculateRelevanceScore(query, entry.key) *
+            min(entry.value / 10, 1.0);
         if (relevanceScore > 0.2) {
           results.add(SearchResultEntity(
             id: entry.key,
@@ -544,7 +558,8 @@ class SearchRepositoryImpl implements SearchRepository {
     if (s1.isEmpty) return s2.length;
     if (s2.isEmpty) return s1.length;
 
-    final matrix = List.generate(s1.length + 1, (i) => List.filled(s2.length + 1, 0));
+    final matrix =
+        List.generate(s1.length + 1, (i) => List.filled(s2.length + 1, 0));
 
     for (var i = 0; i <= s1.length; i++) {
       matrix[i][0] = i;
@@ -557,9 +572,9 @@ class SearchRepositoryImpl implements SearchRepository {
       for (var j = 1; j <= s2.length; j++) {
         final cost = s1[i - 1] == s2[j - 1] ? 0 : 1;
         matrix[i][j] = min(
-          matrix[i - 1][j] + 1,      // deletion
+          matrix[i - 1][j] + 1, // deletion
           min(
-            matrix[i][j - 1] + 1,    // insertion
+            matrix[i][j - 1] + 1, // insertion
             matrix[i - 1][j - 1] + cost, // substitution
           ),
         );
@@ -570,7 +585,8 @@ class SearchRepositoryImpl implements SearchRepository {
   }
 
   /// Get trending/popular search suggestions when no query is provided
-  Future<List<String>> _getTrendingSuggestions(FirebaseFirestore firestore, int limit) async {
+  Future<List<String>> _getTrendingSuggestions(
+      FirebaseFirestore firestore, int limit) async {
     try {
       final suggestions = <String>[];
 
@@ -585,18 +601,17 @@ class SearchRepositoryImpl implements SearchRepository {
       for (final doc in recentPosts.docs) {
         final tags = (doc.data()['tags'] as List<dynamic>?) ?? [];
         for (final tag in tags) {
-          hashtagCount[tag.toString()] = (hashtagCount[tag.toString()] ?? 0) + 1;
+          hashtagCount[tag.toString()] =
+              (hashtagCount[tag.toString()] ?? 0) + 1;
         }
       }
 
       // Sort hashtags by usage and take top ones
       final sortedEntries = hashtagCount.entries.toList()
-        ..sort((a, b) => b.value.compareTo(a.toARGB32()));
+        ..sort((a, b) => b.value.compareTo(a.value));
 
-      final sortedHashtags = sortedEntries
-          .take(limit ~/ 2)
-          .map((e) => '#${e.key}')
-          .toList();
+      final sortedHashtags =
+          sortedEntries.take(limit ~/ 2).map((e) => '#${e.key}').toList();
 
       suggestions.addAll(sortedHashtags);
 
@@ -622,7 +637,8 @@ class SearchRepositoryImpl implements SearchRepository {
   }
 
   /// Get hashtag suggestions based on query
-  Future<List<String>> _getHashtagSuggestions(FirebaseFirestore firestore, String query, int limit) async {
+  Future<List<String>> _getHashtagSuggestions(
+      FirebaseFirestore firestore, String query, int limit) async {
     try {
       final hashtagQuery = query.startsWith('#') ? query.substring(1) : query;
       final suggestions = <String>{};
@@ -651,7 +667,8 @@ class SearchRepositoryImpl implements SearchRepository {
   }
 
   /// Get user suggestions based on query
-  Future<List<String>> _getUserSuggestions(FirebaseFirestore firestore, String query, int limit) async {
+  Future<List<String>> _getUserSuggestions(
+      FirebaseFirestore firestore, String query, int limit) async {
     try {
       final userQuery = query.startsWith('@') ? query.substring(1) : query;
       final suggestions = <String>{};
@@ -667,7 +684,8 @@ class SearchRepositoryImpl implements SearchRepository {
 
       for (final doc in usersSnapshot.docs) {
         final username = doc.data()['username'] as String?;
-        if (username != null && username.toLowerCase().contains(userQuery.toLowerCase())) {
+        if (username != null &&
+            username.toLowerCase().contains(userQuery.toLowerCase())) {
           suggestions.add('@$username');
         }
       }
@@ -679,7 +697,8 @@ class SearchRepositoryImpl implements SearchRepository {
   }
 
   /// Get query-based suggestions from recent post content
-  Future<List<String>> _getQuerySuggestions(FirebaseFirestore firestore, String query, int limit) async {
+  Future<List<String>> _getQuerySuggestions(
+      FirebaseFirestore firestore, String query, int limit) async {
     try {
       final suggestions = <String>{};
 
@@ -698,7 +717,8 @@ class SearchRepositoryImpl implements SearchRepository {
           // Extract words from content that match the query
           final words = content.split(RegExp(r'\s+'));
           for (final word in words) {
-            if (word.toLowerCase().contains(query.toLowerCase()) && word.length > 2) {
+            if (word.toLowerCase().contains(query.toLowerCase()) &&
+                word.length > 2) {
               suggestions.add(word);
             }
           }
@@ -712,7 +732,8 @@ class SearchRepositoryImpl implements SearchRepository {
   }
 
   // Mock data generators
-  List<SearchResultEntity> _getMockSearchResults(String query, int limit, String type) {
+  List<SearchResultEntity> _getMockSearchResults(
+      String query, int limit, String type) {
     final results = <SearchResultEntity>[];
 
     for (int i = 0; i < limit; i++) {
@@ -787,11 +808,29 @@ class SearchRepositoryImpl implements SearchRepository {
   String _getMockTitle(String type, int index) {
     switch (type) {
       case 'user':
-        return ['johndoe', 'janedoe', 'flutter_dev', 'dart_master', 'mobile_dev'][index % 5];
+        return [
+          'johndoe',
+          'janedoe',
+          'flutter_dev',
+          'dart_master',
+          'mobile_dev'
+        ][index % 5];
       case 'post':
-        return ['Flutter Tutorial', 'Dart Best Practices', 'Mobile App Design', 'UI Tips', 'Firebase Integration'][index % 5];
+        return [
+          'Flutter Tutorial',
+          'Dart Best Practices',
+          'Mobile App Design',
+          'UI Tips',
+          'Firebase Integration'
+        ][index % 5];
       case 'hashtag':
-        return ['#flutter', '#dart', '#mobiledev', '#uiux', '#firebase'][index % 5];
+        return [
+          '#flutter',
+          '#dart',
+          '#mobiledev',
+          '#uiux',
+          '#firebase'
+        ][index % 5];
       default:
         return 'Unknown';
     }
@@ -800,11 +839,29 @@ class SearchRepositoryImpl implements SearchRepository {
   String _getMockSubtitle(String type, int index) {
     switch (type) {
       case 'user':
-        return ['Software Developer', 'UI Designer', 'Flutter Expert', 'Dart Enthusiast', 'Mobile Developer'][index % 5];
+        return [
+          'Software Developer',
+          'UI Designer',
+          'Flutter Expert',
+          'Dart Enthusiast',
+          'Mobile Developer'
+        ][index % 5];
       case 'post':
-        return ['Learn Flutter in 30 days', 'Write better Dart code', 'Design beautiful mobile apps', 'Improve your UI skills', 'Master Firebase'][index % 5];
+        return [
+          'Learn Flutter in 30 days',
+          'Write better Dart code',
+          'Design beautiful mobile apps',
+          'Improve your UI skills',
+          'Master Firebase'
+        ][index % 5];
       case 'hashtag':
-        return ['${100 + index * 10} posts', '${200 + index * 20} posts', '${150 + index * 15} posts', '${300 + index * 30} posts', '${250 + index * 25} posts'][index % 5];
+        return [
+          '${100 + index * 10} posts',
+          '${200 + index * 20} posts',
+          '${150 + index * 15} posts',
+          '${300 + index * 30} posts',
+          '${250 + index * 25} posts'
+        ][index % 5];
       default:
         return '';
     }

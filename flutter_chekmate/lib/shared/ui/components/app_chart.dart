@@ -4,7 +4,9 @@ import 'package:flutter_chekmate/core/theme/app_spacing.dart';
 /// AppChart - Comprehensive charting with multiple types and data binding
 class AppChart extends StatefulWidget {
   const AppChart({
-    required this.data, required this.type, super.key,
+    required this.data,
+    required this.type,
+    super.key,
     this.title,
     this.subtitle,
     this.width,
@@ -66,7 +68,7 @@ class _AppChartState extends State<AppChart> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return SizedBox(
       width: widget.width,
       height: widget.height,
@@ -100,7 +102,7 @@ class _AppChartState extends State<AppChart> with TickerProviderStateMixin {
               ),
             ),
           ],
-          
+
           // Chart content
           Expanded(
             child: Padding(
@@ -108,12 +110,13 @@ class _AppChartState extends State<AppChart> with TickerProviderStateMixin {
               child: widget.animate
                   ? AnimatedBuilder(
                       animation: _animation,
-                      builder: (context, child) => _buildChart(_animation.toARGB32()),
+                      builder: (context, child) =>
+                          _buildChart(_animation.value),
                     )
                   : _buildChart(1.0),
             ),
           ),
-          
+
           // Legend
           if (widget.showLegend && widget.data.series.length > 1) ...[
             _ChartLegend(
@@ -168,7 +171,7 @@ class _AppChartState extends State<AppChart> with TickerProviderStateMixin {
 
   List<Color> _getColors(ThemeData theme) {
     if (widget.colors != null) return widget.colors!;
-    
+
     return [
       theme.colorScheme.primary,
       theme.colorScheme.secondary,
@@ -353,7 +356,7 @@ class _LineChartPainter extends CustomPainter {
     for (var seriesIndex = 0; seriesIndex < data.series.length; seriesIndex++) {
       final series = data.series[seriesIndex];
       final color = colors[seriesIndex % colors.length];
-      
+
       _drawLineSeries(canvas, chartArea, series, color);
     }
 
@@ -389,7 +392,8 @@ class _LineChartPainter extends CustomPainter {
     }
   }
 
-  void _drawLineSeries(Canvas canvas, Rect chartArea, AppChartSeries series, Color color) {
+  void _drawLineSeries(
+      Canvas canvas, Rect chartArea, AppChartSeries series, Color color) {
     if (series.dataPoints.isEmpty) return;
 
     final paint = Paint()
@@ -405,8 +409,10 @@ class _LineChartPainter extends CustomPainter {
 
     for (var i = 0; i < series.dataPoints.length; i++) {
       final point = series.dataPoints[i];
-      final x = chartArea.left + (i / (series.dataPoints.length - 1)) * chartArea.width;
-      final normalizedValue = valueRange > 0 ? (point.value - minValue) / valueRange : 0.5;
+      final x = chartArea.left +
+          (i / (series.dataPoints.length - 1)) * chartArea.width;
+      final normalizedValue =
+          valueRange > 0 ? (point.value - minValue) / valueRange : 0.5;
       final y = chartArea.bottom - (normalizedValue * chartArea.height);
 
       if (i == 0) {
@@ -419,12 +425,14 @@ class _LineChartPainter extends CustomPainter {
     // Apply progress animation
     if (progress < 1.0) {
       canvas.save();
-      canvas.clipRect(Rect.fromLTWH(
-        chartArea.left,
-        chartArea.top,
-        chartArea.width * progress,
-        chartArea.height,
-      ),);
+      canvas.clipRect(
+        Rect.fromLTWH(
+          chartArea.left,
+          chartArea.top,
+          chartArea.width * progress,
+          chartArea.height,
+        ),
+      );
     }
 
     canvas.drawPath(path, paint);
@@ -438,14 +446,15 @@ class _LineChartPainter extends CustomPainter {
     final textStyle = theme.textTheme.bodySmall?.copyWith(
       color: theme.colorScheme.onSurfaceVariant,
     );
-    
+
     if (textStyle == null) return;
 
     // Y-axis labels
     for (var i = 0; i <= 5; i++) {
-      final value = data.minValue + (data.maxValue - data.minValue) * (1 - i / 5);
+      final value =
+          data.minValue + (data.maxValue - data.minValue) * (1 - i / 5);
       final y = chartArea.top + (chartArea.height / 5) * i;
-      
+
       final textPainter = TextPainter(
         text: TextSpan(text: value.toStringAsFixed(0), style: textStyle),
         textDirection: TextDirection.ltr,
@@ -458,9 +467,9 @@ class _LineChartPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _LineChartPainter oldDelegate) {
     return oldDelegate.data != data ||
-           oldDelegate.progress != progress ||
-           oldDelegate.showGrid != showGrid ||
-           oldDelegate.showLabels != showLabels;
+        oldDelegate.progress != progress ||
+        oldDelegate.showGrid != showGrid ||
+        oldDelegate.showLabels != showLabels;
   }
 }
 
@@ -529,11 +538,13 @@ class _BarChartPainter extends CustomPainter {
     for (var i = 0; i < series.dataPoints.length; i++) {
       final point = series.dataPoints[i];
       final color = colors[i % colors.length];
-      
-      final x = chartArea.left + (chartArea.width / barCount) * i + barSpacing / 2;
-      final normalizedValue = (point.value - data.minValue) / (data.maxValue - data.minValue);
+
+      final x =
+          chartArea.left + (chartArea.width / barCount) * i + barSpacing / 2;
+      final normalizedValue =
+          (point.value - data.minValue) / (data.maxValue - data.minValue);
       final barHeight = chartArea.height * normalizedValue * progress;
-      
+
       final rect = Rect.fromLTWH(
         x,
         chartArea.bottom - barHeight,
@@ -555,8 +566,7 @@ class _BarChartPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _BarChartPainter oldDelegate) {
-    return oldDelegate.data != data ||
-           oldDelegate.progress != progress;
+    return oldDelegate.data != data || oldDelegate.progress != progress;
   }
 }
 
@@ -580,11 +590,13 @@ class _PieChartPainter extends CustomPainter {
     if (data.series.isEmpty) return;
 
     final center = Offset(size.width / 2, size.height / 2);
-    final radius = (size.width < size.height ? size.width : size.height) / 2 - 20;
+    final radius =
+        (size.width < size.height ? size.width : size.height) / 2 - 20;
 
     final series = data.series.first;
-    final total = series.dataPoints.fold(0.0, (sum, point) => sum + point.toARGB32());
-    
+    final total =
+        series.dataPoints.fold(0.0, (sum, point) => sum + point.value);
+
     var startAngle = -90 * (3.14159 / 180); // Start from top
 
     for (var i = 0; i < series.dataPoints.length; i++) {
@@ -610,8 +622,7 @@ class _PieChartPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _PieChartPainter oldDelegate) {
-    return oldDelegate.data != data ||
-           oldDelegate.progress != progress;
+    return oldDelegate.data != data || oldDelegate.progress != progress;
   }
 }
 
@@ -639,8 +650,7 @@ class _AreaChartPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _AreaChartPainter oldDelegate) {
-    return oldDelegate.data != data ||
-           oldDelegate.progress != progress;
+    return oldDelegate.data != data || oldDelegate.progress != progress;
   }
 }
 
@@ -656,7 +666,7 @@ class _ChartLegend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.md),
       child: Wrap(
@@ -666,7 +676,7 @@ class _ChartLegend extends StatelessWidget {
           final index = entry.key;
           final seriesData = entry.value;
           final color = colors[index % colors.length];
-          
+
           return Row(
             mainAxisSize: MainAxisSize.min,
             children: [

@@ -4,7 +4,9 @@ import 'package:flutter_chekmate/core/theme/app_spacing.dart';
 /// AppCheckbox - Checkbox with consistent styling and label
 class AppCheckbox extends StatelessWidget {
   const AppCheckbox({
-    required this.value, required this.onChanged, super.key,
+    required this.value,
+    required this.onChanged,
+    super.key,
     this.label,
     this.subtitle,
     this.enabled = true,
@@ -21,7 +23,7 @@ class AppCheckbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     if (label == null && subtitle == null) {
       return Checkbox(
         value: value,
@@ -52,9 +54,10 @@ class AppCheckbox extends StatelessWidget {
                     Text(
                       label!,
                       style: theme.textTheme.bodyLarge?.copyWith(
-                        color: enabled 
-                          ? theme.colorScheme.onSurface 
-                          : theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                        color: enabled
+                            ? theme.colorScheme.onSurface
+                            : theme.colorScheme.onSurface
+                                .withValues(alpha: 0.6),
                       ),
                     ),
                   if (subtitle != null) ...[
@@ -62,9 +65,10 @@ class AppCheckbox extends StatelessWidget {
                     Text(
                       subtitle!,
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: enabled 
-                          ? theme.colorScheme.onSurfaceVariant 
-                          : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                        color: enabled
+                            ? theme.colorScheme.onSurfaceVariant
+                            : theme.colorScheme.onSurfaceVariant
+                                .withValues(alpha: 0.6),
                       ),
                     ),
                   ],
@@ -81,7 +85,10 @@ class AppCheckbox extends StatelessWidget {
 /// AppCheckboxGroup - Group of checkboxes with shared state
 class AppCheckboxGroup<T> extends StatelessWidget {
   const AppCheckboxGroup({
-    required this.items, required this.selectedValues, required this.onChanged, super.key,
+    required this.items,
+    required this.selectedValues,
+    required this.onChanged,
+    super.key,
     this.title,
     this.enabled = true,
   });
@@ -95,7 +102,7 @@ class AppCheckboxGroup<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -106,21 +113,25 @@ class AppCheckboxGroup<T> extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.sm),
         ],
-        ...items.map((item) => AppCheckbox(
-          value: selectedValues.contains(item.toARGB32()),
-          onChanged: enabled ? (checked) {
-            final newSet = Set<T>.from(selectedValues);
-            if (checked == true) {
-              newSet.add(item.toARGB32());
-            } else {
-              newSet.remove(item.toARGB32());
-            }
-            onChanged(newSet);
-          } : null,
-          label: item.label,
-          subtitle: item.subtitle,
-          enabled: enabled && item.enabled,
-        ),),
+        ...items.map(
+          (item) => AppCheckbox(
+            value: selectedValues.contains(item.value),
+            onChanged: enabled
+                ? (checked) {
+                    final newSet = Set<T>.from(selectedValues);
+                    if (checked == true) {
+                      newSet.add(item.value);
+                    } else {
+                      newSet.remove(item.value);
+                    }
+                    onChanged(newSet);
+                  }
+                : null,
+            label: item.label,
+            subtitle: item.subtitle,
+            enabled: enabled && item.enabled,
+          ),
+        ),
       ],
     );
   }

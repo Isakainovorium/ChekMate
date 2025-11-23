@@ -44,7 +44,7 @@ class _WisdomScoreContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final topCategories = (score.categoryScores.entries.toList()
-          ..sort((a, b) => b.value.compareTo(a.toARGB32())))
+          ..sort((a, b) => b.value.compareTo(a.value)))
         .take(3)
         .toList();
 
@@ -60,7 +60,8 @@ class _WisdomScoreContent extends StatelessWidget {
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.surfaceVariant.withValues(alpha: 0.6)),
+        border:
+            Border.all(color: AppColors.surfaceVariant.withValues(alpha: 0.6)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.08),
@@ -199,7 +200,8 @@ class _ScoreGauge extends StatelessWidget {
                 value: (animatedScore / 10).clamp(0, 1),
                 strokeWidth: 8,
                 valueColor: const AlwaysStoppedAnimation(AppColors.primary),
-                backgroundColor: AppColors.surfaceVariant.withValues(alpha: 0.4),
+                backgroundColor:
+                    AppColors.surfaceVariant.withValues(alpha: 0.4),
               ),
               Column(
                 mainAxisSize: MainAxisSize.min,

@@ -33,7 +33,7 @@ class PremadeTemplates {
     color: '#FF6B6B', // Red for warnings
     difficulty: 'Beginner',
     estimatedMinutes: 15,
-    sections: [
+    sections: const [
       StoryTemplateSection(
         id: 'venue',
         title: 'Venue & Arrival',
@@ -89,7 +89,7 @@ class PremadeTemplates {
     version: '1.0',
     isActive: true,
     createdAt: DateTime.now(),
-    tags: ['first date', 'warning signs', 'safety', 'red flags'],
+    tags: const ['first date', 'warning signs', 'safety', 'red flags'],
     usageCount: 1250,
     averageRating: 0.0,
   );
@@ -104,7 +104,7 @@ class PremadeTemplates {
     color: '#F5A623', // Orange for healing
     difficulty: 'Intermediate',
     estimatedMinutes: 20,
-    sections: [
+    sections: const [
       StoryTemplateSection(
         id: 'timeline',
         title: 'The Timeline',
@@ -177,7 +177,7 @@ class PremadeTemplates {
     version: '1.0',
     isActive: true,
     createdAt: DateTime.now(),
-    tags: ['ghosting', 'breakup', 'healing', 'boundaries'],
+    tags: const ['ghosting', 'breakup', 'healing', 'boundaries'],
     usageCount: 890,
     averageRating: 0.0,
   );
@@ -192,7 +192,7 @@ class PremadeTemplates {
     color: '#38A169', // Green for positive experiences
     difficulty: 'Beginner',
     estimatedMinutes: 25,
-    sections: [
+    sections: const [
       StoryTemplateSection(
         id: 'what_worked',
         title: 'What Made It Great',
@@ -253,7 +253,7 @@ class PremadeTemplates {
     version: '1.0',
     isActive: true,
     createdAt: DateTime.now(),
-    tags: ['success', 'positive', 'celebrate', 'compatibility'],
+    tags: const ['success', 'positive', 'celebrate', 'compatibility'],
     usageCount: 1450,
     averageRating: 0.0,
   );
@@ -268,7 +268,7 @@ class PremadeTemplates {
     color: '#1E3A8A', // Navy for analysis
     difficulty: 'Advanced',
     estimatedMinutes: 30,
-    sections: [
+    sections: const [
       StoryTemplateSection(
         id: 'recurring_themes',
         title: 'Recurring Themes',
@@ -327,7 +327,7 @@ class PremadeTemplates {
     version: '1.0',
     isActive: true,
     createdAt: DateTime.now(),
-    tags: ['patterns', 'growth', 'reflection', 'healing'],
+    tags: const ['patterns', 'growth', 'reflection', 'healing'],
     usageCount: 675,
     averageRating: 0.0,
   );
@@ -342,7 +342,7 @@ class PremadeTemplates {
     color: '#F5A623', // Golden for journeys
     difficulty: 'Intermediate',
     estimatedMinutes: 20,
-    sections: [
+    sections: const [
       StoryTemplateSection(
         id: 'distance_and_time',
         title: 'Distance & Timeline',
@@ -405,7 +405,7 @@ class PremadeTemplates {
     version: '1.0',
     isActive: true,
     createdAt: DateTime.now(),
-    tags: ['long distance', 'relationships', 'travel', 'communication'],
+    tags: const ['long distance', 'relationships', 'travel', 'communication'],
     usageCount: 920,
     averageRating: 0.0,
   );
@@ -420,7 +420,7 @@ class PremadeTemplates {
     color: '#8B5CF6', // Purple for alternative relationships
     difficulty: 'Intermediate',
     estimatedMinutes: 25,
-    sections: [
+    sections: const [
       StoryTemplateSection(
         id: 'relationship_structure',
         title: 'Relationship Structure',
@@ -485,7 +485,7 @@ class PremadeTemplates {
     version: '1.0',
     isActive: true,
     createdAt: DateTime.now(),
-    tags: [
+    tags: const [
       'polyamory',
       'alternative relationships',
       'communication',
@@ -505,7 +505,7 @@ class PremadeTemplates {
     color: '#F5A623', // Golden for rebirth
     difficulty: 'Intermediate',
     estimatedMinutes: 20,
-    sections: [
+    sections: const [
       StoryTemplateSection(
         id: 'divorce_timeline',
         title: 'Time Since Divorce',
@@ -579,7 +579,7 @@ class PremadeTemplates {
     version: '1.0',
     isActive: true,
     createdAt: DateTime.now(),
-    tags: ['divorce', 'healing', 'second chances', 'growth'],
+    tags: const ['divorce', 'healing', 'second chances', 'growth'],
     usageCount: 580,
     averageRating: 0.0,
   );

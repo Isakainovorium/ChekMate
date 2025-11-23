@@ -40,7 +40,7 @@ class AppTheme {
         onErrorContainer: AppColors.errorDark,
         surface: AppColors.surface,
         onSurface: AppColors.textPrimary,
-        surfaceContainerHighest: AppColors.surfaceContainerHighest,
+        surfaceContainerHighest: AppColors.surfaceVariant,
         outline: AppColors.outline,
         outlineVariant: AppColors.border,
         shadow: AppColors.shadow,
@@ -56,12 +56,12 @@ class AppTheme {
         foregroundColor: AppColors.textPrimary,
         elevation: 0,
         centerTitle: false,
-        titleTextStyle: const TextStyle(
+        titleTextStyle: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w600,
           color: AppColors.textPrimary,
         ),
-        iconTheme: const IconThemeData(
+        iconTheme: IconThemeData(
           color: AppColors.textPrimary,
         ),
       ),
@@ -80,7 +80,7 @@ class AppTheme {
       // Input Decoration Theme
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.surfaceContainerHighest,
+        fillColor: AppColors.surfaceVariant,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: AppColors.border),
@@ -240,7 +240,7 @@ class AppTheme {
 
       // Chip Theme
       chipTheme: ChipThemeData(
-        backgroundColor: AppColors.surfaceContainerHighest,
+        backgroundColor: AppColors.surfaceVariant,
         selectedColor: AppColors.primary.withValues(alpha: 0.1),
         labelStyle: const TextStyle(color: AppColors.textPrimary),
         secondaryLabelStyle: const TextStyle(color: AppColors.textSecondary),
@@ -287,7 +287,7 @@ class AppTheme {
         onErrorContainer: AppColors.errorLight,
         surface: AppColors.surfaceDark,
         onSurface: AppColors.textPrimaryDark,
-        surfaceContainerHighest: AppColors.surfaceContainerHighestDark,
+        surfaceContainerHighest: AppColors.surfaceVariantDark,
         outline: AppColors.borderDark,
         outlineVariant: AppColors.dividerDark,
         shadow: AppColors.shadow,

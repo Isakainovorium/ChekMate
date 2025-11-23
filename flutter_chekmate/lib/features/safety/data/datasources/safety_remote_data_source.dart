@@ -197,8 +197,4 @@ class SafetyRemoteDataSource {
   double _degreesToRadians(double degrees) {
     return degrees * pi / 180.0;
   }
-
-  double _degreesToRadians(double degrees) {
-    return degrees * pi / 180.0;
-  }
 }

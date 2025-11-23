@@ -26,7 +26,7 @@ class ReadingInsightsCard extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  const Row(
                     children: [
                       Icon(
                         Icons.psychology_outlined,
@@ -63,16 +63,16 @@ class ReadingInsightsCard extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                const Row(
                   children: [
                     Icon(
                       Icons.psychology,
                       color: AppColors.primary,
                       size: 20,
                     ),
-                    const SizedBox(width: AppSpacing.xs),
-                    const SizedBox(width: AppSpacing.xs),
-                    const Text(
+                    SizedBox(width: AppSpacing.xs),
+                    SizedBox(width: AppSpacing.xs),
+                    Text(
                       'Your Reading Insights',
                       style: TextStyle(
                         fontSize: 16,

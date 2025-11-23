@@ -60,7 +60,7 @@ class ContentGenerationService {
 
     // Truncate if needed
     if (summary.length > maxLength) {
-      summary = summary.substring(0, maxLength - 3) + '...';
+      summary = '${summary.substring(0, maxLength - 3)}...';
     }
 
     return summary;
@@ -74,7 +74,7 @@ class ContentGenerationService {
     final tags = <String>{};
 
     // Add template category as tag
-    tags.add(template.category.toARGB32());
+    tags.add(template.category.value);
 
     // Add template tags
     tags.addAll(template.tags);
@@ -249,7 +249,7 @@ class ContentGenerationService {
 
   String _truncateToLength(String text, int maxLength) {
     if (text.length <= maxLength) return text;
-    return text.substring(0, maxLength - 3) + '...';
+    return '${text.substring(0, maxLength - 3)}...';
   }
 
   String _formatForInstagram(String content, List<String> tags) {

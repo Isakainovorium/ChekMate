@@ -473,7 +473,7 @@ class PatternRecognitionService {
     // Implementation would save to database
     // For now, just log the results
     for (final entry in riskScores.entries) {
-      final riskLevel = _getRiskLevel(entry.toARGB32());
+      final riskLevel = _getRiskLevel(entry.value);
       debugPrint(
           '${entry.key}: ${entry.value.toStringAsFixed(2)} (${riskLevel.name})');
     }

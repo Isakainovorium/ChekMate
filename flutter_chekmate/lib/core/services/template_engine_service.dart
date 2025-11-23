@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import '../../features/templates/models/story_template_model.dart';
 
@@ -28,7 +27,7 @@ class TemplateEngineService {
       );
 
       if (sectionContent.isNotEmpty) {
-        renderedContent += sectionContent + '\n\n';
+        renderedContent += '$sectionContent\n\n';
       }
     }
 
@@ -241,7 +240,7 @@ class TemplateEngineService {
         return response != logic.value;
       case 'contains':
         if (response is String && logic.value is String) {
-          return response.contains(logic.toARGB32());
+          return response.contains(logic.value);
         }
         return false;
       case 'greater_than':

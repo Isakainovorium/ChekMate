@@ -1,5 +1,4 @@
 import 'package:flutter_chekmate/features/wisdom/models/achievement_model.dart';
-import 'package:flutter_chekmate/features/wisdom/models/wisdom_score_model.dart';
 
 /// Service for managing gamification and achievements
 class GamificationService {
@@ -11,7 +10,7 @@ class GamificationService {
   // Achievement definitions
   static final List<AchievementDefinition> _achievementDefinitions = [
     // Wisdom Score Milestones
-    AchievementDefinition(
+    const AchievementDefinition(
       id: 'first_sage',
       type: AchievementType.milestone,
       title: 'First Sage',
@@ -21,7 +20,7 @@ class GamificationService {
       requirement: 'wisdom_score',
       requirementValue: 5,
     ),
-    AchievementDefinition(
+    const AchievementDefinition(
       id: 'mentor_achieved',
       type: AchievementType.milestone,
       title: 'Mentor Achieved',
@@ -31,7 +30,7 @@ class GamificationService {
       requirement: 'wisdom_score',
       requirementValue: 7,
     ),
-    AchievementDefinition(
+    const AchievementDefinition(
       id: 'coach_achieved',
       type: AchievementType.milestone,
       title: 'Coach Achieved',
@@ -41,7 +40,7 @@ class GamificationService {
       requirement: 'wisdom_score',
       requirementValue: 8,
     ),
-    AchievementDefinition(
+    const AchievementDefinition(
       id: 'luminary_achieved',
       type: AchievementType.milestone,
       title: 'Luminary Achieved',
@@ -53,7 +52,7 @@ class GamificationService {
     ),
 
     // Interaction Milestones
-    AchievementDefinition(
+    const AchievementDefinition(
       id: 'first_interaction',
       type: AchievementType.community,
       title: 'First Interaction',
@@ -63,7 +62,7 @@ class GamificationService {
       requirement: 'interactions',
       requirementValue: 1,
     ),
-    AchievementDefinition(
+    const AchievementDefinition(
       id: 'helpful_contributor',
       type: AchievementType.community,
       title: 'Helpful Contributor',
@@ -73,7 +72,7 @@ class GamificationService {
       requirement: 'helpful_ratings',
       requirementValue: 50,
     ),
-    AchievementDefinition(
+    const AchievementDefinition(
       id: 'community_pillar',
       type: AchievementType.community,
       title: 'Community Pillar',
@@ -85,7 +84,7 @@ class GamificationService {
     ),
 
     // Verification Achievements
-    AchievementDefinition(
+    const AchievementDefinition(
       id: 'story_verified',
       type: AchievementType.verification,
       title: 'Story Verified',
@@ -95,7 +94,7 @@ class GamificationService {
       requirement: 'verified_stories',
       requirementValue: 1,
     ),
-    AchievementDefinition(
+    const AchievementDefinition(
       id: 'verified_expert',
       type: AchievementType.verification,
       title: 'Verified Expert',
@@ -107,7 +106,7 @@ class GamificationService {
     ),
 
     // Streak Achievements
-    AchievementDefinition(
+    const AchievementDefinition(
       id: 'week_streak',
       type: AchievementType.streak,
       title: 'Week Warrior',
@@ -117,7 +116,7 @@ class GamificationService {
       requirement: 'streak_days',
       requirementValue: 7,
     ),
-    AchievementDefinition(
+    const AchievementDefinition(
       id: 'month_streak',
       type: AchievementType.streak,
       title: 'Month Master',
@@ -129,7 +128,7 @@ class GamificationService {
     ),
 
     // Mentorship Achievements
-    AchievementDefinition(
+    const AchievementDefinition(
       id: 'first_mentor',
       type: AchievementType.mentorship,
       title: 'First Mentor',
@@ -139,7 +138,7 @@ class GamificationService {
       requirement: 'mentees',
       requirementValue: 1,
     ),
-    AchievementDefinition(
+    const AchievementDefinition(
       id: 'mentor_circle',
       type: AchievementType.mentorship,
       title: 'Mentor Circle',
@@ -151,7 +150,7 @@ class GamificationService {
     ),
 
     // Specialty Achievements
-    AchievementDefinition(
+    const AchievementDefinition(
       id: 'dating_strategist',
       type: AchievementType.specialty,
       title: 'Dating Strategist',
@@ -161,7 +160,7 @@ class GamificationService {
       requirement: 'category_score',
       requirementValue: 7,
     ),
-    AchievementDefinition(
+    const AchievementDefinition(
       id: 'emotional_expert',
       type: AchievementType.specialty,
       title: 'Emotional Expert',
@@ -171,7 +170,7 @@ class GamificationService {
       requirement: 'category_score',
       requirementValue: 7,
     ),
-    AchievementDefinition(
+    const AchievementDefinition(
       id: 'safety_champion',
       type: AchievementType.specialty,
       title: 'Safety Champion',

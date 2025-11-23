@@ -111,7 +111,7 @@ class _TemplateGuidedFormState extends ConsumerState<TemplateGuidedForm> {
 
     return PopScope(
       canPop: true,
-      onPopInvokedWithResult: (didPop) {
+      onPopInvokedWithResult: (didPop, result) {
         widget.onCancel?.call();
       },
       child: Scaffold(

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+// ignore: unused_import
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/repositories/template_repository.dart';
@@ -333,7 +334,7 @@ class TemplateRepositoryImpl implements TemplateRepository {
     }
 
     final sortedEntries = categoryCount.entries.toList()
-      ..sort((a, b) => b.value.compareTo(a.toARGB32()));
+      ..sort((a, b) => b.value.compareTo(a.value));
 
     return sortedEntries.take(3).map((e) => e.key).toList();
   }

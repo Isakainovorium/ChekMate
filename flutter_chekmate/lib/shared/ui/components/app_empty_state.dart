@@ -335,7 +335,7 @@ class _AppAnimatedEmptyStateState extends State<AppAnimatedEmptyState>
             );
           case AppEmptyStateAnimation.slideUp:
             return Transform.translate(
-              offset: Offset(0, _animation.toARGB32()),
+              offset: Offset(0, _animation.value),
               child: child,
             );
           case AppEmptyStateAnimation.scale:

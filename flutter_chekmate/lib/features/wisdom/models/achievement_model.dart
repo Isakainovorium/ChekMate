@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'wisdom_score_model.dart';
 
 part 'achievement_model.g.dart';
 

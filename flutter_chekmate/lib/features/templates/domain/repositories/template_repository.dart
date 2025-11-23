@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 
 import '../../models/story_template_model.dart';
-import '../../models/guide_model.dart';
 
 /// Repository for managing story templates and user submissions
 abstract class TemplateRepository {

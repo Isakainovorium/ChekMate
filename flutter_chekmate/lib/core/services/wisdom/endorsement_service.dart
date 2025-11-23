@@ -60,14 +60,14 @@ class EndorsementService {
     required double endorserWisdomScore,
   }) {
     final cost = getEndorsementCost(badge);
-    final minWisdomScore = 5.0; // Minimum to endorse others
+    const minWisdomScore = 5.0; // Minimum to endorse others
 
     return userTokens >= cost && endorserWisdomScore >= minWisdomScore;
   }
 
   /// Calculate endorsement expiration date
   DateTime calculateExpirationDate() {
-    return DateTime.now().add(Duration(days: _endorsementDurationDays));
+    return DateTime.now().add(const Duration(days: _endorsementDurationDays));
   }
 
   /// Get badge color based on rarity

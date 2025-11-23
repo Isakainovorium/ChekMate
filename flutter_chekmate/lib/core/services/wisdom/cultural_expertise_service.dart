@@ -113,10 +113,9 @@ class CulturalExpertiseService {
     CulturalBadgeLevel minLevel = CulturalBadgeLevel.bronze,
   }) async {
     final expertise = _userExpertise[userId] ?? [];
-    
+
     return expertise.any((e) =>
-        e.cultureCode == cultureCode &&
-        e.badgeLevel.index >= minLevel.index);
+        e.cultureCode == cultureCode && e.badgeLevel.index >= minLevel.index);
   }
 
   /// Get top cultural experts for a specific culture
@@ -130,9 +129,8 @@ class CulturalExpertiseService {
       final userId = entry.key;
       final expertiseList = entry.value;
 
-      final cultureExpertise = expertiseList
-          .where((e) => e.cultureCode == cultureCode)
-          .toList();
+      final cultureExpertise =
+          expertiseList.where((e) => e.cultureCode == cultureCode).toList();
 
       if (cultureExpertise.isNotEmpty) {
         final maxScore = cultureExpertise
@@ -144,7 +142,7 @@ class CulturalExpertiseService {
 
     // Sort by score and return top N
     final sorted = allExperts.entries.toList()
-      ..sort((a, b) => b.value.compareTo(a.toARGB32()));
+      ..sort((a, b) => b.value.compareTo(a.value));
 
     return sorted.take(limit).map((e) => e.key).toList();
   }
@@ -173,7 +171,7 @@ class CulturalExpertiseService {
         contributions >= CulturalBadgeLevel.bronze.minContributions) {
       return CulturalBadgeLevel.bronze;
     }
-    
+
     return CulturalBadgeLevel.bronze;
   }
 }

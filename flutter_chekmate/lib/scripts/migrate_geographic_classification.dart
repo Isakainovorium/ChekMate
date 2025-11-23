@@ -218,7 +218,7 @@ class GeographicMigrationScript {
   }) {
     final buffer = StringBuffer();
 
-    buffer.writeln('\n' + '=' * 60);
+    buffer.writeln('\n${'=' * 60}');
     buffer.writeln('GEOGRAPHIC CLASSIFICATION MIGRATION REPORT');
     buffer.writeln('=' * 60);
     buffer.writeln('Total items processed: $totalProcessed');

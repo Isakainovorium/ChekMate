@@ -89,3 +89,4 @@ class TemplateLocalDataSourceImpl implements TemplateLocalDataSource {
   Future<void> clearAllTemplates() async {
     await _templatesBox.clear();
   }
+}

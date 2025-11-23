@@ -38,6 +38,30 @@ class TranslationService {
     }
   }
 
+  /// Get list of supported cultures for translation
+  List<String> getSupportedCultures() {
+    return [
+      'English',
+      'Spanish',
+      'Mandarin',
+      'Hindi',
+      'Arabic',
+      'Portuguese',
+      'Bengali',
+      'Russian',
+      'Japanese',
+      'Korean',
+      'French',
+      'German',
+      'Italian',
+      'Turkish',
+      'Vietnamese',
+      'Thai',
+      'Tagalog',
+      'Swahili',
+    ];
+  }
+
   Future<String> _performTranslation({
     required String text,
     required String sourceCulture,

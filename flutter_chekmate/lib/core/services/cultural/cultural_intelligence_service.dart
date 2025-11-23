@@ -4,7 +4,6 @@ import 'package:flutter_chekmate/core/services/location_service.dart';
 import 'package:flutter_chekmate/core/services/cultural/location_context_service.dart';
 import 'package:flutter_chekmate/core/services/cultural/cultural_vector_service.dart';
 import 'package:flutter_chekmate/features/cultural/models/cultural_context_model.dart';
-import 'package:flutter_chekmate/features/cultural/models/regional_pattern_model.dart';
 
 /// Core cultural intelligence engine for geographic content classification
 class CulturalIntelligenceService {

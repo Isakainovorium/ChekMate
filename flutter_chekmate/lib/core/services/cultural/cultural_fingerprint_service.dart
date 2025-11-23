@@ -171,7 +171,7 @@ class CulturalFingerprintService {
     }
 
     // Sort by similarity score (highest first) and return top results
-    matches.sort((a, b) => b.value.compareTo(a.toARGB32()));
+    matches.sort((a, b) => b.value.compareTo(a.value));
     return matches.take(maxResults).map((entry) => entry.key).toList();
   }
 
@@ -516,8 +516,6 @@ class CulturalFingerprintService {
       case RegionalInfluence.militaryCommunity:
         return 'military_and_veteran_communities';
     }
-
-    return 'general_regional';
   }
 
   /// Extract themes from content context annotations

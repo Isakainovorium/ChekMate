@@ -101,7 +101,7 @@ class TemplateRemoteDataSource {
     final snapshot = await _templates
         .where('is_active', isEqualTo: true)
         .where('title', isGreaterThanOrEqualTo: query)
-        .where('title', isLessThan: query + '\uf8ff')
+        .where('title', isLessThan: '$query\uf8ff')
         .limit(limit)
         .get();
 

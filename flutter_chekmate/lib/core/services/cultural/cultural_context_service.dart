@@ -36,7 +36,7 @@ class CulturalContextService {
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       region: region,
       category: category,
-      norms: {},
+      norms: const {},
       lastValidated: DateTime.now(),
     );
   }

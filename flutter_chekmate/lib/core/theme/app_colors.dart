@@ -12,7 +12,7 @@ class AppColors {
   // ============================================================================
   // BRAND COLORS
   // ============================================================================
-  
+
   /// Primary brand color - Golden Orange (#F5A623)
   /// Used for: Primary buttons, active states, brand elements
   static const Color primary = Color(0xFFF5A623);
@@ -28,7 +28,7 @@ class AppColors {
   // ============================================================================
   // SURFACE COLORS (Light Mode)
   // ============================================================================
-  
+
   /// Background color for the app (light mode)
   static const Color background = Color(0xFFFFFFFF);
 
@@ -41,10 +41,13 @@ class AppColors {
   /// Surface container for elevated elements (light mode)
   static const Color surfaceContainer = Color(0xFFFAFAFA);
 
+  /// Surface container highest - for highest elevation surfaces (light mode)
+  static const Color surfaceContainerHighest = Color(0xFFEEEEEE);
+
   // ============================================================================
   // TEXT COLORS (Light Mode)
   // ============================================================================
-  
+
   /// Primary text color (light mode)
   static const Color textPrimary = Color(0xFF1A1A1A);
 
@@ -60,7 +63,7 @@ class AppColors {
   // ============================================================================
   // BORDER & DIVIDER COLORS
   // ============================================================================
-  
+
   /// Border color for inputs, cards, dividers
   static const Color border = Color(0xFFE5E7EB);
 
@@ -73,7 +76,7 @@ class AppColors {
   // ============================================================================
   // SEMANTIC COLORS
   // ============================================================================
-  
+
   /// Success color - Green
   static const Color success = Color(0xFF10B981);
   static const Color successLight = Color(0xFFD1FAE5);
@@ -97,7 +100,7 @@ class AppColors {
   // ============================================================================
   // DARK MODE COLORS
   // ============================================================================
-  
+
   /// Background color for the app (dark mode)
   static const Color backgroundDark = Color(0xFF121212);
 
@@ -109,6 +112,9 @@ class AppColors {
 
   /// Surface container for elevated elements (dark mode)
   static const Color surfaceContainerDark = Color(0xFF252525);
+
+  /// Surface container highest - for highest elevation surfaces (dark mode)
+  static const Color surfaceContainerHighestDark = Color(0xFF303030);
 
   /// Primary text color (dark mode)
   static const Color textPrimaryDark = Color(0xFFFFFFFF);
@@ -128,7 +134,7 @@ class AppColors {
   // ============================================================================
   // SOCIAL FEATURE COLORS
   // ============================================================================
-  
+
   /// Like/Love action color
   static const Color like = Color(0xFFFF6B6B);
 
@@ -155,7 +161,7 @@ class AppColors {
   // ============================================================================
   // RATING COLORS (for Rate Your Date feature)
   // ============================================================================
-  
+
   /// Excellent rating (9-10)
   static const Color ratingExcellent = Color(0xFF10B981);
 
@@ -174,7 +180,7 @@ class AppColors {
   // ============================================================================
   // SUBSCRIPTION TIER COLORS
   // ============================================================================
-  
+
   /// Free tier color
   static const Color tierFree = Color(0xFF6B7280);
 
@@ -187,7 +193,7 @@ class AppColors {
   // ============================================================================
   // UTILITY COLORS
   // ============================================================================
-  
+
   /// Overlay color for modals and dialogs
   static const Color overlay = Color(0x80000000);
 
@@ -212,7 +218,7 @@ class AppColors {
   // ============================================================================
   // HELPER METHODS
   // ============================================================================
-  
+
   /// Get rating color based on score (1-10)
   static Color getRatingColor(int score) {
     if (score >= 9) return ratingExcellent;
@@ -239,4 +245,3 @@ class AppColors {
     return color.withValues(alpha: opacity);
   }
 }
-

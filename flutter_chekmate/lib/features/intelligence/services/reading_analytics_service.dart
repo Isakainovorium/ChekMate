@@ -37,7 +37,7 @@ class ReadingAnalyticsService {
           .add(event.toJson());
 
       debugPrint(
-          'Logged reading event: $contentId for user $userId (${timeSpentMs}ms, ${completionPercent}% complete)');
+          'Logged reading event: $contentId for user $userId (${timeSpentMs}ms, $completionPercent% complete)');
     } catch (e) {
       debugPrint('Error logging reading event: $e');
     }
