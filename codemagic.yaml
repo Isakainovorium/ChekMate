@@ -22,16 +22,12 @@ workflows:
       - name: Install dependencies
         script: |
           cd flutter_chekmate
-          rm -rf ios/Flutter/*.xcconfig
+          flutter clean
           flutter pub get
       - name: Set up code signing settings on Xcode project
         script: |
           cd flutter_chekmate
           xcode-project use-profiles
-      - name: Generate iOS configuration files
-        script: |
-          cd flutter_chekmate
-          flutter build ios --config-only
       - name: Setup Firebase config (if provided)
         script: |
           #!/usr/bin/env sh
