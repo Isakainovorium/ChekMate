@@ -31,6 +31,8 @@ workflows:
           cd flutter_chekmate
           flutter clean
           flutter pub get
+          flutter precache --ios
+          flutter build ios --simulator --debug --no-codesign
       - name: Set up code signing settings on Xcode project
         script: |
           cd flutter_chekmate
