@@ -27,8 +27,11 @@ workflows:
         bundle_identifier: com.chekmate.app
     cache:
       cache_paths:
-        - $HOME/.pub-cache
-        - $HOME/Library/Caches/CocoaPods
+        - $HOME/.pub-cache                          # Flutter packages
+        - $HOME/Library/Caches/CocoaPods            # CocoaPods cache
+        - flutter_chekmate/ios/Pods                 # Installed pods
+        - flutter_chekmate/.dart_tool               # Dart build cache
+        - flutter_chekmate/build                    # Flutter build cache
     scripts:
       # 1. Apply code signing (uses uploaded certificate & profile)
       - name: Set up code signing settings on Xcode project
