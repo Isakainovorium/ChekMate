@@ -36,11 +36,13 @@ workflows:
           cd flutter_chekmate
           xcode-project use-profiles
       
-      # 2. Install dependencies (Mac-generated xcconfig files are in repo)
+      # 2. Install dependencies and generate iOS config files
       - name: Install dependencies
         script: |
           cd flutter_chekmate
+          rm -rf ios/Flutter/*.xcconfig
           flutter pub get
+          flutter build ios --config-only
       
       # 3. Setup Firebase config (if provided)
       - name: Setup Firebase config (if provided)
