@@ -12,7 +12,8 @@ class LocationServiceException implements Exception {
   final String? code;
 
   @override
-  String toString() => 'LocationServiceException: $message${code != null ? ' (code: $code)' : ''}';
+  String toString() =>
+      'LocationServiceException: $message${code != null ? ' (code: $code)' : ''}';
 }
 
 /// Location Service
@@ -67,7 +68,8 @@ class LocationService {
   }
 
   /// Get current location
-  static Future<LocationEntity> getCurrentLocation({bool includeAddress = false}) async {
+  static Future<LocationEntity> getCurrentLocation(
+      {bool includeAddress = false}) async {
     try {
       // Check if location services are enabled
       final serviceEnabled = await isLocationServiceEnabled();
@@ -99,7 +101,9 @@ class LocationService {
 
       // Get current position
       final position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+        ),
       );
 
       developer.log(
@@ -316,4 +320,3 @@ class LocationService {
     }
   }
 }
-

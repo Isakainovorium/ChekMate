@@ -37,10 +37,8 @@ build/
 **/ios/Flutter/App.framework
 **/ios/Flutter/Flutter.framework
 **/ios/Flutter/Flutter.podspec
-# Temporarily allowing xcconfig files for Mac generation
-# **/ios/Flutter/Generated.xcconfig
-# **/ios/Flutter/Debug.xcconfig
-# **/ios/Flutter/Release.xcconfig
+**/ios/Flutter/Generated.xcconfig
+# Debug.xcconfig and Release.xcconfig should be in repo - they're just wrappers
 **/ios/Flutter/ephemeral/
 **/ios/Flutter/app.flx
 **/ios/Flutter/app.zip

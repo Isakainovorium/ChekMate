@@ -26,10 +26,10 @@ Future<List<PostEntity>> _createHybridFeed(Ref ref) async {
     if (currentUserId == null) {
       // User not authenticated, return trending posts only
       return ref.watch(trendingPostsProvider).when(
-        data: (data) => data,
-        error: (_, __) => [],
-        loading: () => [],
-      );
+            data: (data) => data,
+            error: (_, __) => [],
+            loading: () => [],
+          );
     }
 
     // Collect posts from different sources
@@ -37,7 +37,8 @@ Future<List<PostEntity>> _createHybridFeed(Ref ref) async {
     final seenIds = <String>{};
 
     // Add following posts (highest priority)
-    final followingPosts = await ref.watch(followingPostsProvider(currentUserId).future);
+    final followingPosts =
+        await ref.watch(followingPostsProvider(currentUserId).future);
     for (final post in followingPosts) {
       if (!seenIds.contains(post.id)) {
         allPosts.add(post);
@@ -57,7 +58,8 @@ Future<List<PostEntity>> _createHybridFeed(Ref ref) async {
     // Add interest-based posts if user has interests
     if (currentUser != null && currentUser.interests.isNotEmpty) {
       try {
-        final interestPosts = await ref.watch(explorePostsProvider(currentUser.interests).future);
+        final interestPosts =
+            await ref.watch(explorePostsProvider(currentUser.interests).future);
         for (final post in interestPosts) {
           if (!seenIds.contains(post.id)) {
             allPosts.add(post);
@@ -73,8 +75,10 @@ Future<List<PostEntity>> _createHybridFeed(Ref ref) async {
     allPosts.sort((a, b) {
       // Check if post is from a followed user (would need following relationship data)
       // For now, prioritize recent posts from different users
-      final aRecent = a.createdAt.isAfter(DateTime.now().subtract(const Duration(hours: 24)));
-      final bRecent = b.createdAt.isAfter(DateTime.now().subtract(const Duration(hours: 24)));
+      final aRecent = a.createdAt
+          .isAfter(DateTime.now().subtract(const Duration(hours: 24)));
+      final bRecent = b.createdAt
+          .isAfter(DateTime.now().subtract(const Duration(hours: 24)));
 
       if (aRecent && !bRecent) return -1;
       if (!aRecent && bRecent) return 1;
@@ -88,14 +92,13 @@ Future<List<PostEntity>> _createHybridFeed(Ref ref) async {
 
     // Limit to prevent overwhelming the feed
     return allPosts.take(50).toList();
-
   } catch (e) {
     // Fallback to trending posts if hybrid logic fails
     return ref.watch(trendingPostsProvider).when(
-      data: (data) => data,
-      error: (_, __) => [],
-      loading: () => [],
-    );
+          data: (data) => data,
+          error: (_, __) => [],
+          loading: () => [],
+        );
   }
 }
 
@@ -113,7 +116,8 @@ final postsFeedProvider = StreamProvider<List<PostEntity>>((ref) {
       }
 
       // Return posts from followed users
-      final followingPostsAsync = ref.watch(followingPostsProvider(currentUserId));
+      final followingPostsAsync =
+          ref.watch(followingPostsProvider(currentUserId));
       return followingPostsAsync.when(
         data: (posts) => Stream.value(posts),
         loading: () => Stream.value(<PostEntity>[]),
@@ -143,17 +147,19 @@ Future<List<PostEntity>> _createLocationBasedFeed(Ref ref) async {
           requestedPermission == LocationPermission.deniedForever) {
         // Permission denied, fall back to trending posts
         return ref.watch(trendingPostsProvider).when(
-          data: (data) => data,
-          error: (_, __) => [],
-          loading: () => [],
-        );
+              data: (data) => data,
+              error: (_, __) => [],
+              loading: () => [],
+            );
       }
     }
 
     // Get current position
     final position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.medium,
-      timeLimit: const Duration(seconds: 10),
+      locationSettings: const LocationSettings(
+        accuracy: LocationAccuracy.medium,
+        timeLimit: Duration(seconds: 10),
+      ),
     );
 
     // Create GeoPoint for location query
@@ -172,10 +178,10 @@ Future<List<PostEntity>> _createLocationBasedFeed(Ref ref) async {
   } catch (e) {
     // Any error (timeout, location unavailable, etc.), fall back to trending posts
     return ref.watch(trendingPostsProvider).when(
-      data: (data) => data,
-      error: (_, __) => [],
-      loading: () => [],
-    );
+          data: (data) => data,
+          error: (_, __) => [],
+          loading: () => [],
+        );
   }
 }
 
@@ -208,7 +214,8 @@ final interestBasedFeedProvider = StreamProvider<List<PostEntity>>((ref) {
       }
 
       // Get posts based on user interests
-      final interestPostsAsync = ref.watch(explorePostsProvider(currentUser.interests));
+      final interestPostsAsync =
+          ref.watch(explorePostsProvider(currentUser.interests));
       return interestPostsAsync.when(
         data: (posts) => Stream.value(posts),
         loading: () => Stream.value(<PostEntity>[]),
@@ -279,7 +286,8 @@ class TrackPostViewUseCase {
       final likes = postData['likes'] as int? ?? 0;
       final comments = postData['comments'] as int? ?? 0;
       final shares = postData['shares'] as int? ?? 0;
-      final engagementScore = likes + (comments * 2) + (shares * 3) + (updatedViews * 0.1);
+      final engagementScore =
+          likes + (comments * 2) + (shares * 3) + (updatedViews * 0.1);
 
       // Update the post with new view data
       await firestore.collection('posts').doc(postId).update({
@@ -292,7 +300,6 @@ class TrackPostViewUseCase {
       // Log the view for analytics (optional)
       // You could also send this to an analytics service
       // await _analyticsService.trackEvent('post_view', {'postId': postId, 'userId': userId});
-
     } catch (e) {
       // Log error but don't throw - view tracking shouldn't break the app
       // In a production app, you might want to log this to an error reporting service
@@ -353,11 +360,12 @@ class PostsController {
   /// Share a post
   Future<void> sharePost(String postId, [String? userId]) async {
     final notifier = ref.read(postsNotifierProvider.notifier);
-    final currentUserId = userId ?? ref.watch(currentUserIdProvider).when(
-      data: (id) => id,
-      loading: () => null,
-      error: (_, __) => null,
-    );
+    final currentUserId = userId ??
+        ref.watch(currentUserIdProvider).when(
+              data: (id) => id,
+              loading: () => null,
+              error: (_, __) => null,
+            );
 
     if (currentUserId == null) {
       throw Exception('User must be authenticated to share posts');

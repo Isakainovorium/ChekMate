@@ -547,7 +547,9 @@ class _LocationSettingsPageState extends ConsumerState<LocationSettingsPage> {
 
       // Get current position
       return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+        ),
       );
     } on Exception catch (e) {
       setState(() {
@@ -560,7 +562,9 @@ class _LocationSettingsPageState extends ConsumerState<LocationSettingsPage> {
   Future<Position?> _getCurrentLocation() async {
     try {
       return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+        ),
       );
     } on Exception catch (e) {
       setState(() {

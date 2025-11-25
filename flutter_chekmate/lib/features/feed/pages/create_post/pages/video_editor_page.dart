@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
-// FFmpeg imports commented out - package discontinued
-// import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit.dart';
-// import 'package:ffmpeg_kit_flutter_min_gpl/return_code.dart';
-// import 'package:flutter_ffmpeg/flutter_ffmpeg.dart'; // Package discontinued
+import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
+import 'package:ffmpeg_kit_flutter/return_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
@@ -846,18 +844,11 @@ class _VideoEditorPageState extends State<VideoEditorPage> {
 
       debugPrint('FFmpeg command: $command');
 
-      // TODO: Replace with ffmpeg_kit_flutter or alternative video processing library
-      // flutter_ffmpeg package is discontinued
-      // final flutterFFmpeg = FlutterFFmpeg();
-      // final returnCode = await flutterFFmpeg.execute(command);
+      // Execute FFmpeg command using ffmpeg_kit_flutter
+      final session = await FFmpegKit.execute(command);
+      final returnCode = await session.getReturnCode();
 
-      // Temporary: Return error code to indicate feature unavailable
-      final returnCode = -1;
-
-      debugPrint(
-          'Video processing temporarily disabled - flutter_ffmpeg discontinued');
-
-      if (returnCode == 0) {
+      if (ReturnCode.isSuccess(returnCode)) {
         debugPrint('Audio mixing successful! Output: $outputPath');
         return outputPath;
       } else {
