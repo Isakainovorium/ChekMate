@@ -43,6 +43,12 @@ workflows:
           rm -rf ios/Flutter/*.xcconfig
           flutter pub get
           flutter build ios --config-only
+          echo "=== Checking generated files ==="
+          ls -la ios/Flutter/
+          echo "=== Content of Generated.xcconfig ==="
+          cat ios/Flutter/Generated.xcconfig || echo "Generated.xcconfig not found"
+          echo "=== Content of Release.xcconfig ==="
+          cat ios/Flutter/Release.xcconfig || echo "Release.xcconfig not found"
       
       # 3. Setup Firebase config (if provided)
       - name: Setup Firebase config (if provided)
