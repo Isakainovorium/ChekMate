@@ -25,18 +25,24 @@ workflows:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.chekmate.app
+    cache:
+      cache_paths:
+        - $HOME/.pub-cache
+        - $HOME/Library/Caches/CocoaPods
     scripts:
-      - name: Install dependencies
-        script: |
-          cd flutter_chekmate
-          flutter clean
-          flutter pub get
-          flutter precache --ios
-          flutter build ios --simulator --debug --no-codesign
+      # 1. Apply code signing (uses uploaded certificate & profile)
       - name: Set up code signing settings on Xcode project
         script: |
           cd flutter_chekmate
           xcode-project use-profiles
+      
+      # 2. Install dependencies (Mac-generated xcconfig files are in repo)
+      - name: Install dependencies
+        script: |
+          cd flutter_chekmate
+          flutter pub get
+      
+      # 3. Setup Firebase config (if provided)
       - name: Setup Firebase config (if provided)
         script: |
           #!/usr/bin/env sh
@@ -49,19 +55,25 @@ workflows:
           else
             echo "No GoogleService-Info.plist provided, skipping..."
           fi
+      
+      # 4. Run tests (optional - remove || to fail on test failures)
       - name: Run tests
         script: |
           cd flutter_chekmate
           flutter test || echo "Tests completed with some failures - continuing build"
+      
+      # 5. Install CocoaPods dependencies
       - name: Install CocoaPods dependencies
         script: |
           cd flutter_chekmate/ios && pod install && cd ../..
+      
+      # 6. Build the IPA
       - name: Build iOS IPA
         script: |
           cd flutter_chekmate
           flutter build ipa --release \
-            --build-name=$(cm_get_build_number) \
-            --build-number=$(cm_get_build_number)
+            --build-name=1.0.0 \
+            --build-number=$BUILD_NUMBER
     artifacts:
       - flutter_chekmate/build/ios/ipa/*.ipa
       - flutter_chekmate/build/ios/archive/*.xcarchive
