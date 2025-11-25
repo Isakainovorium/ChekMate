@@ -8,11 +8,60 @@
 ## 📚 Quick Navigation
 
 - [Prerequisites](#prerequisites) - What you need before starting
+- [⚠️ CRITICAL: Windows Developer Warning](#-critical-windows-developer-warning) - **READ THIS FIRST**
 - [Apple Setup](#apple-developer-portal-setup) - Certificates, profiles, API keys
 - [CodeMagic Setup](#codemagic-configuration) - CI/CD configuration
 - [YAML Config](#codemagicyaml-complete-configuration) - The working configuration
 - [Common Issues](#common-issues--solutions) - Troubleshooting guide
 - [Best Practices](#best-practices) - Production-ready tips
+
+---
+
+## ⚠️ CRITICAL: Windows Developer Warning
+
+**IF YOU ARE DEVELOPING ON WINDOWS, READ THIS SECTION CAREFULLY!**
+
+### 🚨 DO NOT RUN These Commands on Windows
+
+The iOS config files (`Generated.xcconfig`, `Debug.xcconfig`, `Release.xcconfig`) have been generated on a Mac with proper Unix paths. **DO NOT regenerate them on Windows** or the build will fail.
+
+**❌ NEVER run these commands on Windows:**
+
+```bash
+# ❌ DO NOT RUN - Will delete Mac-generated config files
+flutter clean
+
+# ❌ DO NOT RUN - Will regenerate files with Windows paths
+rm -rf ios/Flutter/*.xcconfig
+flutter pub get  # (if it regenerates the .xcconfig files)
+
+# ❌ DO NOT RUN - Will create Windows paths
+flutter build ios --config-only
+```
+
+### ✅ What You CAN Do on Windows
+
+- ✅ Edit Dart/Flutter code
+- ✅ Run `flutter pub get` (if it doesn't regenerate .xcconfig files)
+- ✅ Commit and push code changes
+- ✅ Monitor CodeMagic builds
+- ✅ Update dependencies in `pubspec.yaml`
+
+### 🔄 When You Need a Mac Again
+
+You'll need Mac access to regenerate config files ONLY if:
+- You update Flutter to a major new version
+- The config files get accidentally deleted
+- You see "Unable to open Release.xcconfig" errors in CodeMagic
+
+**Solution**: Use the same Mac (or any Mac) to run:
+```bash
+cd flutter_chekmate
+flutter pub get
+git add ios/Flutter/*.xcconfig
+git commit -m "Regenerate iOS config files on Mac"
+git push
+```
 
 ---
 
@@ -637,10 +686,11 @@ For a new iOS app deployment:
 
 ---
 
-**Document Version**: 3.0  
-**Last Successful Build**: Pending (Build #41 after Mac config generation)  
+**Document Version**: 3.1  
+**Last Successful Build**: Pending (Build #41+ after Mac config generation)  
 **Total Builds Attempted**: 40  
 **Root Cause Identified**: Windows `.xcconfig` files incompatible with Mac CI/CD  
-**Solution**: Generate config files on Mac, commit to repo  
+**Solution**: Generated config files on Mac, committed to repo (November 24, 2025 - 10:23 PM EST)  
+**Status**: Mac-generated config files now in repository - DO NOT regenerate on Windows  
 **Maintained By**: ChekMate Development Team  
-**Last Updated**: November 24, 2025 - 2:20 AM EST
+**Last Updated**: November 24, 2025 - 10:23 PM EST

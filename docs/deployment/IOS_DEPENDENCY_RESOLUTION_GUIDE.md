@@ -1,7 +1,38 @@
 # iOS Dependency Resolution Guide - Best Practices
 
-**Last Updated**: November 21, 2025  
+**Last Updated**: November 24, 2025  
 **For**: ChekMate iOS Deployment
+
+---
+
+## ⚠️ CRITICAL: Windows Developer Warning
+
+**IF YOU ARE DEVELOPING ON WINDOWS, READ THIS FIRST!**
+
+The iOS config files have been generated on a Mac with proper Unix paths. **DO NOT regenerate them on Windows**.
+
+### 🚨 DO NOT RUN These Commands on Windows
+
+```bash
+# ❌ DO NOT RUN - Will delete Mac-generated config files
+flutter clean
+
+# ❌ DO NOT RUN - Will regenerate files with Windows paths
+rm -rf ios/Flutter/*.xcconfig
+flutter pub get  # (if it regenerates the .xcconfig files)
+
+# ❌ DO NOT RUN - Will create Windows paths
+flutter build ios --config-only
+```
+
+### ✅ Safe to Run on Windows
+
+- ✅ Edit Dart/Flutter code
+- ✅ Update dependencies in `pubspec.yaml`
+- ✅ Commit and push code changes
+- ✅ Monitor CodeMagic builds
+
+**Only regenerate config files on a Mac if absolutely necessary.**
 
 ---
 
@@ -312,5 +343,6 @@ Build succeeds when:
 
 ---
 
-**Last Verified**: November 21, 2025  
+**Last Verified**: November 24, 2025  
+**Config Files Status**: ✅ Mac-generated files committed to repository  
 **Next Review**: When updating Firebase or Google Sign-In packages
