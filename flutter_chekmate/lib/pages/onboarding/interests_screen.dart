@@ -252,7 +252,7 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.primary.withValues(alpha: 0.1)
+              ? AppColors.primary.withOpacity(0.1)
               : AppColors.surfaceContainerHighest,
           border: Border.all(
             color: isSelected ? AppColors.primary : AppColors.border,

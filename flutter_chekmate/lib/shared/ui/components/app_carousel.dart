@@ -219,7 +219,7 @@ class _CarouselButton extends StatelessWidget {
       width: 40,
       height: 40,
       decoration: BoxDecoration(
-        color: Colors.black.withValues(alpha: 0.5),
+        color: Colors.black.withOpacity(0.5),
         shape: BoxShape.circle,
       ),
       child: IconButton(
@@ -260,7 +260,7 @@ class _CarouselIndicators extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 2),
             decoration: BoxDecoration(
               color:
-                  isActive ? Colors.white : Colors.white.withValues(alpha: 0.5),
+                  isActive ? Colors.white : Colors.white.withOpacity(0.5),
               borderRadius: BorderRadius.circular(4),
             ),
           ),

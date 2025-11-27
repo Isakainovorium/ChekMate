@@ -61,7 +61,7 @@ class AppTextarea extends StatelessWidget {
             style: theme.textTheme.labelMedium?.copyWith(
               color: enabled 
                 ? theme.colorScheme.onSurface 
-                : theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                : theme.colorScheme.onSurface.withOpacity(0.6),
             ),
           ),
           const SizedBox(height: AppSpacing.xs),

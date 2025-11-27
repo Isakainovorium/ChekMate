@@ -105,7 +105,7 @@ class _AppLoadingSpinnerState extends State<AppLoadingSpinner>
   Widget _buildLinearSpinner(Color color) {
     return LinearProgressIndicator(
       color: color,
-      backgroundColor: color.withValues(alpha: 0.2),
+      backgroundColor: color.withOpacity(0.2),
     );
   }
 
@@ -154,7 +154,7 @@ class _AppLoadingSpinnerState extends State<AppLoadingSpinner>
             width: size,
             height: size,
             decoration: BoxDecoration(
-              color: color.withValues(alpha: opacity),
+              color: color.withOpacity(opacity),
               shape: BoxShape.circle,
             ),
           ),
@@ -207,7 +207,7 @@ class _AppLoadingSpinnerState extends State<AppLoadingSpinner>
                   gradient: SweepGradient(
                     colors: [
                       color,
-                      color.withValues(alpha: 0.1),
+                      color.withOpacity(0.1),
                       color,
                     ],
                     stops: const [0.0, 0.5, 1.0],
@@ -287,7 +287,7 @@ class AppLoadingOverlay extends StatelessWidget {
         child,
         if (isLoading)
           Container(
-            color: backgroundColor ?? Colors.black.withValues(alpha: 0.5),
+            color: backgroundColor ?? Colors.black.withOpacity(0.5),
             child: Center(
               child: Container(
                 padding: const EdgeInsets.all(AppSpacing.xl),
@@ -296,7 +296,7 @@ class AppLoadingOverlay extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.1),
+                      color: Colors.black.withOpacity(0.1),
                       blurRadius: 8,
                       offset: const Offset(0, 4),
                     ),
@@ -421,7 +421,7 @@ class _AppLoadingCardState extends State<AppLoadingCard>
         color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(widget.borderRadius),
         border: Border.all(
-          color: theme.colorScheme.outline.withValues(alpha: 0.2),
+          color: theme.colorScheme.outline.withOpacity(0.2),
         ),
       ),
       child: AnimatedBuilder(
@@ -509,7 +509,7 @@ class _AppLoadingCardState extends State<AppLoadingCard>
                         gradient: LinearGradient(
                           colors: [
                             Colors.transparent,
-                            Colors.white.withValues(alpha: 0.4),
+                            Colors.white.withOpacity(0.4),
                             Colors.transparent,
                           ],
                         ),
@@ -545,7 +545,7 @@ class _SkeletonBox extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.6),
+        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.6),
         borderRadius: BorderRadius.circular(borderRadius),
       ),
     );

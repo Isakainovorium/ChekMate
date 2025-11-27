@@ -22,11 +22,13 @@ class PostWidget extends StatefulWidget {
     super.key,
     this.onSharePressed,
     this.onCommentPressed,
+    this.onChekPressed,
     this.onMorePressed,
   });
   final Post post;
   final VoidCallback? onSharePressed;
   final VoidCallback? onCommentPressed;
+  final VoidCallback? onChekPressed;
   final VoidCallback? onMorePressed;
 
   @override
@@ -37,12 +39,16 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
   late bool _isLiked;
   late int _likeCount;
   late bool _isBookmarked;
+  late bool _isCheked;
+  late int _chekCount;
   late AnimationController _likeAnimationController;
   late AnimationController _heartBurstController;
+  late AnimationController _chekAnimationController;
   late Animation<double> _likeScaleAnimation;
   late Animation<double> _likeRotationAnimation;
   late Animation<double> _heartBurstAnimation;
   late Animation<double> _heartBurstOpacity;
+  late Animation<double> _chekScaleAnimation;
   bool _showHeartBurst = false;
 
   @override
@@ -51,6 +57,8 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
     _isLiked = widget.post.isLiked;
     _likeCount = widget.post.likes;
     _isBookmarked = widget.post.isBookmarked;
+    _isCheked = widget.post.isCheked;
+    _chekCount = widget.post.cheks;
 
     // Like button animation - scale + rotation
     _likeAnimationController = AnimationController(
@@ -97,12 +105,32 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
         curve: const Interval(0.3, 1.0, curve: Curves.easeOut),
       ),
     );
+
+    // Chek button animation
+    _chekAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    );
+
+    _chekScaleAnimation = TweenSequence<double>([
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 1.0, end: 1.5)
+            .chain(CurveTween(curve: Curves.easeOutBack)),
+        weight: 50,
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 1.5, end: 1.0)
+            .chain(CurveTween(curve: Curves.elasticOut)),
+        weight: 50,
+      ),
+    ]).animate(_chekAnimationController);
   }
 
   @override
   void dispose() {
     _likeAnimationController.dispose();
     _heartBurstController.dispose();
+    _chekAnimationController.dispose();
     super.dispose();
   }
 
@@ -138,6 +166,19 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
       if (kDebugMode) {
         debugPrint('Haptic feedback not supported: $e');
       }
+    }
+  }
+
+  void _handleChek() {
+    setState(() {
+      _isCheked = !_isCheked;
+      _chekCount = _isCheked ? _chekCount + 1 : _chekCount - 1;
+    });
+
+    if (_isCheked) {
+      _triggerHapticFeedback();
+      _chekAnimationController.forward(from: 0);
+      widget.onChekPressed?.call();
     }
   }
 
@@ -365,7 +406,7 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
                   end: Alignment.bottomCenter,
                   colors: [
                     Colors.transparent,
-                    Colors.black.withValues(alpha: 0.7),
+                    Colors.black.withOpacity(0.7),
                   ],
                 ),
               ),
@@ -472,6 +513,35 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
                 style: const TextStyle(fontSize: 14),
               ),
 
+              const SizedBox(width: AppSpacing.md),
+
+              // Chek button (Gold checkmark)
+              AnimatedBuilder(
+                animation: _chekAnimationController,
+                builder: (context, child) {
+                  return Transform.scale(
+                    scale: _chekScaleAnimation.value,
+                    child: AppButton(
+                      onPressed: _handleChek,
+                      variant: AppButtonVariant.text,
+                      size: AppButtonSize.sm,
+                      child: Icon(
+                        _isCheked
+                            ? Icons.check_circle
+                            : Icons.check_circle_outline,
+                        color: _isCheked
+                            ? AppColors.primary
+                            : Colors.grey.shade700,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              Text(
+                _formatNumber(_chekCount),
+                style: const TextStyle(fontSize: 14),
+              ),
+
               const Spacer(),
 
               // Bookmark button
@@ -490,14 +560,8 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
 
           const SizedBox(height: AppSpacing.xs),
 
-          // Liked by text
-          Text(
-            'Simone Gabrielle and ${_formatNumber(_likeCount - 1)} others liked this post',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey.shade700,
-            ),
-          ),
+          // Liked by text (dynamic)
+          if (_likeCount > 0) _buildLikedByText(),
 
           // Caption preview (if exists and not shown in image)
           if (widget.post.caption.isNotEmpty &&
@@ -526,6 +590,36 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
               ),
             ),
         ],
+      ),
+    );
+  }
+
+  /// Build dynamic "liked by" text based on actual user data
+  Widget _buildLikedByText() {
+    final likedByNames = widget.post.likedByNames;
+    
+    if (_likeCount == 0) {
+      return const SizedBox.shrink();
+    }
+    
+    String text;
+    if (likedByNames.isEmpty) {
+      // Fallback if no names available
+      text = '$_likeCount ${_likeCount == 1 ? 'like' : 'likes'}';
+    } else if (_likeCount == 1) {
+      text = '${likedByNames.first} liked this';
+    } else if (_likeCount == 2 && likedByNames.length >= 2) {
+      text = '${likedByNames.first} and ${likedByNames[1]} liked this';
+    } else {
+      final othersCount = _likeCount - 1;
+      text = '${likedByNames.first} and ${_formatNumber(othersCount)} ${othersCount == 1 ? 'other' : 'others'} liked this';
+    }
+    
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: 14,
+        color: Colors.grey.shade700,
       ),
     );
   }

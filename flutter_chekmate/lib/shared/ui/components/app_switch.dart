@@ -48,7 +48,7 @@ class AppSwitch extends StatelessWidget {
                         color: enabled
                             ? theme.colorScheme.onSurface
                             : theme.colorScheme.onSurface
-                                .withValues(alpha: 0.6),
+                                .withOpacity(0.6),
                       ),
                     ),
                   if (subtitle != null) ...[
@@ -59,7 +59,7 @@ class AppSwitch extends StatelessWidget {
                         color: enabled
                             ? theme.colorScheme.onSurfaceVariant
                             : theme.colorScheme.onSurfaceVariant
-                                .withValues(alpha: 0.6),
+                                .withOpacity(0.6),
                       ),
                     ),
                   ],

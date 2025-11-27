@@ -169,10 +169,10 @@ class _MultiPhotoCarouselState extends State<MultiPhotoCarousel> {
             shape: BoxShape.circle,
             color: _currentPage == index
                 ? Colors.white
-                : Colors.white.withValues(alpha: 0.4),
+                : Colors.white.withOpacity(0.4),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.3),
+                color: Colors.black.withOpacity(0.3),
                 blurRadius: 4,
                 offset: const Offset(0, 2),
               ),
@@ -214,7 +214,7 @@ class _MultiPhotoCarouselState extends State<MultiPhotoCarousel> {
     return Container(
       margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: Colors.black.withValues(alpha: 0.5),
+        color: Colors.black.withOpacity(0.5),
         shape: BoxShape.circle,
       ),
       child: IconButton(

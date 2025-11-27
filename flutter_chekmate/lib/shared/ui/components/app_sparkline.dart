@@ -39,7 +39,7 @@ class AppSparkline extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: theme.colorScheme.surfaceContainerHighest
-                .withValues(alpha: 0.3),
+                .withOpacity(0.3),
             borderRadius: BorderRadius.circular(4),
           ),
           child: Center(
@@ -68,7 +68,7 @@ class AppSparkline extends StatelessWidget {
                     data: data,
                     lineColor: lineColor ?? theme.colorScheme.primary,
                     fillColor: fillColor ??
-                        theme.colorScheme.primary.withValues(alpha: 0.2),
+                        theme.colorScheme.primary.withOpacity(0.2),
                     strokeWidth: strokeWidth,
                     showFill: showFill,
                     showDots: showDots,
@@ -82,7 +82,7 @@ class AppSparkline extends StatelessWidget {
                 data: data,
                 lineColor: lineColor ?? theme.colorScheme.primary,
                 fillColor: fillColor ??
-                    theme.colorScheme.primary.withValues(alpha: 0.2),
+                    theme.colorScheme.primary.withOpacity(0.2),
                 strokeWidth: strokeWidth,
                 showFill: showFill,
                 showDots: showDots,
@@ -138,7 +138,7 @@ class AppTrendSparkline extends StatelessWidget {
               width: width - (showTrendIcon || showPercentage ? 40 : 0),
               height: height,
               lineColor: trendColor,
-              fillColor: trendColor.withValues(alpha: 0.1),
+              fillColor: trendColor.withOpacity(0.1),
               showFill: true,
             ),
             if (showTrendIcon || showPercentage) ...[

@@ -368,7 +368,7 @@ class _LineChartPainter extends CustomPainter {
 
   void _drawGrid(Canvas canvas, Rect chartArea) {
     final gridPaint = Paint()
-      ..color = theme.colorScheme.outline.withValues(alpha: 0.2)
+      ..color = theme.colorScheme.outline.withOpacity(0.2)
       ..strokeWidth = 1;
 
     // Vertical grid lines
@@ -514,7 +514,7 @@ class _BarChartPainter extends CustomPainter {
 
   void _drawGrid(Canvas canvas, Rect chartArea) {
     final gridPaint = Paint()
-      ..color = theme.colorScheme.outline.withValues(alpha: 0.2)
+      ..color = theme.colorScheme.outline.withOpacity(0.2)
       ..strokeWidth = 1;
 
     for (var i = 0; i <= 5; i++) {

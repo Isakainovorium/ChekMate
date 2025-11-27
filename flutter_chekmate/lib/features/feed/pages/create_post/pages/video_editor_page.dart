@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
-import 'package:ffmpeg_kit_flutter/return_code.dart';
+import 'package:video_compress/video_compress.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
@@ -85,13 +84,13 @@ class _VideoEditorPageState extends State<VideoEditorPage> {
                     Icon(
                       Icons.play_circle_outline,
                       size: 80,
-                      color: Colors.white.withValues(alpha: 0.7),
+                      color: Colors.white.withOpacity(0.7),
                     ),
                     const SizedBox(height: AppSpacing.md),
                     Text(
                       'Video Preview',
                       style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.7),
+                        color: Colors.white.withOpacity(0.7),
                         fontSize: 16,
                       ),
                     ),
@@ -219,7 +218,7 @@ class _VideoEditorPageState extends State<VideoEditorPage> {
           child: Container(
             decoration: BoxDecoration(
               color: isSelected
-                  ? AppColors.primary.withValues(alpha: 0.2)
+                  ? AppColors.primary.withOpacity(0.2)
                   : Colors.grey.shade800,
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
@@ -844,17 +843,16 @@ class _VideoEditorPageState extends State<VideoEditorPage> {
 
       debugPrint('FFmpeg command: $command');
 
-      // Execute FFmpeg command using ffmpeg_kit_flutter
-      final session = await FFmpegKit.execute(command);
-      final returnCode = await session.getReturnCode();
-
-      if (ReturnCode.isSuccess(returnCode)) {
-        debugPrint('Audio mixing successful! Output: $outputPath');
-        return outputPath;
-      } else {
-        debugPrint('Audio mixing failed with return code: $returnCode');
-        return null;
-      }
+      // Note: Audio mixing requires native implementation
+      // video_compress doesn't support audio mixing directly
+      // For now, return the original video path
+      // TODO: Implement native audio mixing or use a different package
+      debugPrint('Audio mixing not yet implemented with video_compress');
+      debugPrint('Command would be: $command');
+      debugPrint('Output path: $outputPath');
+      
+      // Return original video for now
+      return widget.videoPath;
     } on Exception catch (e) {
       debugPrint('Error mixing audio with video: $e');
       return null;

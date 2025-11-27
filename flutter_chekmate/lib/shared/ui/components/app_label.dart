@@ -177,7 +177,7 @@ class AppSectionLabel extends StatelessWidget {
         if (divider) ...[
           const SizedBox(height: AppSpacing.md),
           Divider(
-            color: theme.colorScheme.outline.withValues(alpha: 0.2),
+            color: theme.colorScheme.outline.withOpacity(0.2),
           ),
         ],
       ],

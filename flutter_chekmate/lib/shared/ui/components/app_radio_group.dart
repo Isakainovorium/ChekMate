@@ -107,7 +107,7 @@ class _RadioTile<T> extends StatelessWidget {
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: item.enabled
                       ? theme.colorScheme.onSurface
-                      : theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                      : theme.colorScheme.onSurface.withOpacity(0.6),
                 ),
               ),
             ],
@@ -144,7 +144,7 @@ class _RadioTile<T> extends StatelessWidget {
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: item.enabled
                           ? theme.colorScheme.onSurface
-                          : theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                          : theme.colorScheme.onSurface.withOpacity(0.6),
                     ),
                   ),
                   if (item.subtitle != null) ...[
@@ -155,7 +155,7 @@ class _RadioTile<T> extends StatelessWidget {
                         color: item.enabled
                             ? theme.colorScheme.onSurfaceVariant
                             : theme.colorScheme.onSurfaceVariant
-                                .withValues(alpha: 0.6),
+                                .withOpacity(0.6),
                       ),
                     ),
                   ],

@@ -2,11 +2,15 @@ library shared_ui;
 
 // Animations
 export 'animations/animated_widgets.dart';
+export 'animations/empty_state_animation.dart';
+export 'animations/error_animation.dart';
 export 'animations/hero_animations.dart';
 export 'animations/interactive_animations.dart' hide AnimatedButton, AnimatedIconButton;
+export 'animations/loading_animation.dart';
 export 'animations/lottie_animations.dart';
 export 'animations/page_transitions.dart';
 export 'animations/shared_element_transitions.dart';
+export 'animations/success_animation.dart';
 export 'animations/tiktok_animations.dart';
 export 'animations/typing_indicator.dart';
 export 'components/app_accordion.dart';

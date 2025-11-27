@@ -134,3 +134,4 @@ coverage/
 **/scripts/serviceAccountKey.json
 **/scripts/*serviceAccount*.json
 **/*serviceAccount*.json
+*.zip

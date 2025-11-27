@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-// import 'package:lottie/lottie.dart'; // Uncomment when lottie package is added
+import 'package:lottie/lottie.dart';
 
 /// Lottie Animations - Lottie animation wrapper widgets
 ///
 /// Provides Lottie animation widgets for the dating experience platform.
-/// Falls back to Material icons when Lottie package is not available.
 ///
 /// Date: November 13, 2025
 
@@ -19,6 +18,7 @@ class LottieAnimation extends StatelessWidget {
     this.repeat = true,
     this.reverse = false,
     this.animate = true,
+    this.onLoaded,
   });
 
   final String assetPath;
@@ -28,25 +28,27 @@ class LottieAnimation extends StatelessWidget {
   final bool repeat;
   final bool reverse;
   final bool animate;
+  final void Function(LottieComposition)? onLoaded;
 
   @override
   Widget build(BuildContext context) {
-    // When lottie package is available, uncomment:
-    // return Lottie.asset(
-    //   assetPath,
-    //   width: width,
-    //   height: height,
-    //   fit: fit,
-    //   repeat: repeat,
-    //   reverse: reverse,
-    //   animate: animate,
-    // );
-
-    // Fallback to loading indicator
-    return SizedBox(
-      width: width ?? 100,
-      height: height ?? 100,
-      child: const CircularProgressIndicator(),
+    return Lottie.asset(
+      assetPath,
+      width: width,
+      height: height,
+      fit: fit,
+      repeat: repeat,
+      reverse: reverse,
+      animate: animate,
+      onLoaded: onLoaded,
+      errorBuilder: (context, error, stackTrace) {
+        // Graceful fallback if animation fails to load
+        return SizedBox(
+          width: width ?? 100,
+          height: height ?? 100,
+          child: const Icon(Icons.animation, size: 48),
+        );
+      },
     );
   }
 }

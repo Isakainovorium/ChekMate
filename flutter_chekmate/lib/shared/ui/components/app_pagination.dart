@@ -196,12 +196,12 @@ class _PaginationButton extends StatelessWidget {
             : onPressed != null
                 ? Colors.transparent
                 : theme.colorScheme.surfaceContainerHighest
-                    .withValues(alpha: 0.5),
+                    .withOpacity(0.5),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
           color: isSelected
               ? theme.colorScheme.primary
-              : theme.colorScheme.outline.withValues(alpha: 0.3),
+              : theme.colorScheme.outline.withOpacity(0.3),
         ),
       ),
       child: Material(
@@ -219,7 +219,7 @@ class _PaginationButton extends StatelessWidget {
                         : onPressed != null
                             ? theme.colorScheme.onSurface
                             : theme.colorScheme.onSurface
-                                .withValues(alpha: 0.5),
+                                .withOpacity(0.5),
                   )
                 : Text(
                     text!,
@@ -229,7 +229,7 @@ class _PaginationButton extends StatelessWidget {
                           : onPressed != null
                               ? theme.colorScheme.onSurface
                               : theme.colorScheme.onSurface
-                                  .withValues(alpha: 0.5),
+                                  .withOpacity(0.5),
                       fontWeight:
                           isSelected ? FontWeight.w600 : FontWeight.normal,
                     ),

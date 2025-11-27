@@ -26,7 +26,7 @@ class HeaderWidget extends StatelessWidget {
         color: backgroundColor ?? Theme.of(context).colorScheme.surface,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),

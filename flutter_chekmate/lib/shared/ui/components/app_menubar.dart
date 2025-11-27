@@ -103,7 +103,7 @@ class _AppMenubarState extends State<AppMenubar> {
         color: widget.backgroundColor ?? theme.colorScheme.surface,
         border: Border(
           bottom: BorderSide(
-            color: theme.colorScheme.outline.withValues(alpha: 0.2),
+            color: theme.colorScheme.outline.withOpacity(0.2),
           ),
         ),
       ),
@@ -148,7 +148,7 @@ class _MenuButton extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: isActive 
-              ? theme.colorScheme.primaryContainer.withValues(alpha: 0.5)
+              ? theme.colorScheme.primaryContainer.withOpacity(0.5)
               : null,
         ),
         child: Text(
@@ -184,7 +184,7 @@ class _MenuDropdown extends StatelessWidget {
           color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: theme.colorScheme.outline.withValues(alpha: 0.2),
+            color: theme.colorScheme.outline.withOpacity(0.2),
           ),
         ),
         child: Column(
@@ -193,7 +193,7 @@ class _MenuDropdown extends StatelessWidget {
             if (item.isDivider) {
               return Divider(
                 height: 1,
-                color: theme.colorScheme.outline.withValues(alpha: 0.2),
+                color: theme.colorScheme.outline.withOpacity(0.2),
               );
             }
             
@@ -237,7 +237,7 @@ class _MenuDropdownItem extends StatelessWidget {
                 size: 16,
                 color: item.enabled 
                     ? theme.colorScheme.onSurface
-                    : theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                    : theme.colorScheme.onSurface.withOpacity(0.5),
               ),
               const SizedBox(width: AppSpacing.sm),
             ],
@@ -247,7 +247,7 @@ class _MenuDropdownItem extends StatelessWidget {
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: item.enabled 
                       ? theme.colorScheme.onSurface
-                      : theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                      : theme.colorScheme.onSurface.withOpacity(0.5),
                 ),
               ),
             ),
@@ -294,7 +294,7 @@ class AppBottomMenubar extends StatelessWidget {
         color: backgroundColor ?? theme.colorScheme.surface,
         border: Border(
           top: BorderSide(
-            color: theme.colorScheme.outline.withValues(alpha: 0.2),
+            color: theme.colorScheme.outline.withOpacity(0.2),
           ),
         ),
       ),

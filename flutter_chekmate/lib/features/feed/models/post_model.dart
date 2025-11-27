@@ -12,11 +12,14 @@ class Post {
   final int likes;
   final int comments;
   final int shares;
+  final int cheks;
   final DateTime timestamp;
   final bool isLiked;
   final bool isBookmarked;
+  final bool isCheked;
   final String? location;
   final List<String> tags;
+  final List<String> likedByNames; // Names of users who liked this post
 
   const Post({
     required this.id,
@@ -29,11 +32,14 @@ class Post {
     this.likes = 0,
     this.comments = 0,
     this.shares = 0,
+    this.cheks = 0,
     required this.timestamp,
     this.isLiked = false,
     this.isBookmarked = false,
+    this.isCheked = false,
     this.location,
     this.tags = const [],
+    this.likedByNames = const [],
   });
 
   // Helper getters
@@ -55,11 +61,14 @@ class Post {
     int? likes,
     int? comments,
     int? shares,
+    int? cheks,
     DateTime? timestamp,
     bool? isLiked,
     bool? isBookmarked,
+    bool? isCheked,
     String? location,
     List<String>? tags,
+    List<String>? likedByNames,
   }) {
     return Post(
       id: id ?? this.id,
@@ -72,11 +81,14 @@ class Post {
       likes: likes ?? this.likes,
       comments: comments ?? this.comments,
       shares: shares ?? this.shares,
+      cheks: cheks ?? this.cheks,
       timestamp: timestamp ?? this.timestamp,
       isLiked: isLiked ?? this.isLiked,
       isBookmarked: isBookmarked ?? this.isBookmarked,
+      isCheked: isCheked ?? this.isCheked,
       location: location ?? this.location,
       tags: tags ?? this.tags,
+      likedByNames: likedByNames ?? this.likedByNames,
     );
   }
 
@@ -92,11 +104,14 @@ class Post {
       'likes': likes,
       'comments': comments,
       'shares': shares,
+      'cheks': cheks,
       'timestamp': timestamp.toIso8601String(),
       'isLiked': isLiked,
       'isBookmarked': isBookmarked,
+      'isCheked': isCheked,
       'location': location,
       'tags': tags,
+      'likedByNames': likedByNames,
     };
   }
 
@@ -112,11 +127,14 @@ class Post {
       likes: json['likes'] as int? ?? 0,
       comments: json['comments'] as int? ?? 0,
       shares: json['shares'] as int? ?? 0,
+      cheks: json['cheks'] as int? ?? 0,
       timestamp: DateTime.parse(json['timestamp'] as String),
       isLiked: json['isLiked'] as bool? ?? false,
       isBookmarked: json['isBookmarked'] as bool? ?? false,
+      isCheked: json['isCheked'] as bool? ?? false,
       location: json['location'] as String?,
       tags: List<String>.from(json['tags'] as List? ?? []),
+      likedByNames: List<String>.from(json['likedByNames'] as List? ?? []),
     );
   }
 }

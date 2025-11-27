@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
 import 'package:flutter_chekmate/features/auth/presentation/providers/auth_providers.dart';
+import 'package:flutter_chekmate/features/feed/models/post_model.dart';
 import 'package:flutter_chekmate/features/feed/presentation/providers/feed_providers.dart';
+import 'package:flutter_chekmate/features/feed/widgets/post_widget.dart';
 import 'package:flutter_chekmate/features/intelligence/presentation/providers/serendipity_feed_provider.dart';
 import 'package:flutter_chekmate/features/posts/domain/entities/post_entity.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart' hide AnimatedFeedCard;
@@ -24,14 +26,27 @@ enum FeedType {
 /// Feed Page with Multiple Feed Types
 /// Complete implementation with real Firebase data
 class FeedPage extends ConsumerStatefulWidget {
-  const FeedPage({super.key});
+  const FeedPage({
+    super.key,
+    this.showAppBar = true,
+    this.initialFeedType = FeedType.hybrid,
+  });
+
+  final bool showAppBar;
+  final FeedType initialFeedType;
 
   @override
   ConsumerState<FeedPage> createState() => _FeedPageState();
 }
 
 class _FeedPageState extends ConsumerState<FeedPage> {
-  FeedType _feedType = FeedType.hybrid; // Default to hybrid feed
+  late FeedType _feedType;
+
+  @override
+  void initState() {
+    super.initState();
+    _feedType = widget.initialFeedType;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +59,54 @@ class _FeedPageState extends ConsumerState<FeedPage> {
       FeedType.serendipity => ref.watch(serendipityFeedProvider),
     };
 
+    final content = postsAsync.when(
+      data: (dynamic posts) {
+        // Convert to List<PostEntity>
+        final postsList = posts is List<PostEntity>
+            ? posts
+            : List<PostEntity>.from(posts as List);
+
+        if (postsList.isEmpty) {
+          return _buildEmptyState(context);
+        }
+
+        return Column(
+          children: [
+            if (widget.showAppBar) _buildFeedIndicator(),
+            Expanded(
+              child: AppInfiniteScroll<PostEntity>(
+                items: postsList,
+                itemBuilder: (context, post, index) => AnimatedFeedCard(
+                  index: index,
+                  child: _PostCardWithViewTracking(
+                    post: post,
+                    isSerendipity: _feedType == FeedType.serendipity,
+                  ),
+                ),
+                onLoadMore: () async {
+                  // Load more posts
+                },
+                onRefresh: () async {
+                  _refreshFeed();
+                },
+                hasMore: false,
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+              ),
+            ),
+          ],
+        );
+      },
+      loading: () => const Center(
+        child: CircularProgressIndicator(color: AppColors.primary),
+      ),
+      error: (error, stack) => _buildErrorState(context, error),
+    );
+
+    // Return content directly if no AppBar needed (embedded mode)
+    if (!widget.showAppBar) {
+      return content;
+    }
+
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
@@ -52,7 +115,6 @@ class _FeedPageState extends ConsumerState<FeedPage> {
         foregroundColor: Colors.black,
         elevation: 0,
         actions: [
-          // Feed type selector button
           IconButton(
             icon: Icon(
               _getFeedIcon(),
@@ -63,60 +125,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
           ),
         ],
       ),
-      body: postsAsync.when(
-        data: (dynamic posts) {
-          // Convert to List<PostEntity>
-          final postsList = posts is List<PostEntity>
-              ? posts
-              : List<PostEntity>.from(posts as List);
-
-          if (postsList.isEmpty) {
-            return _buildEmptyState(context);
-          }
-
-          return Column(
-            children: [
-              _buildFeedIndicator(),
-              Expanded(
-                child: AppInfiniteScroll<PostEntity>(
-                  items: postsList,
-                  itemBuilder: (context, post, index) => AnimatedFeedCard(
-                    index: index,
-                    child: _PostCardWithViewTracking(post: post),
-                  ),
-                  onLoadMore: () async {
-                    // Load more posts - placeholder for now
-                  },
-                  onRefresh: () async {
-                    // Refresh the feed based on feed type
-                    _refreshFeed();
-                  },
-                  hasMore:
-                      false, // Set to false for now, can be made dynamic later
-                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-                ),
-              ),
-            ],
-          );
-        },
-        loading: () => Column(
-          children: [
-            _buildFeedIndicator(),
-            const Expanded(
-              child: PostFeedShimmer(itemCount: 5),
-            ),
-          ],
-        ),
-        error: (error, stack) => AppEmptyState(
-          type: AppEmptyStateType.noConnection,
-          title: 'Something went wrong',
-          message: 'Error: $error',
-          action: AppButton(
-            onPressed: _refreshFeed,
-            child: const Text('Retry'),
-          ),
-        ),
-      ),
+      body: content,
     );
   }
 
@@ -329,13 +338,29 @@ class _FeedPageState extends ConsumerState<FeedPage> {
       message: message,
     );
   }
+
+  Widget _buildErrorState(BuildContext context, Object error) {
+    return AppEmptyState(
+      type: AppEmptyStateType.noConnection,
+      title: 'Something went wrong',
+      message: 'Error: $error',
+      action: AppButton(
+        onPressed: _refreshFeed,
+        child: const Text('Retry'),
+      ),
+    );
+  }
 }
 
 /// Post Card with View Tracking
 /// Wraps _PostCard with VisibilityDetector to track post views
 class _PostCardWithViewTracking extends ConsumerStatefulWidget {
-  const _PostCardWithViewTracking({required this.post});
+  const _PostCardWithViewTracking({
+    required this.post,
+    this.isSerendipity = false,
+  });
   final PostEntity post;
+  final bool isSerendipity;
 
   @override
   ConsumerState<_PostCardWithViewTracking> createState() =>
@@ -394,169 +419,105 @@ class _PostCardWithViewTrackingState
 
   @override
   Widget build(BuildContext context) {
+    final postController = ref.read(postsControllerProvider);
+
+    // Map PostEntity to Post model for the rich widget
+    final postModel = Post(
+      id: widget.post.id,
+      userId: widget.post.userId,
+      username: widget.post.username,
+      userAvatar: widget.post.userAvatar,
+      content: widget.post.content,
+      images: widget.post.images,
+      videoUrl: widget.post.videoUrl,
+      likes: widget.post.likes,
+      comments: widget.post.comments,
+      shares: widget.post.shares,
+      cheks: widget.post.cheks,
+      timestamp: widget.post.createdAt,
+      isLiked: widget.post.isLikedBy(ref.read(currentUserIdProvider) ?? ''),
+      isBookmarked:
+          widget.post.isBookmarkedBy(ref.read(currentUserIdProvider) ?? ''),
+      isCheked: widget.post.isChekedBy(ref.read(currentUserIdProvider) ?? ''),
+      location: widget.post.location,
+      tags: widget.post.tags,
+      // Note: likedByNames would ideally come from a denormalized field
+      // or be fetched separately. For now, likedBy contains user IDs.
+      // The PostWidget will gracefully fallback to showing "X likes" if empty.
+      likedByNames: const [],
+    );
+
     return VisibilityDetector(
       key: Key('post-${widget.post.id}'),
       onVisibilityChanged: _onVisibilityChanged,
-      child: _PostCard(post: widget.post),
-    );
-  }
-}
-
-/// Post Card Widget with Riverpod
-class _PostCard extends ConsumerWidget {
-  const _PostCard({required this.post});
-  final PostEntity post;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final postController = ref.read(postsControllerProvider);
-    final hasLikedAsync = ref.watch(hasLikedPostProvider(post.id));
-
-    return AppCard(
-      margin: const EdgeInsets.only(bottom: AppSpacing.sm),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
         children: [
-          // Post header
-          Padding(
-            padding: const EdgeInsets.all(AppSpacing.md),
-            child: Row(
-              children: [
-                AppAvatar(
-                  imageUrl: post.userAvatar,
-                  name: post.username,
-                ),
-                const SizedBox(width: AppSpacing.sm),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        post.username,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                        ),
-                      ),
-                      Text(
-                        _formatTimestamp(post.createdAt),
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.more_horiz),
-                ),
-              ],
-            ),
+          PostWidget(
+            post: postModel,
+            onChekPressed: () {
+              postController.chekPost(widget.post.id);
+            },
+            onSharePressed: () {
+              postController.sharePost(widget.post.id);
+            },
+            onCommentPressed: () {
+              // Navigate to post details
+            },
           ),
-          // Post content
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-            child: Text(
-              post.content,
-              style: const TextStyle(fontSize: 14),
+          // Serendipity badge for discovery posts
+          if (widget.isSerendipity)
+            Positioned(
+              top: AppSpacing.md,
+              right: AppSpacing.md,
+              child: _SerendipityBadge(),
             ),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          // Post actions
-          Padding(
-            padding: const EdgeInsets.all(AppSpacing.md),
-            child: Row(
-              children: [
-                // Like button
-                hasLikedAsync.when(
-                  data: (hasLiked) => _ActionButton(
-                    icon: hasLiked ? Icons.favorite : Icons.favorite_border,
-                    label: '${post.likes}',
-                    color: hasLiked ? Colors.red : Colors.grey.shade600,
-                    onTap: () => postController.toggleLike(post.id),
-                  ),
-                  loading: () => _ActionButton(
-                    icon: Icons.favorite_border,
-                    label: '${post.likes}',
-                    color: Colors.grey.shade600,
-                    onTap: () {},
-                  ),
-                  error: (_, __) => _ActionButton(
-                    icon: Icons.favorite_border,
-                    label: '${post.likes}',
-                    color: Colors.grey.shade600,
-                    onTap: () {},
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.lg),
-                _ActionButton(
-                  icon: Icons.chat_bubble_outline,
-                  label: '${post.comments}',
-                  color: Colors.grey.shade600,
-                  onTap: () {},
-                ),
-                const SizedBox(width: AppSpacing.lg),
-                _ActionButton(
-                  icon: Icons.share_outlined,
-                  label: '${post.shares}',
-                  color: Colors.grey.shade600,
-                  onTap: () => postController.sharePost(post.id),
-                ),
-                const Spacer(),
-                // Chek button - ChekMate's unique interaction
-                AppButton(
-                  onPressed: () {
-                    postController.chekPost(post.id);
-                  },
-                  size: AppButtonSize.sm,
-                  leadingIcon: const Icon(Icons.check_circle_outline, size: 16),
-                  child: Text('${post.cheks}'),
-                ),
-              ],
-            ),
-          ),
         ],
       ),
     );
   }
-
-  String _formatTimestamp(dynamic timestamp) {
-    if (timestamp == null) return '';
-    // Add proper timestamp formatting
-    return 'Just now';
-  }
 }
 
-/// Action Button Widget with Animation
-class _ActionButton extends StatelessWidget {
-  const _ActionButton({
-    required this.icon,
-    required this.label,
-    required this.color,
-    required this.onTap,
-  });
-  final IconData icon;
-  final String label;
-  final Color color;
-  final VoidCallback onTap;
-
+/// Serendipity discovery badge with shimmer effect
+class _SerendipityBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return AnimatedButton(
-      onTap: onTap,
-      child: Row(
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.sm,
+        vertical: AppSpacing.xs,
+      ),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [
+            Color(0xFF8B5CF6), // Purple
+            Color(0xFFEC4899), // Pink
+          ],
+        ),
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF8B5CF6).withOpacity(0.3),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: const Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 20, color: color),
-          const SizedBox(width: 4),
+          Icon(
+            Icons.explore,
+            size: 14,
+            color: Colors.white,
+          ),
+          SizedBox(width: 4),
           Text(
-            label,
+            'Discover',
             style: TextStyle(
-              fontSize: 14,
-              color: color,
-              fontWeight: FontWeight.w500,
+              color: Colors.white,
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.3,
             ),
           ),
         ],

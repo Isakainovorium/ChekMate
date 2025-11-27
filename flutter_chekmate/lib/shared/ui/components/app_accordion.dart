@@ -84,17 +84,17 @@ class _AccordionTile extends StatelessWidget {
         border: Border(
           top: isFirst
               ? BorderSide(
-                  color: theme.colorScheme.outline.withValues(alpha: 0.2),
+                  color: theme.colorScheme.outline.withOpacity(0.2),
                 )
               : BorderSide.none,
           bottom: BorderSide(
-            color: theme.colorScheme.outline.withValues(alpha: 0.2),
+            color: theme.colorScheme.outline.withOpacity(0.2),
           ),
           left: BorderSide(
-            color: theme.colorScheme.outline.withValues(alpha: 0.2),
+            color: theme.colorScheme.outline.withOpacity(0.2),
           ),
           right: BorderSide(
-            color: theme.colorScheme.outline.withValues(alpha: 0.2),
+            color: theme.colorScheme.outline.withOpacity(0.2),
           ),
         ),
         borderRadius: BorderRadius.only(
@@ -125,7 +125,7 @@ class _AccordionTile extends StatelessWidget {
               decoration: BoxDecoration(
                 color: isExpanded
                     ? theme.colorScheme.surfaceContainerHighest
-                        .withValues(alpha: 0.5)
+                        .withOpacity(0.5)
                     : null,
               ),
               child: Row(

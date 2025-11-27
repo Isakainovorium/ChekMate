@@ -632,10 +632,10 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.blue.withValues(alpha: 0.1),
+                  color: Colors.blue.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: Colors.blue.withValues(alpha: 0.3),
+                    color: Colors.blue.withOpacity(0.3),
                   ),
                 ),
                 child: Row(
@@ -675,10 +675,10 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.green.withValues(alpha: 0.1),
+                  color: Colors.green.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: Colors.green.withValues(alpha: 0.3),
+                    color: Colors.green.withOpacity(0.3),
                   ),
                 ),
                 child: Column(
@@ -714,7 +714,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                               fontSize: 12,
                             ),
                           ),
-                          backgroundColor: Colors.green.withValues(alpha: 0.1),
+                          backgroundColor: Colors.green.withOpacity(0.1),
                           deleteIcon: const Icon(Icons.close,
                               size: 14, color: Colors.green),
                           onDeleted: () => _removeTag(tag),

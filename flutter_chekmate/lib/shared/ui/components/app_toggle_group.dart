@@ -176,7 +176,7 @@ class _ToggleButton<T> extends StatelessWidget {
             border: Border.all(
               color: isSelected
                   ? theme.colorScheme.primary
-                  : theme.colorScheme.outline.withValues(alpha: 0.5),
+                  : theme.colorScheme.outline.withOpacity(0.5),
             ),
           ),
           child: Row(
@@ -190,7 +190,7 @@ class _ToggleButton<T> extends StatelessWidget {
                       ? (isSelected
                           ? theme.colorScheme.onPrimaryContainer
                           : theme.colorScheme.onSurface)
-                      : theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                      : theme.colorScheme.onSurface.withOpacity(0.5),
                 ),
                 if (option.label != null) const SizedBox(width: AppSpacing.xs),
               ],
@@ -202,7 +202,7 @@ class _ToggleButton<T> extends StatelessWidget {
                         ? (isSelected
                             ? theme.colorScheme.onPrimaryContainer
                             : theme.colorScheme.onSurface)
-                        : theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                        : theme.colorScheme.onSurface.withOpacity(0.5),
                     fontWeight:
                         isSelected ? FontWeight.w600 : FontWeight.normal,
                   ),
@@ -266,7 +266,7 @@ class _AppSegmentedControlState<T> extends State<AppSegmentedControl<T>> {
 
     return Container(
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
         borderRadius: BorderRadius.circular(8),
       ),
       child: IntrinsicWidth(
@@ -296,7 +296,7 @@ class _AppSegmentedControlState<T> extends State<AppSegmentedControl<T>> {
                     boxShadow: isSelected
                         ? [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.1),
+                              color: Colors.black.withOpacity(0.1),
                               blurRadius: 2,
                               offset: const Offset(0, 1),
                             ),
@@ -314,7 +314,7 @@ class _AppSegmentedControlState<T> extends State<AppSegmentedControl<T>> {
                           color: widget.enabled && option.enabled
                               ? theme.colorScheme.onSurface
                               : theme.colorScheme.onSurface
-                                  .withValues(alpha: 0.5),
+                                  .withOpacity(0.5),
                         ),
                         if (option.label != null)
                           const SizedBox(width: AppSpacing.xs),
@@ -326,7 +326,7 @@ class _AppSegmentedControlState<T> extends State<AppSegmentedControl<T>> {
                             color: widget.enabled && option.enabled
                                 ? theme.colorScheme.onSurface
                                 : theme.colorScheme.onSurface
-                                    .withValues(alpha: 0.5),
+                                    .withOpacity(0.5),
                             fontWeight: isSelected
                                 ? FontWeight.w600
                                 : FontWeight.normal,

@@ -92,7 +92,7 @@ class AppAlert extends StatelessWidget {
                 child: Icon(
                   Icons.close,
                   size: 16,
-                  color: colors.textColor.withValues(alpha: 0.7),
+                  color: colors.textColor.withOpacity(0.7),
                 ),
               ),
             ),
@@ -127,8 +127,8 @@ class AppAlert extends StatelessWidget {
       case AppAlertVariant.info:
         return _AlertColors(
           backgroundColor:
-              theme.colorScheme.primaryContainer.withValues(alpha: 0.1),
-          borderColor: theme.colorScheme.primary.withValues(alpha: 0.3),
+              theme.colorScheme.primaryContainer.withOpacity(0.1),
+          borderColor: theme.colorScheme.primary.withOpacity(0.3),
           textColor: theme.colorScheme.onSurface,
           iconColor: theme.colorScheme.primary,
         );
@@ -149,8 +149,8 @@ class AppAlert extends StatelessWidget {
       case AppAlertVariant.error:
         return _AlertColors(
           backgroundColor:
-              theme.colorScheme.errorContainer.withValues(alpha: 0.1),
-          borderColor: theme.colorScheme.error.withValues(alpha: 0.3),
+              theme.colorScheme.errorContainer.withOpacity(0.1),
+          borderColor: theme.colorScheme.error.withOpacity(0.3),
           textColor: theme.colorScheme.error,
           iconColor: theme.colorScheme.error,
         );

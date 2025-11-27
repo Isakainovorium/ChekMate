@@ -274,7 +274,7 @@ class _AppImageViewerState extends State<AppImageViewer>
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Colors.black.withValues(alpha: 0.7),
+            Colors.black.withOpacity(0.7),
             Colors.transparent,
           ],
         ),
@@ -319,7 +319,7 @@ class _AppImageViewerState extends State<AppImageViewer>
           begin: Alignment.bottomCenter,
           end: Alignment.topCenter,
           colors: [
-            Colors.black.withValues(alpha: 0.7),
+            Colors.black.withOpacity(0.7),
             Colors.transparent,
           ],
         ),
@@ -501,7 +501,7 @@ class _AppImageGalleryState extends State<AppImageGallery> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.black.withValues(alpha: 0.7),
+                    Colors.black.withOpacity(0.7),
                     Colors.transparent,
                   ],
                 ),
@@ -559,7 +559,7 @@ class _AppImageGalleryState extends State<AppImageGallery> {
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     colors: [
-                      Colors.black.withValues(alpha: 0.7),
+                      Colors.black.withOpacity(0.7),
                       Colors.transparent,
                     ],
                   ),
@@ -610,7 +610,7 @@ class _AppImageGalleryState extends State<AppImageGallery> {
                     vertical: AppSpacing.sm,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.5),
+                    color: Colors.black.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Row(
@@ -624,7 +624,7 @@ class _AppImageGalleryState extends State<AppImageGallery> {
                         decoration: BoxDecoration(
                           color: index == _currentIndex
                               ? Colors.white
-                              : Colors.white.withValues(alpha: 0.4),
+                              : Colors.white.withOpacity(0.4),
                           shape: BoxShape.circle,
                         ),
                       ),
@@ -696,7 +696,7 @@ class AppImageThumbnail extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.6),
+                    color: Colors.black.withOpacity(0.6),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: const Icon(

@@ -21,7 +21,7 @@ class TemplateCard extends StatelessWidget {
     return Card(
       color: isSelected
           ? AppColors.primary
-              .withValues(alpha: 0.1) // Golden orange tint when selected
+              .withOpacity(0.1) // Golden orange tint when selected
           : AppColors.surface,
       elevation: isSelected ? 4 : 0,
       shape: RoundedRectangleBorder(
@@ -51,7 +51,7 @@ class TemplateCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Color(
                               int.parse(template.color.replaceAll('#', '0xFF')))
-                          .withValues(alpha: 0.1),
+                          .withOpacity(0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
@@ -122,7 +122,7 @@ class TemplateCard extends StatelessWidget {
                         const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                     decoration: BoxDecoration(
                       color: _getDifficultyColor(template.difficulty)
-                          .withValues(alpha: 0.1),
+                          .withOpacity(0.1),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(

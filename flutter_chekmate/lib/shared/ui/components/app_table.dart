@@ -81,7 +81,7 @@ class AppTable<T> extends StatelessWidget {
         horizontalMargin: horizontalMargin,
         columnSpacing: columnSpacing,
         headingRowColor: WidgetStatePropertyAll(
-          theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+          theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
         ),
         dataRowMinHeight: 48,
         dataRowMaxHeight: 64,
@@ -115,7 +115,7 @@ class AppSimpleTable extends StatelessWidget {
       decoration: showBorders
           ? BoxDecoration(
               border: Border.all(
-                color: theme.colorScheme.outline.withValues(alpha: 0.2),
+                color: theme.colorScheme.outline.withOpacity(0.2),
               ),
               borderRadius: BorderRadius.circular(8),
             )
@@ -123,7 +123,7 @@ class AppSimpleTable extends StatelessWidget {
       child: Table(
         border: showBorders
             ? TableBorder.all(
-                color: theme.colorScheme.outline.withValues(alpha: 0.2),
+                color: theme.colorScheme.outline.withOpacity(0.2),
               )
             : null,
         children: [
@@ -131,7 +131,7 @@ class AppSimpleTable extends StatelessWidget {
           TableRow(
             decoration: BoxDecoration(
               color: theme.colorScheme.surfaceContainerHighest
-                  .withValues(alpha: 0.5),
+                  .withOpacity(0.5),
             ),
             children: headers
                 .map(

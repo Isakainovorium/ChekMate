@@ -140,8 +140,8 @@ class _AppResizableState extends State<AppResizable> {
               _ResizableDivider(
                 direction: widget.direction,
                 thickness: widget.dividerThickness,
-                color: widget.dividerColor ?? theme.colorScheme.outline.withValues(alpha: 0.2),
-                hoverColor: widget.dividerHoverColor ?? theme.colorScheme.outline.withValues(alpha: 0.4),
+                color: widget.dividerColor ?? theme.colorScheme.outline.withOpacity(0.2),
+                hoverColor: widget.dividerHoverColor ?? theme.colorScheme.outline.withOpacity(0.4),
                 showHandle: widget.showDividerHandle,
                 onPanStart: (details) => _onPanStart(details, i),
                 onPanUpdate: _onPanUpdate,
@@ -220,7 +220,7 @@ class _ResizableDividerState extends State<_ResizableDivider> {
         width: isHorizontal ? 2 : 20,
         height: isHorizontal ? 20 : 2,
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.8),
+          color: Colors.white.withOpacity(0.8),
           borderRadius: BorderRadius.circular(1),
         ),
       ),

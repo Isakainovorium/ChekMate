@@ -159,7 +159,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                color: Theme.of(context).primaryColor.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
@@ -512,10 +512,10 @@ class _ChatPageState extends ConsumerState<ChatPage> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.blue.withValues(alpha: 0.1),
+                  color: Colors.blue.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: Colors.blue.withValues(alpha: 0.3),
+                    color: Colors.blue.withOpacity(0.3),
                   ),
                 ),
                 child: const Column(
@@ -588,10 +588,10 @@ class _ChatPageState extends ConsumerState<ChatPage> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.green.withValues(alpha: 0.1),
+                  color: Colors.green.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: Colors.green.withValues(alpha: 0.3),
+                    color: Colors.green.withOpacity(0.3),
                   ),
                 ),
                 child: const Column(
@@ -798,7 +798,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1),
+                  color: Colors.black.withOpacity(0.1),
                   blurRadius: 4,
                   offset: const Offset(0, -2),
                 ),

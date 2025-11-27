@@ -111,7 +111,7 @@ class _RateDatePageState extends ConsumerState<RateDatePage> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -215,7 +215,7 @@ class _RateDatePageState extends ConsumerState<RateDatePage> {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: Colors.black.withOpacity(0.1),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -239,7 +239,7 @@ class _RateDatePageState extends ConsumerState<RateDatePage> {
                   end: Alignment.bottomCenter,
                   colors: [
                     Colors.transparent,
-                    Colors.black.withValues(alpha: 0.7),
+                    Colors.black.withOpacity(0.7),
                   ],
                 ),
               ),
@@ -266,7 +266,7 @@ class _RateDatePageState extends ConsumerState<RateDatePage> {
                     Text(
                       date['location'] as String,
                       style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.9),
+                        color: Colors.white.withOpacity(0.9),
                         fontSize: 14,
                       ),
                     ),
@@ -277,7 +277,7 @@ class _RateDatePageState extends ConsumerState<RateDatePage> {
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.2),
+                        color: Colors.white.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
@@ -302,7 +302,7 @@ class _RateDatePageState extends ConsumerState<RateDatePage> {
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.5),
+                  color: Colors.black.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Row(
@@ -337,7 +337,7 @@ class _RateDatePageState extends ConsumerState<RateDatePage> {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: Colors.black.withOpacity(0.1),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),

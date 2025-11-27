@@ -66,8 +66,8 @@ class _ExploreGridWidgetState extends State<ExploreGridWidget> {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        Colors.blue.withValues(alpha: 0.3),
-                        Colors.purple.withValues(alpha: 0.3),
+                        Colors.blue.withOpacity(0.3),
+                        Colors.purple.withOpacity(0.3),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(4),

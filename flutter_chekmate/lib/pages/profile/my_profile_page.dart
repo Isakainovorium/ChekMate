@@ -61,7 +61,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                           end: Alignment.bottomRight,
                           colors: [
                             AppColors.primary,
-                            AppColors.primary.withValues(alpha: 0.7),
+                            AppColors.primary.withOpacity(0.7),
                           ],
                         ),
                       ),
@@ -75,7 +75,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                         end: Alignment.bottomCenter,
                         colors: [
                           Colors.transparent,
-                          Colors.black.withValues(alpha: 0.3),
+                          Colors.black.withOpacity(0.3),
                         ],
                       ),
                     ),
@@ -343,7 +343,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                     end: Alignment.bottomCenter,
                     colors: [
                       Colors.transparent,
-                      Colors.black.withValues(alpha: 0.7),
+                      Colors.black.withOpacity(0.7),
                     ],
                   ),
                 ),

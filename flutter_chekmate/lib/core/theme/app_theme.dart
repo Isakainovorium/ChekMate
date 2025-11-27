@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 /// AppTheme - ChekMate Material Design 3 theme configuration
 ///
@@ -24,15 +25,15 @@ class AppTheme {
       colorScheme: ColorScheme.light(
         primary: AppColors.primary,
         onPrimary: Colors.white,
-        primaryContainer: AppColors.primary.withValues(alpha: 0.1),
+        primaryContainer: AppColors.primary.withOpacity(0.1),
         onPrimaryContainer: AppColors.primary,
         secondary: AppColors.secondary,
         onSecondary: Colors.white,
-        secondaryContainer: AppColors.secondary.withValues(alpha: 0.1),
+        secondaryContainer: AppColors.secondary.withOpacity(0.1),
         onSecondaryContainer: AppColors.secondary,
         tertiary: AppColors.navyBlue,
         onTertiary: Colors.white,
-        tertiaryContainer: AppColors.navyBlue.withValues(alpha: 0.1),
+        tertiaryContainer: AppColors.navyBlue.withOpacity(0.1),
         onTertiaryContainer: AppColors.navyBlue,
         error: AppColors.error,
         onError: Colors.white,
@@ -67,7 +68,7 @@ class AppTheme {
       ),
 
       // Card Theme
-      cardTheme: CardThemeData(
+      cardTheme: CardTheme(
         color: AppColors.surface,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -214,7 +215,7 @@ class AppTheme {
       ),
 
       // Dialog Theme
-      dialogTheme: DialogThemeData(
+      dialogTheme: DialogTheme(
         backgroundColor: AppColors.surface,
         elevation: 8,
         shape: RoundedRectangleBorder(
@@ -241,7 +242,7 @@ class AppTheme {
       // Chip Theme
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.surfaceVariant,
-        selectedColor: AppColors.primary.withValues(alpha: 0.1),
+        selectedColor: AppColors.primary.withOpacity(0.1),
         labelStyle: const TextStyle(color: AppColors.textPrimary),
         secondaryLabelStyle: const TextStyle(color: AppColors.textSecondary),
         padding: const EdgeInsets.symmetric(
@@ -271,15 +272,15 @@ class AppTheme {
       colorScheme: ColorScheme.dark(
         primary: AppColors.primary,
         onPrimary: Colors.black,
-        primaryContainer: AppColors.primary.withValues(alpha: 0.2),
+        primaryContainer: AppColors.primary.withOpacity(0.2),
         onPrimaryContainer: AppColors.primary,
         secondary: AppColors.secondary,
         onSecondary: Colors.black,
-        secondaryContainer: AppColors.secondary.withValues(alpha: 0.2),
+        secondaryContainer: AppColors.secondary.withOpacity(0.2),
         onSecondaryContainer: AppColors.secondary,
         tertiary: AppColors.navyBlue,
         onTertiary: Colors.white,
-        tertiaryContainer: AppColors.navyBlue.withValues(alpha: 0.2),
+        tertiaryContainer: AppColors.navyBlue.withOpacity(0.2),
         onTertiaryContainer: AppColors.navyBlue,
         error: AppColors.error,
         onError: Colors.white,
@@ -306,38 +307,41 @@ class AppTheme {
   // TEXT THEME BUILDER
   // ============================================================================
 
+  /// Build text theme with Plus Jakarta Sans font
   static TextTheme _buildTextTheme(Color textColor) {
-    return TextTheme(
-      displayLarge: TextStyle(
-          fontSize: 57, fontWeight: FontWeight.w400, color: textColor),
-      displayMedium: TextStyle(
-          fontSize: 45, fontWeight: FontWeight.w400, color: textColor),
-      displaySmall: TextStyle(
-          fontSize: 36, fontWeight: FontWeight.w400, color: textColor),
-      headlineLarge: TextStyle(
-          fontSize: 32, fontWeight: FontWeight.w600, color: textColor),
-      headlineMedium: TextStyle(
-          fontSize: 28, fontWeight: FontWeight.w600, color: textColor),
-      headlineSmall: TextStyle(
-          fontSize: 24, fontWeight: FontWeight.w600, color: textColor),
-      titleLarge: TextStyle(
-          fontSize: 22, fontWeight: FontWeight.w600, color: textColor),
-      titleMedium: TextStyle(
-          fontSize: 16, fontWeight: FontWeight.w600, color: textColor),
-      titleSmall: TextStyle(
-          fontSize: 14, fontWeight: FontWeight.w600, color: textColor),
-      bodyLarge: TextStyle(
-          fontSize: 16, fontWeight: FontWeight.w400, color: textColor),
-      bodyMedium: TextStyle(
-          fontSize: 14, fontWeight: FontWeight.w400, color: textColor),
-      bodySmall: TextStyle(
-          fontSize: 12, fontWeight: FontWeight.w400, color: textColor),
-      labelLarge: TextStyle(
-          fontSize: 14, fontWeight: FontWeight.w600, color: textColor),
-      labelMedium: TextStyle(
-          fontSize: 12, fontWeight: FontWeight.w600, color: textColor),
-      labelSmall: TextStyle(
-          fontSize: 11, fontWeight: FontWeight.w600, color: textColor),
+    return GoogleFonts.plusJakartaSansTextTheme(
+      TextTheme(
+        displayLarge: TextStyle(
+            fontSize: 57, fontWeight: FontWeight.w400, color: textColor),
+        displayMedium: TextStyle(
+            fontSize: 45, fontWeight: FontWeight.w400, color: textColor),
+        displaySmall: TextStyle(
+            fontSize: 36, fontWeight: FontWeight.w400, color: textColor),
+        headlineLarge: TextStyle(
+            fontSize: 32, fontWeight: FontWeight.w600, color: textColor),
+        headlineMedium: TextStyle(
+            fontSize: 28, fontWeight: FontWeight.w600, color: textColor),
+        headlineSmall: TextStyle(
+            fontSize: 24, fontWeight: FontWeight.w600, color: textColor),
+        titleLarge: TextStyle(
+            fontSize: 22, fontWeight: FontWeight.w600, color: textColor),
+        titleMedium: TextStyle(
+            fontSize: 16, fontWeight: FontWeight.w600, color: textColor),
+        titleSmall: TextStyle(
+            fontSize: 14, fontWeight: FontWeight.w600, color: textColor),
+        bodyLarge: TextStyle(
+            fontSize: 16, fontWeight: FontWeight.w400, color: textColor),
+        bodyMedium: TextStyle(
+            fontSize: 14, fontWeight: FontWeight.w400, color: textColor),
+        bodySmall: TextStyle(
+            fontSize: 12, fontWeight: FontWeight.w400, color: textColor),
+        labelLarge: TextStyle(
+            fontSize: 14, fontWeight: FontWeight.w600, color: textColor),
+        labelMedium: TextStyle(
+            fontSize: 12, fontWeight: FontWeight.w600, color: textColor),
+        labelSmall: TextStyle(
+            fontSize: 11, fontWeight: FontWeight.w600, color: textColor),
+      ),
     );
   }
 }

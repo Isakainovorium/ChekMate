@@ -124,7 +124,7 @@ class _AppCommandMenuState extends State<AppCommandMenu> {
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
+              color: Colors.black.withOpacity(0.1),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
@@ -183,7 +183,7 @@ class _AppCommandMenuState extends State<AppCommandMenu> {
                 padding: const EdgeInsets.all(AppSpacing.sm),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.surfaceContainerHighest
-                      .withValues(alpha: 0.3),
+                      .withOpacity(0.3),
                   borderRadius: const BorderRadius.vertical(
                     bottom: Radius.circular(12),
                   ),
@@ -309,7 +309,7 @@ class _CommandItem extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: isSelected
-              ? theme.colorScheme.primaryContainer.withValues(alpha: 0.5)
+              ? theme.colorScheme.primaryContainer.withOpacity(0.5)
               : null,
         ),
         child: Row(
@@ -385,7 +385,7 @@ class _ShortcutHint extends StatelessWidget {
               color: theme.colorScheme.surface,
               borderRadius: BorderRadius.circular(2),
               border: Border.all(
-                color: theme.colorScheme.outline.withValues(alpha: 0.3),
+                color: theme.colorScheme.outline.withOpacity(0.3),
               ),
             ),
             child: Text(

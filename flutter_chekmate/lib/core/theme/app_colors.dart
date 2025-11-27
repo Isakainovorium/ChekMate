@@ -242,6 +242,6 @@ class AppColors {
 
   /// Get semantic color with opacity
   static Color withOpacity(Color color, double opacity) {
-    return color.withValues(alpha: opacity);
+    return color.withOpacity(opacity);
   }
 }

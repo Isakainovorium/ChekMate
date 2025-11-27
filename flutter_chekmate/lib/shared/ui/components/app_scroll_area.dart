@@ -101,7 +101,7 @@ class _AppScrollAreaState extends State<AppScrollArea> {
             ? AxisDirection.down
             : AxisDirection.right,
         color: widget.overscrollColor ??
-            theme.colorScheme.primary.withValues(alpha: 0.3),
+            theme.colorScheme.primary.withOpacity(0.3),
         child: scrollView,
       );
     } else {

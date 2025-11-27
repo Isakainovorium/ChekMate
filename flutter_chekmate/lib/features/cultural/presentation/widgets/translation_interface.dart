@@ -39,7 +39,7 @@ class _TranslationInterfaceState extends State<TranslationInterface> {
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
-              initialValue: _selectedTargetCulture,
+              value: _selectedTargetCulture,
               decoration: const InputDecoration(
                 labelText: 'Target Language',
                 border: OutlineInputBorder(),

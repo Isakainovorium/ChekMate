@@ -36,7 +36,7 @@ class NotificationCardWidget extends StatelessWidget {
       ),
       color: notification.isRead
           ? Theme.of(context).cardColor
-          : Theme.of(context).cardColor.withValues(alpha: 0.95),
+          : Theme.of(context).cardColor.withOpacity(0.95),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
@@ -82,7 +82,7 @@ class NotificationCardWidget extends StatelessWidget {
                         Text(
                           _formatTimeAgo(),
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).textTheme.bodySmall?.color?.withValues(alpha: 0.6),
+                            color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.6),
                           ),
                         ),
                       ],
@@ -94,7 +94,7 @@ class NotificationCardWidget extends StatelessWidget {
                     Text(
                       notification.body,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context).textTheme.bodyMedium?.color?.withValues(alpha: 0.8),
+                        color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.8),
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -136,7 +136,7 @@ class NotificationCardWidget extends StatelessWidget {
                           else
                             CircleAvatar(
                               radius: 12,
-                              backgroundColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+                              backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                               child: Icon(
                                 Icons.person,
                                 size: 14,
@@ -175,7 +175,7 @@ class NotificationCardWidget extends StatelessWidget {
                   icon: Icon(
                     Icons.close,
                     size: 16,
-                    color: Theme.of(context).iconTheme.color?.withValues(alpha: 0.5),
+                    color: Theme.of(context).iconTheme.color?.withOpacity(0.5),
                   ),
                   onPressed: onDelete ?? onDismiss,
                   padding: EdgeInsets.zero,
@@ -218,23 +218,23 @@ class NotificationCardWidget extends StatelessWidget {
   Color _getIconBackgroundColor(BuildContext context) {
     switch (notification.type) {
       case NotificationType.like:
-        return Colors.red.withValues(alpha: 0.1);
+        return Colors.red.withOpacity(0.1);
       case NotificationType.comment:
-        return Colors.blue.withValues(alpha: 0.1);
+        return Colors.blue.withOpacity(0.1);
       case NotificationType.follow:
-        return Colors.green.withValues(alpha: 0.1);
+        return Colors.green.withOpacity(0.1);
       case NotificationType.message:
-        return Colors.purple.withValues(alpha: 0.1);
+        return Colors.purple.withOpacity(0.1);
       case NotificationType.mention:
-        return Colors.orange.withValues(alpha: 0.1);
+        return Colors.orange.withOpacity(0.1);
       case NotificationType.share:
-        return Colors.teal.withValues(alpha: 0.1);
+        return Colors.teal.withOpacity(0.1);
       case NotificationType.chek:
-        return Colors.amber.withValues(alpha: 0.1);
+        return Colors.amber.withOpacity(0.1);
       case NotificationType.story:
-        return Colors.pink.withValues(alpha: 0.1);
+        return Colors.pink.withOpacity(0.1);
       case NotificationType.system:
-        return Colors.grey.withValues(alpha: 0.1);
+        return Colors.grey.withOpacity(0.1);
     }
   }
 

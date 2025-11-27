@@ -54,17 +54,17 @@ class _WisdomScoreContent extends StatelessWidget {
         gradient: LinearGradient(
           colors: [
             AppColors.surface,
-            AppColors.surfaceVariant.withValues(alpha: 0.65),
+            AppColors.surfaceVariant.withOpacity(0.65),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(24),
         border:
-            Border.all(color: AppColors.surfaceVariant.withValues(alpha: 0.6)),
+            Border.all(color: AppColors.surfaceVariant.withOpacity(0.6)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
+            color: Colors.black.withOpacity(0.08),
             blurRadius: 20,
             offset: const Offset(0, 12),
           )
@@ -201,7 +201,7 @@ class _ScoreGauge extends StatelessWidget {
                 strokeWidth: 8,
                 valueColor: const AlwaysStoppedAnimation(AppColors.primary),
                 backgroundColor:
-                    AppColors.surfaceVariant.withValues(alpha: 0.4),
+                    AppColors.surfaceVariant.withOpacity(0.4),
               ),
               Column(
                 mainAxisSize: MainAxisSize.min,
@@ -247,7 +247,7 @@ class _InfoChip extends StatelessWidget {
         vertical: AppSpacing.xs,
       ),
       decoration: BoxDecoration(
-        color: AppColors.surfaceVariant.withValues(alpha: 0.7),
+        color: AppColors.surfaceVariant.withOpacity(0.7),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -302,7 +302,7 @@ class _CategoryProgressRow extends StatelessWidget {
             child: LinearProgressIndicator(
               value: (value / 10).clamp(0, 1),
               minHeight: 8,
-              backgroundColor: AppColors.surfaceVariant.withValues(alpha: 0.3),
+              backgroundColor: AppColors.surfaceVariant.withOpacity(0.3),
               valueColor: const AlwaysStoppedAnimation(AppColors.primary),
             ),
           ),
@@ -351,7 +351,7 @@ class _FactorTile extends StatelessWidget {
           LinearProgressIndicator(
             value: (value / max).clamp(0, 1),
             minHeight: 6,
-            backgroundColor: AppColors.surfaceVariant.withValues(alpha: 0.3),
+            backgroundColor: AppColors.surfaceVariant.withOpacity(0.3),
             valueColor: const AlwaysStoppedAnimation(AppColors.primary),
           ),
         ],
@@ -368,7 +368,7 @@ class _WisdomScoreSkeleton extends StatelessWidget {
     return Container(
       height: 200,
       decoration: BoxDecoration(
-        color: AppColors.surfaceVariant.withValues(alpha: 0.4),
+        color: AppColors.surfaceVariant.withOpacity(0.4),
         borderRadius: BorderRadius.circular(24),
       ),
     );

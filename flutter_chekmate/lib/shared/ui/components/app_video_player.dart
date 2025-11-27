@@ -309,7 +309,7 @@ class _AppVideoPlayerState extends State<AppVideoPlayer>
                       width: 80,
                       height: 80,
                       decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.7),
+                        color: Colors.black.withOpacity(0.7),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
@@ -384,10 +384,10 @@ class _AppVideoPlayerState extends State<AppVideoPlayer>
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Colors.black.withValues(alpha: 0.3),
+              Colors.black.withOpacity(0.3),
               Colors.transparent,
               Colors.transparent,
-              Colors.black.withValues(alpha: 0.7),
+              Colors.black.withOpacity(0.7),
             ],
             stops: const [0.0, 0.3, 0.7, 1.0],
           ),
@@ -525,7 +525,7 @@ class _VideoProgressBarState extends State<_VideoProgressBar> {
     return SliderTheme(
       data: SliderTheme.of(context).copyWith(
         activeTrackColor: Colors.white,
-        inactiveTrackColor: Colors.white.withValues(alpha: 0.3),
+        inactiveTrackColor: Colors.white.withOpacity(0.3),
         thumbColor: Colors.white,
         thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
         overlayShape: const RoundSliderOverlayShape(overlayRadius: 12),
@@ -700,7 +700,7 @@ class AppVideoThumbnail extends StatelessWidget {
                     width: 48,
                     height: 48,
                     decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.7),
+                      color: Colors.black.withOpacity(0.7),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
@@ -722,7 +722,7 @@ class AppVideoThumbnail extends StatelessWidget {
                       vertical: 2,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.8),
+                      color: Colors.black.withOpacity(0.8),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(

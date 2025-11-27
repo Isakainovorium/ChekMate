@@ -19,6 +19,7 @@ import 'package:flutter_chekmate/pages/onboarding/interests_screen.dart';
 import 'package:flutter_chekmate/pages/onboarding/location_screen.dart';
 import 'package:flutter_chekmate/pages/onboarding/profile_photo_screen.dart';
 import 'package:flutter_chekmate/pages/onboarding/welcome_screen.dart';
+import 'package:flutter_chekmate/pages/splash/splash_screen.dart';
 import 'package:flutter_chekmate/pages/profile/interests_management_page.dart';
 import 'package:flutter_chekmate/pages/profile/notification_schedule_settings_page.dart';
 import 'package:flutter_chekmate/features/profile/pages/theme_settings_page.dart';
@@ -40,9 +41,19 @@ import 'package:go_router/go_router.dart';
 /// - Hero animations support
 final appRouterEnhancedProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: RoutePaths.home,
+    initialLocation: '/splash',
     debugLogDiagnostics: true,
     routes: [
+      // Splash Screen - App entry point
+      GoRoute(
+        path: '/splash',
+        name: 'splash',
+        pageBuilder: (context, state) => _buildFadePage(
+          context,
+          state,
+          const SplashScreen(),
+        ),
+      ),
       // Auth Routes - Fade transition
       GoRoute(
         path: RoutePaths.login,
@@ -141,7 +152,7 @@ final appRouterEnhancedProvider = Provider<GoRouter>((ref) {
           const MainNavigation(
             currentIndex: 4,
             child: MyProfilePage(
-              userAvatar: 'https://via.placeholder.com/150',
+              userAvatar: '', // Will use default avatar if empty
             ),
           ),
         ),
@@ -171,7 +182,7 @@ final appRouterEnhancedProvider = Provider<GoRouter>((ref) {
           const MainNavigation(
             currentIndex: 0,
             child: LivePage(
-              userAvatar: 'https://via.placeholder.com/150',
+              userAvatar: '', // Will use default avatar if empty
             ),
           ),
         ),
@@ -281,9 +292,9 @@ final appRouterEnhancedProvider = Provider<GoRouter>((ref) {
               currentIndex: 0,
               hideNavigation: true,
               child: PostDetailModal(
-                username: 'User',
-                avatar: 'https://via.placeholder.com/150',
-                content: 'Post $postId',
+                username: 'Loading...',
+                avatar: '', // Will fetch from post data
+                content: 'Loading post $postId...',
               ),
             ),
           );

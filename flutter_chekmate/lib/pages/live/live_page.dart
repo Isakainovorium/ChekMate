@@ -290,7 +290,7 @@ class _LivePageState extends State<LivePage> {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.6),
+                        color: Colors.black.withOpacity(0.6),
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Row(
@@ -413,7 +413,7 @@ class _LivePageState extends State<LivePage> {
                 .map(
                   (topic) => Chip(
                     label: Text(topic),
-                    backgroundColor: AppColors.primary.withValues(alpha: 0.1),
+                    backgroundColor: AppColors.primary.withOpacity(0.1),
                     labelStyle: const TextStyle(
                       color: AppColors.primary,
                       fontSize: 12,
@@ -429,7 +429,7 @@ class _LivePageState extends State<LivePage> {
 
   Widget _buildGoLiveModal() {
     return Container(
-      color: Colors.black.withValues(alpha: 0.5),
+      color: Colors.black.withOpacity(0.5),
       child: Center(
         child: AppCard(
           margin: const EdgeInsets.all(AppSpacing.lg),

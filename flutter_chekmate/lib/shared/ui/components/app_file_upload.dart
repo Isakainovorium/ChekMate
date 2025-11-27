@@ -61,15 +61,15 @@ class _AppFileUploadState extends State<AppFileUpload> {
                   border: Border.all(
                     color: _isDragOver
                         ? theme.colorScheme.primary
-                        : theme.colorScheme.outline.withValues(alpha: 0.3),
+                        : theme.colorScheme.outline.withOpacity(0.3),
                     width: _isDragOver ? 2 : 1,
                   ),
                   borderRadius: BorderRadius.circular(12),
                   color: _isDragOver
-                      ? theme.colorScheme.primaryContainer.withValues(alpha: 0.1)
+                      ? theme.colorScheme.primaryContainer.withOpacity(0.1)
                       : widget.enabled
                           ? theme.colorScheme.surface
-                          : theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+                          : theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
                 ),
                 child: Column(
                   children: [
@@ -78,7 +78,7 @@ class _AppFileUploadState extends State<AppFileUpload> {
                       size: 48,
                       color: widget.enabled
                           ? theme.colorScheme.primary
-                          : theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                          : theme.colorScheme.onSurface.withOpacity(0.5),
                     ),
                     const SizedBox(height: AppSpacing.md),
                     Text(
@@ -86,7 +86,7 @@ class _AppFileUploadState extends State<AppFileUpload> {
                       style: theme.textTheme.bodyLarge?.copyWith(
                         color: widget.enabled
                             ? theme.colorScheme.onSurface
-                            : theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                            : theme.colorScheme.onSurface.withOpacity(0.5),
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -267,7 +267,7 @@ class _FileItem extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: AppSpacing.sm),
       padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
-        border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.2)),
+        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.2)),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(

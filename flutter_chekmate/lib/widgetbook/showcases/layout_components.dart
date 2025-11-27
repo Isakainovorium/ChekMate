@@ -340,7 +340,7 @@ class LayoutComponentShowcases {
                   items: List.generate(
                     5,
                     (index) => Container(
-                      color: Colors.blue.withValues(alpha: 0.3),
+                      color: Colors.blue.withOpacity(0.3),
                       child: Center(child: Text('Item ${index + 1}')),
                     ),
                   ),
@@ -356,7 +356,7 @@ class LayoutComponentShowcases {
                   items: List.generate(
                     3,
                     (index) => Container(
-                      color: Colors.green.withValues(alpha: 0.3),
+                      color: Colors.green.withOpacity(0.3),
                       child: Center(child: Text('Slide ${index + 1}')),
                     ),
                   ),
@@ -415,11 +415,11 @@ class LayoutComponentShowcases {
                   direction: Axis.horizontal,
                   children: [
                     Container(
-                      color: Colors.blue.withValues(alpha: 0.3),
+                      color: Colors.blue.withOpacity(0.3),
                       child: const Center(child: Text('Left Panel')),
                     ),
                     Container(
-                      color: Colors.green.withValues(alpha: 0.3),
+                      color: Colors.green.withOpacity(0.3),
                       child: const Center(child: Text('Right Panel')),
                     ),
                   ],
@@ -434,11 +434,11 @@ class LayoutComponentShowcases {
                   direction: Axis.vertical,
                   children: [
                     Container(
-                      color: Colors.blue.withValues(alpha: 0.3),
+                      color: Colors.blue.withOpacity(0.3),
                       child: const Center(child: Text('Top Panel')),
                     ),
                     Container(
-                      color: Colors.green.withValues(alpha: 0.3),
+                      color: Colors.green.withOpacity(0.3),
                       child: const Center(child: Text('Bottom Panel')),
                     ),
                   ],
