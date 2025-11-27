@@ -1,7 +1,7 @@
 # iOS Deployment with CodeMagic - Complete Almanac
 
 **The Definitive Guide to iOS Deployment for ChekMate**  
-**Version**: 2.0 | **Last Updated**: November 24, 2025 | **Status**: Production-Ready
+**Version**: 5.0 | **Last Updated**: November 26, 2025 | **Status**: ✅ APP STORE READY
 
 ---
 
@@ -13,7 +13,10 @@
 - [CodeMagic Setup](#codemagic-configuration) - CI/CD configuration
 - [YAML Config](#codemagicyaml-complete-configuration) - The working configuration
 - [Common Issues](#common-issues--solutions) - Troubleshooting guide
+- [App Icon Issues](#issue-8-app-icon-wrong-dimensions-builds-66-68--critical) - **CRITICAL: Must be 1024x1024**
+- [Manual Xcode Upload](#issue-10-app-store-connect-upload-failure) - When automatic upload fails
 - [Best Practices](#best-practices) - Production-ready tips
+- [Build History](#-november-26-2025-evening---app-store-upload-success) - Lessons from 69 builds
 
 ---
 
@@ -367,6 +370,40 @@ pod install --repo-update
 ```
 
 3. Commit `Podfile.lock`
+
+---
+
+### Issue 6: App Icon Wrong Dimensions ⚠️ MOST COMMON UPLOAD FAILURE
+
+**Error during build**:
+```
+[!] App icon is using the incorrect size (e.g. Icon-App-1024x1024@1x.png).
+```
+
+**Error during Xcode upload**:
+```
+Missing app icon. Include a large app icon as a 1024 by 1024 pixel PNG.
+```
+
+**Root Cause**: Icon file is not exactly 1024x1024 pixels (must be SQUARE).
+
+**Diagnose**:
+```bash
+sips -g pixelWidth -g pixelHeight ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png
+```
+
+**Fix**:
+```bash
+# Pad to square with white background
+cd ios/Runner/Assets.xcassets/AppIcon.appiconset
+sips -p 1024 1024 --padColor FFFFFF Icon-App-1024x1024@1x.png
+```
+
+**Requirements**:
+- ✅ Exactly 1024 x 1024 pixels
+- ✅ PNG format
+- ✅ No transparency (solid background)
+- ✅ No rounded corners (Apple adds them)
 
 ---
 
@@ -860,6 +897,173 @@ After 58 builds spanning 2 days (November 24-26, 2025), the iOS deployment pipel
 
 **Lesson Learned**: Always verify iOS project structure is complete before pushing to CI/CD.
 
+---
+
+## 🚨 November 26, 2025 (Evening) - App Store Upload Success
+
+### Overview
+After resolving the initial build issues (Builds #1-58), we encountered **additional blockers during App Store upload validation**. Builds #59-69 resolved Flutter compatibility issues and critical app icon dimension problems.
+
+---
+
+### Issue #7: Flutter Theme Type Mismatches (Builds #59-65)
+
+**Error**:
+```
+Error: The argument type 'CardTheme' can't be assigned to the parameter type 'CardThemeData?'.
+Error: The argument type 'DialogTheme' can't be assigned to the parameter type 'DialogThemeData?'.
+```
+
+**Root Cause**: Codemagic's Flutter stable channel uses a newer version where theme properties expect `CardThemeData` and `DialogThemeData`, not `CardTheme` and `DialogTheme`.
+
+**Solution**:
+```dart
+// In lib/core/theme/app_theme.dart
+// ❌ Wrong (older Flutter)
+cardTheme: CardTheme(...)
+dialogTheme: DialogTheme(...)
+
+// ✅ Correct (Codemagic Flutter stable)
+cardTheme: CardThemeData(...)
+dialogTheme: DialogThemeData(...)
+```
+
+**Lesson**: Always check Flutter version compatibility between local dev and CI/CD environments.
+
+---
+
+### Issue #8: App Icon Wrong Dimensions (Builds #66-68) ⚠️ CRITICAL
+
+**Error**:
+```
+[!] App Icon and Launch Image Assets Validation
+    ! App icon is using the incorrect size (e.g. Icon-App-1024x1024@1x.png).
+```
+
+**Also seen during Xcode upload**:
+```
+Missing app icon. Include a large app icon as a 1024 by 1024 pixel PNG 
+for the 'Any Appearance' image well in the asset catalog.
+```
+
+**Root Cause**: The `Icon-App-1024x1024@1x.png` file was **1024 x 791 pixels** (NOT SQUARE!).
+
+**How to diagnose**:
+```bash
+# Check actual dimensions of your icon
+sips -g pixelWidth -g pixelHeight ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png
+```
+
+**Expected output**:
+```
+pixelWidth: 1024
+pixelHeight: 1024  # ← MUST be exactly 1024
+```
+
+**Solution**:
+```bash
+# Option 1: Pad to square with white background
+sips -p 1024 1024 --padColor FFFFFF Icon-App-1024x1024@1x.png
+
+# Option 2: Resize/crop (may distort)
+sips -z 1024 1024 Icon-App-1024x1024@1x.png
+
+# Option 3: Use a proper design tool to create exact 1024x1024 icon
+```
+
+**⚠️ App Icon Requirements**:
+- **Dimensions**: Exactly 1024 x 1024 pixels (SQUARE)
+- **Format**: PNG
+- **No transparency**: Must have solid background (no alpha channel)
+- **No rounded corners**: Apple applies rounding automatically
+
+---
+
+### Issue #9: Duplicate codemagic.yaml Files (Build #67)
+
+**Symptoms**:
+- Builds not triggering automatically
+- Caching not working
+- Confusion about which config is used
+
+**Root Cause**: Two `codemagic.yaml` files existed:
+- `/codemagic.yaml` (root - correct, with triggering and caching)
+- `/flutter_chekmate/codemagic.yaml` (duplicate - missing triggering)
+
+**Solution**:
+```bash
+# Delete the duplicate, keep only root config
+rm flutter_chekmate/codemagic.yaml
+git add -A
+git commit -m "Remove duplicate codemagic.yaml"
+git push
+```
+
+**Best Practice**: Only ONE `codemagic.yaml` at repository root.
+
+---
+
+### Issue #10: App Store Connect Upload Failure
+
+**Error**:
+```
+error: exportArchive Failed to Use Accounts
+```
+
+**Root Cause**: Codemagic's automatic upload to App Store Connect failed due to account authentication issues with API key.
+
+**Workaround - Manual Xcode Upload**:
+
+1. **Download artifact** from Codemagic:
+   - Go to build → Artifacts → Download `.zip`
+
+2. **Extract and place in Xcode Organizer**:
+   ```bash
+   # Extract
+   unzip ChekMate_69_artifacts.zip -d ChekMate_extracted
+   
+   # Create archive directory for today
+   mkdir -p ~/Library/Developer/Xcode/Archives/$(date +%Y-%m-%d)
+   
+   # Copy archive
+   cp -R ChekMate_extracted/flutter_chekmate/build/ios/archive/Runner.xcarchive \
+         ~/Library/Developer/Xcode/Archives/$(date +%Y-%m-%d)/ChekMate.xcarchive
+   
+   # Open in Xcode
+   open ~/Library/Developer/Xcode/Archives/$(date +%Y-%m-%d)/ChekMate.xcarchive
+   ```
+
+3. **Distribute via Xcode**:
+   - Open Xcode → Window → Organizer (⌘⇧O)
+   - Select archive → **Distribute App**
+   - Choose **App Store Connect** → **Upload**
+   - Sign in with Apple ID → Complete upload
+
+**Result**: ✅ Successfully uploaded to Apple (Nov 26, 2025 - 10:29 PM)
+
+---
+
+### 🎉 Final Success: Build #69 → App Store
+
+**Timeline**:
+- 10:02 PM - Build #69 started
+- 10:21 PM - Archive completed, downloaded artifact
+- 10:25 PM - Prepared archive in Xcode
+- 10:29 PM - **Successfully uploaded to Apple!**
+
+---
+
+### Quick Troubleshooting: App Icon Issues
+
+| Symptom | Likely Cause | Fix |
+|---------|--------------|-----|
+| "Missing app icon" | Icon not 1024x1024 | Check dimensions with `sips -g` |
+| "Incorrect size" | Icon not square | Pad/resize to exact 1024x1024 |
+| "No applicable content" | Contents.json wrong | Ensure all icon sizes listed |
+| Transparency error | PNG has alpha | Remove alpha channel, add solid bg |
+
+---
+
 ### Required iOS Files Checklist
 
 For any Flutter iOS project, ensure these files exist:
@@ -908,10 +1112,10 @@ For a new iOS app deployment:
 
 ---
 
-**Document Version**: 4.0  
-**Last Successful Build**: ✅ Build #58 (November 26, 2025 - 2:30 PM EST)  
-**Total Builds Attempted**: 58  
-**Build Duration**: ~22 minutes (Tests: 10m 17s, CocoaPods: 2m 9s, IPA: 5m 7s)  
+**Document Version**: 5.0  
+**Last Successful Build**: ✅ Build #69 (November 26, 2025 - 10:29 PM EST) - **UPLOADED TO APPLE!**  
+**Total Builds Attempted**: 69  
+**Build Duration**: ~5 minutes (Tests skipped, CocoaPods: ~15s, Archive: ~3.5m)  
 **Root Causes Identified**: 
 1. Windows `.xcconfig` files incompatible with Mac CI/CD (Builds #1-47)
 2. `ffmpeg-kit` 404 download errors (Builds #48-49)
@@ -919,13 +1123,19 @@ For a new iOS app deployment:
 4. Missing `AppFrameworkInfo.plist` (Builds #51-55)
 5. Missing storyboard files (Builds #56-57)
 6. Missing `AppDelegate.swift` and bridging header (Build #58)
+7. Flutter theme type mismatches - `CardTheme` vs `CardThemeData` (Builds #59-65)
+8. **App Icon wrong dimensions** - 1024x791 instead of 1024x1024 (Builds #66-68)
+9. Duplicate `codemagic.yaml` files causing confusion (Build #67)
 
 **Solutions Applied**: 
 - Generated config files on Mac (November 24, 2025)
 - Replaced `ffmpeg-kit` with `video_compress`
 - Added `build_runner` to CI pipeline
 - Created missing iOS framework and app files (November 25, 2025)
+- Fixed Flutter theme types for Codemagic's Flutter version (November 26, 2025)
+- **Fixed app icon to exact 1024x1024 dimensions** (November 26, 2025)
+- Deleted duplicate codemagic.yaml, kept root config only
 
-**Status**: ✅ PRODUCTION READY - First successful iOS build achieved!  
+**Status**: ✅ **APP STORE READY** - Successfully uploaded to Apple!  
 **Maintained By**: ChekMate Development Team  
-**Last Updated**: November 26, 2025 - 2:30 PM EST
+**Last Updated**: November 26, 2025 - 10:37 PM EST
