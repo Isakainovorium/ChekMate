@@ -13,7 +13,7 @@ import 'package:flutter_chekmate/features/feed/pages/messaging/pages/navigation/
 import 'package:flutter_chekmate/features/stories/models/story_model.dart';
 import 'package:flutter_chekmate/features/stories/presentation/story_viewer_screen.dart';
 import 'package:flutter_chekmate/pages/explore/explore_page.dart';
-import 'package:flutter_chekmate/pages/live/live_page.dart';
+import 'package:flutter_chekmate/features/live/presentation/pages/live_page.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -273,9 +273,9 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   Widget _buildLivePage() {
-    // LivePage without AppBar (HomePage has its own header)
+    // LivePageNew - Firebase-backed live streaming with WebRTC
     // userAvatar will be fetched from auth state in production
-    return const LivePage(
+    return const LivePageNew(
       userAvatar: '', // Empty string triggers default avatar
       showAppBar: false,
     );

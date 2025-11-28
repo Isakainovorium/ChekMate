@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chekmate/core/providers/providers.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
 import 'package:flutter_chekmate/features/notifications/domain/entities/notification_entity.dart';
@@ -27,8 +28,8 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
-  // TODO: Replace with actual user ID from auth provider
-  static const String _mockUserId = 'current_user';
+  /// Get current user ID from auth provider
+  String get _userId => ref.read(currentUserIdProvider).value ?? '';
 
   @override
   void initState() {
@@ -55,7 +56,7 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     // isDark available for future theme-specific styling
-    final unreadCount = ref.watch(unreadNotificationCountProvider(_mockUserId));
+    final unreadCount = ref.watch(unreadNotificationCountProvider(_userId));
 
     return Scaffold(
       appBar: AppBar(
@@ -134,7 +135,7 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage>
         controller: _tabController,
         children: NotificationFilter.values.map((filter) {
           return _NotificationsList(
-            userId: _mockUserId,
+            userId: _userId,
             filter: filter,
           );
         }).toList(),
@@ -144,7 +145,7 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage>
 
   void _markAllAsRead(BuildContext context) {
     ref
-        .read(notificationsControllerProvider(_mockUserId).notifier)
+        .read(notificationsControllerProvider(_userId).notifier)
         .markAllAsRead();
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -188,7 +189,7 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage>
             onPressed: () {
               Navigator.pop(context);
               ref
-                  .read(notificationsControllerProvider(_mockUserId).notifier)
+                  .read(notificationsControllerProvider(_userId).notifier)
                   .clearAll();
             },
             style: FilledButton.styleFrom(

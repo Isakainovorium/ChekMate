@@ -10,7 +10,7 @@ import 'package:flutter_chekmate/pages/auth/signup_page.dart';
 import 'package:flutter_chekmate/pages/create_post/create_post_page.dart';
 import 'package:flutter_chekmate/pages/explore/explore_page.dart';
 import 'package:flutter_chekmate/pages/home/home_page.dart';
-import 'package:flutter_chekmate/pages/live/live_page.dart';
+import 'package:flutter_chekmate/features/live/presentation/pages/live_page.dart';
 import 'package:flutter_chekmate/pages/messages/chat_page.dart';
 import 'package:flutter_chekmate/pages/messages/messages_page.dart';
 import 'package:flutter_chekmate/pages/notifications/notifications_page.dart';
@@ -181,7 +181,7 @@ final appRouterEnhancedProvider = Provider<GoRouter>((ref) {
           state,
           const MainNavigation(
             currentIndex: 0,
-            child: LivePage(
+            child: LivePageNew(
               userAvatar: '', // Will use default avatar if empty
             ),
           ),

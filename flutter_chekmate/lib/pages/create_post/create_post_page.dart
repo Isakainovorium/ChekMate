@@ -12,7 +12,6 @@ import '../../core/services/location_service.dart';
 import '../../core/services/content_generation_service.dart';
 import '../../features/posts/presentation/providers/posts_providers.dart';
 import '../../features/templates/models/story_template_model.dart';
-import '../../features/templates/presentation/providers/template_providers.dart';
 import '../../features/templates/presentation/widgets/template_selector_sheet.dart';
 import '../../features/templates/presentation/widgets/template_guided_form.dart';
 
