@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:video_compress/video_compress.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
 import 'package:flutter_chekmate/features/feed/pages/create_post/widgets/voiceover_recorder.dart';
+import 'package:flutter_chekmate/features/feed/services/video_processing_service.dart';
 import 'package:flutter_chekmate/features/messages/domain/entities/voice_message_entity.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,13 +16,13 @@ import 'package:video_player/video_player.dart';
 /// Video Editor Page - TikTok-like video editing with green screen
 ///
 /// Features:
-/// - Trim video
-/// - Add music
-/// - Green screen effect
-/// - Filters and effects
-/// - Text overlays
-/// - Stickers
-/// - Speed control
+/// - Real video playback with VideoPlayerController
+/// - Speed control (0.5x - 2x) with live preview
+/// - Visual effects with ColorFilter preview
+/// - Text overlays with positioning
+/// - Music library with categories
+/// - Voiceover recording
+/// - Green screen background replacement
 class VideoEditorPage extends StatefulWidget {
   const VideoEditorPage({
     required this.videoPath,
@@ -36,11 +37,64 @@ class VideoEditorPage extends StatefulWidget {
 }
 
 class _VideoEditorPageState extends State<VideoEditorPage> {
+  // Video controller for real playback
+  VideoPlayerController? _videoController;
+  bool _isVideoInitialized = false;
+  bool _isPlaying = false;
+  
   String? _backgroundImage;
   double _playbackSpeed = 1.0;
   final List<Map<String, dynamic>> _textOverlays = [];
   final List<String> _selectedEffects = [];
   VoiceMessageEntity? _voiceoverAudio;
+  MusicTrackInfo? _selectedMusic;
+  VideoEffect _currentEffect = VideoEffect.none;
+  
+  final VideoProcessingService _processingService = VideoProcessingService.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeVideo();
+  }
+
+  Future<void> _initializeVideo() async {
+    _videoController = VideoPlayerController.file(File(widget.videoPath));
+    try {
+      await _videoController!.initialize();
+      _videoController!.addListener(_videoListener);
+      if (mounted) {
+        setState(() => _isVideoInitialized = true);
+      }
+    } catch (e) {
+      debugPrint('Error initializing video: $e');
+    }
+  }
+
+  void _videoListener() {
+    if (mounted && _videoController != null) {
+      setState(() {
+        _isPlaying = _videoController!.value.isPlaying;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _videoController?.removeListener(_videoListener);
+    _videoController?.dispose();
+    super.dispose();
+  }
+
+  void _togglePlayPause() {
+    if (_videoController == null) return;
+    if (_isPlaying) {
+      _videoController!.pause();
+    } else {
+      _videoController!.play();
+    }
+    HapticFeedback.lightImpact();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,66 +126,14 @@ class _VideoEditorPageState extends State<VideoEditorPage> {
       ),
       body: Column(
         children: [
-          // Video Preview
+          // Video Preview with real playback
           Expanded(
             flex: 3,
-            child: Container(
-              color: Colors.grey.shade900,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.play_circle_outline,
-                      size: 80,
-                      color: Colors.white.withOpacity(0.7),
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    Text(
-                      'Video Preview',
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.7),
-                        fontSize: 16,
-                      ),
-                    ),
-                    if (widget.useGreenScreen && _backgroundImage != null)
-                      const Padding(
-                        padding: EdgeInsets.only(top: AppSpacing.sm),
-                        child: Text(
-                          'Green Screen Active',
-                          style: TextStyle(
-                            color: AppColors.primary,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ),
+            child: _buildVideoPreview(),
           ),
 
-          // Timeline/Scrubber
-          Container(
-            height: 80,
-            color: Colors.grey.shade900,
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-            child: Row(
-              children: [
-                const Icon(Icons.play_arrow, color: Colors.white),
-                Expanded(
-                  child: AppSlider(
-                    value: 0.5,
-                    onChanged: _seekVideo,
-                  ),
-                ),
-                const Text(
-                  '0:00 / 0:15',
-                  style: TextStyle(color: Colors.white, fontSize: 12),
-                ),
-              ],
-            ),
-          ),
+          // Timeline/Scrubber with real video position
+          _buildTimeline(),
 
           // Editing Tools
           Expanded(
@@ -144,6 +146,185 @@ class _VideoEditorPageState extends State<VideoEditorPage> {
         ],
       ),
     );
+  }
+
+  Widget _buildVideoPreview() {
+    if (!_isVideoInitialized || _videoController == null) {
+      return Container(
+        color: Colors.grey.shade900,
+        child: const Center(
+          child: CircularProgressIndicator(color: AppColors.primary),
+        ),
+      );
+    }
+
+    final colorFilter = _processingService.getColorFilterForEffect(_currentEffect);
+
+    return GestureDetector(
+      onTap: _togglePlayPause,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          // Background image for green screen
+          if (_backgroundImage != null)
+            Positioned.fill(
+              child: Image.file(
+                File(_backgroundImage!),
+                fit: BoxFit.cover,
+              ),
+            ),
+
+          // Video with effect filter
+          Center(
+            child: AspectRatio(
+              aspectRatio: _videoController!.value.aspectRatio,
+              child: ColorFiltered(
+                colorFilter: colorFilter ?? const ColorFilter.mode(
+                  Colors.transparent,
+                  BlendMode.dst,
+                ),
+                child: VideoPlayer(_videoController!),
+              ),
+            ),
+          ),
+
+          // Play/Pause indicator
+          if (!_isPlaying)
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: const BoxDecoration(
+                color: Colors.black54,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.play_arrow,
+                color: Colors.white,
+                size: 48,
+              ),
+            ),
+
+          // Speed indicator
+          if (_playbackSpeed != 1.0)
+            Positioned(
+              top: 16,
+              right: 16,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  '${_playbackSpeed}x',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+
+          // Effect indicator
+          if (_currentEffect != VideoEffect.none)
+            Positioned(
+              top: 16,
+              left: 16,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  _currentEffect.name,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+
+          // Green screen indicator
+          if (widget.useGreenScreen && _backgroundImage != null)
+            Positioned(
+              bottom: 16,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.green.withOpacity(0.8),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.check, color: Colors.white, size: 16),
+                    SizedBox(width: 4),
+                    Text(
+                      'Green Screen Active',
+                      style: TextStyle(color: Colors.white, fontSize: 12),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTimeline() {
+    if (!_isVideoInitialized || _videoController == null) {
+      return Container(
+        height: 80,
+        color: Colors.grey.shade900,
+        child: const Center(
+          child: Text('Loading...', style: TextStyle(color: Colors.white54)),
+        ),
+      );
+    }
+
+    final duration = _videoController!.value.duration;
+    final position = _videoController!.value.position;
+
+    return Container(
+      height: 80,
+      color: Colors.grey.shade900,
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+      child: Row(
+        children: [
+          IconButton(
+            icon: Icon(
+              _isPlaying ? Icons.pause : Icons.play_arrow,
+              color: Colors.white,
+            ),
+            onPressed: _togglePlayPause,
+          ),
+          Expanded(
+            child: Slider(
+              value: position.inMilliseconds.toDouble().clamp(
+                0,
+                duration.inMilliseconds.toDouble(),
+              ),
+              min: 0,
+              max: duration.inMilliseconds.toDouble(),
+              activeColor: AppColors.primary,
+              inactiveColor: Colors.grey.shade700,
+              onChanged: (value) {
+                _videoController!.seekTo(Duration(milliseconds: value.toInt()));
+              },
+            ),
+          ),
+          Text(
+            '${_formatDuration(position.inSeconds)} / ${_formatDuration(duration.inSeconds)}',
+            style: const TextStyle(color: Colors.white, fontSize: 12),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _formatDuration(int seconds) {
+    final minutes = seconds ~/ 60;
+    final remainingSeconds = seconds % 60;
+    return '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
   }
 
   Widget _buildEditingTools() {
@@ -183,37 +364,42 @@ class _VideoEditorPageState extends State<VideoEditorPage> {
   }
 
   Widget _buildEffectsTab() {
+    // Effects with VideoEffect enum for real-time preview
     final effects = [
-      {'id': 'beauty', 'name': 'Beauty', 'icon': Icons.face_retouching_natural},
-      {'id': 'vintage', 'name': 'Vintage', 'icon': Icons.filter_vintage},
-      {'id': 'vivid', 'name': 'Vivid', 'icon': Icons.filter_hdr},
-      {'id': 'bw', 'name': 'B&W', 'icon': Icons.filter_b_and_w},
-      {'id': 'blur', 'name': 'Blur', 'icon': Icons.blur_on},
-      {'id': 'sharpen', 'name': 'Sharpen', 'icon': Icons.auto_fix_high},
+      (VideoEffect.none, 'None', Icons.block),
+      (VideoEffect.beauty, 'Beauty', Icons.face_retouching_natural),
+      (VideoEffect.vintage, 'Vintage', Icons.filter_vintage),
+      (VideoEffect.vivid, 'Vivid', Icons.filter_hdr),
+      (VideoEffect.blackAndWhite, 'B&W', Icons.filter_b_and_w),
+      (VideoEffect.sepia, 'Sepia', Icons.filter),
+      (VideoEffect.cool, 'Cool', Icons.ac_unit),
+      (VideoEffect.warm, 'Warm', Icons.wb_sunny),
     ];
 
     return GridView.builder(
       padding: const EdgeInsets.all(AppSpacing.md),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
+        crossAxisCount: 4,
         crossAxisSpacing: AppSpacing.sm,
         mainAxisSpacing: AppSpacing.sm,
-        childAspectRatio: 1.2,
+        childAspectRatio: 1,
       ),
       itemCount: effects.length,
       itemBuilder: (context, index) {
-        final effect = effects[index];
-        final isSelected = _selectedEffects.contains(effect['id']);
+        final (effect, name, icon) = effects[index];
+        final isSelected = _currentEffect == effect;
 
         return InkWell(
           onTap: () {
             setState(() {
-              if (isSelected) {
-                _selectedEffects.remove(effect['id']);
-              } else {
-                _selectedEffects.add(effect['id'] as String);
+              _currentEffect = effect;
+              // Also update the legacy list for backward compatibility
+              _selectedEffects.clear();
+              if (effect != VideoEffect.none) {
+                _selectedEffects.add(effect.name);
               }
             });
+            HapticFeedback.selectionClick();
           },
           child: Container(
             decoration: BoxDecoration(
@@ -230,16 +416,16 @@ class _VideoEditorPageState extends State<VideoEditorPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  effect['icon'] as IconData,
+                  icon,
                   color: isSelected ? AppColors.primary : Colors.white,
-                  size: 32,
+                  size: 28,
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  effect['name'] as String,
+                  name,
                   style: TextStyle(
                     color: isSelected ? AppColors.primary : Colors.white,
-                    fontSize: 12,
+                    fontSize: 10,
                   ),
                 ),
               ],
@@ -375,6 +561,8 @@ class _VideoEditorPageState extends State<VideoEditorPage> {
   }
 
   Widget _buildSpeedTab() {
+    final speeds = [0.5, 0.75, 1.0, 1.25, 1.5, 2.0];
+    
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.md),
       child: Column(
@@ -388,44 +576,47 @@ class _VideoEditorPageState extends State<VideoEditorPage> {
               fontWeight: FontWeight.w600,
             ),
           ),
+          const SizedBox(height: AppSpacing.sm),
+          const Text(
+            'Speed changes are applied in real-time preview',
+            style: TextStyle(color: Colors.white54, fontSize: 12),
+          ),
           const SizedBox(height: AppSpacing.md),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildSpeedButton('0.5x', 0.5),
-              _buildSpeedButton('1x', 1.0),
-              _buildSpeedButton('1.5x', 1.5),
-              _buildSpeedButton('2x', 2.0),
-            ],
+            children: speeds.map((speed) => _buildSpeedButton('${speed}x', speed)).toList(),
           ),
-          const SizedBox(height: AppSpacing.md),
-          AppSlider(
+          const SizedBox(height: AppSpacing.lg),
+          Slider(
             value: _playbackSpeed,
             min: 0.5,
             max: 2.0,
             divisions: 6,
-            label: 'Playback Speed',
-            onChanged: (value) {
-              setState(() {
-                _playbackSpeed = value;
-              });
-            },
+            label: '${_playbackSpeed}x',
             activeColor: AppColors.primary,
+            onChanged: (value) {
+              _setPlaybackSpeed(value);
+            },
           ),
         ],
       ),
     );
   }
 
+  void _setPlaybackSpeed(double speed) {
+    setState(() {
+      _playbackSpeed = speed;
+    });
+    // Apply speed to video controller for real-time preview
+    _videoController?.setPlaybackSpeed(speed);
+    HapticFeedback.selectionClick();
+  }
+
   Widget _buildSpeedButton(String label, double speed) {
     final isSelected = _playbackSpeed == speed;
 
     return InkWell(
-      onTap: () {
-        setState(() {
-          _playbackSpeed = speed;
-        });
-      },
+      onTap: () => _setPlaybackSpeed(speed),
       child: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.md,
@@ -447,33 +638,91 @@ class _VideoEditorPageState extends State<VideoEditorPage> {
   }
 
   Widget _buildMusicTab() {
-    return Padding(
-      padding: const EdgeInsets.all(AppSpacing.md),
-      child: Column(
-        children: [
-          ElevatedButton.icon(
-            onPressed: _openMusicLibrary,
-            icon: const Icon(Icons.library_music),
-            label: const Text('Add Music'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
-              minimumSize: const Size(double.infinity, 50),
+    return Column(
+      children: [
+        // Selected music indicator
+        if (_selectedMusic != null)
+          Container(
+            margin: const EdgeInsets.all(AppSpacing.md),
+            padding: const EdgeInsets.all(AppSpacing.md),
+            decoration: BoxDecoration(
+              color: AppColors.primary.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppColors.primary),
+            ),
+            child: Row(
+              children: [
+                const Icon(Icons.music_note, color: AppColors.primary),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _selectedMusic!.name,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        '${_selectedMusic!.artist} • ${_selectedMusic!.formattedDuration}',
+                        style: const TextStyle(color: Colors.white70, fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.close, color: Colors.red),
+                  onPressed: () => setState(() => _selectedMusic = null),
+                ),
+              ],
             ),
           ),
-          const SizedBox(height: AppSpacing.sm),
-          ElevatedButton.icon(
-            onPressed: _recordVoiceover,
-            icon: const Icon(Icons.mic),
-            label: const Text('Record Voiceover'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.grey.shade800,
-              foregroundColor: Colors.white,
-              minimumSize: const Size(double.infinity, 50),
-            ),
+        
+        // Music library
+        Expanded(
+          child: ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+            itemCount: MusicLibrary.categories.length,
+            itemBuilder: (context, index) {
+              final category = MusicLibrary.categories[index];
+              return ExpansionTile(
+                leading: Icon(category.icon, color: AppColors.primary),
+                title: Text(category.name, style: const TextStyle(color: Colors.white)),
+                iconColor: Colors.white,
+                collapsedIconColor: Colors.white70,
+                children: category.tracks.map((track) {
+                  final isSelected = _selectedMusic?.name == track.name;
+                  return ListTile(
+                    leading: Icon(
+                      isSelected ? Icons.check_circle : Icons.music_note,
+                      color: isSelected ? AppColors.primary : Colors.white70,
+                    ),
+                    title: Text(track.name, style: const TextStyle(color: Colors.white)),
+                    subtitle: Text(
+                      '${track.artist} • ${track.formattedDuration}',
+                      style: const TextStyle(color: Colors.white54, fontSize: 12),
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(
+                        isSelected ? Icons.remove_circle : Icons.add_circle,
+                        color: isSelected ? Colors.red : AppColors.primary,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _selectedMusic = isSelected ? null : track;
+                        });
+                        HapticFeedback.selectionClick();
+                      },
+                    ),
+                  );
+                }).toList(),
+              );
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -545,130 +794,6 @@ class _VideoEditorPageState extends State<VideoEditorPage> {
 
   void _saveVideo() {
     _applyEditsAndSave();
-  }
-
-  void _seekVideo(double position) {
-    // Placeholder for video seeking functionality
-    // In a real implementation, this would seek the video to the specified position
-    debugPrint('Seeking video to position: $position');
-  }
-
-  void _openMusicLibrary() {
-    showModalBottomSheet<void>(
-      context: context,
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(AppSpacing.md),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Music Library',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: AppColors.navyBlue,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            const Center(
-              child: Padding(
-                padding: EdgeInsets.all(AppSpacing.lg),
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.library_music,
-                      size: 48,
-                      color: AppColors.textSecondary,
-                    ),
-                    SizedBox(height: AppSpacing.sm),
-                    Text(
-                      'Music library feature coming soon',
-                      style: TextStyle(
-                        color: AppColors.textSecondary,
-                        fontSize: 14,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                ),
-                child: const Text('Close'),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _recordVoiceover() {
-    showModalBottomSheet<void>(
-      context: context,
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(AppSpacing.md),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Record Voiceover',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: AppColors.navyBlue,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            const Center(
-              child: Padding(
-                padding: EdgeInsets.all(AppSpacing.lg),
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.mic,
-                      size: 48,
-                      color: AppColors.textSecondary,
-                    ),
-                    SizedBox(height: AppSpacing.sm),
-                    Text(
-                      'Voiceover recording feature coming soon',
-                      style: TextStyle(
-                        color: AppColors.textSecondary,
-                        fontSize: 14,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                ),
-                child: const Text('Close'),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   Widget _buildVoiceoverTab() {
@@ -817,11 +942,7 @@ class _VideoEditorPageState extends State<VideoEditorPage> {
     }
   }
 
-  String _formatDuration(int seconds) {
-    final minutes = seconds ~/ 60;
-    final remainingSeconds = seconds % 60;
-    return '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
-  }
+  // Note: _formatDuration is defined earlier in the file for timeline display
 
   Future<String?> _mixAudioWithVideo() async {
     if (_voiceoverAudio == null) return null;
