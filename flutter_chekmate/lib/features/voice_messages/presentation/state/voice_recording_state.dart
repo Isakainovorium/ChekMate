@@ -87,7 +87,7 @@ class VoiceRecordingState extends Equatable {
   factory VoiceRecordingState.completed({
     required int duration,
     required String filePath,
-    required VoiceMessageEntity voiceMessage,
+    VoiceMessageEntity? voiceMessage,
   }) {
     return VoiceRecordingState(
       status: VoiceRecordingStatus.completed,

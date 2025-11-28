@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/features/voice_messages/domain/entities/voice_message_entity.dart';
 import 'package:flutter_chekmate/features/voice_messages/presentation/providers/voice_recording_providers.dart';
 import 'package:flutter_chekmate/features/voice_messages/presentation/state/voice_recording_state.dart';
@@ -8,7 +10,7 @@ import 'package:flutter_chekmate/features/voice_messages/presentation/state/voic
 ///
 /// A floating action button that handles voice recording with visual feedback.
 /// Integrates with Riverpod state management for recording state.
-class VoiceRecordingButton extends ConsumerWidget {
+class VoiceRecordingButton extends ConsumerStatefulWidget {
   const VoiceRecordingButton({
     super.key,
     required this.senderId,
@@ -35,65 +37,137 @@ class VoiceRecordingButton extends ConsumerWidget {
   final void Function(String error)? onError;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final recordingState = ref.watch(voiceRecordingProvider);
-    final recordingNotifier = ref.read(voiceRecordingProvider.notifier);
+  ConsumerState<VoiceRecordingButton> createState() => _VoiceRecordingButtonState();
+}
 
-    return SizedBox(
-      width: size,
-      height: size,
-      child: FloatingActionButton(
-        onPressed: () => _handleRecording(recordingState, recordingNotifier),
-        backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.primary,
-        foregroundColor: primaryColor ?? Theme.of(context).colorScheme.onPrimary,
-        elevation: recordingState.isRecording ? 8.0 : 6.0,
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 200),
-          child: _buildIcon(recordingState),
+class _VoiceRecordingButtonState extends ConsumerState<VoiceRecordingButton> {
+  @override
+  Widget build(BuildContext context) {
+    final recordingState = ref.watch(voiceRecordingProvider);
+
+    // Listen for state changes
+    ref.listen<VoiceRecordingState>(voiceRecordingProvider, (previous, next) {
+      // Handle completion
+      if (next.isCompleted && next.filePath != null) {
+        _handleRecordingComplete(next);
+      }
+      
+      // Handle errors
+      if (next.hasError && widget.onError != null) {
+        widget.onError!(next.errorMessage ?? 'Unknown error');
+      }
+    });
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Duration indicator when recording
+        if (recordingState.isRecording || recordingState.isPaused)
+          Container(
+            margin: const EdgeInsets.only(bottom: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            decoration: BoxDecoration(
+              color: recordingState.isRecording ? Colors.red : Colors.orange,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Text(
+              _formatDuration(recordingState.duration),
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+            ),
+          ),
+        
+        // Recording button
+        SizedBox(
+          width: widget.size,
+          height: widget.size,
+          child: GestureDetector(
+            onLongPress: () => _startRecording(),
+            onLongPressEnd: (_) => _stopRecording(),
+            child: FloatingActionButton(
+              onPressed: () => _handleTap(recordingState),
+              backgroundColor: recordingState.isRecording
+                  ? Colors.red
+                  : (widget.backgroundColor ?? AppColors.primary),
+              foregroundColor: widget.primaryColor ?? Colors.white,
+              elevation: recordingState.isRecording ? 8.0 : 6.0,
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                child: _buildIcon(recordingState),
+              ),
+            ),
+          ),
         ),
-      ),
+        
+        // Cancel button when recording
+        if (recordingState.isRecording || recordingState.isPaused)
+          TextButton(
+            onPressed: _cancelRecording,
+            child: const Text(
+              'Cancel',
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+      ],
     );
   }
 
-  void _handleRecording(VoiceRecordingState state, VoiceRecordingNotifier notifier) {
-    if (state.isIdle) {
-      // Start recording
-      notifier.startRecording();
+  String _formatDuration(int seconds) {
+    final minutes = seconds ~/ 60;
+    final remainingSeconds = seconds % 60;
+    return '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
+  }
+
+  void _handleTap(VoiceRecordingState state) {
+    if (state.isIdle || state.isCompleted) {
+      _startRecording();
     } else if (state.isRecording) {
-      // Stop recording
-      notifier.stopRecording();
-      // Mock completion callback
-      if (onRecordingComplete != null) {
-        // In real implementation, this would be called after processing/uploading
-        // For now, create a mock VoiceMessageEntity
-        final mockMessage = VoiceMessageEntity(
-          id: 'mock-id',
-          senderId: senderId,
-          receiverId: receiverId,
-          url: 'https://example.com/voice.mp3',
-          duration: 5,
-          createdAt: DateTime.now(),
-        );
-        onRecordingComplete!(mockMessage);
-      }
+      _stopRecording();
     } else if (state.isPaused) {
-      // Resume recording
-      notifier.resumeRecording();
+      ref.read(voiceRecordingProvider.notifier).resumeRecording();
     }
+    HapticFeedback.mediumImpact();
+  }
 
-    // Handle errors (mock implementation)
-    if (state.hasError && onError != null) {
-      onError!(state.errorMessage ?? 'Unknown error');
-    }
+  void _startRecording() {
+    ref.read(voiceRecordingProvider.notifier).startRecording();
+    HapticFeedback.heavyImpact();
+  }
 
-    // Handle cancellation
-    if (onRecordingCancelled != null) {
-      // In real implementation, this would be called when recording is cancelled
+  Future<void> _stopRecording() async {
+    await ref.read(voiceRecordingProvider.notifier).stopRecording();
+    HapticFeedback.lightImpact();
+  }
+
+  void _cancelRecording() {
+    ref.read(voiceRecordingProvider.notifier).cancelRecording();
+    widget.onRecordingCancelled?.call();
+    HapticFeedback.lightImpact();
+  }
+
+  void _handleRecordingComplete(VoiceRecordingState state) {
+    if (widget.onRecordingComplete != null && state.filePath != null) {
+      final voiceMessage = VoiceMessageEntity(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        senderId: widget.senderId,
+        receiverId: widget.receiverId,
+        url: state.filePath!, // Local file path, will be uploaded by caller
+        duration: state.duration,
+        createdAt: DateTime.now(),
+        filePath: state.filePath,
+      );
+      widget.onRecordingComplete!(voiceMessage);
     }
+    
+    // Reset state after completion callback
+    ref.read(voiceRecordingProvider.notifier).completeRecording();
   }
 
   Widget _buildIcon(VoiceRecordingState state) {
-    final iconSizeValue = iconSize ?? (size * 0.6);
+    final iconSizeValue = widget.iconSize ?? (widget.size * 0.5);
 
     if (state.isRecording) {
       return Icon(
@@ -106,6 +180,15 @@ class VoiceRecordingButton extends ConsumerWidget {
         Icons.play_arrow,
         key: const ValueKey('play'),
         size: iconSizeValue,
+      );
+    } else if (state.isProcessing) {
+      return SizedBox(
+        width: iconSizeValue,
+        height: iconSizeValue,
+        child: const CircularProgressIndicator(
+          strokeWidth: 2,
+          color: Colors.white,
+        ),
       );
     } else {
       return Icon(

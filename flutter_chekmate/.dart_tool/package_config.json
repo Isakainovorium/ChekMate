@@ -1100,6 +1100,48 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "record",
+      "rootUri": "file:///Users/nefertareielbey/.pub-cache/hosted/pub.dev/record-5.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "record_android",
+      "rootUri": "file:///Users/nefertareielbey/.pub-cache/hosted/pub.dev/record_android-1.4.5",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "record_darwin",
+      "rootUri": "file:///Users/nefertareielbey/.pub-cache/hosted/pub.dev/record_darwin-1.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "record_linux",
+      "rootUri": "file:///Users/nefertareielbey/.pub-cache/hosted/pub.dev/record_linux-0.7.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "record_platform_interface",
+      "rootUri": "file:///Users/nefertareielbey/.pub-cache/hosted/pub.dev/record_platform_interface-1.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "record_web",
+      "rootUri": "file:///Users/nefertareielbey/.pub-cache/hosted/pub.dev/record_web-1.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "record_windows",
+      "rootUri": "file:///Users/nefertareielbey/.pub-cache/hosted/pub.dev/record_windows-1.0.7",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
       "name": "resizable_widget",
       "rootUri": "file:///Users/nefertareielbey/.pub-cache/hosted/pub.dev/resizable_widget-1.0.5",
       "packageUri": "lib/",
@@ -1562,7 +1604,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2025-11-28T22:40:45.705991Z",
+  "generated": "2025-11-28T23:22:04.296885Z",
   "generator": "pub",
   "generatorVersion": "3.5.4",
   "flutterRoot": "file:///Users/nefertareielbey/Downloads/flutter",
