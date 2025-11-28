@@ -347,12 +347,33 @@ class _HomePageState extends ConsumerState<HomePage> {
             ),
           ),
           const SizedBox(height: 32),
-          // Sprint 2 - Task 2.5.2: Replace ElevatedButton with AppButton
-          AppButton(
+          // Premium subscribe button with scale effect
+          PremiumScaleButton(
             onPressed: () => context.go('/subscribe'),
-            variant: AppButtonVariant.primary,
-            size: AppButtonSize.lg,
-            child: const Text('View Plans'),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFFF5A623), Color(0xFFFF8C00)],
+                ),
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFF5A623).withOpacity(0.4),
+                    blurRadius: 16,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
+              ),
+              child: const Text(
+                'View Plans',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
+            ),
           ),
           const SizedBox(height: 48),
           _buildFeatureItem(

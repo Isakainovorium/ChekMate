@@ -166,14 +166,16 @@ class _ConversationTile extends ConsumerWidget {
         conversation.getOtherParticipantAvatar(currentUserId);
     final unreadCount = conversation.getUnreadCount(currentUserId);
 
-    return AppCard(
+    return PremiumCard(
       margin: const EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
         vertical: AppSpacing.xs,
       ),
       padding: EdgeInsets.zero,
+      borderRadius: 16,
+      elevation: 0.6,
+      onTap: onTap,
       child: ListTile(
-        onTap: onTap,
         leading: HeroAvatar(
           tag: HeroTags.messageAvatar(otherParticipantId),
           imageUrl: otherParticipantAvatar,

@@ -134,7 +134,10 @@ class _MyProfilePageState extends State<MyProfilePage> {
   Widget _buildHeader() {
     return Transform.translate(
       offset: const Offset(0, -40),
-      child: AppCard(
+      child: PremiumCard(
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        borderRadius: 24,
+        elevation: 1.5,
         child: Column(
           children: [
             const SizedBox(height: AppSpacing.md),
@@ -209,33 +212,53 @@ class _MyProfilePageState extends State<MyProfilePage> {
   }
 
   Widget _buildEditProfileButton() {
-    return AppCard(
+    return PremiumCard(
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.md,
       ),
+      borderRadius: 20,
+      elevation: 0.8,
       child: Row(
         children: [
           Expanded(
-            child: AppButton(
+            child: PremiumScaleButton(
               onPressed: () => debugPrint('Edit profile'),
-              variant: AppButtonVariant.outline,
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.edit_outlined, size: 18),
-                  SizedBox(width: 8),
-                  Text('Edit Profile'),
-                ],
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.edit_outlined, size: 18, color: AppColors.primary),
+                    SizedBox(width: 8),
+                    Text(
+                      'Edit Profile',
+                      style: TextStyle(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
           const SizedBox(width: AppSpacing.sm),
-          AppButton(
+          PremiumScaleButton(
             onPressed: () => _showSettingsMenu(context),
-            variant: AppButtonVariant.outline,
-            size: AppButtonSize.sm,
-            child: const Icon(Icons.settings_outlined, size: 18),
+            child: Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey.shade300),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(Icons.settings_outlined, size: 20, color: Colors.grey.shade700),
+            ),
           ),
         ],
       ),

@@ -300,8 +300,12 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
           },
         ),
       ],
-      child: AppCard(
-        margin: const EdgeInsets.only(bottom: AppSpacing.sm),
+      // Premium Card with soft shadows and rounded corners
+      child: PremiumCard(
+        margin: const EdgeInsets.only(bottom: AppSpacing.md),
+        padding: EdgeInsets.zero,
+        borderRadius: 20,
+        elevation: 1.2,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -555,36 +559,40 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
               ),
               const SizedBox(width: AppSpacing.md),
 
-              // Comment button
-              AppButton(
+              // Comment button with premium scale
+              PremiumScaleButton(
                 onPressed: widget.onCommentPressed,
-                variant: AppButtonVariant.text,
-                size: AppButtonSize.sm,
-                semanticLabel: 'View comments',
-                semanticHint: 'Double tap to view ${widget.post.comments} comments',
-                tooltip: 'Comments',
-                child: Icon(
-                  Icons.chat_bubble_outline,
-                  color: Colors.grey.shade700,
+                child: Tooltip(
+                  message: 'Comments',
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Icon(
+                      Icons.chat_bubble_outline,
+                      color: Colors.grey.shade700,
+                      size: 24,
+                    ),
+                  ),
                 ),
               ),
               Text(
                 _formatNumber(widget.post.comments),
                 style: const TextStyle(fontSize: 14),
               ),
-              const SizedBox(width: AppSpacing.md),
+              const SizedBox(width: AppSpacing.sm),
 
-              // Share button
-              AppButton(
+              // Share button with premium scale
+              PremiumScaleButton(
                 onPressed: widget.onSharePressed,
-                variant: AppButtonVariant.text,
-                size: AppButtonSize.sm,
-                semanticLabel: 'Share post',
-                semanticHint: 'Double tap to share this post',
-                tooltip: 'Share',
-                child: Icon(
-                  Icons.share_outlined,
-                  color: Colors.grey.shade700,
+                child: Tooltip(
+                  message: 'Share',
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Icon(
+                      Icons.share_outlined,
+                      color: Colors.grey.shade700,
+                      size: 24,
+                    ),
+                  ),
                 ),
               ),
               Text(
