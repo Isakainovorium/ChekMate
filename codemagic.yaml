@@ -45,7 +45,7 @@ workflows:
           cd flutter_chekmate
           rm -f ios/Flutter/Generated.xcconfig
           flutter pub get
-          flutter pub run build_runner build --delete-conflicting-outputs
+          dart run build_runner build --delete-conflicting-outputs
       
       # 3. Setup Firebase config (if provided)
       - name: Setup Firebase config (if provided)
@@ -109,7 +109,7 @@ workflows:
       - name: Generate code (mocks, riverpod)
         script: |
           cd flutter_chekmate
-          flutter pub run build_runner build --delete-conflicting-outputs
+          dart run build_runner build --delete-conflicting-outputs
       - name: Run tests
         script: |
           cd flutter_chekmate
@@ -164,7 +164,7 @@ workflows:
       - name: Generate code (mocks, riverpod)
         script: |
           cd flutter_chekmate
-          flutter pub run build_runner build --delete-conflicting-outputs
+          dart run build_runner build --delete-conflicting-outputs
       - name: Setup Firebase config (if provided)
         script: |
           #!/usr/bin/env sh
