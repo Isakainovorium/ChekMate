@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
+import 'package:flutter_chekmate/core/theme/app_theme.dart';
 import 'package:flutter_chekmate/features/auth/presentation/providers/auth_providers.dart';
 import 'package:flutter_chekmate/features/messages/domain/entities/conversation_entity.dart';
 import 'package:flutter_chekmate/features/messages/presentation/providers/messages_providers.dart';
@@ -27,7 +28,8 @@ class _MessagesPageState extends ConsumerState<MessagesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
+      // Sprint 2 - Task 2.1.2: Use theme-aware background
+      backgroundColor: Theme.of(context).surfaceBackground,
       appBar: AppBar(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
@@ -39,11 +41,14 @@ class _MessagesPageState extends ConsumerState<MessagesPage> {
             fontWeight: FontWeight.w600,
           ),
         ),
+        // Sprint 3 - Task 3.2.2: Added tooltip to new message button
         actions: [
           AppButton(
             onPressed: () => _startNewConversation(),
             variant: AppButtonVariant.text,
             size: AppButtonSize.sm,
+            tooltip: 'New message',
+            semanticLabel: 'Start a new conversation',
             child: const Icon(Icons.edit, color: AppColors.primary),
           ),
         ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/router/route_constants.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
+import 'package:flutter_chekmate/core/theme/app_theme.dart';
 import 'package:flutter_chekmate/features/feed/subfeatures/profile/widgets/profile_stats_widget.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart';
 import 'package:go_router/go_router.dart';
@@ -38,7 +39,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
+      // Sprint 2 - Task 2.1.2: Use theme-aware background
+      backgroundColor: Theme.of(context).surfaceBackground,
       body: CustomScrollView(
         slivers: [
           // Parallax Cover Photo with SliverAppBar
@@ -83,11 +85,14 @@ class _MyProfilePageState extends State<MyProfilePage> {
                 ],
               ),
             ),
+            // Sprint 3 - Task 3.2.2: Added tooltips to icon buttons
             actions: [
               AppButton(
                 onPressed: () => debugPrint('Notifications'),
                 variant: AppButtonVariant.text,
                 size: AppButtonSize.sm,
+                tooltip: 'Notifications',
+                semanticLabel: 'View notifications',
                 child: const Icon(
                   Icons.notifications_outlined,
                   color: Colors.white,
@@ -98,6 +103,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
                 onPressed: () => debugPrint('Share'),
                 variant: AppButtonVariant.text,
                 size: AppButtonSize.sm,
+                tooltip: 'Share profile',
+                semanticLabel: 'Share your profile',
                 child: const Icon(
                   Icons.share_outlined,
                   color: Colors.white,

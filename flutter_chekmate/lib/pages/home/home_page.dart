@@ -6,6 +6,7 @@ import 'package:flutter_chekmate/core/providers/gamification_provider.dart';
 import 'package:flutter_chekmate/core/providers/navigation_providers.dart';
 import 'package:flutter_chekmate/core/services/keyboard_shortcuts_service.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
+import 'package:flutter_chekmate/core/theme/app_theme.dart';
 import 'package:flutter_chekmate/features/feed/pages/feed_page.dart';
 import 'package:flutter_chekmate/features/feed/pages/messaging/pages/navigation/widgets/header_widget.dart';
 import 'package:flutter_chekmate/features/feed/pages/messaging/pages/navigation/widgets/nav_tabs_widget.dart';
@@ -36,7 +37,8 @@ class _HomePageState extends ConsumerState<HomePage> {
   final ScrollController _scrollController = ScrollController();
   late PageController _pageController;
 
-  // Tab navigation
+  // Tab navigation - Sprint 2 Task 2.4.2: Local index for PageController sync
+  // Primary navigation state is managed by topNavTabProvider in nav_state.dart
   final List<String> _tabs = [
     'For you',
     'Following',
@@ -45,7 +47,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     'Rate Date',
     'Subscribe',
   ];
-  int _currentTabIndex = 0;
+  int _currentTabIndex = 0; // Local state for PageController animation
 
   @override
   void initState() {
@@ -184,7 +186,8 @@ class _HomePageState extends ConsumerState<HomePage> {
         ChekMateShortcuts.scrollUp: _scrollUp,
       },
       child: Scaffold(
-        backgroundColor: Colors.grey.shade50,
+        // Sprint 2 - Task 2.1.2: Use theme-aware background
+        backgroundColor: Theme.of(context).surfaceBackground,
         body: Column(
           children: [
             // Header
@@ -344,26 +347,12 @@ class _HomePageState extends ConsumerState<HomePage> {
             ),
           ),
           const SizedBox(height: 32),
-          ElevatedButton(
+          // Sprint 2 - Task 2.5.2: Replace ElevatedButton with AppButton
+          AppButton(
             onPressed: () => context.go('/subscribe'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.orange.shade500,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 48,
-                vertical: 16,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-            ),
-            child: const Text(
-              'View Plans',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            variant: AppButtonVariant.primary,
+            size: AppButtonSize.lg,
+            child: const Text('View Plans'),
           ),
           const SizedBox(height: 48),
           _buildFeatureItem(

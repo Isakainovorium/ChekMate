@@ -1,5 +1,8 @@
 library shared_ui;
 
+// Accessibility (Sprint 1)
+export 'accessibility/semantic_wrappers.dart';
+
 // Animations
 export 'animations/animated_widgets.dart';
 export 'animations/empty_state_animation.dart';
@@ -70,6 +73,7 @@ export 'components/app_toggle_group.dart';
 export 'components/app_tooltip.dart';
 export 'components/app_video_player.dart';
 export 'components/app_virtualized_list.dart';
+export 'components/app_network_image.dart';
 // Loading
 export 'loading/shimmer_loading.dart';
 export 'loading/shimmer_skeletons.dart';

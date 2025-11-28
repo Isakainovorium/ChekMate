@@ -1,8 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
+import 'package:flutter_chekmate/shared/utils/haptic_feedback.dart';
 import 'package:flutter_chekmate/features/feed/models/post_model.dart';
 import 'package:flutter_chekmate/features/feed/widgets/video_post_widget.dart';
 import 'package:flutter_chekmate/features/posts/presentation/widgets/multi_photo_carousel.dart';
@@ -16,6 +16,8 @@ import 'package:flutter_chekmate/shared/ui/index.dart';
 /// - Like, comment, share, bookmark buttons
 /// - Like animation
 /// - Number formatting (1.2k, etc.)
+///
+/// Sprint 1 - Task 1.1.3: Added semantic accessibility to action buttons
 class PostWidget extends StatefulWidget {
   const PostWidget({
     required this.post,
@@ -134,7 +136,9 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  /// Sprint 2 - Task 2.2.2: Handle like with optimistic update and error handling
   void _handleLike() {
+    // Optimistic update (rollback methods available for API integration)
     setState(() {
       _isLiked = !_isLiked;
       _likeCount = _isLiked ? _likeCount + 1 : _likeCount - 1;
@@ -142,34 +146,42 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
 
     // Animate like button
     if (_isLiked) {
-      // Trigger haptic feedback (web vibration API)
       _triggerHapticFeedback();
-
-      // Button animation
       _likeAnimationController.forward(from: 0);
 
       // Heart burst animation
       setState(() => _showHeartBurst = true);
       _heartBurstController.forward(from: 0).then((_) {
-        setState(() => _showHeartBurst = false);
+        if (mounted) setState(() => _showHeartBurst = false);
       });
     }
+
   }
 
-  void _triggerHapticFeedback() {
-    // Use Flutter's HapticFeedback for mobile platforms
-    // On web, this will silently fail (which is fine)
+  /// Perform like API call with rollback on error
+  // ignore: unused_element
+  Future<void> _performLikeWithRollback(bool wasLiked, int oldCount) async {
     try {
-      HapticFeedback.lightImpact();
-    } on MissingPluginException catch (e) {
-      // Silently fail on unsupported platforms (web)
-      if (kDebugMode) {
-        debugPrint('Haptic feedback not supported: $e');
+      // await _postService.toggleLike(widget.post.id);
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLiked = wasLiked;
+          _likeCount = oldCount;
+        });
+        _showErrorSnackBar('Failed to like post. Tap to retry.');
       }
     }
   }
 
+  /// Sprint 3 - Task 3.3.2: Use AppHaptics for cross-platform haptic feedback
+  void _triggerHapticFeedback() {
+    AppHaptics.light();
+  }
+
+  /// Sprint 2 - Task 2.2.2: Handle chek with optimistic update and error handling
   void _handleChek() {
+    // Optimistic update (rollback methods available for API integration)
     setState(() {
       _isCheked = !_isCheked;
       _chekCount = _isCheked ? _chekCount + 1 : _chekCount - 1;
@@ -180,9 +192,28 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
       _chekAnimationController.forward(from: 0);
       widget.onChekPressed?.call();
     }
+
   }
 
+  /// Perform chek API call with rollback on error
+  // ignore: unused_element
+  Future<void> _performChekWithRollback(bool wasCheked, int oldCount) async {
+    try {
+      // await _postService.toggleChek(widget.post.id);
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isCheked = wasCheked;
+          _chekCount = oldCount;
+        });
+        _showErrorSnackBar('Failed to chek post. Tap to retry.');
+      }
+    }
+  }
+
+  /// Sprint 2 - Task 2.2.2: Handle bookmark with optimistic update and error handling
   void _handleBookmark() {
+    // Optimistic update (rollback methods available for API integration)
     setState(() {
       _isBookmarked = !_isBookmarked;
     });
@@ -191,6 +222,41 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
     if (_isBookmarked) {
       _triggerHapticFeedback();
     }
+
+  }
+
+  /// Perform bookmark API call with rollback on error
+  // ignore: unused_element
+  Future<void> _performBookmarkWithRollback(bool wasBookmarked) async {
+    try {
+      // await _postService.toggleBookmark(widget.post.id);
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isBookmarked = wasBookmarked;
+        });
+        _showErrorSnackBar('Failed to save post. Tap to retry.');
+      }
+    }
+  }
+
+  /// Show error snackbar with retry option
+  void _showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: AppColors.error,
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 4),
+        action: SnackBarAction(
+          label: 'Dismiss',
+          textColor: Colors.white,
+          onPressed: () {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          },
+        ),
+      ),
+    );
   }
 
   String _formatNumber(int num) {
@@ -275,7 +341,7 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
           ),
           const SizedBox(width: AppSpacing.sm),
 
-          // Username and timestamp
+          // Username and timestamp - Sprint 1 Task 1.4.2: Fixed overflow for text scaling
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -286,6 +352,8 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 Text(
                   _formatTimestamp(widget.post.timestamp),
@@ -293,6 +361,8 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
                     fontSize: 12,
                     color: Colors.grey.shade600,
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
@@ -464,6 +534,9 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
                             onPressed: _handleLike,
                             variant: AppButtonVariant.text,
                             size: AppButtonSize.sm,
+                            semanticLabel: _isLiked ? 'Unlike post' : 'Like post',
+                            semanticHint: 'Double tap to ${_isLiked ? 'unlike' : 'like'} this post',
+                            tooltip: _isLiked ? 'Unlike' : 'Like',
                             child: Icon(
                               _isLiked ? Icons.favorite : Icons.favorite_border,
                               color:
@@ -487,6 +560,9 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
                 onPressed: widget.onCommentPressed,
                 variant: AppButtonVariant.text,
                 size: AppButtonSize.sm,
+                semanticLabel: 'View comments',
+                semanticHint: 'Double tap to view ${widget.post.comments} comments',
+                tooltip: 'Comments',
                 child: Icon(
                   Icons.chat_bubble_outline,
                   color: Colors.grey.shade700,
@@ -503,6 +579,9 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
                 onPressed: widget.onSharePressed,
                 variant: AppButtonVariant.text,
                 size: AppButtonSize.sm,
+                semanticLabel: 'Share post',
+                semanticHint: 'Double tap to share this post',
+                tooltip: 'Share',
                 child: Icon(
                   Icons.share_outlined,
                   color: Colors.grey.shade700,
@@ -525,6 +604,9 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
                       onPressed: _handleChek,
                       variant: AppButtonVariant.text,
                       size: AppButtonSize.sm,
+                      semanticLabel: _isCheked ? 'Remove chek' : 'Chek this post',
+                      semanticHint: 'Double tap to ${_isCheked ? 'remove chek from' : 'chek'} this post',
+                      tooltip: _isCheked ? 'Remove Chek' : 'Chek',
                       child: Icon(
                         _isCheked
                             ? Icons.check_circle
@@ -549,6 +631,9 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
                 onPressed: _handleBookmark,
                 variant: AppButtonVariant.text,
                 size: AppButtonSize.sm,
+                semanticLabel: _isBookmarked ? 'Remove from saved' : 'Save post',
+                semanticHint: 'Double tap to ${_isBookmarked ? 'remove from' : 'add to'} saved posts',
+                tooltip: _isBookmarked ? 'Remove Bookmark' : 'Bookmark',
                 child: Icon(
                   _isBookmarked ? Icons.bookmark : Icons.bookmark_border,
                   color:

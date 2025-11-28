@@ -40,11 +40,12 @@ class ChekMateApp extends ConsumerWidget {
             );
           },
           child: MediaQuery(
-            // Ensure text scaling doesn't break the UI
+            // Sprint 1 - Task 1.4.1: Allow text scaling up to 2.0 for accessibility
+            // WCAG 2.1 requires support for 200% text scaling
             data: MediaQuery.of(context).copyWith(
               textScaler: MediaQuery.of(context).textScaler.clamp(
                     minScaleFactor: 0.8,
-                    maxScaleFactor: 1.2,
+                    maxScaleFactor: 2.0,
                   ),
             ),
             child: child ?? const SizedBox.shrink(),

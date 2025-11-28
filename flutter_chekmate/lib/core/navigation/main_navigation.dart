@@ -10,6 +10,7 @@ import 'nav_state.dart';
 /// Coordinates bottom navigation bar and top tab navigation.
 /// Manages navigation state and provides unified navigation interface.
 /// 
+/// Sprint 1 - Task 1.1.5: Added semantic accessibility support
 /// Date: 11/13/2025
 class MainNavigation extends ConsumerStatefulWidget {
   const MainNavigation({
@@ -48,29 +49,41 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
     final currentTopTab = ref.watch(topNavTabProvider);
 
     return Scaffold(
-      body: Column(
-        children: [
-          // Top tab navigation (shown on home/explore pages)
-          if (_shouldShowTopTabs(currentBottomTab) && !widget.hideNavigation)
-            _TopTabNavigation(
-              currentTab: currentTopTab,
-              onTabChanged: (tab) {
-                updateTopNavTab(ref, tab);
-                _navigateToTopTab(context, tab);
-              },
-            ),
-          // Main content
-          Expanded(child: widget.child),
-        ],
+      body: Semantics(
+        label: 'Main content area',
+        container: true,
+        child: Column(
+          children: [
+            // Top tab navigation (shown on home/explore pages)
+            if (_shouldShowTopTabs(currentBottomTab) && !widget.hideNavigation)
+              Semantics(
+                label: 'Content filter tabs',
+                container: true,
+                child: _TopTabNavigation(
+                  currentTab: currentTopTab,
+                  onTabChanged: (tab) {
+                    updateTopNavTab(ref, tab);
+                    _navigateToTopTab(context, tab);
+                  },
+                ),
+              ),
+            // Main content
+            Expanded(child: widget.child),
+          ],
+        ),
       ),
       bottomNavigationBar: widget.hideNavigation
           ? null
-          : _BottomNavigationBar(
-              currentTab: currentBottomTab,
-              onTabChanged: (tab) {
-                updateBottomNavTab(ref, tab);
-                _navigateToBottomTab(context, tab);
-              },
+          : Semantics(
+              label: 'Main navigation',
+              container: true,
+              child: _BottomNavigationBar(
+                currentTab: currentBottomTab,
+                onTabChanged: (tab) {
+                  updateBottomNavTab(ref, tab);
+                  _navigateToBottomTab(context, tab);
+                },
+              ),
             ),
     );
   }
@@ -140,25 +153,41 @@ class _BottomNavigationBar extends StatelessWidget {
         );
         onTabChanged(tab);
       },
-      destinations: const [
+      destinations: [
         NavigationDestination(
-          icon: Icon(Icons.home_outlined),
-          selectedIcon: Icon(Icons.home),
+          icon: Semantics(
+            label: 'Home tab',
+            hint: 'Double tap to go to home feed',
+            child: const Icon(Icons.home_outlined),
+          ),
+          selectedIcon: const Icon(Icons.home),
           label: 'Home',
         ),
         NavigationDestination(
-          icon: Icon(Icons.message_outlined),
-          selectedIcon: Icon(Icons.message),
+          icon: Semantics(
+            label: 'Messages tab',
+            hint: 'Double tap to view messages',
+            child: const Icon(Icons.message_outlined),
+          ),
+          selectedIcon: const Icon(Icons.message),
           label: 'Messages',
         ),
         NavigationDestination(
-          icon: Icon(Icons.notifications_outlined),
-          selectedIcon: Icon(Icons.notifications),
+          icon: Semantics(
+            label: 'Notifications tab',
+            hint: 'Double tap to view notifications',
+            child: const Icon(Icons.notifications_outlined),
+          ),
+          selectedIcon: const Icon(Icons.notifications),
           label: 'Notifications',
         ),
         NavigationDestination(
-          icon: Icon(Icons.person_outline),
-          selectedIcon: Icon(Icons.person),
+          icon: Semantics(
+            label: 'Profile tab',
+            hint: 'Double tap to view your profile',
+            child: const Icon(Icons.person_outline),
+          ),
+          selectedIcon: const Icon(Icons.person),
           label: 'Profile',
         ),
       ],
