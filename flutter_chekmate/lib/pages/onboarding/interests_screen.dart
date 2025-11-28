@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
 import 'package:flutter_chekmate/features/onboarding/presentation/providers/onboarding_provider.dart';
+import 'package:flutter_chekmate/shared/ui/premium/premium_scale_button.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -150,13 +151,14 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Heading
+                    // Heading - Navy Blue
                     const Text(
                       'What experience topics interest you?',
                       style: TextStyle(
                         fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textPrimary,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.textHeadline,
+                        letterSpacing: -0.5,
                       ),
                     ),
 
@@ -194,42 +196,49 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
               ),
             ),
 
-            // Continue button (fixed at bottom)
+            // Continue button with premium styling
             Padding(
               padding: const EdgeInsets.all(24),
-              child: SizedBox(
-                height: 50,
-                child: ElevatedButton(
-                  onPressed:
-                      _isLoading || !canContinue ? null : _handleContinue,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFF5A623),
-                    foregroundColor: AppColors.textPrimary,
-                    disabledBackgroundColor: AppColors.border,
-                    disabledForegroundColor: AppColors.textDisabled,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    elevation: 0,
+              child: PremiumScaleButton(
+                onPressed: _isLoading || !canContinue ? null : _handleContinue,
+                child: Container(
+                  height: 56,
+                  decoration: BoxDecoration(
+                    gradient: canContinue ? AppColors.primaryGradient : null,
+                    color: canContinue ? null : AppColors.border,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: canContinue
+                        ? [
+                            BoxShadow(
+                              color: AppColors.chekGlow.withOpacity(0.4),
+                              blurRadius: 16,
+                              offset: const Offset(0, 6),
+                            ),
+                          ]
+                        : null,
                   ),
-                  child: _isLoading
-                      ? const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              AppColors.textPrimary,
+                  child: Center(
+                    child: _isLoading
+                        ? const SizedBox(
+                            height: 22,
+                            width: 22,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.5,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
+                            ),
+                          )
+                        : Text(
+                            'Continue',
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
+                              color: canContinue ? Colors.white : AppColors.textDisabled,
+                              letterSpacing: 0.3,
                             ),
                           ),
-                        )
-                      : const Text(
-                          'Continue',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                  ),
                 ),
               ),
             ),
