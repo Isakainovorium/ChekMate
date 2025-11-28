@@ -602,26 +602,45 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
 
               const SizedBox(width: AppSpacing.md),
 
-              // Chek button (Gold checkmark)
+              // Chek button (Signature gold checkmark with glow)
               AnimatedBuilder(
                 animation: _chekAnimationController,
                 builder: (context, child) {
                   return Transform.scale(
                     scale: _chekScaleAnimation.value,
-                    child: AppButton(
+                    child: PremiumScaleButton(
                       onPressed: _handleChek,
-                      variant: AppButtonVariant.text,
-                      size: AppButtonSize.sm,
-                      semanticLabel: _isCheked ? 'Remove chek' : 'Chek this post',
-                      semanticHint: 'Double tap to ${_isCheked ? 'remove chek from' : 'chek'} this post',
-                      tooltip: _isCheked ? 'Remove Chek' : 'Chek',
-                      child: Icon(
-                        _isCheked
-                            ? Icons.check_circle
-                            : Icons.check_circle_outline,
-                        color: _isCheked
-                            ? AppColors.primary
-                            : Colors.grey.shade700,
+                      child: Tooltip(
+                        message: _isCheked ? 'Remove Chek' : 'Chek',
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: _isCheked
+                              ? BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColors.chekGlow.withOpacity(0.5),
+                                      blurRadius: 12,
+                                      spreadRadius: 2,
+                                    ),
+                                  ],
+                                )
+                              : null,
+                          child: ShaderMask(
+                            shaderCallback: _isCheked
+                                ? (bounds) => AppColors.chekGradient.createShader(bounds)
+                                : (bounds) => LinearGradient(
+                                      colors: [Colors.grey.shade600, Colors.grey.shade600],
+                                    ).createShader(bounds),
+                            child: Icon(
+                              _isCheked
+                                  ? Icons.check_circle
+                                  : Icons.check_circle_outline,
+                              color: Colors.white,
+                              size: 26,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   );
@@ -629,7 +648,11 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
               ),
               Text(
                 _formatNumber(_chekCount),
-                style: const TextStyle(fontSize: 14),
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: _isCheked ? FontWeight.w600 : FontWeight.w400,
+                  color: _isCheked ? AppColors.chekGold : null,
+                ),
               ),
 
               const Spacer(),

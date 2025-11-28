@@ -2,28 +2,60 @@ import 'package:flutter/material.dart';
 
 /// AppColors - ChekMate brand colors and semantic color palette
 ///
-/// Provides consistent color values used throughout the ChekMate application
-/// for branding, UI elements, and semantic states.
+/// Brand Identity: Gold + Navy (from logo)
+/// - Gold: Premium, winning, success (the "checkmate" moment)
+/// - Navy: Trust, stability, honesty (community wisdom)
 ///
-/// Date: January 15, 2025
+/// Updated: November 28, 2025 - Aligned with logo colors
 class AppColors {
   AppColors._();
 
   // ============================================================================
-  // BRAND COLORS
+  // BRAND COLORS (Matched to Logo)
   // ============================================================================
 
-  /// Primary brand color - Golden Orange (#F5A623)
-  /// Used for: Primary buttons, active states, brand elements
-  static const Color primary = Color(0xFFF5A623);
+  /// Primary brand color - Rich Gold (#F5B041)
+  /// Extracted from logo's golden checkmark and accents
+  /// Used for: Primary buttons, CTAs, Chek icon, premium elements
+  static const Color primary = Color(0xFFF5B041);
 
-  /// Secondary brand color - Primary Red (#FF6B6B)
-  /// Used for: Accent elements, highlights, love/like actions
-  static const Color secondary = Color(0xFFFF6B6B);
+  /// Primary Dark - Deep Gold (#D4941C)
+  /// Used for: Pressed states, gradient endpoints, shadows
+  static const Color primaryDark = Color(0xFFD4941C);
 
-  /// Navy Blue - Professional accent color
-  /// Used for: Text emphasis, secondary actions, professional elements
-  static const Color navyBlue = Color(0xFF1E3A8A);
+  /// Primary Light - Soft Gold (#FBD38D)
+  /// Used for: Backgrounds, highlights, hover states
+  static const Color primaryLight = Color(0xFFFBD38D);
+
+  /// Secondary brand color - Navy Blue (#1E3A5F)
+  /// Extracted from logo's "KMATE" text
+  /// Used for: Headers, verified badges, trust indicators, navigation
+  static const Color secondary = Color(0xFF1E3A5F);
+
+  /// Secondary Light - Lighter Navy (#2C4A6E)
+  /// Used for: Secondary buttons, links, subtle accents
+  static const Color secondaryLight = Color(0xFF2C4A6E);
+
+  /// Legacy alias for compatibility
+  static const Color navyBlue = secondary;
+
+  // ============================================================================
+  // BRAND GRADIENTS
+  // ============================================================================
+
+  /// Primary gold gradient - for premium buttons and CTAs
+  static const LinearGradient primaryGradient = LinearGradient(
+    colors: [Color(0xFFF5B041), Color(0xFFD4941C)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  /// Premium gold gradient with more depth
+  static const LinearGradient premiumGradient = LinearGradient(
+    colors: [Color(0xFFFBBC05), Color(0xFFF5B041), Color(0xFFD4941C)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
 
   // ============================================================================
   // SURFACE COLORS (Light Mode)
@@ -48,8 +80,12 @@ class AppColors {
   // TEXT COLORS (Light Mode)
   // ============================================================================
 
+  /// Headline text color - Navy Blue (matches logo)
+  /// Used for: Page titles, section headers, important text
+  static const Color textHeadline = Color(0xFF1E3A5F);
+
   /// Primary text color (light mode)
-  static const Color textPrimary = Color(0xFF1A1A1A);
+  static const Color textPrimary = Color(0xFF374151);
 
   /// Secondary text color (light mode)
   static const Color textSecondary = Color(0xFF6B7280);
@@ -214,6 +250,47 @@ class AppColors {
 
   /// Focus ring color
   static const Color focusRing = Color(0xFF3B82F6);
+
+  // ============================================================================
+  // CHEK BADGE COLORS (Signature Feature)
+  // ============================================================================
+
+  /// Chek badge gold - the signature "checkmate" color
+  static const Color chekGold = Color(0xFFF5B041);
+
+  /// Chek badge glow color
+  static const Color chekGlow = Color(0xFFFBD38D);
+
+  /// Chek badge gradient
+  static const LinearGradient chekGradient = LinearGradient(
+    colors: [Color(0xFFFBBC05), Color(0xFFF5B041), Color(0xFFD4941C)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  // ============================================================================
+  // CHESS PIECE INDICATOR COLORS (User Gender/Identity)
+  // ============================================================================
+
+  /// King piece color (male users) - Deep Navy
+  static const Color kingPiece = Color(0xFF1E3A5F);
+
+  /// Queen piece color (female/other users) - Rich Gold
+  static const Color queenPiece = Color(0xFFF5B041);
+
+  /// Chess piece gradient for King
+  static const LinearGradient kingGradient = LinearGradient(
+    colors: [Color(0xFF2C4A6E), Color(0xFF1E3A5F)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  /// Chess piece gradient for Queen
+  static const LinearGradient queenGradient = LinearGradient(
+    colors: [Color(0xFFFBBC05), Color(0xFFF5B041), Color(0xFFD4941C)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
 
   // ============================================================================
   // HELPER METHODS

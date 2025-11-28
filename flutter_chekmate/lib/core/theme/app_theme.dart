@@ -503,7 +503,7 @@ class AppTheme {
       ),
 
       // Text Theme
-      textTheme: _buildTextTheme(AppColors.textPrimaryDark),
+      textTheme: _buildTextTheme(AppColors.textPrimaryDark, isDark: true),
     );
   }
 
@@ -511,34 +511,43 @@ class AppTheme {
   // TEXT THEME BUILDER
   // ============================================================================
 
-  /// Build text theme with Inter font (Instagram-style, highly readable)
-  static TextTheme _buildTextTheme(Color textColor) {
+  /// Build text theme with Inter font
+  /// Headlines use Navy Blue (brand color), body uses standard text color
+  static TextTheme _buildTextTheme(Color textColor, {bool isDark = false}) {
+    // Navy for headlines in light mode, white in dark mode
+    final headlineColor = isDark ? Colors.white : AppColors.textHeadline;
+    
     return GoogleFonts.interTextTheme(
       TextTheme(
+        // Display styles - Navy headlines
         displayLarge: TextStyle(
-            fontSize: 57, fontWeight: FontWeight.w400, color: textColor),
+            fontSize: 57, fontWeight: FontWeight.w700, color: headlineColor),
         displayMedium: TextStyle(
-            fontSize: 45, fontWeight: FontWeight.w400, color: textColor),
+            fontSize: 45, fontWeight: FontWeight.w700, color: headlineColor),
         displaySmall: TextStyle(
-            fontSize: 36, fontWeight: FontWeight.w400, color: textColor),
+            fontSize: 36, fontWeight: FontWeight.w600, color: headlineColor),
+        // Headline styles - Navy
         headlineLarge: TextStyle(
-            fontSize: 32, fontWeight: FontWeight.w600, color: textColor),
+            fontSize: 32, fontWeight: FontWeight.w700, color: headlineColor),
         headlineMedium: TextStyle(
-            fontSize: 28, fontWeight: FontWeight.w600, color: textColor),
+            fontSize: 28, fontWeight: FontWeight.w600, color: headlineColor),
         headlineSmall: TextStyle(
-            fontSize: 24, fontWeight: FontWeight.w600, color: textColor),
+            fontSize: 24, fontWeight: FontWeight.w600, color: headlineColor),
+        // Title styles - Navy
         titleLarge: TextStyle(
-            fontSize: 22, fontWeight: FontWeight.w600, color: textColor),
+            fontSize: 22, fontWeight: FontWeight.w600, color: headlineColor),
         titleMedium: TextStyle(
             fontSize: 16, fontWeight: FontWeight.w600, color: textColor),
         titleSmall: TextStyle(
             fontSize: 14, fontWeight: FontWeight.w600, color: textColor),
+        // Body styles - Standard text color
         bodyLarge: TextStyle(
             fontSize: 16, fontWeight: FontWeight.w400, color: textColor),
         bodyMedium: TextStyle(
             fontSize: 14, fontWeight: FontWeight.w400, color: textColor),
         bodySmall: TextStyle(
             fontSize: 12, fontWeight: FontWeight.w400, color: textColor),
+        // Label styles
         labelLarge: TextStyle(
             fontSize: 14, fontWeight: FontWeight.w600, color: textColor),
         labelMedium: TextStyle(
