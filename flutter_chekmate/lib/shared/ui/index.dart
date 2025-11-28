@@ -74,6 +74,11 @@ export 'components/app_tooltip.dart';
 export 'components/app_video_player.dart';
 export 'components/app_virtualized_list.dart';
 export 'components/app_network_image.dart';
+// Premium Components
+export 'premium/premium_card.dart';
+export 'premium/premium_glass_nav_bar.dart';
+export 'premium/premium_scale_button.dart';
+
 // Loading
 export 'loading/shimmer_loading.dart';
 export 'loading/shimmer_skeletons.dart';

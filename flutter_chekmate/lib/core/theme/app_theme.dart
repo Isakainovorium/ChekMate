@@ -511,9 +511,9 @@ class AppTheme {
   // TEXT THEME BUILDER
   // ============================================================================
 
-  /// Build text theme with Plus Jakarta Sans font
+  /// Build text theme with Inter font (Instagram-style, highly readable)
   static TextTheme _buildTextTheme(Color textColor) {
-    return GoogleFonts.plusJakartaSansTextTheme(
+    return GoogleFonts.interTextTheme(
       TextTheme(
         displayLarge: TextStyle(
             fontSize: 57, fontWeight: FontWeight.w400, color: textColor),

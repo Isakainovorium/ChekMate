@@ -626,18 +626,23 @@ class _PostWidgetState extends State<PostWidget> with TickerProviderStateMixin {
 
               const Spacer(),
 
-              // Bookmark button
-              AppButton(
+              // Bookmark button with premium scale effect
+              PremiumScaleButton(
                 onPressed: _handleBookmark,
-                variant: AppButtonVariant.text,
-                size: AppButtonSize.sm,
-                semanticLabel: _isBookmarked ? 'Remove from saved' : 'Save post',
-                semanticHint: 'Double tap to ${_isBookmarked ? 'remove from' : 'add to'} saved posts',
-                tooltip: _isBookmarked ? 'Remove Bookmark' : 'Bookmark',
-                child: Icon(
-                  _isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                  color:
-                      _isBookmarked ? AppColors.primary : Colors.grey.shade700,
+                child: Semantics(
+                  label: _isBookmarked ? 'Remove from saved' : 'Save post',
+                  hint: 'Double tap to ${_isBookmarked ? 'remove from' : 'add to'} saved posts',
+                  child: Tooltip(
+                    message: _isBookmarked ? 'Remove Bookmark' : 'Bookmark',
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Icon(
+                        _isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                        color: _isBookmarked ? AppColors.primary : Colors.grey.shade700,
+                        size: 24,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],

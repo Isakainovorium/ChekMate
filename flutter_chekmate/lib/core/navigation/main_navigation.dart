@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_chekmate/shared/ui/premium/premium_glass_nav_bar.dart';
 
 import '../router/route_constants.dart';
 import 'nav_state.dart';
@@ -49,6 +50,7 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
     final currentTopTab = ref.watch(topNavTabProvider);
 
     return Scaffold(
+      extendBody: true, // Allow content to extend behind the floating nav bar
       body: Semantics(
         label: 'Main content area',
         container: true,
@@ -69,6 +71,8 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
               ),
             // Main content
             Expanded(child: widget.child),
+            // Add bottom padding to account for floating nav bar
+            if (!widget.hideNavigation) const SizedBox(height: 90),
           ],
         ),
       ),
@@ -77,9 +81,32 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
           : Semantics(
               label: 'Main navigation',
               container: true,
-              child: _BottomNavigationBar(
-                currentTab: currentBottomTab,
-                onTabChanged: (tab) {
+              child: PremiumGlassNavBar(
+                currentIndex: currentBottomTab.index,
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home_outlined),
+                    activeIcon: Icon(Icons.home),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.message_outlined),
+                    activeIcon: Icon(Icons.message),
+                    label: 'Messages',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.notifications_outlined),
+                    activeIcon: Icon(Icons.notifications),
+                    label: 'Alerts',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.person_outline),
+                    activeIcon: Icon(Icons.person),
+                    label: 'Profile',
+                  ),
+                ],
+                onTap: (index) {
+                  final tab = BottomNavTab.values[index];
                   updateBottomNavTab(ref, tab);
                   _navigateToBottomTab(context, tab);
                 },
@@ -130,68 +157,6 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
         context.go(RoutePaths.subscribe);
         break;
     }
-  }
-}
-
-/// Bottom Navigation Bar Widget
-class _BottomNavigationBar extends StatelessWidget {
-  const _BottomNavigationBar({
-    required this.currentTab,
-    required this.onTabChanged,
-  });
-
-  final BottomNavTab currentTab;
-  final ValueChanged<BottomNavTab> onTabChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return NavigationBar(
-      selectedIndex: currentTab.index,
-      onDestinationSelected: (index) {
-        final tab = BottomNavTab.values.firstWhere(
-          (tab) => tab.index == index,
-        );
-        onTabChanged(tab);
-      },
-      destinations: [
-        NavigationDestination(
-          icon: Semantics(
-            label: 'Home tab',
-            hint: 'Double tap to go to home feed',
-            child: const Icon(Icons.home_outlined),
-          ),
-          selectedIcon: const Icon(Icons.home),
-          label: 'Home',
-        ),
-        NavigationDestination(
-          icon: Semantics(
-            label: 'Messages tab',
-            hint: 'Double tap to view messages',
-            child: const Icon(Icons.message_outlined),
-          ),
-          selectedIcon: const Icon(Icons.message),
-          label: 'Messages',
-        ),
-        NavigationDestination(
-          icon: Semantics(
-            label: 'Notifications tab',
-            hint: 'Double tap to view notifications',
-            child: const Icon(Icons.notifications_outlined),
-          ),
-          selectedIcon: const Icon(Icons.notifications),
-          label: 'Notifications',
-        ),
-        NavigationDestination(
-          icon: Semantics(
-            label: 'Profile tab',
-            hint: 'Double tap to view your profile',
-            child: const Icon(Icons.person_outline),
-          ),
-          selectedIcon: const Icon(Icons.person),
-          label: 'Profile',
-        ),
-      ],
-    );
   }
 }
 
