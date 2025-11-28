@@ -10,7 +10,6 @@ import 'package:flutter_chekmate/features/feed/widgets/post_widget.dart';
 import 'package:flutter_chekmate/features/intelligence/presentation/providers/serendipity_feed_provider.dart';
 import 'package:flutter_chekmate/features/posts/domain/entities/post_entity.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart' hide AnimatedFeedCard;
-import 'package:flutter_chekmate/shared/ui/loading/shimmer_skeletons.dart';
 import 'package:flutter_chekmate/shared/widgets/animated_feed_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:visibility_detector/visibility_detector.dart';

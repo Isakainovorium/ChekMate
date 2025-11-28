@@ -317,7 +317,7 @@ class AdvancedComponentShowcases {
             WidgetbookUseCase(
               name: 'Types',
               builder: (context) => AppEmptyState(
-                type: context.knobs.object.dropdown<AppEmptyStateType>(
+                type: context.knobs.list<AppEmptyStateType>(
                   label: 'Type',
                   options: [
                     AppEmptyStateType.noResults,

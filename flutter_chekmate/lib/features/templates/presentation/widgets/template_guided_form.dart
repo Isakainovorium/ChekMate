@@ -344,7 +344,7 @@ class _TemplateGuidedFormState extends ConsumerState<TemplateGuidedForm> {
               value: (currentValue as num?)?.toDouble() ?? scale.min.toDouble(),
               min: scale.min.toDouble(),
               max: scale.max.toDouble(),
-              divisions: ((scale.max - scale.min) / scale.step).toInt(),
+              divisions: (scale.max - scale.min) ~/ scale.step,
               label: currentValue?.toString() ?? scale.min.toString(),
               onChanged: (value) => _updateResponse(section.id, value.toInt()),
             ),
