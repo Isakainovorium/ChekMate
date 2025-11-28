@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../core/providers/providers.dart';
 import '../../core/services/file_picker_service.dart';
+import '../../features/calls/index.dart';
 import '../../features/messages/domain/entities/message_entity.dart';
 import '../../features/messages/domain/usecases/send_message_usecase.dart';
 import '../../features/messages/presentation/providers/messages_providers.dart';
@@ -479,154 +480,53 @@ class _ChatPageState extends ConsumerState<ChatPage> {
 
   /// Start a video call with the other user
   Future<void> _startVideoCall() async {
-    // Show coming soon dialog with basic call structure
-    if (mounted) {
-      await showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Video Call'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(
-                Icons.videocam,
-                size: 48,
-                color: Colors.blue,
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Video calling with ${widget.otherUserName.isNotEmpty ? widget.otherUserName : "this user"}',
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'This feature is coming soon!',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontStyle: FontStyle.italic,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.blue.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: Colors.blue.withOpacity(0.3),
-                  ),
-                ),
-                child: const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Future Implementation:',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      '• Camera and microphone permissions\n'
-                      '• WebRTC or third-party service integration\n'
-                      '• Real-time video streaming\n'
-                      '• Call controls (mute, hang up, etc.)\n'
-                      '• Push notifications for incoming calls',
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('OK'),
-            ),
-          ],
-        ),
+    try {
+      final callController = ref.read(callControllerProvider);
+      final call = await callController.startVideoCall(
+        receiverId: widget.otherUserId,
+        receiverName: widget.otherUserName,
+        receiverAvatarUrl: widget.otherUserAvatar,
       );
+
+      if (mounted) {
+        await Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => OutgoingCallPage(call: call),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to start video call: $e')),
+        );
+      }
     }
   }
 
   /// Start a voice call with the other user
   Future<void> _startVoiceCall() async {
-    // Show coming soon dialog with basic call structure
-    if (mounted) {
-      await showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Voice Call'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(
-                Icons.phone,
-                size: 48,
-                color: Colors.green,
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Voice calling ${widget.otherUserName.isNotEmpty ? widget.otherUserName : "this user"}',
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'This feature is coming soon!',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontStyle: FontStyle.italic,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: Colors.green.withOpacity(0.3),
-                  ),
-                ),
-                child: const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Future Implementation:',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      '• Microphone permissions\n'
-                      '• WebRTC or VoIP service integration\n'
-                      '• Real-time audio streaming\n'
-                      '• Call controls (mute, speaker, hang up)\n'
-                      '• Push notifications for incoming calls\n'
-                      '• Call history and duration tracking',
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('OK'),
-            ),
-          ],
-        ),
+    try {
+      final callController = ref.read(callControllerProvider);
+      final call = await callController.startVoiceCall(
+        receiverId: widget.otherUserId,
+        receiverName: widget.otherUserName,
+        receiverAvatarUrl: widget.otherUserAvatar,
       );
+
+      if (mounted) {
+        await Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => OutgoingCallPage(call: call),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to start voice call: $e')),
+        );
+      }
     }
   }
 

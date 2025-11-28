@@ -143,22 +143,28 @@ Previous documentation was **aspirational** and did not reflect actual implement
 
 ---
 
-## 🔴 NOT IMPLEMENTED (UI Shell Only / Coming Soon)
+## ✅ NEWLY IMPLEMENTED (Nov 28, 2025)
 
-### Live Streaming
+### Live Streaming - FREE WebRTC + Firebase
 | Feature | Status | Notes |
 |---------|--------|-------|
 | **Live Page UI** | ✅ Complete | Full UI with categories, grid, trending |
-| **Go Live** | ❌ Coming Soon | Shows "coming soon" modal |
-| **Watch Live** | ❌ Mock Data | Uses `MockLiveStreams` class |
-| **Real-time Streaming** | ❌ Not Started | No WebRTC/streaming infrastructure |
+| **Go Live** | ✅ Working | WebRTC broadcast with camera preview |
+| **Watch Live** | ✅ Working | Real-time viewer with chat |
+| **Real-time Streaming** | ✅ Working | WebRTC + Firebase signaling (FREE) |
+| **Stream Chat** | ✅ Working | Real-time Firestore chat |
+| **Viewer Count** | ✅ Working | Live tracking |
 
-### Video/Audio Calls
+### Video/Audio Calls - FREE WebRTC + Firebase
 | Feature | Status | Notes |
 |---------|--------|-------|
-| **Call UI** | ✅ Exists | Buttons in chat |
-| **Voice Call** | ❌ Coming Soon | Shows "coming soon" dialog |
-| **Video Call** | ❌ Coming Soon | Shows "coming soon" dialog |
+| **Call UI** | ✅ Complete | Incoming, outgoing, active call pages |
+| **Voice Call** | ✅ Working | WebRTC audio (FREE) |
+| **Video Call** | ✅ Working | WebRTC video (FREE) |
+| **Call Controls** | ✅ Working | Mute, video toggle, speaker, camera switch |
+| **Call History** | ✅ Working | Firestore persistence |
+
+## 🔴 NOT IMPLEMENTED (UI Shell Only / Coming Soon)
 
 ### Post Creation Extras
 | Feature | Status | Notes |
