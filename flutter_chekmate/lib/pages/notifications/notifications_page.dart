@@ -3,6 +3,7 @@ import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
 import 'package:flutter_chekmate/features/notifications/domain/entities/notification_entity.dart';
 import 'package:flutter_chekmate/features/notifications/presentation/providers/notifications_providers.dart';
+import 'package:flutter_chekmate/pages/notifications/notification_settings_page.dart';
 import 'package:flutter_chekmate/pages/notifications/widgets/notification_tile.dart';
 import 'package:flutter_chekmate/shared/ui/loading/shimmer_loading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -158,9 +159,9 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage>
     switch (action) {
       case 'settings':
         // Navigate to notification settings
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Notification settings coming soon'),
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const NotificationSettingsPage(),
           ),
         );
         break;

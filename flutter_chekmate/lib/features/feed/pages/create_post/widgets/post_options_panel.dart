@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
+import 'package:flutter_chekmate/features/feed/pages/create_post/widgets/location_search_sheet.dart';
+import 'package:flutter_chekmate/features/feed/pages/create_post/widgets/tag_people_sheet.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart';
 
 /// Post Options Panel - Location, privacy, and other settings
@@ -10,12 +12,16 @@ class PostOptionsPanel extends StatelessWidget {
     required this.privacy,
     required this.onLocationChanged,
     required this.onPrivacyChanged,
+    this.taggedUsers = const [],
+    this.onTaggedUsersChanged,
     super.key,
   });
   final String? location;
   final String privacy;
   final void Function(String?) onLocationChanged;
   final void Function(String) onPrivacyChanged;
+  final List<TaggedUser> taggedUsers;
+  final void Function(List<TaggedUser>)? onTaggedUsersChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +62,10 @@ class PostOptionsPanel extends StatelessWidget {
         _buildOption(
           icon: Icons.person_add,
           title: 'Tag People',
-          subtitle: 'Who are you with?',
-          onTap: () => _showTagPeopleDialog(context),
+          subtitle: taggedUsers.isEmpty 
+              ? 'Who are you with?' 
+              : '${taggedUsers.length} ${taggedUsers.length == 1 ? 'person' : 'people'} tagged',
+          onTap: () => _showTagPeopleSheet(context),
         ),
       ],
     );
@@ -126,47 +134,16 @@ class PostOptionsPanel extends StatelessWidget {
   void _showLocationPicker(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(AppSpacing.md),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Add Location',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: AppColors.navyBlue,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            ListTile(
-              leading: const Icon(Icons.my_location, color: AppColors.primary),
-              title: const Text('Current Location'),
-              onTap: () {
-                onLocationChanged('Current Location');
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.search, color: AppColors.primary),
-              title: const Text('Search Location'),
-              onTap: () {
-                _showLocationSearch(context);
-              },
-            ),
-            if (location != null)
-              ListTile(
-                leading: const Icon(Icons.close, color: Colors.red),
-                title: const Text('Remove Location'),
-                onTap: () {
-                  onLocationChanged(null);
-                  Navigator.pop(context);
-                },
-              ),
-          ],
-        ),
+      isScrollControlled: true,
+      builder: (context) => LocationSearchSheet(
+        initialLocation: location,
+        onLocationSelected: (result) {
+          if (result != null) {
+            onLocationChanged(result.displayName);
+          } else {
+            onLocationChanged(null);
+          }
+        },
       ),
     );
   }
@@ -223,132 +200,15 @@ class PostOptionsPanel extends StatelessWidget {
     );
   }
 
-  void _showTagPeopleDialog(BuildContext context) {
-    showModalBottomSheet<void>(
-      context: context,
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(AppSpacing.md),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Tag People',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: AppColors.navyBlue,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            const Center(
-              child: Padding(
-                padding: EdgeInsets.all(AppSpacing.lg),
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.people_outline,
-                      size: 48,
-                      color: AppColors.textSecondary,
-                    ),
-                    SizedBox(height: AppSpacing.sm),
-                    Text(
-                      'Tag people feature coming soon',
-                      style: TextStyle(
-                        color: AppColors.textSecondary,
-                        fontSize: 14,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                ),
-                child: const Text('Close'),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _showLocationSearch(BuildContext context) {
-    Navigator.pop(context); // Close the location picker first
+  void _showTagPeopleSheet(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
-      builder: (context) => Container(
-        height: MediaQuery.of(context).size.height * 0.8,
-        padding: const EdgeInsets.all(AppSpacing.md),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Search Location',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: AppColors.navyBlue,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            TextField(
-              decoration: const InputDecoration(
-                hintText: 'Search for a location...',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
-              ),
-              onChanged: (value) {
-                // Placeholder for search functionality
-              },
-            ),
-            const SizedBox(height: AppSpacing.md),
-            const Expanded(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.location_searching,
-                      size: 48,
-                      color: AppColors.textSecondary,
-                    ),
-                    SizedBox(height: AppSpacing.sm),
-                    Text(
-                      'Location search feature coming soon',
-                      style: TextStyle(
-                        color: AppColors.textSecondary,
-                        fontSize: 14,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                ),
-                child: const Text('Close'),
-              ),
-            ),
-          ],
-        ),
+      builder: (context) => TagPeopleSheet(
+        initialTags: taggedUsers,
+        onTagsChanged: (tags) {
+          onTaggedUsersChanged?.call(tags);
+        },
       ),
     );
   }

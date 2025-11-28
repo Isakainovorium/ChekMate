@@ -164,18 +164,23 @@ Previous documentation was **aspirational** and did not reflect actual implement
 | **Call Controls** | ✅ Working | Mute, video toggle, speaker, camera switch |
 | **Call History** | ✅ Working | Firestore persistence |
 
+### Post Creation Extras - NEWLY IMPLEMENTED
+| Feature | Status | Notes |
+|---------|--------|-------|
+| **Tag People** | ✅ Working | User search with Firebase, chips display |
+| **Location Search** | ✅ Working | Geocoding + current location |
+
+### Notification Settings - NEWLY IMPLEMENTED
+| Feature | Status | Notes |
+|---------|--------|-------|
+| **Settings Page** | ✅ Working | Full settings with SharedPreferences |
+| **Push Toggle** | ✅ Working | Master on/off |
+| **Notification Types** | ✅ Working | Likes, comments, follows, mentions, messages, live |
+| **Sound & Vibration** | ✅ Working | Individual toggles |
+| **Quiet Hours** | ✅ Working | Time picker for start/end |
+| **Email Digest** | ✅ Working | Weekly summary option |
+
 ## 🔴 NOT IMPLEMENTED (UI Shell Only / Coming Soon)
-
-### Post Creation Extras
-| Feature | Status | Notes |
-|---------|--------|-------|
-| **Tag People** | ❌ Coming Soon | `post_options_panel.dart` |
-| **Location Search** | ❌ Coming Soon | `post_options_panel.dart` |
-
-### Notification Settings
-| Feature | Status | Notes |
-|---------|--------|-------|
-| **Settings Page** | ❌ Coming Soon | Shows snackbar |
 
 ---
 
