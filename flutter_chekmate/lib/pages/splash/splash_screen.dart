@@ -144,37 +144,14 @@ class _SplashScreenState extends State<SplashScreen>
                             ],
                           ),
                         ),
-                        // Logo container
-                        Container(
-                          width: 120,
-                          height: 120,
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                AppColors.primary,
-                                Color(0xFFFF8C00),
-                              ],
-                            ),
-                            borderRadius: BorderRadius.circular(28),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.primary.withOpacity(0.3),
-                                blurRadius: 20,
-                                offset: const Offset(0, 10),
-                              ),
-                            ],
-                          ),
-                          child: const Center(
-                            child: Text(
-                              '✓',
-                              style: TextStyle(
-                                fontSize: 64,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
+                        // Official ChekMate Logo
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(28),
+                          child: Image.asset(
+                            'assets/images/auth/CheckMate Logo.png',
+                            width: 180,
+                            height: 180,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ],
@@ -196,22 +173,28 @@ class _SplashScreenState extends State<SplashScreen>
                     opacity: _textOpacity.value,
                     child: Column(
                       children: [
-                        const Text(
-                          'ChekMate',
-                          style: TextStyle(
-                            fontSize: 36,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.textPrimary,
-                            letterSpacing: -0.5,
+                        // Tagline with brand styling
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 10,
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Date Smart. Stay Safe.',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: AppColors.textSecondary,
-                            fontWeight: FontWeight.w500,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                AppColors.primary,
+                                AppColors.primary.withOpacity(0.8),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          child: const Text(
+                            "Dating can be a Game - Don't Get Played",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ],

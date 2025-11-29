@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chekmate/core/localization/app_localizations.dart';
 import 'package:flutter_chekmate/core/router/app_router_enhanced.dart';
 import 'package:flutter_chekmate/core/theme/app_theme.dart';
 import 'package:flutter_chekmate/shared/ui/components/app_error_boundary.dart';
@@ -12,6 +13,7 @@ class ChekMateApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterEnhancedProvider);
+    final currentLocale = ref.watch(languageProvider);
     // Note: authState available for future authentication-based routing
     // final authState = ref.watch(authStateProvider);
 
@@ -22,6 +24,11 @@ class ChekMateApp extends ConsumerWidget {
       // Theme Configuration
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
+
+      // Localization Configuration - Top 30 languages
+      locale: currentLocale,
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
 
       // Router Configuration
       routerConfig: router,

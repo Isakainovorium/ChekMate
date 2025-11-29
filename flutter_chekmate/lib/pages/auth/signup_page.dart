@@ -8,7 +8,13 @@ import 'package:flutter_chekmate/features/onboarding/presentation/providers/onbo
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// Sign Up Page
+/// Sign Up Page with Social Authentication
+/// Features:
+/// - Email/Password signup
+/// - Google Sign-In
+/// - Apple Sign-In (iOS)
+/// - Profile photo upload
+/// - Animated transitions
 class SignUpPage extends ConsumerStatefulWidget {
   const SignUpPage({super.key});
 
@@ -16,7 +22,8 @@ class SignUpPage extends ConsumerStatefulWidget {
   ConsumerState<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignUpPageState extends ConsumerState<SignUpPage> {
+class _SignUpPageState extends ConsumerState<SignUpPage>
+    with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -25,14 +32,86 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
   final _imagePickerService = WebImagePickerService();
   final _storageService = WebStorageService();
   bool _isLoading = false;
+  bool _isGoogleLoading = false;
+  bool _isAppleLoading = false;
   bool _obscurePassword = true;
   PickedMediaFile? _profilePhotoFile;
   // Upload progress tracking (currently unused but reserved for future progress UI)
   // ignore: unused_field
   double _uploadProgress = 0.0;
+  
+  late AnimationController _animController;
+  late Animation<double> _fadeAnim;
+  late Animation<Offset> _slideAnim;
+
+  @override
+  void initState() {
+    super.initState();
+    _animController = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+    _fadeAnim = CurvedAnimation(parent: _animController, curve: Curves.easeOut);
+    _slideAnim = Tween<Offset>(
+      begin: const Offset(0, 0.1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _animController, curve: Curves.easeOutCubic));
+    _animController.forward();
+  }
+
+  /// Handle Google Sign-In
+  Future<void> _handleGoogleSignIn() async {
+    setState(() => _isGoogleLoading = true);
+    try {
+      final controller = ref.read(authControllerProvider.notifier);
+      await controller.signInWithGoogle();
+      if (mounted) {
+        context.go('/onboarding/welcome');
+      }
+    } on Exception catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Google sign-in failed: ${e.toString()}'),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isGoogleLoading = false);
+      }
+    }
+  }
+
+  /// Handle Apple Sign-In
+  Future<void> _handleAppleSignIn() async {
+    setState(() => _isAppleLoading = true);
+    try {
+      final controller = ref.read(authControllerProvider.notifier);
+      await controller.signInWithApple();
+      if (mounted) {
+        context.go('/onboarding/welcome');
+      }
+    } on Exception catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Apple sign-in failed: ${e.toString()}'),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isAppleLoading = false);
+      }
+    }
+  }
 
   @override
   void dispose() {
+    _animController.dispose();
     _nameController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
@@ -140,27 +219,34 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: 40),
+        child: FadeTransition(
+          opacity: _fadeAnim,
+          child: SlideTransition(
+            position: _slideAnim,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const SizedBox(height: 40),
 
-                  // ChekMate Logo
-                  Center(
-                    child: Image.asset(
-                      'assets/images/auth/Top_asset.png',
-                      width: 280,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  const SizedBox(height: 32),
+                      // ChekMate Logo with Hero animation
+                      Center(
+                        child: Hero(
+                          tag: 'chekmate_logo',
+                          child: Image.asset(
+                            'assets/images/auth/Top_asset.png',
+                            width: 280,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 32),
 
-                  // Create new Account Heading
+                      // Create new Account Heading
                   const Text(
                     'Join ChekMate',
                     style: TextStyle(
@@ -476,56 +562,181 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                   ),
                   const SizedBox(height: 24),
 
-                  // Sign Up Button
-                  SizedBox(
-                    height: 50,
+                  // Sign Up Button with gradient
+                  Container(
+                    height: 56,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFFF5B041), Color(0xFFFF8C00)],
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFFF5B041).withOpacity(0.4),
+                          blurRadius: 12,
+                          offset: const Offset(0, 6),
+                        ),
+                      ],
+                    ),
                     child: ElevatedButton(
                       onPressed: _isLoading ? null : _handleSignUp,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFF5A623),
-                        foregroundColor: AppColors.textPrimary,
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(16),
                         ),
-                        elevation: 0,
                       ),
                       child: _isLoading
                           ? const SizedBox(
-                              height: 20,
-                              width: 20,
+                              height: 24,
+                              width: 24,
                               child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  AppColors.textPrimary,
-                                ),
+                                strokeWidth: 2.5,
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                               ),
                             )
                           : const Text(
-                              'Sign Up',
+                              'Create Account',
                               style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
                               ),
                             ),
                     ),
                   ),
-                  const SizedBox(height: 40),
-
-                  // Bottom Illustration
-                  Center(
-                    child: Image.asset(
-                      'assets/images/auth/Bottom_Asset.png',
-                      width: double.infinity,
-                      height: 280,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
                   const SizedBox(height: 24),
-                ],
+
+                  // Divider with "or"
+                  Row(
+                    children: [
+                      Expanded(child: Divider(color: Colors.grey.shade300)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          'or sign up with',
+                          style: TextStyle(
+                            color: Colors.grey.shade500,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      Expanded(child: Divider(color: Colors.grey.shade300)),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Social Sign Up Buttons
+                  Row(
+                    children: [
+                      // Google Sign-In
+                      Expanded(
+                        child: _buildSocialButton(
+                          onPressed: _handleGoogleSignIn,
+                          isLoading: _isGoogleLoading,
+                          icon: 'G',
+                          label: 'Google',
+                          backgroundColor: Colors.white,
+                          textColor: Colors.black87,
+                          borderColor: Colors.grey.shade300,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      // Apple Sign-In
+                      Expanded(
+                        child: _buildSocialButton(
+                          onPressed: _handleAppleSignIn,
+                          isLoading: _isAppleLoading,
+                          icon: '',
+                          label: 'Apple',
+                          backgroundColor: Colors.black,
+                          textColor: Colors.white,
+                          useAppleIcon: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                      const SizedBox(height: 24),
+
+                      // Bottom Illustration
+                      Center(
+                        child: Image.asset(
+                          'assets/images/auth/Bottom_Asset.png',
+                          width: double.infinity,
+                          height: 180,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  /// Build social login button
+  Widget _buildSocialButton({
+    required VoidCallback onPressed,
+    required bool isLoading,
+    required String icon,
+    required String label,
+    required Color backgroundColor,
+    required Color textColor,
+    Color? borderColor,
+    bool useAppleIcon = false,
+  }) {
+    return SizedBox(
+      height: 52,
+      child: OutlinedButton(
+        onPressed: isLoading ? null : onPressed,
+        style: OutlinedButton.styleFrom(
+          backgroundColor: backgroundColor,
+          side: BorderSide(color: borderColor ?? Colors.transparent),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        child: isLoading
+            ? SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(textColor),
+                ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (useAppleIcon)
+                    Icon(Icons.apple, color: textColor, size: 24)
+                  else
+                    Text(
+                      icon,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: icon == 'G' ? const Color(0xFF4285F4) : textColor,
+                      ),
+                    ),
+                  const SizedBox(width: 8),
+                  Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: textColor,
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }

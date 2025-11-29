@@ -10,8 +10,6 @@ import 'package:flutter_chekmate/core/theme/app_theme.dart';
 import 'package:flutter_chekmate/features/feed/pages/feed_page.dart';
 import 'package:flutter_chekmate/features/feed/pages/messaging/pages/navigation/widgets/header_widget.dart';
 import 'package:flutter_chekmate/features/feed/pages/messaging/pages/navigation/widgets/nav_tabs_widget.dart';
-import 'package:flutter_chekmate/features/stories/models/story_model.dart';
-import 'package:flutter_chekmate/features/stories/presentation/story_viewer_screen.dart';
 import 'package:flutter_chekmate/pages/explore/explore_page.dart';
 import 'package:flutter_chekmate/features/live/presentation/pages/live_page.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart';
@@ -47,7 +45,6 @@ class _HomePageState extends ConsumerState<HomePage> {
     'Rate Date',
     'Subscribe',
   ];
-  int _currentTabIndex = 0; // Local state for PageController animation
 
   @override
   void initState() {
@@ -81,8 +78,6 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     final index = _tabs.indexOf(tab);
     if (index != -1) {
-      setState(() => _currentTabIndex = index);
-
       // Smooth page transition with custom curve
       _pageController.animateToPage(
         index,
@@ -101,50 +96,16 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   void _handlePageChange(int index) {
-    setState(() => _currentTabIndex = index);
     ref.read(navStateProvider.notifier).setActiveTab(_tabs[index]);
   }
 
   // Bottom navigation is provided by the MainNavigation shell.
-
-  void _handleStoryTap(StoryUser storyUser) {
-    _openStoryViewer(storyUser);
-  }
 
   void _handleSearch(String query) {
     // Navigate to search page with query
     context.push('/search?q=${Uri.encodeComponent(query)}');
     if (kDebugMode) {
       debugPrint('Search query: $query');
-    }
-  }
-
-  Future<void> _openStoryViewer(StoryUser storyUser) async {
-    // Hide bottom nav while viewing stories
-    ref.read(navStateProvider.notifier).setViewingStories(true);
-    
-    await Navigator.of(context).push(
-      PageRouteBuilder(
-        opaque: false,
-        pageBuilder: (context, animation, secondaryAnimation) {
-          return FadeTransition(
-            opacity: animation,
-            child: StoryViewerScreen(
-              storyUser: storyUser,
-              onClose: () {
-                if (mounted) {
-                  ref.read(navStateProvider.notifier).setViewingStories(false);
-                }
-              },
-            ),
-          );
-        },
-      ),
-    );
-    
-    // Restore bottom nav when closed
-    if (mounted) {
-      ref.read(navStateProvider.notifier).setViewingStories(false);
     }
   }
 

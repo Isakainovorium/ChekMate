@@ -211,7 +211,7 @@ final appRouterEnhancedProvider = Provider<GoRouter>((ref) {
           state,
           const MainNavigation(
             currentIndex: 0,
-            hideNavigation: true,
+            hideNavigation: false, // Show bottom nav for better UX
             child: RateDatePage(),
           ),
         ),

@@ -7,9 +7,9 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chekmate/app.dart';
+import 'package:flutter_chekmate/core/services/cache_service.dart';
 import 'package:flutter_chekmate/firebase_options.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,8 +40,8 @@ void main() async {
     };
   }
 
-  // Initialize Hive for local storage
-  await Hive.initFlutter();
+  // Initialize Cache Service (Hive + all cache boxes)
+  await CacheService.init();
 
   // Set preferred orientations (only on mobile platforms)
   if (!kIsWeb) {

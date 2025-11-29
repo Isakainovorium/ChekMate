@@ -5,18 +5,29 @@ import 'package:flutter_chekmate/features/stories/models/story_model.dart';
 
 /// Full-screen Story Viewer with Instagram-style navigation
 /// Features:
-/// - Tap left/right to navigate
+/// - Tap left/right to navigate within user's stories
+/// - Swipe left/right to navigate between users
 /// - Progress bar indicators
-/// - Auto-advance timer
+/// - Auto-advance timer (moves to next user when done)
 /// - Pause on hold
 class StoryViewerScreen extends StatefulWidget {
   const StoryViewerScreen({
     required this.storyUser,
     super.key,
+    this.allStoryUsers,
+    this.initialUserIndex = 0,
     this.onClose,
   });
 
+  /// The current story user to display (used when viewing single user)
   final StoryUser storyUser;
+  
+  /// All story users for multi-user navigation (optional)
+  final List<StoryUser>? allStoryUsers;
+  
+  /// Initial user index when viewing multiple users
+  final int initialUserIndex;
+  
   final VoidCallback? onClose;
 
   @override
@@ -26,12 +37,23 @@ class StoryViewerScreen extends StatefulWidget {
 class _StoryViewerScreenState extends State<StoryViewerScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _progressController;
+  late PageController _userPageController;
   int _currentStoryIndex = 0;
+  int _currentUserIndex = 0;
   bool _isPaused = false;
+
+  /// Get all story users (either from allStoryUsers or single user)
+  List<StoryUser> get _allUsers => widget.allStoryUsers ?? [widget.storyUser];
+  
+  /// Get current user being viewed
+  StoryUser get _currentUser => _allUsers[_currentUserIndex];
 
   @override
   void initState() {
     super.initState();
+    
+    _currentUserIndex = widget.initialUserIndex;
+    _userPageController = PageController(initialPage: _currentUserIndex);
     
     // Set status bar style for dark background
     SystemChrome.setSystemUIOverlayStyle(
@@ -56,6 +78,7 @@ class _StoryViewerScreenState extends State<StoryViewerScreen>
   @override
   void dispose() {
     _progressController.dispose();
+    _userPageController.dispose();
     // Reset status bar style
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
@@ -81,11 +104,13 @@ class _StoryViewerScreenState extends State<StoryViewerScreen>
   }
 
   void _nextStory() {
-    if (_currentStoryIndex < widget.storyUser.stories.length - 1) {
+    if (_currentStoryIndex < _currentUser.stories.length - 1) {
+      // More stories from current user
       setState(() => _currentStoryIndex++);
       _startProgress();
     } else {
-      _closeViewer();
+      // No more stories from current user, go to next user
+      _nextUser();
     }
   }
 
@@ -93,8 +118,43 @@ class _StoryViewerScreenState extends State<StoryViewerScreen>
     if (_currentStoryIndex > 0) {
       setState(() => _currentStoryIndex--);
       _startProgress();
+    } else if (_currentUserIndex > 0) {
+      // Go to previous user's last story
+      _previousUser();
     } else {
       // Reset current story
+      _startProgress();
+    }
+  }
+
+  void _nextUser() {
+    if (_currentUserIndex < _allUsers.length - 1) {
+      setState(() {
+        _currentUserIndex++;
+        _currentStoryIndex = 0;
+      });
+      _userPageController.nextPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+      _startProgress();
+    } else {
+      // No more users, close viewer
+      _closeViewer();
+    }
+  }
+
+  void _previousUser() {
+    if (_currentUserIndex > 0) {
+      final prevUser = _allUsers[_currentUserIndex - 1];
+      setState(() {
+        _currentUserIndex--;
+        _currentStoryIndex = prevUser.stories.length - 1; // Go to last story
+      });
+      _userPageController.previousPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
       _startProgress();
     }
   }
@@ -106,8 +166,10 @@ class _StoryViewerScreenState extends State<StoryViewerScreen>
 
   @override
   Widget build(BuildContext context) {
-    final stories = widget.storyUser.stories;
-    final currentStory = stories.isNotEmpty ? stories[_currentStoryIndex] : null;
+    final stories = _currentUser.stories;
+    final currentStory = stories.isNotEmpty && _currentStoryIndex < stories.length 
+        ? stories[_currentStoryIndex] 
+        : null;
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -124,6 +186,23 @@ class _StoryViewerScreenState extends State<StoryViewerScreen>
         },
         onLongPressStart: (_) => _pauseProgress(),
         onLongPressEnd: (_) => _resumeProgress(),
+        // Horizontal swipe to navigate between users
+        onHorizontalDragEnd: (details) {
+          if (details.primaryVelocity == null) return;
+          if (details.primaryVelocity! < -300) {
+            // Swipe left - next user
+            _nextUser();
+          } else if (details.primaryVelocity! > 300) {
+            // Swipe right - previous user
+            _previousUser();
+          }
+        },
+        // Vertical swipe down to close
+        onVerticalDragEnd: (details) {
+          if (details.primaryVelocity != null && details.primaryVelocity! > 300) {
+            _closeViewer();
+          }
+        },
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -204,14 +283,14 @@ class _StoryViewerScreenState extends State<StoryViewerScreen>
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(color: Colors.white, width: 2),
-                          image: widget.storyUser.avatar != null
+                          image: _currentUser.avatar != null
                               ? DecorationImage(
-                                  image: NetworkImage(widget.storyUser.avatar!),
+                                  image: NetworkImage(_currentUser.avatar!),
                                   fit: BoxFit.cover,
                                 )
                               : null,
                         ),
-                        child: widget.storyUser.avatar == null
+                        child: _currentUser.avatar == null
                             ? const Icon(Icons.person, color: Colors.white)
                             : null,
                       ),
@@ -224,7 +303,7 @@ class _StoryViewerScreenState extends State<StoryViewerScreen>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.storyUser.username,
+                              _currentUser.username,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -316,20 +395,20 @@ class _StoryViewerScreenState extends State<StoryViewerScreen>
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.white, width: 3),
-                image: widget.storyUser.avatar != null
+                image: _currentUser.avatar != null
                     ? DecorationImage(
-                        image: NetworkImage(widget.storyUser.avatar!),
+                        image: NetworkImage(_currentUser.avatar!),
                         fit: BoxFit.cover,
                       )
                     : null,
               ),
-              child: widget.storyUser.avatar == null
+              child: _currentUser.avatar == null
                   ? const Icon(Icons.person, color: Colors.white, size: 40)
                   : null,
             ),
             const SizedBox(height: 16),
             Text(
-              widget.storyUser.username,
+              _currentUser.username,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,

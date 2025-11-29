@@ -9,6 +9,10 @@ import 'package:flutter_chekmate/features/feed/presentation/providers/feed_provi
 import 'package:flutter_chekmate/features/feed/widgets/post_widget.dart';
 import 'package:flutter_chekmate/features/intelligence/presentation/providers/serendipity_feed_provider.dart';
 import 'package:flutter_chekmate/features/posts/domain/entities/post_entity.dart';
+import 'package:flutter_chekmate/features/stories/models/story_model.dart';
+import 'package:flutter_chekmate/features/stories/presentation/providers/stories_providers.dart';
+import 'package:flutter_chekmate/features/stories/presentation/story_viewer_screen.dart';
+import 'package:flutter_chekmate/features/stories/widgets/stories_widget.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart' hide AnimatedFeedCard;
 import 'package:flutter_chekmate/shared/widgets/animated_feed_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,8 +52,32 @@ class _FeedPageState extends ConsumerState<FeedPage> {
     _feedType = widget.initialFeedType;
   }
 
+  /// Opens the story viewer when a user taps on a story bubble
+  void _openStoryViewer(StoryUser storyUser, List<StoryUser> allStories) {
+    final userIndex = allStories.indexWhere((u) => u.id == storyUser.id);
+    
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return FadeTransition(
+            opacity: animation,
+            child: StoryViewerScreen(
+              storyUser: storyUser,
+              allStoryUsers: allStories,
+              initialUserIndex: userIndex >= 0 ? userIndex : 0,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Watch stories from Firebase
+    final storiesAsync = ref.watch(storiesProvider);
+    
     // Watch the appropriate feed provider based on feed type
     final postsAsync = switch (_feedType) {
       FeedType.hybrid => ref.watch(hybridFeedProvider),
@@ -73,6 +101,23 @@ class _FeedPageState extends ConsumerState<FeedPage> {
         return Column(
           children: [
             if (widget.showAppBar) _buildFeedIndicator(),
+            // Stories row at top of feed - Real Firebase data
+            storiesAsync.when(
+              data: (stories) => stories.isEmpty
+                  ? const SizedBox.shrink()
+                  : StoriesWidget(
+                      stories: stories,
+                      onStoryTap: (storyUser) => _openStoryViewer(storyUser, stories),
+                    ),
+              loading: () => const SizedBox(
+                height: 100,
+                child: Center(
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+              ),
+              error: (_, __) => const SizedBox.shrink(),
+            ),
+            const Divider(height: 1),
             Expanded(
               child: AppInfiniteScroll<PostEntity>(
                 items: postsList,

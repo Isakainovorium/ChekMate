@@ -405,10 +405,10 @@ class ExploreRepositoryImpl implements ExploreRepository {
         type: ExploreContentType.values[i % ExploreContentType.values.length],
         title: 'Sample Content ${i + 1}',
         description: 'This is a sample description for content ${i + 1}',
-        imageUrl: 'https://example.com/image_$i.jpg',
+        imageUrl: '', // Empty for fallback - UI shows placeholder
         authorId: 'user_$i',
         authorName: 'User ${i + 1}',
-        authorAvatar: 'https://example.com/avatar_$i.jpg',
+        authorAvatar: '', // Empty for fallback - UI shows default avatar
         likes: 100 + (i * 10),
         comments: 20 + (i * 2),
         shares: 5 + i,
@@ -460,7 +460,7 @@ class ExploreRepositoryImpl implements ExploreRepository {
         uid: 'user_$i',
         username: 'user${i + 1}',
         displayName: 'User ${i + 1}',
-        avatar: 'https://example.com/avatar_$i.jpg',
+        avatar: '', // Empty for fallback - UI shows default avatar
         bio: 'Sample bio for user ${i + 1}',
         followers: 100 + (i * 50),
         isVerified: i % 5 == 0,

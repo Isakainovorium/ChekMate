@@ -25,6 +25,7 @@ class _ChekMateRefreshIndicatorState extends State<ChekMateRefreshIndicator>
     with SingleTickerProviderStateMixin {
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
+  bool _isRefreshing = false;
 
   @override
   void initState() {
@@ -45,25 +46,42 @@ class _ChekMateRefreshIndicatorState extends State<ChekMateRefreshIndicator>
   }
 
   Future<void> _handleRefresh() async {
+    setState(() => _isRefreshing = true);
     _pulseController.repeat(reverse: true);
     try {
       await widget.onRefresh();
     } finally {
       _pulseController.stop();
       _pulseController.reset();
+      if (mounted) setState(() => _isRefreshing = false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: _handleRefresh,
-      color: AppColors.primary,
-      backgroundColor: Colors.white,
-      strokeWidth: 3,
-      displacement: 60,
-      edgeOffset: 0,
-      child: widget.child,
+    return Stack(
+      children: [
+        RefreshIndicator(
+          onRefresh: _handleRefresh,
+          color: AppColors.primary,
+          backgroundColor: Colors.white,
+          strokeWidth: 3,
+          displacement: 60,
+          edgeOffset: 0,
+          child: widget.child,
+        ),
+        // Show custom header when refreshing
+        if (_isRefreshing)
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: ChekMateRefreshHeader(
+              isRefreshing: _isRefreshing,
+              pulseAnimation: _pulseAnimation,
+            ),
+          ),
+      ],
     );
   }
 }

@@ -530,6 +530,12 @@
       "languageVersion": "3.1"
     },
     {
+      "name": "flutter_localizations",
+      "rootUri": "file:///Users/nefertareielbey/Downloads/flutter/packages/flutter_localizations",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
       "name": "flutter_plugin_android_lifecycle",
       "rootUri": "file:///Users/nefertareielbey/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.26",
       "packageUri": "lib/",
@@ -825,9 +831,9 @@
     },
     {
       "name": "intl",
-      "rootUri": "file:///Users/nefertareielbey/.pub-cache/hosted/pub.dev/intl-0.18.1",
+      "rootUri": "file:///Users/nefertareielbey/.pub-cache/hosted/pub.dev/intl-0.19.0",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.0"
     },
     {
       "name": "io",
@@ -1604,7 +1610,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2025-11-28T23:22:04.296885Z",
+  "generated": "2025-11-29T00:19:51.651657Z",
   "generator": "pub",
   "generatorVersion": "3.5.4",
   "flutterRoot": "file:///Users/nefertareielbey/Downloads/flutter",
