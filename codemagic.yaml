@@ -11,8 +11,8 @@ workflows:
           include: true
           source: true
     environment:
-      flutter: 3.24.5
-      xcode: 15.4
+      flutter: stable
+      xcode: latest
       cocoapods: default
       groups:
         - app_store_credentials
