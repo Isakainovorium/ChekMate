@@ -3,7 +3,6 @@ import 'package:flutter_chekmate/core/localization/app_localizations.dart';
 import 'package:flutter_chekmate/core/router/app_router_enhanced.dart';
 import 'package:flutter_chekmate/core/theme/app_theme.dart';
 import 'package:flutter_chekmate/shared/ui/components/app_error_boundary.dart';
-import 'package:flutter_chekmate/shared/ui/components/app_notification_banner.dart';
 // import 'package:flutter_chekmate/features/auth/providers/auth_provider.dart'; // For future auth routing
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -38,13 +37,9 @@ class ChekMateApp extends ConsumerWidget {
         return AppErrorBoundary(
           enableReporting: true,
           onError: (details) {
-            // Show error notification to user
-            AppNotificationBanner.show(
-              context: context,
-              message: 'An error occurred. Please try again.',
-              type: AppNotificationBannerType.error,
-              duration: const Duration(seconds: 5),
-            );
+            // Log error but don't show notification during initialization
+            // Overlay may not be ready yet, which causes cascade errors
+            debugPrint('App error: ${details.exception}');
           },
           child: MediaQuery(
             // Sprint 1 - Task 1.4.1: Allow text scaling up to 2.0 for accessibility
