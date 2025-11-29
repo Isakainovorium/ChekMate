@@ -24,6 +24,7 @@ dependencies:
   image_cropper: ^8.0.2
   cached_network_image: ^3.4.1
   video_player: ^2.9.2
+  ffmpeg_kit_flutter: ^6.0.3
 
   # Location Services
   geolocator: ^13.0.1
@@ -105,6 +106,7 @@ flutter:
   assets:
     - assets/animations/
     - assets/icons/
+    - assets/images/auth/
 
 flutter_launcher_icons:
   android: false
