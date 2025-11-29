@@ -23,7 +23,7 @@ dependencies:
 
   # Image & Media Handling
   image_picker: ^1.1.2
-  image_cropper: ^5.0.1  # Downgraded for Flutter <3.27 compatibility
+  image_cropper: ^8.0.2  # Upgraded for Flutter 3.38
   cached_network_image: ^3.4.1
   video_player: ^2.9.2
   video_compress: ^3.1.3  # Video compression & thumbnails (replaces ffmpeg_kit)

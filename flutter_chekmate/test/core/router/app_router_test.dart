@@ -6,7 +6,7 @@ import 'package:flutter_chekmate/pages/auth/signup_page.dart';
 import 'package:flutter_chekmate/pages/create_post/create_post_page.dart';
 import 'package:flutter_chekmate/pages/explore/explore_page.dart';
 import 'package:flutter_chekmate/pages/home/home_page.dart';
-import 'package:flutter_chekmate/pages/live/live_page.dart';
+import 'package:flutter_chekmate/features/live/presentation/pages/live_page.dart';
 import 'package:flutter_chekmate/pages/messages/chat_page.dart';
 import 'package:flutter_chekmate/pages/messages/messages_page.dart';
 import 'package:flutter_chekmate/pages/notifications/notifications_page.dart';
@@ -236,7 +236,7 @@ void main() {
           router.go('/live');
           await tester.pumpAndSettle();
 
-          expect(find.byType(LivePage), findsOneWidget);
+          expect(find.byType(LivePageNew), findsOneWidget);
           expect(find.byType(MainNavigation), findsOneWidget);
         });
       });
@@ -433,7 +433,7 @@ void main() {
           router.go('/live');
           await tester.pumpAndSettle();
 
-          expect(find.byType(LivePage), findsOneWidget);
+          expect(find.byType(LivePageNew), findsOneWidget);
         });
       });
 
