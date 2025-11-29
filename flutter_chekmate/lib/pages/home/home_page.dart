@@ -39,10 +39,10 @@ class _HomePageState extends ConsumerState<HomePage> {
   // Primary navigation state is managed by topNavTabProvider in nav_state.dart
   final List<String> _tabs = [
     'For you',
+    'Rate Date', // Moved to prominent position
     'Following',
     'Explore',
     'Live',
-    'Rate Date',
     'Subscribe',
   ];
 
