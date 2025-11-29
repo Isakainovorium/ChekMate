@@ -47,7 +47,7 @@ class NotificationListTile extends StatelessWidget {
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-          color: iconColor.withValues(alpha: 0.1),
+          color: iconColor.withOpacity(0.1),
           shape: BoxShape.circle,
         ),
         child: Center(
@@ -72,7 +72,7 @@ class NotificationListTile extends StatelessWidget {
             notification.body,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: notification.isRead
-                  ? Theme.of(context).textTheme.bodySmall?.color?.withValues(alpha: 0.6)
+                  ? Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.6)
                   : Theme.of(context).textTheme.bodySmall?.color,
             ),
             maxLines: 2,
@@ -82,7 +82,7 @@ class NotificationListTile extends StatelessWidget {
           Text(
             notification.timeAgo,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(context).textTheme.bodySmall?.color?.withValues(alpha: 0.5),
+              color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.5),
               fontSize: 10,
             ),
           ),

@@ -112,7 +112,7 @@ class VideoCardWidget extends StatelessWidget {
                           width: 56,
                           height: 56,
                           decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.7),
+                            color: Colors.black.withOpacity(0.7),
                             shape: BoxShape.circle,
                           ),
                           child: IconButton(
@@ -137,7 +137,7 @@ class VideoCardWidget extends StatelessWidget {
                             vertical: 2,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.8),
+                            color: Colors.black.withOpacity(0.8),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(

@@ -148,7 +148,7 @@ class _AppNotificationBannerState extends State<AppNotificationBanner>
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.1),
+                      color: Colors.black.withOpacity(0.1),
                       blurRadius: 8,
                       offset: const Offset(0, 4),
                     ),
@@ -217,7 +217,7 @@ class _AppNotificationBannerState extends State<AppNotificationBanner>
                             onPressed: _dismiss,
                             icon: Icon(
                               Icons.close,
-                              color: config.textColor.withValues(alpha: 0.7),
+                              color: config.textColor.withOpacity(0.7),
                               size: 20,
                             ),
                             constraints: const BoxConstraints(
@@ -405,7 +405,7 @@ class _AppInAppNotificationState extends State<AppInAppNotification>
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.15),
+                  color: Colors.black.withOpacity(0.15),
                   blurRadius: 12,
                   offset: const Offset(0, 6),
                 ),

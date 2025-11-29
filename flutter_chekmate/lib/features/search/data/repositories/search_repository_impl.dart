@@ -868,11 +868,8 @@ class SearchRepositoryImpl implements SearchRepository {
   }
 
   String? _getMockImageUrl(String type, int index) {
-    if (type == 'user') {
-      return 'https://example.com/avatar_$index.jpg';
-    } else if (type == 'post') {
-      return 'https://example.com/post_$index.jpg';
-    }
+    // Return null for fallback mode - UI will show default avatar/placeholder
+    // This avoids broken image URLs when Firebase is unavailable
     return null;
   }
 

@@ -36,7 +36,7 @@ class AppSelect<T> extends StatelessWidget {
           const SizedBox(height: AppSpacing.xs),
         ],
         DropdownButtonFormField<T>(
-          initialValue: value,
+          value: value,
           items: items.map((item) => DropdownMenuItem<T>(
             value: item.value,
             child: Row(

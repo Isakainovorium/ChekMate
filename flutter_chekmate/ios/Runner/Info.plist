@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>ChekMate</string>
+	<string>ChekMate Social</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -48,27 +48,27 @@
 	
 	<!-- Camera Permission -->
 	<key>NSCameraUsageDescription</key>
-	<string>ChekMate needs access to your camera to capture photos and videos for posts, stories, and your profile.</string>
+	<string>ChekMate Social needs access to your camera to capture photos and videos for posts, stories, and your profile.</string>
 	
 	<!-- Microphone Permission -->
 	<key>NSMicrophoneUsageDescription</key>
-	<string>ChekMate needs access to your microphone to record voice messages and video content with audio.</string>
+	<string>ChekMate Social needs access to your microphone to record voice messages and video content with audio.</string>
 	
 	<!-- Photo Library Permissions -->
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>ChekMate needs access to your photo library to select and share photos and videos.</string>
+	<string>ChekMate Social needs access to your photo library to select and share photos and videos.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>ChekMate needs permission to save photos and videos to your photo library.</string>
+	<string>ChekMate Social needs permission to save photos and videos to your photo library.</string>
 	
 	<!-- Location Permissions -->
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>ChekMate uses your location to show nearby users and enhance your dating experience.</string>
+	<string>ChekMate Social uses your location to show nearby users and enhance your dating experience.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>ChekMate uses your location to show nearby users and enhance your dating experience.</string>
+	<string>ChekMate Social uses your location to show nearby users and enhance your dating experience.</string>
 	
 	<!-- Notification Permissions (for iOS 10+) -->
 	<key>UserNotificationsUsageDescription</key>
-	<string>ChekMate sends notifications about new messages, likes, comments, and matches to keep you connected.</string>
+	<string>ChekMate Social sends notifications about new messages, likes, comments, and matches to keep you connected.</string>
 	
 	<!-- Background Modes for Push Notifications -->
 	<key>UIBackgroundModes</key>

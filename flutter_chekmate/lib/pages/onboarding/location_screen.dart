@@ -262,7 +262,7 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
                         width: 120,
                         height: 120,
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.1),
+                          color: AppColors.primary.withOpacity(0.1),
                           shape: BoxShape.circle,
                         ),
                         child: const Icon(
@@ -280,7 +280,7 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: AppColors.success.withValues(alpha: 0.1),
+                          color: AppColors.success.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: AppColors.success,

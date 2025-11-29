@@ -301,8 +301,8 @@ class _ThemeSettingsPageState extends ConsumerState<ThemeSettingsPage> {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setInt('theme_preset', _selectedPreset);
       await prefs.setBool('theme_use_custom', _useCustomColors);
-      await prefs.setInt('theme_custom_primary', _customPrimary.toARGB32());
-      await prefs.setInt('theme_custom_accent', _customAccent.toARGB32());
+      await prefs.setInt('theme_custom_primary', _customPrimary.value);
+      await prefs.setInt('theme_custom_accent', _customAccent.value);
       await prefs.setBool('theme_dark_mode', _darkModeEnabled);
 
       if (mounted) {

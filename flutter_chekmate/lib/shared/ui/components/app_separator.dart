@@ -25,7 +25,7 @@ class AppSeparator extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final separatorColor =
-        color ?? theme.colorScheme.outline.withValues(alpha: 0.2);
+        color ?? theme.colorScheme.outline.withOpacity(0.2);
 
     if (direction == Axis.horizontal) {
       return Divider(
@@ -68,7 +68,7 @@ class AppSeparatorWithText extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final separatorColor =
-        color ?? theme.colorScheme.outline.withValues(alpha: 0.2);
+        color ?? theme.colorScheme.outline.withOpacity(0.2);
 
     return Row(
       children: [

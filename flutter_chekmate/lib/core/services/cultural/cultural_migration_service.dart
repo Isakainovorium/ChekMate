@@ -2,11 +2,9 @@ import 'dart:async';
 import 'package:flutter_chekmate/features/cultural/models/cultural_identity_model.dart';
 import 'package:flutter_chekmate/features/cultural/models/cultural_identity_evolved.dart';
 import 'package:flutter_chekmate/core/services/cultural/cultural_profile_adapter.dart';
-import 'package:flutter_chekmate/core/services/cultural/cultural_vector_service.dart';
 
 /// Service for managing the migration from enum-based to ML-driven cultural system
 class CulturalMigrationService {
-  final CulturalVectorService _vectorService;
   final CulturalProfileAdapter _profileAdapter;
   final MigrationRepository _repository;
 
@@ -15,11 +13,9 @@ class CulturalMigrationService {
   static const Duration _migrationDelay = Duration(milliseconds: 100);
 
   CulturalMigrationService({
-    required CulturalVectorService vectorService,
     required CulturalProfileAdapter profileAdapter,
     required MigrationRepository repository,
-  })  : _vectorService = vectorService,
-        _profileAdapter = profileAdapter,
+  })  : _profileAdapter = profileAdapter,
         _repository = repository;
 
   /// Migrate a single user profile from enum to ML system

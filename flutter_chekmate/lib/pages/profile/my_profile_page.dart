@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chekmate/core/router/route_constants.dart';
 import 'package:flutter_chekmate/core/theme/app_colors.dart';
 import 'package:flutter_chekmate/core/theme/app_spacing.dart';
+import 'package:flutter_chekmate/core/theme/app_theme.dart';
 import 'package:flutter_chekmate/features/feed/subfeatures/profile/widgets/profile_stats_widget.dart';
 import 'package:flutter_chekmate/shared/ui/index.dart';
 import 'package:go_router/go_router.dart';
@@ -38,7 +39,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
+      // Sprint 2 - Task 2.1.2: Use theme-aware background
+      backgroundColor: Theme.of(context).surfaceBackground,
       body: CustomScrollView(
         slivers: [
           // Parallax Cover Photo with SliverAppBar
@@ -61,7 +63,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                           end: Alignment.bottomRight,
                           colors: [
                             AppColors.primary,
-                            AppColors.primary.withValues(alpha: 0.7),
+                            AppColors.primary.withOpacity(0.7),
                           ],
                         ),
                       ),
@@ -75,7 +77,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                         end: Alignment.bottomCenter,
                         colors: [
                           Colors.transparent,
-                          Colors.black.withValues(alpha: 0.3),
+                          Colors.black.withOpacity(0.3),
                         ],
                       ),
                     ),
@@ -83,11 +85,14 @@ class _MyProfilePageState extends State<MyProfilePage> {
                 ],
               ),
             ),
+            // Sprint 3 - Task 3.2.2: Added tooltips to icon buttons
             actions: [
               AppButton(
                 onPressed: () => debugPrint('Notifications'),
                 variant: AppButtonVariant.text,
                 size: AppButtonSize.sm,
+                tooltip: 'Notifications',
+                semanticLabel: 'View notifications',
                 child: const Icon(
                   Icons.notifications_outlined,
                   color: Colors.white,
@@ -98,6 +103,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
                 onPressed: () => debugPrint('Share'),
                 variant: AppButtonVariant.text,
                 size: AppButtonSize.sm,
+                tooltip: 'Share profile',
+                semanticLabel: 'Share your profile',
                 child: const Icon(
                   Icons.share_outlined,
                   color: Colors.white,
@@ -127,7 +134,10 @@ class _MyProfilePageState extends State<MyProfilePage> {
   Widget _buildHeader() {
     return Transform.translate(
       offset: const Offset(0, -40),
-      child: AppCard(
+      child: PremiumCard(
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        borderRadius: 24,
+        elevation: 1.5,
         child: Column(
           children: [
             const SizedBox(height: AppSpacing.md),
@@ -202,33 +212,53 @@ class _MyProfilePageState extends State<MyProfilePage> {
   }
 
   Widget _buildEditProfileButton() {
-    return AppCard(
+    return PremiumCard(
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.md,
       ),
+      borderRadius: 20,
+      elevation: 0.8,
       child: Row(
         children: [
           Expanded(
-            child: AppButton(
+            child: PremiumScaleButton(
               onPressed: () => debugPrint('Edit profile'),
-              variant: AppButtonVariant.outline,
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.edit_outlined, size: 18),
-                  SizedBox(width: 8),
-                  Text('Edit Profile'),
-                ],
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.edit_outlined, size: 18, color: AppColors.primary),
+                    SizedBox(width: 8),
+                    Text(
+                      'Edit Profile',
+                      style: TextStyle(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
           const SizedBox(width: AppSpacing.sm),
-          AppButton(
+          PremiumScaleButton(
             onPressed: () => _showSettingsMenu(context),
-            variant: AppButtonVariant.outline,
-            size: AppButtonSize.sm,
-            child: const Icon(Icons.settings_outlined, size: 18),
+            child: Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey.shade300),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(Icons.settings_outlined, size: 20, color: Colors.grey.shade700),
+            ),
           ),
         ],
       ),
@@ -343,7 +373,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                     end: Alignment.bottomCenter,
                     colors: [
                       Colors.transparent,
-                      Colors.black.withValues(alpha: 0.7),
+                      Colors.black.withOpacity(0.7),
                     ],
                   ),
                 ),

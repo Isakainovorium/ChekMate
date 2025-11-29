@@ -72,6 +72,12 @@
 @import flutter_local_notifications;
 #endif
 
+#if __has_include(<flutter_webrtc/FlutterWebRTCPlugin.h>)
+#import <flutter_webrtc/FlutterWebRTCPlugin.h>
+#else
+@import flutter_webrtc;
+#endif
+
 #if __has_include(<geocoding_ios/GeocodingPlugin.h>)
 #import <geocoding_ios/GeocodingPlugin.h>
 #else
@@ -120,6 +126,12 @@
 @import permission_handler_apple;
 #endif
 
+#if __has_include(<record_darwin/RecordPlugin.h>)
+#import <record_darwin/RecordPlugin.h>
+#else
+@import record_darwin;
+#endif
+
 #if __has_include(<share_plus/FPPSharePlusPlugin.h>)
 #import <share_plus/FPPSharePlusPlugin.h>
 #else
@@ -150,6 +162,12 @@
 @import url_launcher_ios;
 #endif
 
+#if __has_include(<video_compress/VideoCompressPlugin.h>)
+#import <video_compress/VideoCompressPlugin.h>
+#else
+@import video_compress;
+#endif
+
 #if __has_include(<video_player_avfoundation/FVPVideoPlayerPlugin.h>)
 #import <video_player_avfoundation/FVPVideoPlayerPlugin.h>
 #else
@@ -176,6 +194,7 @@
   [FLTFirebaseMessagingPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseMessagingPlugin"]];
   [FLTFirebaseStoragePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseStoragePlugin"]];
   [FlutterLocalNotificationsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterLocalNotificationsPlugin"]];
+  [FlutterWebRTCPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterWebRTCPlugin"]];
   [GeocodingPlugin registerWithRegistrar:[registry registrarForPlugin:@"GeocodingPlugin"]];
   [GeolocatorPlugin registerWithRegistrar:[registry registrarForPlugin:@"GeolocatorPlugin"]];
   [FLTGoogleSignInPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTGoogleSignInPlugin"]];
@@ -184,11 +203,13 @@
   [FPPPackageInfoPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"FPPPackageInfoPlusPlugin"]];
   [PathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"PathProviderPlugin"]];
   [PermissionHandlerPlugin registerWithRegistrar:[registry registrarForPlugin:@"PermissionHandlerPlugin"]];
+  [RecordPlugin registerWithRegistrar:[registry registrarForPlugin:@"RecordPlugin"]];
   [FPPSharePlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"FPPSharePlusPlugin"]];
   [SharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"SharedPreferencesPlugin"]];
   [SignInWithApplePlugin registerWithRegistrar:[registry registrarForPlugin:@"SignInWithApplePlugin"]];
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
   [URLLauncherPlugin registerWithRegistrar:[registry registrarForPlugin:@"URLLauncherPlugin"]];
+  [VideoCompressPlugin registerWithRegistrar:[registry registrarForPlugin:@"VideoCompressPlugin"]];
   [FVPVideoPlayerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FVPVideoPlayerPlugin"]];
   [VideoThumbnailPlugin registerWithRegistrar:[registry registrarForPlugin:@"VideoThumbnailPlugin"]];
 }

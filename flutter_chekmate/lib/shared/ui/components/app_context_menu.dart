@@ -100,7 +100,7 @@ class _ContextMenuItemWidget extends StatelessWidget {
             size: 18,
             color: item.enabled 
                 ? theme.colorScheme.onSurface
-                : theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                : theme.colorScheme.onSurface.withOpacity(0.5),
           ),
           const SizedBox(width: AppSpacing.sm),
         ],
@@ -110,7 +110,7 @@ class _ContextMenuItemWidget extends StatelessWidget {
             style: theme.textTheme.bodyMedium?.copyWith(
               color: item.enabled 
                   ? theme.colorScheme.onSurface
-                  : theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                  : theme.colorScheme.onSurface.withOpacity(0.5),
             ),
           ),
         ),

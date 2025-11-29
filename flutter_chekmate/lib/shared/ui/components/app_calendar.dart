@@ -84,7 +84,7 @@ class _AppCalendarState extends State<AppCalendar> {
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.2)),
+        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.2)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -288,7 +288,7 @@ class _CalendarDay extends StatelessWidget {
           color: isSelected 
               ? theme.colorScheme.primary
               : isToday 
-                  ? theme.colorScheme.primaryContainer.withValues(alpha: 0.3)
+                  ? theme.colorScheme.primaryContainer.withOpacity(0.3)
                   : null,
           borderRadius: BorderRadius.circular(compactMode ? 4 : 8),
           border: isToday && !isSelected
@@ -303,7 +303,7 @@ class _CalendarDay extends StatelessWidget {
                   ? theme.colorScheme.onPrimary
                   : isEnabled
                       ? theme.colorScheme.onSurface
-                      : theme.colorScheme.onSurface.withValues(alpha: 0.4),
+                      : theme.colorScheme.onSurface.withOpacity(0.4),
               fontWeight: isSelected || isToday ? FontWeight.w600 : FontWeight.normal,
             ),
           ),

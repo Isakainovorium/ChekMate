@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chekmate/core/localization/app_localizations.dart';
 import 'package:flutter_chekmate/core/router/app_router_enhanced.dart';
 import 'package:flutter_chekmate/core/theme/app_theme.dart';
 import 'package:flutter_chekmate/shared/ui/components/app_error_boundary.dart';
@@ -12,6 +13,7 @@ class ChekMateApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterEnhancedProvider);
+    final currentLocale = ref.watch(languageProvider);
     // Note: authState available for future authentication-based routing
     // final authState = ref.watch(authStateProvider);
 
@@ -22,6 +24,11 @@ class ChekMateApp extends ConsumerWidget {
       // Theme Configuration
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
+
+      // Localization Configuration - Top 30 languages
+      locale: currentLocale,
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
 
       // Router Configuration
       routerConfig: router,
@@ -40,11 +47,12 @@ class ChekMateApp extends ConsumerWidget {
             );
           },
           child: MediaQuery(
-            // Ensure text scaling doesn't break the UI
+            // Sprint 1 - Task 1.4.1: Allow text scaling up to 2.0 for accessibility
+            // WCAG 2.1 requires support for 200% text scaling
             data: MediaQuery.of(context).copyWith(
               textScaler: MediaQuery.of(context).textScaler.clamp(
                     minScaleFactor: 0.8,
-                    maxScaleFactor: 1.2,
+                    maxScaleFactor: 2.0,
                   ),
             ),
             child: child ?? const SizedBox.shrink(),

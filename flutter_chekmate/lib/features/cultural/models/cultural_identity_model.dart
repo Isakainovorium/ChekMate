@@ -169,13 +169,14 @@ class CulturalIdentity extends Equatable {
   /// Calculate profile completeness based on provided information
   static double calculateProfileCompleteness(CulturalIdentity identity) {
     double completeness = 0.0;
-    double totalFactors = 5;
+    const double totalFactors = 5;
+    const double weightPerFactor = 1.0 / totalFactors;
 
-    if (identity.primaryEthnicity != null) completeness += 0.2;
-    if (identity.subEthnicities.isNotEmpty) completeness += 0.2;
-    if (identity.communities.isNotEmpty) completeness += 0.2;
-    if (identity.generation != null) completeness += 0.2;
-    if (identity.interests.isNotEmpty) completeness += 0.2;
+    if (identity.primaryEthnicity != null) completeness += weightPerFactor;
+    if (identity.subEthnicities.isNotEmpty) completeness += weightPerFactor;
+    if (identity.communities.isNotEmpty) completeness += weightPerFactor;
+    if (identity.generation != null) completeness += weightPerFactor;
+    if (identity.interests.isNotEmpty) completeness += weightPerFactor;
 
     return completeness;
   }
@@ -537,9 +538,6 @@ enum SubEthnicity {
       case SubEthnicity.transcendent:
       case SubEthnicity.hybridCulture:
         return Ethnicity.mixedHeritage;
-
-      default:
-        return Ethnicity.preferNotToSay;
     }
   }
 }

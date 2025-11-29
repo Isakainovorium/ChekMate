@@ -124,7 +124,7 @@ class _AppColorPickerState extends State<AppColorPicker> {
                 color: _selectedColor,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: theme.colorScheme.outline.withValues(alpha: 0.3),
+                  color: theme.colorScheme.outline.withOpacity(0.3),
                 ),
               ),
             ),
@@ -227,7 +227,7 @@ class _AppColorPickerState extends State<AppColorPicker> {
   }
 
   String _colorToHex(Color color) {
-    return color.toARGB32().toRadixString(16).substring(2).toUpperCase();
+    return color.value.toRadixString(16).substring(2).toUpperCase();
   }
 
   Color? _hexToColor(String hex) {
@@ -262,7 +262,7 @@ class _ColorSwatches extends StatelessWidget {
       spacing: AppSpacing.sm,
       runSpacing: AppSpacing.sm,
       children: colors.map((color) {
-        final isSelected = color.toARGB32() == selectedColor.toARGB32();
+        final isSelected = color.value == selectedColor.value;
         
         return GestureDetector(
           onTap: () => onColorSelected(color),
@@ -275,7 +275,7 @@ class _ColorSwatches extends StatelessWidget {
               border: Border.all(
                 color: isSelected 
                     ? theme.colorScheme.primary
-                    : theme.colorScheme.outline.withValues(alpha: 0.3),
+                    : theme.colorScheme.outline.withOpacity(0.3),
                 width: isSelected ? 3 : 1,
               ),
             ),
@@ -294,7 +294,7 @@ class _ColorSwatches extends StatelessWidget {
 
   Color _getContrastColor(Color color) {
     // Calculate luminance to determine if we should use white or black text
-    final luminance = (0.299 * (color.r * 255.0).round() + 0.587 * (color.g * 255.0).round() + 0.114 * (color.b * 255.0).round()) / 255;
+    final luminance = (0.299 * color.red + 0.587 * color.green + 0.114 * color.blue) / 255;
     return luminance > 0.5 ? Colors.black : Colors.white;
   }
 }
@@ -438,7 +438,7 @@ class _ColorSlider extends StatelessWidget {
             gradient: gradient,
             borderRadius: BorderRadius.circular(15),
             border: Border.all(
-              color: theme.colorScheme.outline.withValues(alpha: 0.3),
+              color: theme.colorScheme.outline.withOpacity(0.3),
             ),
           ),
           child: SliderTheme(
@@ -449,7 +449,7 @@ class _ColorSlider extends StatelessWidget {
               activeTrackColor: Colors.transparent,
               inactiveTrackColor: Colors.transparent,
               thumbColor: Colors.white,
-              overlayColor: Colors.white.withValues(alpha: 0.2),
+              overlayColor: Colors.white.withOpacity(0.2),
             ),
             child: Slider(
               value: value,

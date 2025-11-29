@@ -44,6 +44,28 @@ class FilePickerService {
     }
   }
 
+  /// Pick image from camera
+  static Future<File?> pickImageFromCamera() async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(source: ImageSource.camera);
+      return image != null ? File(image.path) : null;
+    } catch (e) {
+      throw FilePickerException('Failed to capture image: $e');
+    }
+  }
+
+  /// Pick video from camera
+  static Future<File?> pickVideoFromCamera() async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? video = await picker.pickVideo(source: ImageSource.camera);
+      return video != null ? File(video.path) : null;
+    } catch (e) {
+      throw FilePickerException('Failed to capture video: $e');
+    }
+  }
+
   static Future<List<File>> pickVideos({int? maxFiles}) async {
     try {
       final file = await pickVideo(allowMultiple: false);

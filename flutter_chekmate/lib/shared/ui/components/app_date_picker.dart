@@ -155,7 +155,7 @@ class _AppDatePickerState extends State<AppDatePicker> {
               fontWeight: FontWeight.w500,
               color: widget.enabled
                   ? theme.colorScheme.onSurface
-                  : theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                  : theme.colorScheme.onSurface.withOpacity(0.6),
             ),
           ),
           const SizedBox(height: AppSpacing.sm),
@@ -165,7 +165,7 @@ class _AppDatePickerState extends State<AppDatePicker> {
           height: 200,
           decoration: BoxDecoration(
             border: Border.all(
-              color: theme.colorScheme.outline.withValues(alpha: 0.3),
+              color: theme.colorScheme.outline.withOpacity(0.3),
             ),
             borderRadius: BorderRadius.circular(12),
           ),
@@ -223,7 +223,7 @@ class _AppDatePickerState extends State<AppDatePicker> {
           padding: const EdgeInsets.all(AppSpacing.md),
           decoration: BoxDecoration(
             color: theme.colorScheme.surfaceContainerHighest
-                .withValues(alpha: 0.3),
+                .withOpacity(0.3),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
@@ -232,7 +232,7 @@ class _AppDatePickerState extends State<AppDatePicker> {
               fontWeight: FontWeight.w600,
               color: widget.enabled
                   ? theme.colorScheme.onSurface
-                  : theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                  : theme.colorScheme.onSurface.withOpacity(0.6),
             ),
             textAlign: TextAlign.center,
           ),
@@ -302,7 +302,7 @@ class _DateColumn extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                       color: enabled
                           ? theme.colorScheme.onSurface
-                          : theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                          : theme.colorScheme.onSurface.withOpacity(0.6),
                     ),
                     textAlign: TextAlign.center,
                   ),

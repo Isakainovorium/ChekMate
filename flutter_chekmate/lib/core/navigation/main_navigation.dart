@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_chekmate/shared/ui/premium/premium_glass_nav_bar.dart';
 
 import '../router/route_constants.dart';
 import 'nav_state.dart';
@@ -10,6 +11,7 @@ import 'nav_state.dart';
 /// Coordinates bottom navigation bar and top tab navigation.
 /// Manages navigation state and provides unified navigation interface.
 /// 
+/// Sprint 1 - Task 1.1.5: Added semantic accessibility support
 /// Date: 11/13/2025
 class MainNavigation extends ConsumerStatefulWidget {
   const MainNavigation({
@@ -48,29 +50,67 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
     final currentTopTab = ref.watch(topNavTabProvider);
 
     return Scaffold(
-      body: Column(
-        children: [
-          // Top tab navigation (shown on home/explore pages)
-          if (_shouldShowTopTabs(currentBottomTab) && !widget.hideNavigation)
-            _TopTabNavigation(
-              currentTab: currentTopTab,
-              onTabChanged: (tab) {
-                updateTopNavTab(ref, tab);
-                _navigateToTopTab(context, tab);
-              },
-            ),
-          // Main content
-          Expanded(child: widget.child),
-        ],
+      extendBody: true, // Allow content to extend behind the floating nav bar
+      body: Semantics(
+        label: 'Main content area',
+        container: true,
+        child: Column(
+          children: [
+            // Top tab navigation (shown on home/explore pages)
+            if (_shouldShowTopTabs(currentBottomTab) && !widget.hideNavigation)
+              Semantics(
+                label: 'Content filter tabs',
+                container: true,
+                child: _TopTabNavigation(
+                  currentTab: currentTopTab,
+                  onTabChanged: (tab) {
+                    updateTopNavTab(ref, tab);
+                    _navigateToTopTab(context, tab);
+                  },
+                ),
+              ),
+            // Main content
+            Expanded(child: widget.child),
+            // Add bottom padding to account for floating nav bar
+            if (!widget.hideNavigation) const SizedBox(height: 90),
+          ],
+        ),
       ),
       bottomNavigationBar: widget.hideNavigation
           ? null
-          : _BottomNavigationBar(
-              currentTab: currentBottomTab,
-              onTabChanged: (tab) {
-                updateBottomNavTab(ref, tab);
-                _navigateToBottomTab(context, tab);
-              },
+          : Semantics(
+              label: 'Main navigation',
+              container: true,
+              child: PremiumGlassNavBar(
+                currentIndex: currentBottomTab.index,
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home_outlined),
+                    activeIcon: Icon(Icons.home),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.message_outlined),
+                    activeIcon: Icon(Icons.message),
+                    label: 'Messages',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.notifications_outlined),
+                    activeIcon: Icon(Icons.notifications),
+                    label: 'Alerts',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.person_outline),
+                    activeIcon: Icon(Icons.person),
+                    label: 'Profile',
+                  ),
+                ],
+                onTap: (index) {
+                  final tab = BottomNavTab.values[index];
+                  updateBottomNavTab(ref, tab);
+                  _navigateToBottomTab(context, tab);
+                },
+              ),
             ),
     );
   }
@@ -117,52 +157,6 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
         context.go(RoutePaths.subscribe);
         break;
     }
-  }
-}
-
-/// Bottom Navigation Bar Widget
-class _BottomNavigationBar extends StatelessWidget {
-  const _BottomNavigationBar({
-    required this.currentTab,
-    required this.onTabChanged,
-  });
-
-  final BottomNavTab currentTab;
-  final ValueChanged<BottomNavTab> onTabChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return NavigationBar(
-      selectedIndex: currentTab.index,
-      onDestinationSelected: (index) {
-        final tab = BottomNavTab.values.firstWhere(
-          (tab) => tab.index == index,
-        );
-        onTabChanged(tab);
-      },
-      destinations: const [
-        NavigationDestination(
-          icon: Icon(Icons.home_outlined),
-          selectedIcon: Icon(Icons.home),
-          label: 'Home',
-        ),
-        NavigationDestination(
-          icon: Icon(Icons.message_outlined),
-          selectedIcon: Icon(Icons.message),
-          label: 'Messages',
-        ),
-        NavigationDestination(
-          icon: Icon(Icons.notifications_outlined),
-          selectedIcon: Icon(Icons.notifications),
-          label: 'Notifications',
-        ),
-        NavigationDestination(
-          icon: Icon(Icons.person_outline),
-          selectedIcon: Icon(Icons.person),
-          label: 'Profile',
-        ),
-      ],
-    );
   }
 }
 

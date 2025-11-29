@@ -275,10 +275,10 @@ class _TemplateGuidedFormState extends ConsumerState<TemplateGuidedForm> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.blue.withValues(alpha: 0.05),
+                color: Colors.blue.withOpacity(0.05),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: Colors.blue.withValues(alpha: 0.2),
+                  color: Colors.blue.withOpacity(0.2),
                 ),
               ),
               child: Row(
@@ -344,7 +344,7 @@ class _TemplateGuidedFormState extends ConsumerState<TemplateGuidedForm> {
               value: (currentValue as num?)?.toDouble() ?? scale.min.toDouble(),
               min: scale.min.toDouble(),
               max: scale.max.toDouble(),
-              divisions: ((scale.max - scale.min) / scale.step).toInt(),
+              divisions: (scale.max - scale.min) ~/ scale.step,
               label: currentValue?.toString() ?? scale.min.toString(),
               onChanged: (value) => _updateResponse(section.id, value.toInt()),
             ),
@@ -407,7 +407,7 @@ class _TemplateGuidedFormState extends ConsumerState<TemplateGuidedForm> {
                     ),
                     borderRadius: BorderRadius.circular(8),
                     color: isSelected
-                        ? const Color(0xFFF5A623).withValues(alpha: 0.05)
+                        ? const Color(0xFFF5A623).withOpacity(0.05)
                         : Colors.transparent,
                   ),
                   child: Row(
@@ -459,7 +459,7 @@ class _TemplateGuidedFormState extends ConsumerState<TemplateGuidedForm> {
                 onPressed: () => _updateResponse(section.id, true),
                 style: OutlinedButton.styleFrom(
                   backgroundColor: isYes == true
-                      ? const Color(0xFFF5A623).withValues(alpha: 0.1)
+                      ? const Color(0xFFF5A623).withOpacity(0.1)
                       : Colors.transparent,
                   side: BorderSide(
                     color: isYes == true
@@ -489,7 +489,7 @@ class _TemplateGuidedFormState extends ConsumerState<TemplateGuidedForm> {
                 onPressed: () => _updateResponse(section.id, false),
                 style: OutlinedButton.styleFrom(
                   backgroundColor: isYes == false
-                      ? const Color(0xFFF5A623).withValues(alpha: 0.1)
+                      ? const Color(0xFFF5A623).withOpacity(0.1)
                       : Colors.transparent,
                   side: BorderSide(
                     color: isYes == false

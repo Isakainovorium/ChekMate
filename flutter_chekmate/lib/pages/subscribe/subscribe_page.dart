@@ -114,7 +114,7 @@ class _SubscribePageState extends State<SubscribePage> {
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.1),
+                    color: Colors.black.withOpacity(0.1),
                     blurRadius: 4,
                   ),
                 ]
@@ -175,7 +175,7 @@ class _SubscribePageState extends State<SubscribePage> {
                   Container(
                     padding: const EdgeInsets.all(AppSpacing.xs),
                     decoration: BoxDecoration(
-                      color: (feature['color'] as Color).withValues(alpha: 0.1),
+                      color: (feature['color'] as Color).withOpacity(0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
@@ -225,7 +225,7 @@ class _SubscribePageState extends State<SubscribePage> {
         boxShadow: isSelected
             ? [
                 BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.2),
+                  color: AppColors.primary.withOpacity(0.2),
                   blurRadius: 12,
                 ),
               ]
@@ -531,7 +531,7 @@ class _PaymentModalState extends State<PaymentModal> {
           ),
           borderRadius: BorderRadius.circular(12),
           color: isSelected
-              ? AppColors.primary.withValues(alpha: 0.05)
+              ? AppColors.primary.withOpacity(0.05)
               : Colors.white,
         ),
         child: Row(

@@ -107,10 +107,10 @@ class _TemplateSelectorSheetState extends ConsumerState<TemplateSelectorSheet> {
                           });
                         },
                         backgroundColor: isSelected
-                            ? const Color(0xFFF5A623).withValues(alpha: 0.1)
+                            ? const Color(0xFFF5A623).withOpacity(0.1)
                             : Colors.grey[100],
                         selectedColor:
-                            const Color(0xFFF5A623).withValues(alpha: 0.2),
+                            const Color(0xFFF5A623).withOpacity(0.2),
                         checkmarkColor: const Color(0xFFF5A623),
                         labelStyle: TextStyle(
                           color: isSelected

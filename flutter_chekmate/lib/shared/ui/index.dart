@@ -1,12 +1,19 @@
 library shared_ui;
 
+// Accessibility (Sprint 1)
+export 'accessibility/semantic_wrappers.dart';
+
 // Animations
 export 'animations/animated_widgets.dart';
+export 'animations/empty_state_animation.dart';
+export 'animations/error_animation.dart';
 export 'animations/hero_animations.dart';
 export 'animations/interactive_animations.dart' hide AnimatedButton, AnimatedIconButton;
+export 'animations/loading_animation.dart';
 export 'animations/lottie_animations.dart';
 export 'animations/page_transitions.dart';
 export 'animations/shared_element_transitions.dart';
+export 'animations/success_animation.dart';
 export 'animations/tiktok_animations.dart';
 export 'animations/typing_indicator.dart';
 export 'components/app_accordion.dart';
@@ -66,6 +73,13 @@ export 'components/app_toggle_group.dart';
 export 'components/app_tooltip.dart';
 export 'components/app_video_player.dart';
 export 'components/app_virtualized_list.dart';
+export 'components/app_network_image.dart';
+// Premium Components
+export 'premium/chek_badge.dart';
+export 'premium/premium_card.dart';
+export 'premium/premium_glass_nav_bar.dart';
+export 'premium/premium_scale_button.dart';
+
 // Loading
 export 'loading/shimmer_loading.dart';
 export 'loading/shimmer_skeletons.dart';

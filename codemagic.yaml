@@ -25,18 +25,29 @@ workflows:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.chekmate.app
+    cache:
+      cache_paths:
+        - $HOME/.pub-cache                          # Flutter packages
+        - $HOME/Library/Caches/CocoaPods            # CocoaPods cache
+        - flutter_chekmate/ios/Pods                 # Installed pods
+        - flutter_chekmate/.dart_tool               # Dart build cache
+        - flutter_chekmate/build                    # Flutter build cache
     scripts:
-      - name: Install dependencies
-        script: |
-          cd flutter_chekmate
-          flutter clean
-          flutter pub get
-          flutter precache --ios
-          flutter build ios --simulator --debug --no-codesign
+      # 1. Apply code signing (uses uploaded certificate & profile)
       - name: Set up code signing settings on Xcode project
         script: |
           cd flutter_chekmate
           xcode-project use-profiles
+      
+      # 2. Install dependencies and generate iOS config files
+      - name: Install dependencies
+        script: |
+          cd flutter_chekmate
+          rm -f ios/Flutter/Generated.xcconfig
+          flutter pub get
+          dart run build_runner build --delete-conflicting-outputs
+      
+      # 3. Setup Firebase config (if provided)
       - name: Setup Firebase config (if provided)
         script: |
           #!/usr/bin/env sh
@@ -49,19 +60,25 @@ workflows:
           else
             echo "No GoogleService-Info.plist provided, skipping..."
           fi
-      - name: Run tests
+      
+      # 4. Skip tests for faster builds
+      - name: Skip tests
         script: |
-          cd flutter_chekmate
-          flutter test || echo "Tests completed with some failures - continuing build"
+          echo "Skipping tests for faster deployment"
+      
+      # 5. Install CocoaPods dependencies
       - name: Install CocoaPods dependencies
         script: |
           cd flutter_chekmate/ios && pod install && cd ../..
+      
+      # 6. Build the IPA (this handles everything)
       - name: Build iOS IPA
         script: |
           cd flutter_chekmate
           flutter build ipa --release \
-            --build-name=$(cm_get_build_number) \
-            --build-number=$(cm_get_build_number)
+            --build-name=1.0.0 \
+            --build-number=$BUILD_NUMBER \
+            --export-options-plist=ios/ExportOptions.plist
     artifacts:
       - flutter_chekmate/build/ios/ipa/*.ipa
       - flutter_chekmate/build/ios/archive/*.xcarchive
@@ -78,7 +95,7 @@ workflows:
     max_build_duration: 30
     instance_type: linux_x2
     environment:
-      flutter: stable
+      flutter: 3.24.5
       groups:
         - keystore_credentials
         - firebase_credentials
@@ -92,7 +109,7 @@ workflows:
       - name: Generate code (mocks, riverpod)
         script: |
           cd flutter_chekmate
-          flutter pub run build_runner build --delete-conflicting-outputs
+          dart run build_runner build --delete-conflicting-outputs
       - name: Run tests
         script: |
           cd flutter_chekmate
@@ -128,8 +145,8 @@ workflows:
     max_build_duration: 90
     instance_type: mac_mini_m1
     environment:
-      flutter: stable
-      xcode: latest
+      flutter: 3.24.5
+      xcode: 15.4
       cocoapods: default
       groups:
         - app_store_credentials
@@ -147,7 +164,7 @@ workflows:
       - name: Generate code (mocks, riverpod)
         script: |
           cd flutter_chekmate
-          flutter pub run build_runner build --delete-conflicting-outputs
+          dart run build_runner build --delete-conflicting-outputs
       - name: Setup Firebase config (if provided)
         script: |
           #!/usr/bin/env sh

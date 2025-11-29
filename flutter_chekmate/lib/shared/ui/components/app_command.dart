@@ -27,7 +27,7 @@ class AppCommand extends StatefulWidget {
   }) {
     return showDialog<AppCommandItem>(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.5),
+      barrierColor: Colors.black.withOpacity(0.5),
       builder: (context) => Dialog(
         backgroundColor: Colors.transparent,
         child: Container(
@@ -188,7 +188,7 @@ class _AppCommandState extends State<AppCommand> {
               Container(
                 padding: const EdgeInsets.all(AppSpacing.sm),
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+                  color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.3),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: const Row(
@@ -240,7 +240,7 @@ class _CommandItemTile extends StatelessWidget {
         padding: const EdgeInsets.all(AppSpacing.md),
         decoration: BoxDecoration(
           color: isSelected 
-              ? theme.colorScheme.primaryContainer.withValues(alpha: 0.5)
+              ? theme.colorScheme.primaryContainer.withOpacity(0.5)
               : null,
           borderRadius: BorderRadius.circular(8),
         ),
@@ -314,7 +314,7 @@ class _ShortcutHint extends StatelessWidget {
               color: theme.colorScheme.surface,
               borderRadius: BorderRadius.circular(2),
               border: Border.all(
-                color: theme.colorScheme.outline.withValues(alpha: 0.3),
+                color: theme.colorScheme.outline.withOpacity(0.3),
               ),
             ),
             child: Text(

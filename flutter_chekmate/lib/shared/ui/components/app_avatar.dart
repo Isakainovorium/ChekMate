@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 /// AppAvatar - User avatar with consistent styling and fallbacks
+///
+/// Sprint 1 - Task 1.1.4: Added semantic accessibility support
 class AppAvatar extends StatelessWidget {
   const AppAvatar({
     super.key,
@@ -13,6 +15,8 @@ class AppAvatar extends StatelessWidget {
     this.showBorder = false,
     this.borderColor,
     this.borderWidth = 2.0,
+    this.semanticLabel,
+    this.excludeFromSemantics = false,
   });
 
   final String? imageUrl;
@@ -24,6 +28,12 @@ class AppAvatar extends StatelessWidget {
   final bool showBorder;
   final Color? borderColor;
   final double borderWidth;
+  
+  /// Custom semantic label for screen readers (defaults to name)
+  final String? semanticLabel;
+  
+  /// Whether to exclude this avatar from the accessibility tree (decorative)
+  final bool excludeFromSemantics;
 
   double get _radius => switch (size) {
         AppAvatarSize.small => 16,
@@ -90,7 +100,18 @@ class AppAvatar extends StatelessWidget {
       );
     }
 
-    return avatar;
+    // Apply semantics
+    if (excludeFromSemantics) {
+      return ExcludeSemantics(child: avatar);
+    }
+
+    final label = semanticLabel ?? (name != null ? '$name avatar' : 'User avatar');
+    return Semantics(
+      label: label,
+      image: true,
+      button: onTap != null,
+      child: avatar,
+    );
   }
 }
 

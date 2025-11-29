@@ -113,7 +113,7 @@ class _DrawerTile extends StatelessWidget {
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: isSelected
                       ? theme.colorScheme.onPrimaryContainer
-                          .withValues(alpha: 0.8)
+                          .withOpacity(0.8)
                       : theme.colorScheme.onSurfaceVariant,
                 ),
               )
@@ -195,7 +195,7 @@ class AppDrawerHeader extends StatelessWidget {
               end: Alignment.bottomRight,
               colors: [
                 theme.colorScheme.primary,
-                theme.colorScheme.primary.withValues(alpha: 0.8),
+                theme.colorScheme.primary.withOpacity(0.8),
               ],
             ),
           ),
@@ -215,7 +215,7 @@ class AppDrawerHeader extends StatelessWidget {
                     CircleAvatar(
                       radius: 24,
                       backgroundColor:
-                          theme.colorScheme.onPrimary.withValues(alpha: 0.2),
+                          theme.colorScheme.onPrimary.withOpacity(0.2),
                       child: Icon(
                         Icons.person,
                         color: theme.colorScheme.onPrimary,
@@ -255,7 +255,7 @@ class AppDrawerHeader extends StatelessWidget {
                 const SizedBox(height: AppSpacing.xs),
                 DefaultTextStyle(
                   style: theme.textTheme.bodyMedium!.copyWith(
-                    color: theme.colorScheme.onPrimary.withValues(alpha: 0.9),
+                    color: theme.colorScheme.onPrimary.withOpacity(0.9),
                   ),
                   child: accountEmail!,
                 ),
@@ -297,7 +297,7 @@ class AppMiniDrawer extends StatelessWidget {
         color: backgroundColor ?? theme.colorScheme.surface,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: Colors.black.withOpacity(0.1),
             blurRadius: elevation,
             offset: const Offset(2, 0),
           ),

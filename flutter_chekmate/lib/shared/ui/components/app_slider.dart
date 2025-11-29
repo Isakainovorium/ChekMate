@@ -58,7 +58,7 @@ class AppSlider extends StatelessWidget {
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: enabled
                         ? theme.colorScheme.onSurface
-                        : theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                        : theme.colorScheme.onSurface.withOpacity(0.6),
                   ),
                 ),
               if (showValue)
@@ -67,7 +67,7 @@ class AppSlider extends StatelessWidget {
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: enabled
                         ? theme.colorScheme.primary
-                        : theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                        : theme.colorScheme.onSurface.withOpacity(0.6),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -82,7 +82,7 @@ class AppSlider extends StatelessWidget {
                 inactiveColor ?? theme.colorScheme.surfaceContainerHighest,
             thumbColor: activeColor ?? theme.colorScheme.primary,
             overlayColor: (activeColor ?? theme.colorScheme.primary)
-                .withValues(alpha: 0.12),
+                .withOpacity(0.12),
             valueIndicatorColor: activeColor ?? theme.colorScheme.primary,
           ),
           child: Slider(
@@ -175,7 +175,7 @@ class AppRangeSlider extends StatelessWidget {
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: enabled
                         ? theme.colorScheme.onSurface
-                        : theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                        : theme.colorScheme.onSurface.withOpacity(0.6),
                   ),
                 ),
               if (showValues)
@@ -184,7 +184,7 @@ class AppRangeSlider extends StatelessWidget {
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: enabled
                         ? theme.colorScheme.primary
-                        : theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                        : theme.colorScheme.onSurface.withOpacity(0.6),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -199,7 +199,7 @@ class AppRangeSlider extends StatelessWidget {
                 inactiveColor ?? theme.colorScheme.surfaceContainerHighest,
             thumbColor: activeColor ?? theme.colorScheme.primary,
             overlayColor: (activeColor ?? theme.colorScheme.primary)
-                .withValues(alpha: 0.12),
+                .withOpacity(0.12),
             valueIndicatorColor: activeColor ?? theme.colorScheme.primary,
           ),
           child: RangeSlider(

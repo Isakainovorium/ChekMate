@@ -32,11 +32,10 @@ class TemplateLocalDataSourceImpl implements TemplateLocalDataSource {
           .map((json) => StoryTemplate.fromJson(json))
           .toList();
 
-      // Filter out expired/invalid templates (cache for 24 hours)
+      // Filter out expired templates (cache for 24 hours)
       final now = DateTime.now();
       final validTemplates = templates.where((template) {
-        if (template.createdAt == null) return false;
-        final cacheAge = now.difference(template.createdAt!);
+        final cacheAge = now.difference(template.createdAt);
         return cacheAge.inHours < 24;
       }).toList();
 
@@ -63,9 +62,7 @@ class TemplateLocalDataSourceImpl implements TemplateLocalDataSource {
       final template = StoryTemplate.fromJson(templateJson);
 
       // Check if template is still fresh (24 hours)
-      if (template.createdAt == null) return null;
-
-      final cacheAge = DateTime.now().difference(template.createdAt!);
+      final cacheAge = DateTime.now().difference(template.createdAt);
       if (cacheAge.inHours >= 24) {
         // Remove expired cache entry
         await _templatesBox.delete(templateId);

@@ -109,7 +109,7 @@ class _FeatureDiscoveryState extends State<FeatureDiscovery>
                       FadeTransition(
                         opacity: _fadeAnimation,
                         child: Container(
-                          color: Colors.black.withValues(alpha: 0.7),
+                          color: Colors.black.withOpacity(0.7),
                         ),
                       ),
 
@@ -122,7 +122,7 @@ class _FeatureDiscoveryState extends State<FeatureDiscovery>
                             height: widget.tapTargetSize,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.white.withValues(alpha: 0.1),
+                              color: Colors.white.withOpacity(0.1),
                               border: Border.all(
                                 color: AppColors.primary,
                                 width: 2,
@@ -150,7 +150,7 @@ class _FeatureDiscoveryState extends State<FeatureDiscovery>
                                   borderRadius: BorderRadius.circular(12),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withValues(alpha: 0.2),
+                                      color: Colors.black.withOpacity(0.2),
                                       blurRadius: 10,
                                       offset: const Offset(0, 4),
                                     ),
@@ -267,7 +267,7 @@ class FeatureBadge extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.2),
+                  color: Colors.black.withOpacity(0.2),
                   blurRadius: 4,
                   offset: const Offset(0, 2),
                 ),

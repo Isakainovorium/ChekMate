@@ -4,6 +4,8 @@ import 'package:flutter_chekmate/core/theme/app_spacing.dart';
 /// AppButton - shared button with variants and sizes
 /// Variants: primary (Filled), secondary (Elevated), outline, text
 /// Sizes: sm, md, lg
+///
+/// Sprint 1 - Task 1.1.2: Added semanticLabel and semanticHint for accessibility
 class AppButton extends StatelessWidget {
   const AppButton({
     required this.onPressed, required this.child, super.key,
@@ -13,6 +15,9 @@ class AppButton extends StatelessWidget {
     this.leadingIcon,
     this.trailingIcon,
     this.fullWidth = false,
+    this.semanticLabel,
+    this.semanticHint,
+    this.tooltip,
   });
 
   final VoidCallback? onPressed;
@@ -23,6 +28,15 @@ class AppButton extends StatelessWidget {
   final Widget? leadingIcon;
   final Widget? trailingIcon;
   final bool fullWidth;
+  
+  /// Accessibility label for screen readers
+  final String? semanticLabel;
+  
+  /// Accessibility hint providing additional context
+  final String? semanticHint;
+  
+  /// Tooltip shown on long press (also used for accessibility)
+  final String? tooltip;
 
   double get _height => switch (size) {
         AppButtonSize.sm => 36,
@@ -56,7 +70,7 @@ class AppButton extends StatelessWidget {
 
     final disabled = onPressed == null || isLoading;
 
-    return switch (variant) {
+    Widget button = switch (variant) {
       AppButtonVariant.primary => FilledButton(
           onPressed: disabled ? null : onPressed,
           style: _mergeStyle(context, FilledButton.styleFrom()),
@@ -83,6 +97,27 @@ class AppButton extends StatelessWidget {
           child: content,
         ),
     };
+
+    // Wrap with Semantics if label or hint provided
+    if (semanticLabel != null || semanticHint != null) {
+      button = Semantics(
+        label: semanticLabel,
+        hint: semanticHint,
+        button: true,
+        enabled: !disabled,
+        child: button,
+      );
+    }
+
+    // Wrap with Tooltip if provided
+    if (tooltip != null) {
+      button = Tooltip(
+        message: tooltip!,
+        child: button,
+      );
+    }
+
+    return button;
   }
 }
 

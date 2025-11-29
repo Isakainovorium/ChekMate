@@ -163,7 +163,7 @@ class _LocationSettingsPageState extends ConsumerState<LocationSettingsPage> {
               Container(
                 padding: const EdgeInsets.all(AppSpacing.sm),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.1),
+                  color: AppColors.primary.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
@@ -547,7 +547,9 @@ class _LocationSettingsPageState extends ConsumerState<LocationSettingsPage> {
 
       // Get current position
       return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+        ),
       );
     } on Exception catch (e) {
       setState(() {
@@ -560,7 +562,9 @@ class _LocationSettingsPageState extends ConsumerState<LocationSettingsPage> {
   Future<Position?> _getCurrentLocation() async {
     try {
       return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+        ),
       );
     } on Exception catch (e) {
       setState(() {

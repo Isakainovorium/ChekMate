@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_chekmate/core/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,6 +12,11 @@ final firestoreProvider = Provider<FirebaseFirestore>((ref) {
 /// Firebase Auth Provider
 final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
   return FirebaseAuth.instance;
+});
+
+/// Firebase Storage Provider
+final storageProvider = Provider<FirebaseStorage>((ref) {
+  return FirebaseStorage.instance;
 });
 
 /// Current User ID Provider

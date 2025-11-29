@@ -208,7 +208,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             CircleAvatar(
               radius: 40,
               backgroundImage: NetworkImage(widget.userAvatar),
-              backgroundColor: AppColors.primary.withValues(alpha: 0.1),
+              backgroundColor: AppColors.primary.withOpacity(0.1),
             ),
             const SizedBox(height: AppSpacing.xs),
             Text(

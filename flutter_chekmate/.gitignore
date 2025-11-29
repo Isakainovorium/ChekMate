@@ -27,8 +27,7 @@ migrate_working_dir/
 **/doc/api/
 **/ios/Flutter/.last_build_id
 **/ios/Flutter/Generated.xcconfig
-**/ios/Flutter/Debug.xcconfig
-**/ios/Flutter/Release.xcconfig
+# Debug.xcconfig and Release.xcconfig should be in repo - they're just wrappers
 **/ios/Flutter/flutter_export_environment.sh
 .dart_tool/
 .flutter-plugins
