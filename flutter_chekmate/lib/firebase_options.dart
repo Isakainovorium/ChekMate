@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -55,7 +52,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '209000668199',
     projectId: 'chekmate-a0423',
     storageBucket: 'chekmate-a0423.firebasestorage.app',
-    androidClientId: '209000668199-6sq6qle5682ajdniokvgpc6oq4poec4d.apps.googleusercontent.com',
+    androidClientId:
+        '209000668199-6sq6qle5682ajdniokvgpc6oq4poec4d.apps.googleusercontent.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -65,7 +63,16 @@ class DefaultFirebaseOptions {
     projectId: 'chekmate-a0423',
     storageBucket: 'chekmate-a0423.firebasestorage.app',
     iosBundleId: 'com.chekmate.app',
-    iosClientId: '209000668199-ecoboha2cfiui0325p5l74pqbdpc0mgd.apps.googleusercontent.com',
+    iosClientId:
+        '209000668199-ecoboha2cfiui0325p5l74pqbdpc0mgd.apps.googleusercontent.com',
+  );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCJ1KQOw3dXeRGOhZVcpN6MgPs9OZYp5jc',
+    appId: '1:209000668199:web:YOUR_WEB_APP_ID',
+    messagingSenderId: '209000668199',
+    projectId: 'chekmate-a0423',
+    authDomain: 'chekmate-a0423.firebaseapp.com',
+    storageBucket: 'chekmate-a0423.firebasestorage.app',
   );
 }
-
