@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/Users/nefertareielbey/Downloads/ChekMate_app/logs/.e25a0116e50cc35b946e5162289ab0cb39c2e39d-audit.json",
+    "files": [
+        {
+            "date": 1764454914690,
+            "name": "/Users/nefertareielbey/Downloads/ChekMate_app/logs/mcp-puppeteer-2025-11-29.log",
+            "hash": "37860ab21f15f7a3af9b8af255f36b291e76515e2e902a61d445ba14b99be133"
+        }
+    ],
+    "hashType": "sha256"
+}

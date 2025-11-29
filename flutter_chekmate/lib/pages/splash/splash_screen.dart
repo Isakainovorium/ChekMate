@@ -148,7 +148,7 @@ class _SplashScreenState extends State<SplashScreen>
                         ClipRRect(
                           borderRadius: BorderRadius.circular(28),
                           child: Image.asset(
-                            'assets/images/auth/CheckMate Logo.png',
+                            'assets/images/auth/checkmate_logo.png',
                             width: 180,
                             height: 180,
                             fit: BoxFit.contain,
